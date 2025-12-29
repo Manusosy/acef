@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no" class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Impact Portfolio - ACEF</title>
+    <meta name="google" content="notranslate">
+    <title>{{ strip_tags(__('pages.projects_page.hero_title')) }} - ACEF</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,14 +30,13 @@
             <div class="max-w-3xl space-y-6">
                 <span
                     class="bg-acef-green/20 backdrop-blur-md text-acef-green px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-acef-green/30">
-                    Our Impact Portfolio
+                    {{ __('pages.projects_page.badge') }}
                 </span>
                 <h1 class="text-5xl md:text-7xl font-black text-white leading-tight tracking-tighter">
-                    Projects Changing the <br> <span class="text-acef-green italic">Future</span>
+                    {!! __('pages.projects_page.hero_title') !!}
                 </h1>
                 <p class="text-lg md:text-xl text-white/70 font-light leading-relaxed max-w-2xl italic">
-                    Explore how we are working with communities across Africa to restore ecosystems, provide clean
-                    energy, and build sustainable livelihoods.
+                    {{ __('pages.projects_page.hero_subtitle') }}
                 </p>
             </div>
         </div>
@@ -50,31 +50,31 @@
                 <div class="flex flex-wrap items-center gap-4">
                     <select
                         class="bg-gray-50 border-none rounded-2xl py-3 px-6 text-sm font-bold text-gray-500 focus:ring-2 focus:ring-acef-green">
-                        <option>All Categories</option>
-                        <option>Reforestation</option>
-                        <option>Energy</option>
-                        <option>Water</option>
-                        <option>Agriculture</option>
+                        <option>{{ __('pages.projects_page.filter_category') }}</option>
+                        <option>{{ __('pages.filters.categories.reforestation') }}</option>
+                        <option>{{ __('pages.filters.categories.energy') }}</option>
+                        <option>{{ __('pages.filters.categories.water') }}</option>
+                        <option>{{ __('pages.filters.categories.agriculture') }}</option>
                     </select>
                     <select
                         class="bg-gray-50 border-none rounded-2xl py-3 px-6 text-sm font-bold text-gray-500 focus:ring-2 focus:ring-acef-green">
-                        <option>All Countries</option>
-                        <option>Kenya</option>
-                        <option>Uganda</option>
-                        <option>Tanzania</option>
-                        <option>Rwanda</option>
+                        <option>{{ __('pages.projects_page.filter_country') }}</option>
+                        <option>{{ __('pages.filters.countries.kenya') }}</option>
+                        <option>{{ __('pages.filters.countries.uganda') }}</option>
+                        <option>{{ __('pages.filters.countries.tanzania') }}</option>
+                        <option>{{ __('pages.filters.countries.rwanda') }}</option>
                     </select>
                     <select
                         class="bg-gray-50 border-none rounded-2xl py-3 px-6 text-sm font-bold text-gray-500 focus:ring-2 focus:ring-acef-green">
-                        <option>All Statuses</option>
-                        <option>Ongoing</option>
-                        <option>Completed</option>
-                        <option>Starting Soon</option>
+                        <option>{{ __('pages.projects_page.filter_status') }}</option>
+                        <option>{{ __('pages.projects_page.status.ongoing') }}</option>
+                        <option>{{ __('pages.projects_page.status.completed') }}</option>
+                        <option>{{ __('pages.projects_page.status.starting') }}</option>
                     </select>
                 </div>
 
                 <div class="relative flex-1 max-w-sm">
-                    <input type="text" placeholder="Search projects..."
+                    <input type="text" placeholder="{{ __('pages.projects_page.search_placeholder') }}"
                         class="w-full pl-12 pr-6 py-3 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-acef-green">
                     <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
@@ -89,66 +89,7 @@
         <section class="py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    @php
-                        $projects = [
-                            [
-                                'title' => 'Reforestation in the Rift Valley',
-                                'location' => 'Kenya',
-                                'category' => 'Reforestation',
-                                'raised' => '$35,250',
-                                'goal_percent' => 70,
-                                'status' => 'Ongoing',
-                                'image' => '/project_tree_planting_1766827726209.png'
-                            ],
-                            [
-                                'title' => 'Solar Power for Rural Clinics',
-                                'location' => 'Uganda',
-                                'category' => 'Energy',
-                                'raised' => '$12,000',
-                                'goal_percent' => 45,
-                                'status' => 'Ongoing',
-                                'image' => '/project_solar_panels_1766827705821.png'
-                            ],
-                            [
-                                'title' => 'Clean Water Access Initiative',
-                                'location' => 'Tanzania',
-                                'category' => 'Water',
-                                'raised' => 'Goal Met',
-                                'goal_percent' => 100,
-                                'status' => 'Completed',
-                                'image' => '/mission_vision_africa_1766827653058.png'
-                            ],
-                            [
-                                'title' => 'Sustainable Farming Training',
-                                'location' => 'Rwanda',
-                                'category' => 'Agriculture',
-                                'raised' => '$2,250',
-                                'goal_percent' => 15,
-                                'status' => 'Starting Soon',
-                                'image' => '/project_mangroves_1766827746442.png'
-                            ],
-                            [
-                                'title' => 'Youth Environmental Leadership',
-                                'location' => 'Ghana',
-                                'category' => 'Community',
-                                'raised' => '$6,000',
-                                'goal_percent' => 30,
-                                'status' => 'Ongoing',
-                                'image' => '/hero_marine_ecosystem_1766827540454.png'
-                            ],
-                            [
-                                'title' => 'Mangrove Restoration Project',
-                                'location' => 'Mozambique',
-                                'category' => 'Conservation',
-                                'raised' => '$41,000',
-                                'goal_percent' => 82,
-                                'status' => 'Ongoing',
-                                'image' => '/project_mangroves_1766827746442.png'
-                            ]
-                        ];
-                    @endphp
-
-                    @foreach($projects as $proj)
+                    @foreach(__('pages.projects_page.list') as $proj)
                         <div
                             class="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all group">
                             <div class="relative aspect-[4/3] overflow-hidden">
@@ -160,7 +101,7 @@
                                         {{ $proj['category'] }}
                                     </span>
                                 </div>
-                                @if($proj['status'] == 'Completed')
+                                @if($proj['status'] === 'Completed')
                                     <div class="absolute top-6 right-6">
                                         <span
                                             class="bg-acef-green text-acef-dark px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider flex items-center">
@@ -210,7 +151,7 @@
                                     </span>
                                     <a href="{{ route('projects') }}"
                                         class="text-acef-dark font-black text-xs flex items-center hover:text-acef-green transition-colors">
-                                        {{ $proj['status'] == 'Completed' ? 'View Impact' : 'View Project' }}
+                                        {{ $proj['status'] === 'Completed' ? 'View Impact' : 'View Project' }}
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
@@ -225,7 +166,7 @@
                 <div class="flex justify-center pt-12">
                     <button
                         class="bg-white border-2 border-gray-100 text-acef-dark font-black px-12 py-4 rounded-2xl hover:bg-acef-dark hover:text-white hover:border-acef-dark transition-all flex items-center space-x-2">
-                        <span>Load More Projects</span>
+                        <span>{{ __('pages.projects_page.load_more') }}</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
                             </path>
