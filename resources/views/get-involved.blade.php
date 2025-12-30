@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no" class="scroll-smooth">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Join the Movement - ACEF</title>
+        <meta name="google" content="notranslate">
+        <title>{{ __('pages.get_involved.hero_title') }} - ACEF</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,9 +27,9 @@
                     </div>
                     
                     <div class="relative z-10 max-w-3xl space-y-8">
-                        <h1 class="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none">Join the Movement</h1>
+                        <h1 class="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none">{{ __('pages.get_involved.hero_title') }}</h1>
                         <p class="text-white/70 text-lg md:text-xl font-light italic leading-relaxed">
-                            Your actions define our future. Partner with ACEF to drive climate resilience and environmental stewardship across Africa.
+                            {{ __('pages.get_involved.hero_desc') }}
                         </p>
                     </div>
                 </div>
@@ -36,18 +37,12 @@
                 <!-- Three Impact Stats Overlay -->
                 <div class="max-w-5xl mx-auto -mt-16 relative z-20">
                     <div class="bg-acef-dark rounded-[30px] p-10 flex flex-wrap items-center justify-around gap-8 border border-white/10 shadow-2xl">
+                        @foreach(__('pages.get_involved.stats') as $stat)
                         <div class="text-center space-y-1">
-                            <span class="text-4xl font-black text-acef-green">500+</span>
-                            <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Volunteers</p>
+                            <span class="text-4xl font-black text-acef-green">{{ $stat['value'] }}</span>
+                            <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest">{{ $stat['label'] }}</p>
                         </div>
-                        <div class="text-center space-y-1">
-                            <span class="text-4xl font-black text-acef-green">45</span>
-                            <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Partners</p>
-                        </div>
-                        <div class="text-center space-y-1">
-                            <span class="text-4xl font-black text-acef-green">120</span>
-                            <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Projects</p>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -62,72 +57,71 @@
                         <div class="flex border-b border-gray-100">
                             <button class="flex-1 py-8 flex items-center justify-center space-x-3 bg-white text-acef-dark font-black tracking-tight border-b-4 border-acef-green transition-all">
                                 <span>🤝</span>
-                                <span>Volunteer</span>
+                                <span>{{ __('pages.get_involved.tabs.volunteer') }}</span>
                             </button>
                             <button class="flex-1 py-8 flex items-center justify-center space-x-3 text-gray-400 font-bold tracking-tight hover:bg-gray-50 transition-all">
                                 <span>🚀</span>
-                                <span>Partner</span>
+                                <span>{{ __('pages.get_involved.tabs.partner') }}</span>
                             </button>
                             <button class="flex-1 py-8 flex items-center justify-center space-x-3 text-gray-400 font-bold tracking-tight hover:bg-gray-50 transition-all">
                                 <span>🌍</span>
-                                <span>Collaborate</span>
+                                <span>{{ __('pages.get_involved.tabs.collaborate') }}</span>
                             </button>
                         </div>
 
                         <div class="p-12 md:p-16 space-y-10">
                             <div class="space-y-4">
-                                <h2 class="text-4xl font-black text-acef-dark tracking-tighter">Volunteer Application</h2>
-                                <p class="text-gray-400 font-light italic text-sm">Join our network of passionate individuals making a difference on the ground.</p>
+                                <h2 class="text-4xl font-black text-acef-dark tracking-tighter">{{ __('pages.get_involved.volunteer_form.title') }}</h2>
+                                <p class="text-gray-400 font-light italic text-sm">{{ __('pages.get_involved.volunteer_form.subtitle') }}</p>
                             </div>
 
                             <form class="space-y-8">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div class="space-y-3">
-                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">First Name</label>
+                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.first_name') }}</label>
                                         <input type="text" placeholder="Jane" class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all">
                                     </div>
                                     <div class="space-y-3">
-                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">Last Name</label>
+                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.last_name') }}</label>
                                         <input type="text" placeholder="Doe" class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all">
                                     </div>
                                 </div>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div class="space-y-3">
-                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">Email Address</label>
+                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.email') }}</label>
                                         <input type="email" placeholder="jane@example.com" class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all">
                                     </div>
                                     <div class="space-y-3">
-                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">Location</label>
+                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.location') }}</label>
                                         <div class="relative">
-                                            <input type="text" placeholder="City, Country" class="w-full pl-12 pr-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all">
+                                            <input type="text" placeholder="{{ __('pages.get_involved.volunteer_form.location_placeholder') }}" class="w-full pl-12 pr-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all">
                                             <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="space-y-3">
-                                    <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">Areas of Interest</label>
+                                    <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.interests_label') }}</label>
                                     <select class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all text-gray-500">
-                                        <option>Reforestation Projects</option>
-                                        <option>Community Education</option>
-                                        <option>Marine Conservation</option>
-                                        <option>Renewable Energy Advocacy</option>
+                                        @foreach(__('pages.get_involved.volunteer_form.interests') as $interest)
+                                            <option>{{ $interest }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
                                 <div class="space-y-3">
-                                    <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">Why do you want to volunteer?</label>
-                                    <textarea rows="5" placeholder="Tell us about your motivation..." class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all"></textarea>
+                                    <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.motivation_label') }}</label>
+                                    <textarea rows="5" placeholder="{{ __('pages.get_involved.volunteer_form.motivation_placeholder') }}" class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all"></textarea>
                                 </div>
 
                                 <div class="flex items-center space-x-3">
                                     <input type="checkbox" id="newsletter" class="rounded text-acef-green focus:ring-acef-green">
-                                    <label for="newsletter" class="text-xs font-bold text-gray-400 italic">Sign me up for the monthly newsletter to stay updated.</label>
+                                    <label for="newsletter" class="text-xs font-bold text-gray-400 italic">{{ __('pages.get_involved.volunteer_form.newsletter') }}</label>
                                 </div>
 
                                 <button class="w-full py-5 bg-acef-green text-acef-dark font-black rounded-2xl flex items-center justify-center space-x-3 hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
-                                    <span>Submit Application</span>
+                                    <span>{{ __('pages.get_involved.volunteer_form.submit_btn') }}</span>
                                     <svg class="w-6 h-6 rotate-[-45deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                                 </button>
                             </form>
@@ -141,9 +135,9 @@
                             <div class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                             </div>
-                            <h3 class="text-2xl font-black text-acef-dark tracking-tighter">Support Our Mission</h3>
+                            <h3 class="text-2xl font-black text-acef-dark tracking-tighter">{{ __('pages.get_involved.quick_donate.title') }}</h3>
                             <p class="text-gray-400 text-sm font-light italic leading-relaxed">
-                                Your contribution directly funds planting trees and educational workshops in rural communities.
+                                {{ __('pages.get_involved.quick_donate.desc') }}
                             </p>
                             
                             <div class="grid grid-cols-3 gap-3">
@@ -158,7 +152,7 @@
                             </div>
 
                             <button class="w-full py-5 bg-acef-dark text-white font-black rounded-2xl hover:bg-acef-green hover:text-acef-dark transition-all">
-                                Donate Now
+                                {{ __('pages.get_involved.quick_donate.btn') }}
                             </button>
                         </div>
 
@@ -172,15 +166,15 @@
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                             </div>
                             <p class="text-acef-dark font-light italic leading-relaxed">
-                                "My perspective on environmental impact is not just about planting trees; it's about empowering communities."
+                                {{ __('pages.get_involved.testimonial.quote') }}
                             </p>
                             <div class="flex items-center space-x-3">
                                 <div class="w-12 h-12 rounded-full overflow-hidden grayscale">
                                     <img src="/hero_marine_ecosystem_1766827540454.png" alt="Sarah Jenkins" class="w-full h-full object-cover">
                                 </div>
                                 <div class="space-y-0.5">
-                                    <h4 class="font-black text-sm text-acef-dark">Sarah Jenkins</h4>
-                                    <p class="text-[10px] font-bold text-acef-green uppercase tracking-widest">Community Lead</p>
+                                    <h4 class="font-black text-sm text-acef-dark">{{ __('pages.get_involved.testimonial.author') }}</h4>
+                                    <p class="text-[10px] font-bold text-acef-green uppercase tracking-widest">{{ __('pages.get_involved.testimonial.role') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -194,17 +188,17 @@
                     </div>
                     
                     <div class="space-y-6 relative z-10 max-w-xl">
-                        <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter">Make an impact from anywhere</h2>
+                        <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter">{{ __('pages.get_involved.digital_cta.title') }}</h2>
                         <p class="text-white/40 text-sm font-light leading-relaxed italic">
-                            Can't join us on the ground? You can still drive change. Become a digital ambassador and help spread awareness about climate resilience.
+                            {{ __('pages.get_involved.digital_cta.desc') }}
                         </p>
                         <div class="flex flex-wrap gap-6 pt-4">
                             <button class="flex items-center space-x-2 text-acef-green font-black text-xs hover:text-white transition-all">
-                                <span>Download Media Kit</span>
+                                <span>{{ __('pages.get_involved.digital_cta.media_kit') }}</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             </button>
                             <button class="flex items-center space-x-2 text-acef-green font-black text-xs hover:text-white transition-all">
-                                <span>Share on Twitter</span>
+                                <span>{{ __('pages.get_involved.digital_cta.share_twitter') }}</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
                             </button>
                         </div>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no" class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ACEF - Protecting Marine Ecosystems</title>
+    <meta name="google" content="notranslate">
+    <title>ACEF - {{ strip_tags(__('pages.home.hero_title')) }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,30 +31,26 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="space-y-4 animate-fade-in-up">
                 <span
-                    class="inline-block py-2 px-6 rounded-full bg-acef-green/20 text-acef-green font-bold text-sm tracking-wider uppercase">Founded
-                    2020 · Registered 2021</span>
-                <h1 class="text-6xl md:text-8xl font-black leading-tight tracking-tighter">
-                    Empowering <br>
-                    <span class="text-acef-green">Grassroots</span> for a <br>
-                    Sustainable Future
+                    class="inline-block py-2 px-6 rounded-full bg-acef-green/20 text-acef-green font-bold text-sm tracking-wider uppercase">{!! __('pages.home.founded') !!}</span>
+                <h1 class="text-6xl md:text-8xl font-black text-white leading-tight tracking-tighter">
+                    {!! __('pages.home.hero_title') !!}
                 </h1>
             </div>
             <p
                 class="text-xl md:text-2xl font-light text-white/90 leading-relaxed max-w-xl animate-fade-in-up delay-100 italic">
-                Leading youth-led action to address the triple planetary crisis across Africa.
+                {!! __('pages.home.hero_subtitle') !!}
             </p>
             <div
                 class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4 animate-fade-in-up delay-200">
                 <a href="{{ route('get-involved') }}"
                     class="bg-acef-green text-white px-10 py-5 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-acef-green/30 flex items-center justify-center">
-                    Get Involved
+                    {{ __('buttons.get_involved') }}
                 </a>
                 <a href="{{ route('impact') }}"
                     class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-white/20 transition-all flex items-center justify-center">
-                    See Our Impact
+                    {{ __('buttons.see_impact') }}
                 </a>
             </div>
-        </div>
         </div>
 
         <!-- Scroll Indicator -->
@@ -81,36 +78,35 @@
                     </div>
                     <div class="lg:w-1/2 space-y-8">
                         <div class="space-y-4">
-                            <p class="text-acef-green font-bold tracking-widest uppercase text-sm">Who We Are</p>
+                            <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
+                                {{ __('pages.home.who_we_are_title') }}
+                            </p>
                             <h2 class="text-5xl font-black text-acef-dark tracking-tighter leading-tight">
-                                Africa Climate and <br>
-                                <span class="text-acef-green italic">Environment</span> Foundation
+                                {!! __('pages.home.who_we_are_heading') !!}
                             </h2>
                         </div>
                         <p class="text-xl text-gray-600 leading-relaxed font-light">
-                            ACEF is a youth-focused non-governmental organization dedicated to empowering grassroots
-                            youth and women, supporting locally driven initiatives to address the <span
-                                class="text-acef-dark font-bold">triple planetary crisis</span>: climate change,
-                            biodiversity loss, and pollution.
+                            {!! __('pages.home.who_we_are_text') !!}
                         </p>
                         <p class="text-gray-500 leading-relaxed font-light italic">
-                            Registered across various African nations, we work to enhance environmental resilience and
-                            promote sustainable livelihoods through innovative, community-led solutions.
+                            {!! __('pages.home.who_we_are_subtext') !!}
                         </p>
                         <div class="pt-4 grid grid-cols-2 gap-8">
                             <div class="flex flex-col">
                                 <span class="text-4xl font-black text-acef-dark">14+</span>
-                                <span class="text-xs text-gray-400 font-bold uppercase tracking-widest">Countries</span>
+                                <span
+                                    class="text-xs text-gray-400 font-bold uppercase tracking-widest">{{ __('pages.home.countries') }}</span>
                             </div>
                             <div class="flex flex-col">
                                 <span class="text-4xl font-black text-acef-dark">2,000+</span>
-                                <span class="text-xs text-gray-400 font-bold uppercase tracking-widest">Members</span>
+                                <span
+                                    class="text-xs text-gray-400 font-bold uppercase tracking-widest">{{ __('pages.home.members') }}</span>
                             </div>
                         </div>
                         <div class="pt-4">
                             <a href="{{ route('about') }}"
                                 class="inline-block bg-acef-dark text-white px-10 py-5 rounded-full font-bold hover:bg-opacity-90 transition-all shadow-xl">
-                                Our Story
+                                {{ __('buttons.our_story') }}
                             </a>
                         </div>
                     </div>
@@ -121,28 +117,14 @@
         <!-- Programmes Section -->
         <section class="py-24 bg-acef-gray">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-                <h2 class="text-5xl font-black text-acef-dark tracking-tighter">Our Programmes</h2>
+                <h2 class="text-5xl font-black text-acef-dark tracking-tighter">{{ __('pages.home.programmes_title') }}
+                </h2>
                 <p class="text-gray-500 max-w-2xl mx-auto font-light italic">
-                    Comprehensive initiatives designed to cover every aspect of marine and environmental conservation.
+                    {{ __('pages.home.programmes_subtitle') }}
                 </p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-16">
-                    @php
-                        $programmes = [
-                            ['title' => 'Atlantic Coast Protection', 'desc' => 'Restoring and protecting the biodiversity of West African shores.', 'icon' => 'blue'],
-                            ['title' => 'Continental Marine Ecosystems', 'desc' => 'Inland water bodies and river mouth conservation across the continent.', 'icon' => 'green'],
-                            ['title' => 'Marine Research & Science', 'desc' => 'Scientific exploration to understand our ocean floor and species.', 'icon' => 'indigo'],
-                            ['title' => 'Climate Change Adaptation', 'desc' => 'Helping communities adapt to rising sea levels and changing climates.', 'icon' => 'amber'],
-                            ['title' => 'Nature Biodiversity Conservation', 'desc' => 'Protecting endangered avian and aquatic species in their habitats.', 'icon' => 'emerald'],
-                            ['title' => 'Water Pollution Control', 'desc' => 'Addressing plastic waste and industrial runoff in marine environments.', 'icon' => 'sky'],
-                            ['title' => 'Agro-forestry for Biodiversity', 'desc' => 'Restoring forest cover to protect water catchments and biodiversity.', 'icon' => 'lime'],
-                            ['title' => 'Eco-Tourism Development', 'desc' => 'Sustainable tourism models that benefit both people and nature.', 'icon' => 'cyan'],
-                            ['title' => 'Health & Environment', 'desc' => 'Linking community health with a clean and safe environment.', 'icon' => 'rose'],
-                            ['title' => 'Empowering Leaders of Tomorrow', 'desc' => 'Training the next generation of environmental advocates.', 'icon' => 'violet'],
-                        ];
-                    @endphp
-
-                    @foreach($programmes as $prog)
+                    @foreach(__('pages.home.programmes') as $prog)
                         <div
                             class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all group text-left border border-black/5 flex flex-col justify-between">
                             <div class="space-y-4">
@@ -161,8 +143,8 @@
                             <div class="pt-6">
                                 <a href="{{ route('programmes') }}"
                                     class="text-acef-green font-bold flex items-center text-sm group-hover:translate-x-1 transition-transform">
-                                    Read More <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
+                                    {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M9 5l7 7-7 7"></path>
                                     </svg>
@@ -178,13 +160,16 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="flex justify-between items-end">
                     <div class="space-y-4">
-                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">Featured Projects</h2>
-                        <p class="text-gray-500 font-light italic">Recent impactful initiatives across our focus areas.
+                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
+                            {{ __('pages.home.featured_projects_title') }}
+                        </h2>
+                        <p class="text-gray-500 font-light italic">{{ __('pages.home.featured_projects_subtitle') }}
                         </p>
                     </div>
                     <a href="{{ route('projects') }}" class="text-acef-green font-bold flex items-center group">
-                        View All Projects <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        {{ __('buttons.view_all_projects') }} <svg
+                            class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
@@ -192,77 +177,31 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    <!-- Project 1 -->
-                    <div class="group cursor-pointer">
-                        <div class="relative rounded-3xl overflow-hidden aspect-[4/5] mb-6 shadow-lg">
-                            <img src="/project_solar_panels_1766827705821.png" alt="Solar Project"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute top-6 left-6">
-                                <span
-                                    class="bg-acef-green text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">Renewable
-                                    Energy</span>
+                    @foreach(__('pages.home.projects') as $project)
+                        <div class="group cursor-pointer">
+                            <div class="relative rounded-3xl overflow-hidden aspect-[4/5] mb-6 shadow-lg">
+                                <img src="{{ $project['image'] }}" alt="{{ $project['title'] }}"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute top-6 left-6">
+                                    <span
+                                        class="bg-acef-green text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">{{ $project['category'] }}</span>
+                                </div>
                             </div>
+                            <h3
+                                class="text-2xl font-bold text-acef-dark group-hover:text-acef-green transition-colors mb-2">
+                                {{ $project['title'] }}
+                            </h3>
+                            <p class="text-gray-500 text-sm line-clamp-2 italic mb-4">{{ $project['desc'] }}</p>
+                            <a href="{{ route('projects') }}"
+                                class="font-bold text-acef-dark group-hover:text-acef-green transition-colors flex items-center">
+                                {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                    </path>
+                                </svg>
+                            </a>
                         </div>
-                        <h3
-                            class="text-2xl font-bold text-acef-dark group-hover:text-acef-green transition-colors mb-2">
-                            Clean Energy for Coastal Schools</h3>
-                        <p class="text-gray-500 text-sm line-clamp-2 italic mb-4">Implementing off-grid solar solutions
-                            for 50 schools along the Kenyan coast.</p>
-                        <a href="{{ route('projects') }}"
-                            class="font-bold text-acef-dark group-hover:text-acef-green transition-colors flex items-center">
-                            Read More <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- Project 2 -->
-                    <div class="group cursor-pointer">
-                        <div class="relative rounded-3xl overflow-hidden aspect-[4/5] mb-6 shadow-lg">
-                            <img src="/project_tree_planting_1766827726209.png" alt="Tree Planting"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute top-6 left-6">
-                                <span
-                                    class="bg-acef-green text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">Reforestation</span>
-                            </div>
-                        </div>
-                        <h3
-                            class="text-2xl font-bold text-acef-dark group-hover:text-acef-green transition-colors mb-2">
-                            Building Resilient Hillside Forests</h3>
-                        <p class="text-gray-500 text-sm line-clamp-2 italic mb-4">Protecting water catchments through
-                            community-led tree planting initiatives.</p>
-                        <a href="{{ route('projects') }}"
-                            class="font-bold text-acef-dark group-hover:text-acef-green transition-colors flex items-center">
-                            Read More <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- Project 3 -->
-                    <div class="group cursor-pointer">
-                        <div class="relative rounded-3xl overflow-hidden aspect-[4/5] mb-6 shadow-lg">
-                            <img src="/project_mangroves_1766827746442.png" alt="Mangroves"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute top-6 left-6">
-                                <span
-                                    class="bg-acef-green text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">Marine
-                                    Conservation</span>
-                            </div>
-                        </div>
-                        <h3
-                            class="text-2xl font-bold text-acef-dark group-hover:text-acef-green transition-colors mb-2">
-                            Mangrove Forest Restoration</h3>
-                        <p class="text-gray-500 text-sm line-clamp-2 italic mb-4">Restoring 1,000 hectares of mangroves
-                            to protect against coastal erosion.</p>
-                        <a href="{{ route('projects') }}"
-                            class="font-bold text-acef-dark group-hover:text-acef-green transition-colors flex items-center">
-                            Read More <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -275,22 +214,13 @@
             </div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-                    <div class="space-y-2">
-                        <span class="text-5xl md:text-6xl font-black text-acef-green block">14</span>
-                        <span class="text-white/60 uppercase tracking-widest text-xs font-bold">Countries</span>
-                    </div>
-                    <div class="space-y-2">
-                        <span class="text-5xl md:text-6xl font-black text-acef-green block">2,000+</span>
-                        <span class="text-white/60 uppercase tracking-widest text-xs font-bold">Volunteers</span>
-                    </div>
-                    <div class="space-y-2">
-                        <span class="text-5xl md:text-6xl font-black text-acef-green block">50+</span>
-                        <span class="text-white/60 uppercase tracking-widest text-xs font-bold">Global Partners</span>
-                    </div>
-                    <div class="space-y-2">
-                        <span class="text-5xl md:text-6xl font-black text-acef-green block">10,000+</span>
-                        <span class="text-white/60 uppercase tracking-widest text-xs font-bold">Trees Planted</span>
-                    </div>
+                    @foreach(__('pages.home.stats') as $stat)
+                        <div class="space-y-2">
+                            <span class="text-5xl md:text-6xl font-black text-acef-green block">{{ $stat['value'] }}</span>
+                            <span
+                                class="text-white/60 uppercase tracking-widest text-xs font-bold">{{ $stat['label'] }}</span>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -298,10 +228,12 @@
         <section class="py-24 bg-acef-dark relative overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center space-y-12">
                 <div class="text-center space-y-4 max-w-2xl">
-                    <p class="text-acef-green font-bold tracking-widest uppercase text-sm">Where We Work</p>
-                    <h2 class="text-5xl font-black text-white tracking-tighter">Our Global Impact</h2>
-                    <p class="text-white/60 font-light italic">Spanning across Africa to restore balance to our most
-                        vital ecosystems.</p>
+                    <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
+                        {{ __('pages.home.map_section.label') }}</p>
+                    <h2 class="text-5xl font-black text-white tracking-tighter">
+                        {{ __('pages.home.map_section.title') }}
+                    </h2>
+                    <p class="text-white/60 font-light italic">{{ __('pages.home.map_section.subtitle') }}</p>
                 </div>
 
                 <div class="relative w-full max-w-4xl pt-10">
@@ -326,13 +258,15 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="flex justify-between items-end">
                     <div class="space-y-4">
-                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">News & Insights</h2>
-                        <p class="text-gray-500 font-light italic">Stay informed with the latest updates and stories
-                            from the field.</p>
+                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
+                            {{ __('pages.home.news_title') }}
+                        </h2>
+                        <p class="text-gray-500 font-light italic">{{ __('pages.home.news_subtitle') }}</p>
                     </div>
                     <a href="{{ route('news') }}" class="text-acef-green font-bold flex items-center group">
-                        Visit Our Blog <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        {{ __('buttons.visit_blog') }} <svg
+                            class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
@@ -340,96 +274,45 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <!-- News 1 -->
-                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
-                        <div class="relative aspect-video overflow-hidden">
-                            <img src="/project_mangroves_1766827746442.png" alt="Biodiversity"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute bottom-4 left-4">
+                    @php
+                        $news_items = __('pages.home.news_articles');
+                        $news_images = [
+                            '/project_mangroves_1766827746442.png',
+                            '/hero_marine_ecosystem_1766827540454.png',
+                            '/project_tree_planting_1766827726209.png'
+                        ];
+                    @endphp
+                    @foreach($news_items as $index => $news)
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+                            <div class="relative aspect-video overflow-hidden">
+                                <img src="{{ $news_images[$index] }}" alt="{{ $news['category'] }}"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute bottom-4 left-4">
+                                    <span
+                                        class="bg-white/90 backdrop-blur-md text-acef-dark px-3 py-1 rounded-full text-[10px] font-bold uppercase">{{ $news['category'] }}</span>
+                                </div>
+                            </div>
+                            <div class="p-8 space-y-4">
                                 <span
-                                    class="bg-white/90 backdrop-blur-md text-acef-dark px-3 py-1 rounded-full text-[10px] font-bold uppercase">Biodiversity</span>
+                                    class="text-gray-400 text-xs font-semibold uppercase tracking-wider">{{ $news['date'] }}</span>
+                                <h3
+                                    class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors leading-tight">
+                                    {{ $news['title'] }}
+                                </h3>
+                                <p class="text-gray-500 text-sm italic">{{ $news['desc'] }}</p>
+                                <div class="pt-2 border-t border-gray-100">
+                                    <a href="{{ route('news') }}"
+                                        class="text-acef-dark font-bold text-sm flex items-center group-hover:text-acef-green transition-colors">
+                                        {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <div class="p-8 space-y-4">
-                            <span class="text-gray-400 text-xs font-semibold uppercase tracking-wider">March 24,
-                                2025</span>
-                            <h3
-                                class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors leading-tight">
-                                New Species of Marine Life Discovered off Coastal Kenya</h3>
-                            <p class="text-gray-500 text-sm italic">Our research team has identified several previously
-                                undocumented species in the Lamu archipelago.</p>
-                            <div class="pt-2 border-t border-gray-100">
-                                <a href="{{ route('news') }}"
-                                    class="text-acef-dark font-bold text-sm flex items-center group-hover:text-acef-green transition-colors">
-                                    Read More <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- News 2 -->
-                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
-                        <div class="relative aspect-video overflow-hidden">
-                            <img src="/hero_marine_ecosystem_1766827540454.png" alt="Ocean Conservation"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute bottom-4 left-4">
-                                <span
-                                    class="bg-white/90 backdrop-blur-md text-acef-dark px-3 py-1 rounded-full text-[10px] font-bold uppercase">Conservation</span>
-                            </div>
-                        </div>
-                        <div class="p-8 space-y-4">
-                            <span class="text-gray-400 text-xs font-semibold uppercase tracking-wider">March 18,
-                                2025</span>
-                            <h3
-                                class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors leading-tight">
-                                Community Beach Cleaning: Over 5 Tons of Plastic Removed</h3>
-                            <p class="text-gray-500 text-sm italic">Hundreds of volunteers joined forces to restore the
-                                pristine beauty of our shores this weekend.</p>
-                            <div class="pt-2 border-t border-gray-100">
-                                <a href="{{ route('news') }}"
-                                    class="text-acef-dark font-bold text-sm flex items-center group-hover:text-acef-green transition-colors">
-                                    Read More <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- News 3 -->
-                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
-                        <div class="relative aspect-video overflow-hidden">
-                            <img src="/project_tree_planting_1766827726209.png" alt="Reforestation"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute bottom-4 left-4">
-                                <span
-                                    class="bg-white/90 backdrop-blur-md text-acef-dark px-3 py-1 rounded-full text-[10px] font-bold uppercase">Reforestation</span>
-                            </div>
-                        </div>
-                        <div class="p-8 space-y-4">
-                            <span class="text-gray-400 text-xs font-semibold uppercase tracking-wider">March 12,
-                                2025</span>
-                            <h3
-                                class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors leading-tight">
-                                Strategic Partnership with Global Re-Green Initiative</h3>
-                            <p class="text-gray-500 text-sm italic">New funding secured to accelerate our tree planting
-                                goals for the 2025-2026 season.</p>
-                            <div class="pt-2 border-t border-gray-100">
-                                <a href="{{ route('news') }}"
-                                    class="text-acef-dark font-bold text-sm flex items-center group-hover:text-acef-green transition-colors">
-                                    Read More <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -437,8 +320,9 @@
         <!-- Partners Section -->
         <section class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-                <p class="text-center text-gray-400 font-bold uppercase tracking-[0.3em] text-xs">Our Global Partners &
-                    Supporters</p>
+                <p class="text-center text-gray-400 font-bold uppercase tracking-[0.3em] text-xs">
+                    {{ __('pages.home.partners_title') }}
+                </p>
                 <div
                     class="flex flex-wrap justify-center items-center gap-12 grayscale opacity-40 hover:opacity-100 transition-opacity">
                     <span class="text-3xl font-black text-acef-dark tracking-tighter">UN@ENVIRONMENT</span>
@@ -449,33 +333,34 @@
                 </div>
             </div>
         </section>
-        @include('components.footer')
+    </main>
+    @include('components.footer')
 
-        <style>
-            @keyframes fade-in-up {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+    <style>
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
 
-            .animate-fade-in-up {
-                animation: fade-in-up 1s ease-out forwards;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
 
-            .delay-100 {
-                animation-delay: 0.2s;
-            }
+        .animate-fade-in-up {
+            animation: fade-in-up 1s ease-out forwards;
+        }
 
-            .delay-200 {
-                animation-delay: 0.4s;
-            }
-        </style>
+        .delay-100 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.4s;
+        }
+    </style>
 </body>
 
 </html>

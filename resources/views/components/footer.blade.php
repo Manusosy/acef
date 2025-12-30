@@ -1,12 +1,11 @@
-<footer class="bg-acef-dark text-white pt-20 pb-10">
+<footer class="bg-acef-dark text-white pt-20 pb-10" translate="no">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-b border-white/10 pb-16">
             <!-- Brand & Social -->
             <div class="space-y-6">
                 <a href="/" class="text-acef-green font-bold text-3xl tracking-tighter italic">ACEF</a>
-                <p class="text-white/60 leading-relaxed">
-                    Dedicated to protecting marine ecosystems and promoting sustainable conservation across Africa for a
-                    greener future.
+                <p class="text-white/60 leading-relaxed font-light italic">
+                    {{ __('pages.layout.footer.desc') }}
                 </p>
                 <div class="flex space-x-4">
                     <!-- Social Icons placeholders -->
@@ -29,54 +28,63 @@
 
             <!-- Quick Links -->
             <div>
-                <h4 class="text-lg font-semibold mb-6">Quick Links</h4>
-                <ul class="space-y-4 text-white/60">
-                    <li><a href="{{ route('about') }}" class="hover:text-acef-green transition-colors">About Us</a></li>
-                    <li><a href="{{ route('programmes') }}" class="hover:text-acef-green transition-colors">Our
-                            Programmes</a></li>
-                    <li><a href="{{ route('projects') }}" class="hover:text-acef-green transition-colors">Ongoing
-                            Projects</a></li>
-                    <li><a href="{{ route('impact') }}" class="hover:text-acef-green transition-colors">Our Impact</a>
-                    </li>
-                    <li><a href="{{ route('resources') }}" class="hover:text-acef-green transition-colors">Knowledge
-                            Hub</a></li>
+                <h4 class="text-lg font-semibold mb-6 uppercase tracking-wider">
+                    {{ __('pages.layout.footer.quick_links') }}</h4>
+                <ul class="space-y-4 text-white/60 font-medium">
+                    <li><a href="{{ route('about') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.about') }}</a></li>
+                    <li><a href="{{ route('programmes') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.programmes') }}</a></li>
+                    <li><a href="{{ route('projects') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.projects') }}</a></li>
+                    <li><a href="{{ route('impact') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.impact') }}</a></li>
+                    <li><a href="{{ route('resources') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.resources') }}</a></li>
                 </ul>
             </div>
 
             <!-- Resources -->
             <div>
-                <h4 class="text-lg font-semibold mb-6">Resources</h4>
-                <ul class="space-y-4 text-white/60">
+                <h4 class="text-lg font-semibold mb-6 uppercase tracking-wider">
+                    {{ __('pages.layout.footer.resources') }}</h4>
+                <ul class="space-y-4 text-white/60 font-medium">
                     <li><a href="{{ route('resources') }}"
-                            class="hover:text-acef-green transition-colors">Publications</a></li>
-                    <li><a href="{{ route('impact') }}" class="hover:text-acef-green transition-colors">Annual
-                            Reports</a></li>
-                    <li><a href="{{ route('news') }}" class="hover:text-acef-green transition-colors">Newsletters</a>
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.resources') }}</a></li>
+                    <li><a href="{{ route('impact') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.impact') }}</a></li>
+                    <li><a href="{{ route('news') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.media') }}</a>
                     </li>
-                    <li><a href="{{ route('gallery') }}" class="hover:text-acef-green transition-colors">Gallery</a>
+                    <li><a href="{{ route('gallery') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.media') }}</a>
                     </li>
                 </ul>
             </div>
 
             <!-- Newsletter -->
             <div>
-                <h4 class="text-lg font-semibold mb-6">Stay Updated</h4>
-                <p class="text-white/60 mb-6 font-light">Subscribe to our newsletter to receive the latest updates.</p>
+                <h4 class="text-lg font-semibold mb-6 uppercase tracking-wider">
+                    {{ __('pages.layout.footer.stay_updated') }}</h4>
+                <p class="text-white/60 mb-6 font-light italic">{{ __('pages.layout.footer.newsletter_desc') }}</p>
                 <form class="space-y-3">
-                    <input type="email" placeholder="Your Email"
+                    <input type="email" placeholder="{{ __('pages.layout.footer.newsletter_placeholder') }}"
                         class="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-acef-green transition-colors text-white placeholder:text-white/20">
                     <button
-                        class="w-full bg-acef-green py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all shadow-lg">Subscribe</button>
+                        class="w-full bg-acef-green py-3 rounded-full font-bold hover:bg-opacity-90 transition-all shadow-lg">{{ __('pages.layout.footer.subscribe_btn') }}</button>
                 </form>
             </div>
         </div>
 
-        <div class="pt-10 flex flex-col md:flex-row justify-between items-center text-white/40 text-sm">
-            <p>&copy; 2025 ACEF. All rights reserved.</p>
-            <div class="flex space-x-6 mt-4 md:mt-0">
-                <a href="{{ route('privacy') }}" class="hover:text-white transition-colors">Privacy Policy</a>
-                <a href="{{ route('terms') }}" class="hover:text-white transition-colors">Terms of Service</a>
-                <a href="{{ route('cookies') }}" class="hover:text-white transition-colors">Cookies Policy</a>
+        <div class="pt-10 flex flex-col md:flex-row justify-between items-center text-white/40 text-sm font-light">
+            <p>{{ __('pages.layout.footer.copyright', ['year' => '2025']) }}</p>
+            <div class="flex space-x-6 mt-4 md:mt-0 font-medium">
+                <a href="{{ route('privacy') }}"
+                    class="hover:text-white transition-colors">{{ __('pages.layout.footer.privacy') }}</a>
+                <a href="{{ route('terms') }}"
+                    class="hover:text-white transition-colors">{{ __('pages.layout.footer.terms') }}</a>
+                <a href="{{ route('cookies') }}"
+                    class="hover:text-white transition-colors">{{ __('pages.layout.footer.cookies') }}</a>
             </div>
         </div>
     </div>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no" class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Insights & News - ACEF</title>
+    <meta name="google" content="notranslate">
+    <title>{{ __('pages.news.browse.title') }} - ACEF</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,18 +30,16 @@
                 </div>
                 <div class="lg:w-1/2 p-12 md:p-20 flex flex-col justify-center space-y-8">
                     <span
-                        class="bg-acef-green/10 text-acef-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest w-fit">Featured
-                        Insight</span>
+                        class="bg-acef-green/10 text-acef-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest w-fit">{{ __('pages.news.featured.label') }}</span>
                     <h1 class="text-4xl md:text-5xl font-black text-acef-dark leading-tight tracking-tighter">
-                        The Impact of Plastic Pollution on Marine Life: A Call to Action
+                        {{ __('pages.news.featured.title') }}
                     </h1>
                     <p class="text-gray-500 font-light leading-relaxed italic">
-                        An urgent analysis of how synthetic waste is compromising the health of Africa's coastal
-                        ecosystems and the necessary community-led steps to mitigate the crisis.
+                        {{ __('pages.news.featured.desc') }}
                     </p>
                     <button
                         class="bg-acef-green text-acef-dark font-black px-10 py-5 rounded-2xl flex items-center space-x-3 hover:bg-acef-dark hover:text-white transition-all w-fit group">
-                        <span>Read Full Insight</span>
+                        <span>{{ __('pages.news.featured.btn') }}</span>
                         <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -58,12 +57,12 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
                 <div class="flex flex-col md:flex-row justify-between items-end gap-8">
                     <div class="space-y-4">
-                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">Browse Insights</h2>
-                        <p class="text-gray-400 font-light italic">Explore articles, stories, and research from the
-                            field.</p>
+                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
+                            {{ __('pages.news.browse.title') }}</h2>
+                        <p class="text-gray-400 font-light italic">{{ __('pages.news.browse.desc') }}</p>
                     </div>
                     <div class="relative w-full md:w-80">
-                        <input type="text" placeholder="Search insights..."
+                        <input type="text" placeholder="{{ __('pages.news.browse.search_placeholder') }}"
                             class="w-full pl-12 pr-6 py-4 bg-white border-none rounded-2xl shadow-sm text-sm">
                         <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -76,56 +75,32 @@
                 <!-- Category Pills -->
                 <div class="flex flex-wrap gap-4 overflow-x-auto pb-4 scrollbar-hide">
                     <button
-                        class="px-8 py-3 bg-acef-green text-acef-dark font-black rounded-xl text-sm whitespace-nowrap">All</button>
+                        class="px-8 py-3 bg-acef-green text-acef-dark font-black rounded-xl text-sm whitespace-nowrap">{{ __('pages.news.browse.filters.all') }}</button>
                     <button
-                        class="px-8 py-3 bg-white text-gray-400 font-bold rounded-xl text-sm border border-gray-100 hover:border-acef-dark transition-all whitespace-nowrap">Climate
-                        Action</button>
+                        class="px-8 py-3 bg-white text-gray-400 font-bold rounded-xl text-sm border border-gray-100 hover:border-acef-dark transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.climate_action') }}</button>
                     <button
-                        class="px-8 py-3 bg-white text-gray-400 font-bold rounded-xl text-sm border border-gray-100 hover:border-acef-dark transition-all whitespace-nowrap">Youth
-                        Leadership</button>
+                        class="px-8 py-3 bg-white text-gray-400 font-bold rounded-xl text-sm border border-gray-100 hover:border-acef-dark transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.youth_leadership') }}</button>
                     <button
-                        class="px-8 py-3 bg-white text-gray-400 font-bold rounded-xl text-sm border border-gray-100 hover:border-acef-dark transition-all whitespace-nowrap">Conservation</button>
+                        class="px-8 py-3 bg-white text-gray-400 font-bold rounded-xl text-sm border border-gray-100 hover:border-acef-dark transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.conservation') }}</button>
                 </div>
 
                 <!-- Article Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     @php
-                        $articles = [
-                            [
-                                'title' => 'Climate Change and its Effects on Agriculture in Africa',
-                                'author' => 'ACEF Research',
-                                'date' => 'Dec 27, 2024',
-                                'category' => 'Agriculture',
-                                'desc' => 'Examining the volatile impact of shifting weather patterns on food security and the resilience of smallholder farmers.',
-                                'image' => '/uploaded_image_1766828557603.png',
-                                'link_text' => 'Read Analysis'
-                            ],
-                            [
-                                'title' => 'The Importance of Renewable Energy for Sustainable Development',
-                                'author' => 'Energy Lead',
-                                'date' => 'Dec 20, 2024',
-                                'category' => 'Renewables',
-                                'desc' => 'Why solar and wind energy are not just environmental choices, but economic necessities for the future of the continent.',
-                                'image' => '/project_solar_panels_1766827705821.png',
-                                'link_text' => 'Read Feature'
-                            ],
-                            [
-                                'title' => 'The Role of Youth in Environmental Conservation',
-                                'author' => 'Youth Network',
-                                'date' => 'Dec 15, 2024',
-                                'category' => 'Youth Leadership',
-                                'desc' => 'How the current generation is taking the lead in climate advocacy and grassroots restoration across the continent.',
-                                'image' => '/project_tree_planting_1766827726209.png',
-                                'link_text' => 'Read Story'
-                            ]
+                        $articles = __('pages.news.articles');
+                        $meta = [
+                            ['author' => 'ACEF Research', 'date' => 'Dec 27, 2024', 'image' => '/uploaded_image_1766828557603.png'],
+                            ['author' => 'Energy Lead', 'date' => 'Dec 20, 2024', 'image' => '/project_solar_panels_1766827705821.png'],
+                            ['author' => 'Youth Network', 'date' => 'Dec 15, 2024', 'image' => '/project_tree_planting_1766827726209.png']
                         ];
                     @endphp
 
-                    @foreach($articles as $art)
+                    @foreach($articles as $index => $art)
+                        @php $m = $meta[$index]; @endphp
                         <div
                             class="group bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 flex flex-col">
                             <div class="relative aspect-[16/10] overflow-hidden">
-                                <img src="{{ $art['image'] }}" alt="{{ $art['title'] }}"
+                                <img src="{{ $m['image'] }}" alt="{{ $art['title'] }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute top-6 left-6">
                                     <span
@@ -136,9 +111,9 @@
                                 <div class="space-y-4 flex-1">
                                     <div
                                         class="flex items-center text-gray-300 text-[10px] font-bold uppercase tracking-widest">
-                                        <span>{{ $art['author'] }}</span>
+                                        <span>{{ $m['author'] }}</span>
                                         <span class="mx-2">•</span>
-                                        <span>{{ $art['date'] }}</span>
+                                        <span>{{ $m['date'] }}</span>
                                     </div>
                                     <h3
                                         class="text-2xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors">
@@ -166,7 +141,7 @@
                 <div class="flex justify-center">
                     <button
                         class="text-acef-dark font-black text-sm flex items-center space-x-2 border-b-2 border-acef-green pb-1 hover:text-acef-green transition-colors">
-                        <span>Load More Articles</span>
+                        <span>{{ __('pages.news.load_more') }}</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7">
                             </path>
@@ -181,13 +156,15 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="flex justify-between items-end">
                     <div class="space-y-4">
-                        <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">Data & Analysis</p>
-                        <h2 class="text-5xl font-black text-white tracking-tighter">Latest Research Reports</h2>
+                        <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">
+                            {{ __('pages.news.research_section.label') }}</p>
+                        <h2 class="text-5xl font-black text-white tracking-tighter">
+                            {{ __('pages.news.research_section.title') }}</h2>
                     </div>
                     <a href="{{ route('resources') }}"
                         class="text-white font-bold text-sm flex items-center hover:text-acef-green transition-colors">
-                        View All Research <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        {{ __('pages.news.research_section.view_all') }} <svg class="w-4 h-4 ml-1" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
@@ -203,19 +180,17 @@
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-orange-500/80 to-transparent flex flex-col justify-end p-8">
                                 <span
-                                    class="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-lg w-fit mb-4 uppercase">PDF
-                                    Report</span>
-                                <h4 class="text-2xl font-black text-white leading-tight">Climate Resilience 2024</h4>
+                                    class="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-lg w-fit mb-4 uppercase">{{ __('pages.news.research_section.featured_report.type') }}</span>
+                                <h4 class="text-2xl font-black text-white leading-tight">
+                                    {{ __('pages.news.research_section.featured_report.title') }}</h4>
                             </div>
                         </div>
                     </div>
                     <div class="lg:w-2/3 space-y-8">
-                        <h3 class="text-3xl md:text-4xl font-black text-white leading-tight">ACEF Annual Climate
-                            Resilience Report 2024</h3>
+                        <h3 class="text-3xl md:text-4xl font-black text-white leading-tight">
+                            {{ __('pages.news.research_section.featured_report.full_title') }}</h3>
                         <p class="text-white/60 font-light leading-relaxed">
-                            Our comprehensive analysis of climate adaptation strategies across 14 African nations. This
-                            report highlights key success factors, funding gaps, and the critical role of indigenous
-                            knowledge in building long-term resilience.
+                            {{ __('pages.news.research_section.featured_report.desc') }}
                         </p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="flex items-start space-x-4">
@@ -227,8 +202,10 @@
                                     </svg>
                                 </div>
                                 <div class="space-y-1">
-                                    <h5 class="text-white font-bold">Impact Data</h5>
-                                    <p class="text-white/40 text-sm italic">Quantitative results from 150+ projects.</p>
+                                    <h5 class="text-white font-bold">
+                                        {{ __('pages.news.research_section.featured_report.stat1_title') }}</h5>
+                                    <p class="text-white/40 text-sm italic">
+                                        {{ __('pages.news.research_section.featured_report.stat1_desc') }}</p>
                                 </div>
                             </div>
                             <div class="flex items-start space-x-4">
@@ -240,8 +217,10 @@
                                     </svg>
                                 </div>
                                 <div class="space-y-1">
-                                    <h5 class="text-white font-bold">Policy Recommendations</h5>
-                                    <p class="text-white/40 text-sm italic">Actionable steps for governments.</p>
+                                    <h5 class="text-white font-bold">
+                                        {{ __('pages.news.research_section.featured_report.stat2_title') }}</h5>
+                                    <p class="text-white/40 text-sm italic">
+                                        {{ __('pages.news.research_section.featured_report.stat2_desc') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -252,11 +231,11 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                                 </svg>
-                                <span>Download Full Report</span>
+                                <span>{{ __('pages.news.research_section.featured_report.download_btn') }}</span>
                             </button>
                             <button
                                 class="w-full sm:w-auto text-white font-bold px-10 py-5 rounded-2xl hover:bg-white/5 transition-all">
-                                Read Executive Summary
+                                {{ __('pages.news.research_section.featured_report.summary_btn') }}
                             </button>
                         </div>
                     </div>
@@ -277,21 +256,21 @@
                             </path>
                         </svg>
                     </div>
-                    <h2 class="text-4xl md:text-5xl font-black text-acef-dark tracking-tighter">Stay Informed</h2>
+                    <h2 class="text-4xl md:text-5xl font-black text-acef-dark tracking-tighter">
+                        {{ __('pages.news.subscribe.title') }}</h2>
                     <p class="text-gray-400 font-light max-w-lg leading-relaxed italic">
-                        Join 12,000+ subscribers. Get the latest insights, stories, and research delivered directly to
-                        your inbox.
+                        {{ __('pages.news.subscribe.desc') }}
                     </p>
                     <form class="w-full max-w-lg flex flex-col sm:flex-row gap-4 pt-4">
-                        <input type="email" placeholder="Enter your email address"
+                        <input type="email" placeholder="{{ __('pages.news.subscribe.email_placeholder') }}"
                             class="flex-1 px-8 py-5 bg-white border-2 border-gray-100 rounded-2xl focus:border-acef-green transition-all outline-none">
                         <button
                             class="bg-acef-green text-acef-dark font-black px-12 py-5 rounded-2xl hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
-                            Subscribe
+                            {{ __('pages.news.subscribe.btn') }}
                         </button>
                     </form>
-                    <p class="text-[10px] text-gray-300 font-bold uppercase tracking-widest leading-loose">We respect
-                        your privacy. Unsubscribe at any time.</p>
+                    <p class="text-[10px] text-gray-300 font-bold uppercase tracking-widest leading-loose">
+                        {{ __('pages.news.subscribe.privacy') }}</p>
                 </div>
             </div>
         </section>
