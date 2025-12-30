@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'donate' => 'Donate',
-    'read_more' => 'Read More',
-    'view_all_projects' => 'View All Projects',
-    'visit_blog' => 'Visit Our Blog',
-    'get_involved' => 'Get Involved',
-    'see_impact' => 'See Our Impact',
-    'our_story' => 'Our Story',
-    'search_placeholder' => 'Search for programmes, projects, resources...',
-    'close' => 'Close',
-    'donate_now' => 'Donate Now',
+    'donate' => 'ለገሱ',
+    'read_more' => 'ተጨማሪ ያንብቡ',
+    'view_all_projects' => 'ሁሉንም ፕሮጀክቶች ይመልከቱ',
+    'visit_blog' => 'ብሎግችንን ይጎብኙ',
+    'get_involved' => 'ተሳተፍ',
+    'see_impact' => 'የእኛን ተጽእኖ ይመልከቱ',
+    'our_story' => 'ታሪካችን',
+    'search_placeholder' => 'ፕሮግራሞችን፣ ፕሮጀክቶችን፣ ግብዓቶችን ፈልግ...',
+    'close' => 'ገጠመ',
+    'donate_now' => 'አሁን ይለግሱ',
 ];
