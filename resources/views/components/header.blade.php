@@ -48,6 +48,8 @@
                         class="hover:text-acef-green transition-colors font-medium">{{ __('navigation.impact') }}</a>
                     <a href="{{ route('news') }}"
                         class="hover:text-acef-green transition-colors font-medium">{{ __('navigation.media') }}</a>
+                    <a href="{{ route('get-involved') }}"
+                        class="hover:text-acef-green transition-colors font-medium">{{ __('navigation.get_involved') }}</a>
                     <a href="{{ route('resources') }}"
                         class="hover:text-acef-green transition-colors font-medium">{{ __('navigation.resources') }}</a>
                 </nav>

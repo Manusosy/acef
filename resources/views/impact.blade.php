@@ -94,8 +94,10 @@
 
             <div
                 class="w-full relative bg-gray-100 rounded-[50px] aspect-[16/10] md:aspect-[21/9] overflow-hidden shadow-inner flex items-center justify-center">
-                <img src="/map_africa_impact_1766827796711.png" alt="Africa Map"
-                    class="w-full h-full object-contain opacity-50 grayscale scale-110">
+                <div class="relative w-full max-w-5xl">
+                    <img src="/map_africa_impact_v2.png" alt="Impact Map"
+                        class="w-full h-auto rounded-3xl shadow-2xl border border-white/10">
+                </div>
 
                 <!-- Pulsing Markers -->
                 <div class="absolute top-[40%] left-[35%] group cursor-pointer translate-x-1/2">

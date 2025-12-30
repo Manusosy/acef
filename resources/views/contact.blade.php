@@ -54,15 +54,15 @@
                         <p class="text-gray-400 font-light italic">{{ __('pages.contact.form_subtitle') }}</p>
                     </div>
 
-                    <form class="space-y-8">
+                    <form class="space-y-8" action="mailto:info@acef-ngo.org" method="POST" enctype="text/plain">
                         <div class="space-y-4">
                             <label
                                 class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.topic_label') }}</label>
-                            <select
+                            <select name="topic" required
                                 class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl text-gray-500 focus:ring-2 focus:ring-acef-green transition-all outline-none">
-                                <option>{{ __('pages.contact.form.topic_placeholder') }}</option>
+                                <option value="" disabled selected>{{ __('pages.contact.form.topic_placeholder') }}</option>
                                 @foreach(__('pages.contact.topics') as $topic)
-                                    <option>{{ $topic }}</option>
+                                    <option value="{{ $topic }}">{{ $topic }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -71,13 +71,13 @@
                             <div class="space-y-4">
                                 <label
                                     class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.name_label') }}</label>
-                                <input type="text" placeholder="{{ __('pages.contact.form.name_placeholder') }}"
+                                <input type="text" name="name" placeholder="{{ __('pages.contact.form.name_placeholder') }}" required
                                     class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none">
                             </div>
                             <div class="space-y-4">
                                 <label
                                     class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.email_label') }}</label>
-                                <input type="email" placeholder="{{ __('pages.contact.form.email_placeholder') }}"
+                                <input type="email" name="email" placeholder="{{ __('pages.contact.form.email_placeholder') }}" required
                                     class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none">
                             </div>
                         </div>
@@ -85,14 +85,14 @@
                         <div class="space-y-4">
                             <label
                                 class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.org_label') }}</label>
-                            <input type="text" placeholder="{{ __('pages.contact.form.org_placeholder') }}"
+                            <input type="text" name="organization" placeholder="{{ __('pages.contact.form.org_placeholder') }}"
                                 class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none">
                         </div>
 
                         <div class="space-y-4">
                             <label
                                 class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.message_label') }}</label>
-                            <textarea rows="6" placeholder="{{ __('pages.contact.form.message_placeholder') }}"
+                            <textarea name="message" rows="6" placeholder="{{ __('pages.contact.form.message_placeholder') }}" required
                                 class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none"></textarea>
                         </div>
 

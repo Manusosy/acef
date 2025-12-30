@@ -14,11 +14,11 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="antialiased font-sans bg-white overflow-x-hidden">
+    <body class="antialiased font-sans bg-white dark:bg-gray-900 overflow-x-hidden transition-colors">
         @include('components.header')
 
         <!-- Get Involved Hero -->
-        <section class="pt-40 pb-20 bg-white">
+        <section class="pt-40 pb-20 bg-white dark:bg-gray-900 transition-colors">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="relative rounded-[50px] overflow-hidden min-h-[460px] flex items-center justify-center text-center p-12 md:p-20">
                     <div class="absolute inset-0 z-0">
@@ -48,110 +48,211 @@
             </div>
         </section>
 
-        <main class="py-24 bg-gray-50/30">
+        <main class="py-24 bg-gray-50/30 dark:bg-[#0c0c0c] transition-colors">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row gap-12 items-start">
                     <!-- Application Form Column -->
-                    <div class="lg:w-2/3 bg-white rounded-[50px] shadow-sm border border-gray-100 overflow-hidden">
+                    <div x-data="{ tab: 'volunteer' }" class="lg:w-2/3 bg-white dark:bg-gray-800 rounded-[50px] shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transition-colors">
                         <!-- Custom Tab Header -->
-                        <div class="flex border-b border-gray-100">
-                            <button class="flex-1 py-8 flex items-center justify-center space-x-3 bg-white text-acef-dark font-black tracking-tight border-b-4 border-acef-green transition-all">
-                                <span>🤝</span>
+                        <div class="flex border-b border-gray-100 dark:border-gray-700">
+                            <button @click="tab = 'volunteer'" 
+                                :class="tab === 'volunteer' ? 'border-acef-green text-acef-dark dark:text-white' : 'border-transparent text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                class="flex-1 py-8 flex items-center justify-center space-x-3 font-black tracking-tight border-b-4 transition-all">
                                 <span>{{ __('pages.get_involved.tabs.volunteer') }}</span>
                             </button>
-                            <button class="flex-1 py-8 flex items-center justify-center space-x-3 text-gray-400 font-bold tracking-tight hover:bg-gray-50 transition-all">
-                                <span>🚀</span>
+                            <button @click="tab = 'partner'" 
+                                :class="tab === 'partner' ? 'border-acef-green text-acef-dark dark:text-white' : 'border-transparent text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                class="flex-1 py-8 flex items-center justify-center space-x-3 font-black tracking-tight border-b-4 transition-all">
                                 <span>{{ __('pages.get_involved.tabs.partner') }}</span>
                             </button>
-                            <button class="flex-1 py-8 flex items-center justify-center space-x-3 text-gray-400 font-bold tracking-tight hover:bg-gray-50 transition-all">
-                                <span>🌍</span>
+                            <button @click="tab = 'collaborate'" 
+                                :class="tab === 'collaborate' ? 'border-acef-green text-acef-dark dark:text-white' : 'border-transparent text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                class="flex-1 py-8 flex items-center justify-center space-x-3 font-black tracking-tight border-b-4 transition-all">
                                 <span>{{ __('pages.get_involved.tabs.collaborate') }}</span>
                             </button>
                         </div>
 
                         <div class="p-12 md:p-16 space-y-10">
-                            <div class="space-y-4">
-                                <h2 class="text-4xl font-black text-acef-dark tracking-tighter">{{ __('pages.get_involved.volunteer_form.title') }}</h2>
-                                <p class="text-gray-400 font-light italic text-sm">{{ __('pages.get_involved.volunteer_form.subtitle') }}</p>
-                            </div>
-
-                            <form class="space-y-8">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div class="space-y-3">
-                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.first_name') }}</label>
-                                        <input type="text" placeholder="Jane" class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all">
-                                    </div>
-                                    <div class="space-y-3">
-                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.last_name') }}</label>
-                                        <input type="text" placeholder="Doe" class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all">
-                                    </div>
+                            
+                            <!-- Volunteer Form -->
+                            <div x-show="tab === 'volunteer'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-8">
+                                <div class="space-y-4">
+                                    <h2 class="text-4xl font-black text-acef-dark dark:text-white tracking-tighter">{{ __('pages.get_involved.volunteer_form.title') }}</h2>
+                                    <p class="text-gray-400 font-light italic text-sm">{{ __('pages.get_involved.volunteer_form.subtitle') }}</p>
                                 </div>
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div class="space-y-3">
-                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.email') }}</label>
-                                        <input type="email" placeholder="jane@example.com" class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all">
-                                    </div>
-                                    <div class="space-y-3">
-                                        <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.location') }}</label>
-                                        <div class="relative">
-                                            <input type="text" placeholder="{{ __('pages.get_involved.volunteer_form.location_placeholder') }}" class="w-full pl-12 pr-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all">
-                                            <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <form class="space-y-8" action="mailto:info@acef-ngo.org" method="POST" enctype="text/plain">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.volunteer_form.first_name') }}</label>
+                                            <input type="text" name="first_name" placeholder="Jane" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                        </div>
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.volunteer_form.last_name') }}</label>
+                                            <input type="text" name="last_name" placeholder="Doe" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="space-y-3">
-                                    <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.interests_label') }}</label>
-                                    <select class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all text-gray-500">
-                                        @foreach(__('pages.get_involved.volunteer_form.interests') as $interest)
-                                            <option>{{ $interest }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.volunteer_form.email') }}</label>
+                                            <input type="email" name="email" placeholder="jane@example.com" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                        </div>
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.volunteer_form.location') }}</label>
+                                            <div class="relative">
+                                                <input type="text" name="location" placeholder="{{ __('pages.get_involved.volunteer_form.location_placeholder') }}" required class="w-full pl-12 pr-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                                <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div class="space-y-3">
-                                    <label class="text-[10px] font-black uppercase text-acef-dark tracking-widest">{{ __('pages.get_involved.volunteer_form.motivation_label') }}</label>
-                                    <textarea rows="5" placeholder="{{ __('pages.get_involved.volunteer_form.motivation_placeholder') }}" class="w-full px-8 py-4 bg-gray-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all"></textarea>
-                                </div>
+                                    <div class="space-y-3">
+                                        <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.volunteer_form.interests_label') }}</label>
+                                        <select name="interest" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all text-gray-500 dark:text-gray-300">
+                                            @foreach(__('pages.get_involved.volunteer_form.interests') as $interest)
+                                                <option value="{{ $interest }}">{{ $interest }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                <div class="flex items-center space-x-3">
-                                    <input type="checkbox" id="newsletter" class="rounded text-acef-green focus:ring-acef-green">
-                                    <label for="newsletter" class="text-xs font-bold text-gray-400 italic">{{ __('pages.get_involved.volunteer_form.newsletter') }}</label>
-                                </div>
+                                    <div class="space-y-3">
+                                        <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.volunteer_form.motivation_label') }}</label>
+                                        <textarea name="motivation" rows="5" placeholder="{{ __('pages.get_involved.volunteer_form.motivation_placeholder') }}" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all"></textarea>
+                                    </div>
 
-                                <button class="w-full py-5 bg-acef-green text-acef-dark font-black rounded-2xl flex items-center justify-center space-x-3 hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
-                                    <span>{{ __('pages.get_involved.volunteer_form.submit_btn') }}</span>
-                                    <svg class="w-6 h-6 rotate-[-45deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                                </button>
-                            </form>
+                                    <div class="flex items-center space-x-3">
+                                        <input type="checkbox" name="newsletter" id="newsletter_vol" class="rounded text-acef-green focus:ring-acef-green bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+                                        <label for="newsletter_vol" class="text-xs font-bold text-gray-400 italic">{{ __('pages.get_involved.volunteer_form.newsletter') }}</label>
+                                    </div>
+
+                                    <button class="w-full py-5 bg-acef-green text-acef-dark font-black rounded-2xl flex items-center justify-center space-x-3 hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
+                                        <span>{{ __('pages.get_involved.volunteer_form.submit_btn') }}</span>
+                                        <svg class="w-6 h-6 rotate-[-45deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Partner Form -->
+                            <div x-show="tab === 'partner'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-8" style="display: none;">
+                                <div class="space-y-4">
+                                    <h2 class="text-4xl font-black text-acef-dark dark:text-white tracking-tighter">{{ __('pages.get_involved.partner_form.title') }}</h2>
+                                    <p class="text-gray-400 font-light italic text-sm">{{ __('pages.get_involved.partner_form.subtitle') }}</p>
+                                </div>
+                                <form class="space-y-8" action="mailto:partnerships@acef-ngo.org" method="POST" enctype="text/plain">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.partner_form.org_name') }}</label>
+                                            <input type="text" name="org_name" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                        </div>
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.partner_form.org_website') }}</label>
+                                            <input type="url" name="website" placeholder="https://" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.partner_form.contact_person') }}</label>
+                                            <input type="text" name="contact_person" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                        </div>
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.partner_form.email') }}</label>
+                                            <input type="email" name="email" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.partner_form.partnership_type_label') }}</label>
+                                        <select name="partnership_type" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all text-gray-500 dark:text-gray-300">
+                                            @foreach(__('pages.get_involved.partner_form.partnership_types') as $type)
+                                                <option value="{{ $type }}">{{ $type }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.partner_form.message_label') }}</label>
+                                        <textarea name="message" rows="5" placeholder="{{ __('pages.get_involved.partner_form.message_placeholder') }}" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all"></textarea>
+                                    </div>
+
+                                    <button class="w-full py-5 bg-acef-dark dark:bg-gray-900 text-white font-black rounded-2xl flex items-center justify-center space-x-3 hover:bg-acef-green hover:text-acef-dark transition-all shadow-xl">
+                                        <span>{{ __('pages.get_involved.partner_form.submit_btn') }}</span>
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Collaborate Form -->
+                            <div x-show="tab === 'collaborate'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-8" style="display: none;">
+                                <div class="space-y-4">
+                                    <h2 class="text-4xl font-black text-acef-dark dark:text-white tracking-tighter">{{ __('pages.get_involved.collaborate_form.title') }}</h2>
+                                    <p class="text-gray-400 font-light italic text-sm">{{ __('pages.get_involved.collaborate_form.subtitle') }}</p>
+                                </div>
+                                <form class="space-y-8" action="mailto:info@acef-ngo.org" method="POST" enctype="text/plain">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.collaborate_form.name') }}</label>
+                                            <input type="text" name="name" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                        </div>
+                                        <div class="space-y-3">
+                                            <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.collaborate_form.role') }}</label>
+                                            <input type="text" name="role" placeholder="e.g. Journalist, Researcher" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.collaborate_form.email') }}</label>
+                                        <input type="email" name="email" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all">
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.collaborate_form.collaboration_type_label') }}</label>
+                                        <select name="collaboration_type" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green transition-all text-gray-500 dark:text-gray-300">
+                                            @foreach(__('pages.get_involved.collaborate_form.collaboration_types') as $type)
+                                                <option value="{{ $type }}">{{ $type }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <label class="text-[10px] font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.collaborate_form.message_label') }}</label>
+                                        <textarea name="message" rows="5" placeholder="{{ __('pages.get_involved.collaborate_form.message_placeholder') }}" required class="w-full px-8 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all"></textarea>
+                                    </div>
+
+                                    <button class="w-full py-5 bg-acef-dark dark:bg-gray-900 text-white font-black rounded-2xl flex items-center justify-center space-x-3 hover:bg-acef-green hover:text-acef-dark transition-all shadow-xl">
+                                        <span>{{ __('pages.get_involved.collaborate_form.submit_btn') }}</span>
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                    </button>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
 
                     <!-- Right Column: Donation Side & Testimonial -->
                     <div class="lg:w-1/3 space-y-8">
                         <!-- Quick Donate -->
-                        <div class="bg-white rounded-[50px] p-10 border border-gray-100 shadow-sm space-y-8">
+                        <div class="bg-white dark:bg-gray-800 rounded-[50px] p-10 border border-gray-100 dark:border-gray-700 shadow-sm space-y-8 transition-colors">
                             <div class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                             </div>
-                            <h3 class="text-2xl font-black text-acef-dark tracking-tighter">{{ __('pages.get_involved.quick_donate.title') }}</h3>
+                            <h3 class="text-2xl font-black text-acef-dark dark:text-white tracking-tighter">{{ __('pages.get_involved.quick_donate.title') }}</h3>
                             <p class="text-gray-400 text-sm font-light italic leading-relaxed">
                                 {{ __('pages.get_involved.quick_donate.desc') }}
                             </p>
                             
                             <div class="grid grid-cols-3 gap-3">
-                                <button class="py-3 bg-gray-50 rounded-xl font-black text-xs text-gray-400 hover:bg-acef-green hover:text-acef-dark transition-all">$25</button>
+                                <button class="py-3 bg-gray-50 dark:bg-gray-700 rounded-xl font-black text-xs text-gray-400 dark:text-gray-300 hover:bg-acef-green hover:text-acef-dark transition-all">$25</button>
                                 <button class="py-3 bg-acef-green rounded-xl font-black text-xs text-acef-dark">$50</button>
-                                <button class="py-3 bg-gray-50 rounded-xl font-black text-xs text-gray-400 hover:bg-acef-green hover:text-acef-dark transition-all">$100</button>
+                                <button class="py-3 bg-gray-50 dark:bg-gray-700 rounded-xl font-black text-xs text-gray-400 dark:text-gray-300 hover:bg-acef-green hover:text-acef-dark transition-all">$100</button>
                             </div>
                             
                             <div class="relative">
                                 <span class="absolute left-6 top-1/2 -translate-y-1/2 font-bold text-gray-300">$</span>
-                                <input type="text" value="50" class="w-full pl-10 pr-6 py-4 bg-gray-50 border-none rounded-2xl font-black text-acef-dark">
+                                <input type="text" value="50" class="w-full pl-10 pr-6 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl font-black text-acef-dark dark:text-white outline-none focus:ring-2 focus:ring-acef-green">
                             </div>
 
-                            <button class="w-full py-5 bg-acef-dark text-white font-black rounded-2xl hover:bg-acef-green hover:text-acef-dark transition-all">
+                            <button class="w-full py-5 bg-acef-dark dark:bg-gray-900 text-white font-black rounded-2xl hover:bg-acef-green hover:text-acef-dark transition-all">
                                 {{ __('pages.get_involved.quick_donate.btn') }}
                             </button>
                         </div>
@@ -165,15 +266,15 @@
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                             </div>
-                            <p class="text-acef-dark font-light italic leading-relaxed">
-                                {{ __('pages.get_involved.testimonial.quote') }}
+                            <p class="text-acef-dark dark:text-gray-100 font-light italic leading-relaxed">
+                                {!! __('pages.get_involved.testimonial.quote') !!}
                             </p>
                             <div class="flex items-center space-x-3">
                                 <div class="w-12 h-12 rounded-full overflow-hidden grayscale">
-                                    <img src="/hero_marine_ecosystem_1766827540454.png" alt="Sarah Jenkins" class="w-full h-full object-cover">
+                                    <img src="/hero_marine_ecosystem_1766827540454.png" alt="{{ __('pages.get_involved.testimonial.author') }}" class="w-full h-full object-cover">
                                 </div>
                                 <div class="space-y-0.5">
-                                    <h4 class="font-black text-sm text-acef-dark">{{ __('pages.get_involved.testimonial.author') }}</h4>
+                                    <h4 class="font-black text-sm text-acef-dark dark:text-white">{{ __('pages.get_involved.testimonial.author') }}</h4>
                                     <p class="text-[10px] font-bold text-acef-green uppercase tracking-widest">{{ __('pages.get_involved.testimonial.role') }}</p>
                                 </div>
                             </div>

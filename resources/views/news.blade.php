@@ -53,7 +53,18 @@
 
     <main>
         <!-- Browse Insights -->
-        <section class="py-24 bg-gray-50/50">
+    <main>
+        <!-- Browse Insights -->
+        <section class="py-24 bg-gray-50/50" x-data="{
+            search: '',
+            filter: 'all',
+            checkVisible(item) {
+                const searchLower = this.search.toLowerCase();
+                const matchesSearch = item.title.toLowerCase().includes(searchLower) || item.desc.toLowerCase().includes(searchLower);
+                const matchesFilter = this.filter === 'all' || item.category === this.filter;
+                return matchesSearch && matchesFilter;
+            }
+        }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
                 <div class="flex flex-col md:flex-row justify-between items-end gap-8">
                     <div class="space-y-4">
@@ -62,7 +73,7 @@
                         <p class="text-gray-400 font-light italic">{{ __('pages.news.browse.desc') }}</p>
                     </div>
                     <div class="relative w-full md:w-80">
-                        <input type="text" placeholder="{{ __('pages.news.browse.search_placeholder') }}"
+                        <input type="text" x-model="search" placeholder="{{ __('pages.news.browse.search_placeholder') }}"
                             class="w-full pl-12 pr-6 py-4 bg-white border-none rounded-2xl shadow-sm text-sm">
                         <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -74,14 +85,18 @@
 
                 <!-- Category Pills -->
                 <div class="flex flex-wrap gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                    <button
-                        class="px-8 py-3 bg-acef-green text-acef-dark font-black rounded-xl text-sm whitespace-nowrap">{{ __('pages.news.browse.filters.all') }}</button>
-                    <button
-                        class="px-8 py-3 bg-white text-gray-400 font-bold rounded-xl text-sm border border-gray-100 hover:border-acef-dark transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.climate_action') }}</button>
-                    <button
-                        class="px-8 py-3 bg-white text-gray-400 font-bold rounded-xl text-sm border border-gray-100 hover:border-acef-dark transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.youth_leadership') }}</button>
-                    <button
-                        class="px-8 py-3 bg-white text-gray-400 font-bold rounded-xl text-sm border border-gray-100 hover:border-acef-dark transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.conservation') }}</button>
+                    <button @click="filter = 'all'"
+                        :class="filter === 'all' ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark'"
+                        class="px-8 py-3 font-black rounded-xl text-sm whitespace-nowrap transition-all">{{ __('pages.news.browse.filters.all') }}</button>
+                    <button @click="filter = '{{ __('pages.news.browse.filters.climate_action') }}'"
+                        :class="filter === '{{ __('pages.news.browse.filters.climate_action') }}' ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark'"
+                        class="px-8 py-3 font-bold rounded-xl text-sm transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.climate_action') }}</button>
+                    <button @click="filter = '{{ __('pages.news.browse.filters.youth_leadership') }}'"
+                        :class="filter === '{{ __('pages.news.browse.filters.youth_leadership') }}' ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark'"
+                        class="px-8 py-3 font-bold rounded-xl text-sm transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.youth_leadership') }}</button>
+                    <button @click="filter = '{{ __('pages.news.browse.filters.conservation') }}'"
+                        :class="filter === '{{ __('pages.news.browse.filters.conservation') }}' ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark'"
+                        class="px-8 py-3 font-bold rounded-xl text-sm transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.conservation') }}</button>
                 </div>
 
                 <!-- Article Grid -->
@@ -96,8 +111,11 @@
                     @endphp
 
                     @foreach($articles as $index => $art)
-                        @php $m = $meta[$index]; @endphp
-                        <div
+                        @php 
+                            $m = $meta[$index]; 
+                            $mergedArt = array_merge($art, $m);
+                        @endphp
+                        <div x-show="checkVisible({{ json_encode($mergedArt) }})" x-transition
                             class="group bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 flex flex-col">
                             <div class="relative aspect-[16/10] overflow-hidden">
                                 <img src="{{ $m['image'] }}" alt="{{ $art['title'] }}"

@@ -42,39 +42,61 @@
         </div>
     </section>
 
-    <main class="bg-gray-50 min-h-screen">
+    <main class="bg-gray-50 min-h-screen" x-data="{
+        category: '',
+        country: '',
+        status: '',
+        search: '',
+        checkVisible(item) {
+            // Normalise search
+            const searchLower = this.search.toLowerCase();
+            const titleMatch = item.title.toLowerCase().includes(searchLower);
+            const catMatch = item.category.toLowerCase().includes(searchLower);
+            
+            // Category Filter
+            const matchesCategory = this.category === '' || item.category === this.category;
+            
+            // Country Filter (Location usually contains 'City, Country')
+            const matchesCountry = this.country === '' || item.location.includes(this.country);
+            
+            // Status Filter
+            const matchesStatus = this.status === '' || item.status === this.status;
+
+            return (titleMatch || catMatch) && matchesCategory && matchesCountry && matchesStatus;
+        }
+    }">
         <!-- Filter Bar -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30 -mt-12">
             <div
                 class="bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 flex flex-wrap items-center justify-between gap-6">
                 <div class="flex flex-wrap items-center gap-4">
-                    <select
+                    <select x-model="category"
                         class="bg-gray-50 border-none rounded-2xl py-3 px-6 text-sm font-bold text-gray-500 focus:ring-2 focus:ring-acef-green">
-                        <option>{{ __('pages.projects_page.filter_category') }}</option>
-                        <option>{{ __('pages.filters.categories.reforestation') }}</option>
-                        <option>{{ __('pages.filters.categories.energy') }}</option>
-                        <option>{{ __('pages.filters.categories.water') }}</option>
-                        <option>{{ __('pages.filters.categories.agriculture') }}</option>
+                        <option value="">{{ __('pages.projects_page.filter_category') }}</option>
+                        <option value="{{ __('pages.filters.categories.reforestation') }}">{{ __('pages.filters.categories.reforestation') }}</option>
+                        <option value="{{ __('pages.filters.categories.energy') }}">{{ __('pages.filters.categories.energy') }}</option>
+                        <option value="{{ __('pages.filters.categories.water') }}">{{ __('pages.filters.categories.water') }}</option>
+                        <option value="{{ __('pages.filters.categories.agriculture') }}">{{ __('pages.filters.categories.agriculture') }}</option>
                     </select>
-                    <select
+                    <select x-model="country"
                         class="bg-gray-50 border-none rounded-2xl py-3 px-6 text-sm font-bold text-gray-500 focus:ring-2 focus:ring-acef-green">
-                        <option>{{ __('pages.projects_page.filter_country') }}</option>
-                        <option>{{ __('pages.filters.countries.kenya') }}</option>
-                        <option>{{ __('pages.filters.countries.uganda') }}</option>
-                        <option>{{ __('pages.filters.countries.tanzania') }}</option>
-                        <option>{{ __('pages.filters.countries.rwanda') }}</option>
+                        <option value="">{{ __('pages.projects_page.filter_country') }}</option>
+                        <option value="{{ __('pages.filters.countries.kenya') }}">{{ __('pages.filters.countries.kenya') }}</option>
+                        <option value="{{ __('pages.filters.countries.uganda') }}">{{ __('pages.filters.countries.uganda') }}</option>
+                        <option value="{{ __('pages.filters.countries.tanzania') }}">{{ __('pages.filters.countries.tanzania') }}</option>
+                        <option value="{{ __('pages.filters.countries.rwanda') }}">{{ __('pages.filters.countries.rwanda') }}</option>
                     </select>
-                    <select
+                    <select x-model="status"
                         class="bg-gray-50 border-none rounded-2xl py-3 px-6 text-sm font-bold text-gray-500 focus:ring-2 focus:ring-acef-green">
-                        <option>{{ __('pages.projects_page.filter_status') }}</option>
-                        <option>{{ __('pages.projects_page.status.ongoing') }}</option>
-                        <option>{{ __('pages.projects_page.status.completed') }}</option>
-                        <option>{{ __('pages.projects_page.status.starting') }}</option>
+                        <option value="">{{ __('pages.projects_page.filter_status') }}</option>
+                        <option value="{{ __('pages.projects_page.status.ongoing') }}">{{ __('pages.projects_page.status.ongoing') }}</option>
+                        <option value="{{ __('pages.projects_page.status.completed') }}">{{ __('pages.projects_page.status.completed') }}</option>
+                        <option value="{{ __('pages.projects_page.status.starting') }}">{{ __('pages.projects_page.status.starting') }}</option>
                     </select>
                 </div>
 
                 <div class="relative flex-1 max-w-sm">
-                    <input type="text" placeholder="{{ __('pages.projects_page.search_placeholder') }}"
+                    <input type="text" x-model="search" placeholder="{{ __('pages.projects_page.search_placeholder') }}"
                         class="w-full pl-12 pr-6 py-3 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-acef-green">
                     <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
@@ -90,7 +112,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     @foreach(__('pages.projects_page.list') as $proj)
-                        <div
+                        <div x-show="checkVisible({{ json_encode($proj) }})" x-transition
                             class="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all group">
                             <div class="relative aspect-[4/3] overflow-hidden">
                                 <img src="{{ $proj['image'] }}" alt="{{ $proj['title'] }}"
@@ -146,7 +168,7 @@
 
                                 <div class="flex justify-between items-center pt-2">
                                     <span
-                                        class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $proj['status'] == 'Ongoing' ? 'bg-acef-green/10 text-acef-green' : ($proj['status'] == 'Completed' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600') }}">
+                                        class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $proj['status'] === 'Ongoing' ? 'bg-acef-green/10 text-acef-green' : ($proj['status'] === 'Completed' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600') }}">
                                         {{ $proj['status'] }}
                                     </span>
                                     <a href="{{ route('projects') }}"

@@ -24,52 +24,52 @@ return [
             [
                 'title' => 'حماية ساحل المحيط الأطلسي',
                 'desc' => 'استعادة وحماية التنوع البيولوجي لسواحل غرب أفريقيا.',
-                'icon' => 'blue',
+                'icon' => 'أزرق',
             ],
             [
                 'title' => 'النظم البيئية البحرية القارية',
                 'desc' => 'المسطحات المائية الداخلية والحفاظ على مصبات الأنهار عبر القارة.',
-                'icon' => 'green',
+                'icon' => 'أخضر',
             ],
             [
                 'title' => 'البحوث والعلوم البحرية',
                 'desc' => 'الاستكشاف العلمي لفهم قاع محيطنا وأنواعه.',
-                'icon' => 'indigo',
+                'icon' => 'النيلي',
             ],
             [
                 'title' => 'التكيف مع تغير المناخ',
                 'desc' => 'مساعدة المجتمعات على التكيف مع ارتفاع مستويات سطح البحر وتغير المناخ.',
-                'icon' => 'amber',
+                'icon' => 'العنبر',
             ],
             [
                 'title' => 'الحفاظ على التنوع البيولوجي الطبيعي',
                 'desc' => 'حماية الأنواع الطائرة والمائية المهددة بالانقراض في موائلها.',
-                'icon' => 'emerald',
+                'icon' => 'الزمرد',
             ],
             [
                 'title' => 'مكافحة تلوث المياه',
                 'desc' => 'معالجة النفايات البلاستيكية والجريان الصناعي في البيئات البحرية.',
-                'icon' => 'sky',
+                'icon' => 'سماء',
             ],
             [
                 'title' => 'الزراعة الحراجية للتنوع البيولوجي',
                 'desc' => 'استعادة الغطاء الحراجي لحماية مستجمعات المياه والتنوع البيولوجي.',
-                'icon' => 'lime',
+                'icon' => 'الجير',
             ],
             [
                 'title' => 'تطوير السياحة البيئية',
                 'desc' => 'نماذج سياحية مستدامة تفيد الناس والطبيعة على حد سواء.',
-                'icon' => 'cyan',
+                'icon' => 'سماوي',
             ],
             [
                 'title' => 'الصحة والبيئة',
                 'desc' => 'ربط صحة المجتمع ببيئة نظيفة وآمنة.',
-                'icon' => 'rose',
+                'icon' => 'وَردَة',
             ],
             [
                 'title' => 'تمكين قادة الغد',
                 'desc' => 'تدريب الجيل القادم من المدافعين عن البيئة.',
-                'icon' => 'violet',
+                'icon' => 'البنفسجي',
             ],
         ],
         'projects' => [
@@ -95,875 +95,912 @@ return [
         'stats' => [
             [
                 'value' => '14',
-                'label' => 'Countries',
+                'label' => 'بلدان',
             ],
             [
-                'value' => '2,000+',
-                'label' => 'Volunteers',
+                'value' => '2000+',
+                'label' => 'المتطوعين',
             ],
             [
                 'value' => '50+',
-                'label' => 'Global Partners',
+                'label' => 'الشركاء العالميون',
             ],
             [
                 'value' => '10,000+',
-                'label' => 'Trees Planted',
+                'label' => 'الأشجار المزروعة',
             ],
         ],
         'map_section' => [
-            'label' => 'Where We Work',
-            'title' => 'Our Global Impact',
-            'subtitle' => 'Spanning across Africa to restore balance to our most vital ecosystems.',
+            'label' => 'أين نعمل',
+            'title' => 'تأثيرنا العالمي',
+            'subtitle' => 'تمتد عبر أفريقيا لاستعادة التوازن إلى أنظمتنا البيئية الأكثر حيوية.',
         ],
         'news_articles' => [
             [
-                'category' => 'Biodiversity',
-                'date' => 'March 24, 2025',
-                'title' => 'New Species of Marine Life Discovered off Coastal Kenya',
-                'desc' => 'Our research team has identified several previously undocumented species in the Lamu archipelago.',
+                'category' => 'التنوع البيولوجي',
+                'date' => '24 مارس 2025',
+                'title' => 'اكتشاف أنواع جديدة من الحياة البحرية قبالة سواحل كينيا',
+                'desc' => 'حدد فريق البحث لدينا العديد من الأنواع غير الموثقة سابقًا في أرخبيل لامو.',
             ],
             [
-                'category' => 'Conservation',
-                'date' => 'March 18, 2025',
-                'title' => 'Community Beach Cleaning: Over 5 Tons of Plastic Removed',
-                'desc' => 'Hundreds of volunteers joined forces to restore the pristine beauty of our shores this weekend.',
+                'category' => 'حفظ',
+                'date' => '18 مارس 2025',
+                'title' => 'تنظيف الشاطئ المجتمعي: إزالة أكثر من 5 أطنان من البلاستيك',
+                'desc' => 'انضم المئات من المتطوعين إلى جهودهم لاستعادة الجمال البكر لشواطئنا في نهاية هذا الأسبوع.',
             ],
             [
-                'category' => 'Reforestation',
-                'date' => 'March 12, 2025',
-                'title' => 'Strategic Partnership with Global Re-Green Initiative',
-                'desc' => 'New funding secured to accelerate our tree planting goals for the 2025-2026 season.',
+                'category' => 'إعادة التحريج',
+                'date' => '12 مارس 2025',
+                'title' => 'الشراكة الإستراتيجية مع مبادرة إعادة البيئة العالمية',
+                'desc' => 'تم تأمين تمويل جديد لتسريع أهدافنا في زراعة الأشجار لموسم 2025-2026.',
             ],
         ],
     ],
     'layout' => [
         'header' => [
-            'theme_switch_light' => 'Switch to Light Mode',
-            'theme_switch_dark' => 'Switch to Dark Mode',
-            'search_language' => 'Search language...',
-            'theme_label' => 'Theme',
-            'search_placeholder' => 'Search for programmes, projects, resources...',
+            'theme_switch_light' => 'التبديل إلى وضع الضوء',
+            'theme_switch_dark' => 'التبديل إلى الوضع الداكن',
+            'search_language' => 'لغة البحث...',
+            'theme_label' => 'سمة',
+            'search_placeholder' => 'ابحث عن البرامج والمشاريع والموارد...',
+            'powered_by' => 'مدعوم من ترجمة جوجل',
         ],
         'footer' => [
-            'desc' => 'Dedicated to protecting marine ecosystems and promoting sustainable conservation across Africa for a greener future.',
-            'quick_links' => 'Quick Links',
-            'resources' => 'Resources',
-            'stay_updated' => 'Stay Updated',
-            'newsletter_desc' => 'Subscribe to our newsletter to receive the latest updates.',
-            'newsletter_placeholder' => 'Your Email',
-            'subscribe_btn' => 'Subscribe',
-            'copyright' => '© :year ACEF. All rights reserved.',
-            'privacy' => 'Privacy Policy',
-            'terms' => 'Terms of Service',
-            'cookies' => 'Cookies Policy',
+            'desc' => 'مكرس لحماية النظم البيئية البحرية وتعزيز الحفظ المستدام في جميع أنحاء أفريقيا من أجل مستقبل أكثر اخضرارًا.',
+            'quick_links' => 'روابط سريعة',
+            'resources' => 'موارد',
+            'stay_updated' => 'ابق على اطلاع',
+            'newsletter_desc' => 'اشترك في النشرة الإخبارية لدينا لتلقي آخر التحديثات.',
+            'newsletter_placeholder' => 'البريد الإلكتروني الخاص بك',
+            'subscribe_btn' => 'يشترك',
+            'copyright' => '© :سنة ACEF. جميع الحقوق محفوظة.',
+            'privacy' => 'سياسة الخصوصية',
+            'terms' => 'شروط الخدمة',
+            'cookies' => 'سياسة ملفات تعريف الارتباط',
         ],
     ],
     'about' => [
-        'hero_title' => 'Empowering Africa for a <br><span class="text-acef-green italic">Sustainable</span> Future',
-        'hero_subtitle' => 'An environmental platform advocating for environmental and marine conservation.',
-        'who_we_are_title' => 'Who <br> We Are',
-        'who_we_are_text' => '<span class="text-acef-green font-bold underline decoration-2 underline-offset-8">Africa Climate and Environment Foundation (ACEF)</span> serves as a leading youth-led collaborative platform for climate action and sustainable development across the African continent.',
-        'who_we_are_subtext' => 'Officially registered on March 31st, 2021, ACEF was born out of a deep conviction: that lasting environmental change only happens when the community, especially its youth, is the primary steward of its own future. We focus on bridging the gap between scientific knowledge, policy advocacy, and grassroots action.',
-        'mission_title' => 'Our Mission',
-        'mission_desc' => 'To mobilize and empower African youth to actively participate in the Climate, Environment, and Sustainable Development agenda, bridging the hunger and poverty gap, mitigating climate change, protecting the environment, and conserving natural resources in Africa.',
-        'vision_title' => 'Our Vision',
-        'vision_desc' => 'A resilient Africa where empowered youth lead innovative solutions for climate action, environmental protection, and sustainable development, ensuring a future free from hunger and poverty.',
-        'values_title' => 'Our Principles',
-        'values_heading' => 'Core Values',
+        'hero_title' => 'تمكين أفريقيا من أجل مستقبل <br><span class="text-acef-green italic">مستدام</span>',
+        'hero_subtitle' => 'منصة بيئية تدعو إلى الحفاظ على البيئة والبحرية.',
+        'who_we_are_title' => 'من نحن؟',
+        'who_we_are_text' => '<span class="text-acef-green Font-bold underline الديكور-2 underline-offset-8">تعمل المؤسسة الأفريقية للمناخ والبيئة (ACEF)</span> كمنصة تعاونية رائدة يقودها الشباب للعمل المناخي والتنمية المستدامة في جميع أنحاء القارة الأفريقية.',
+        'who_we_are_subtext' => 'تم تسجيل ACEF رسميًا في 31 مارس 2021، وُلدت من قناعة عميقة: أن التغيير البيئي الدائم يحدث فقط عندما يكون المجتمع، وخاصة شبابه، هو المشرف الأساسي على مستقبله. نحن نركز على سد الفجوة بين المعرفة العلمية، والدعوة للسياسات، والعمل على مستوى القاعدة.',
+        'mission_title' => 'مهمتنا',
+        'mission_desc' => 'لتعبئة وتمكين الشباب الأفريقي للمشاركة بنشاط في أجندة المناخ والبيئة والتنمية المستدامة، وسد فجوة الجوع والفقر، والتخفيف من تغير المناخ، وحماية البيئة، والحفاظ على الموارد الطبيعية في أفريقيا.',
+        'vision_title' => 'رؤيتنا',
+        'vision_desc' => 'أفريقيا قادرة على الصمود حيث يقود الشباب الممكّن حلولاً مبتكرة للعمل المناخي وحماية البيئة والتنمية المستدامة، مما يضمن مستقبلًا خاليًا من الجوع والفقر.',
+        'values_title' => 'مبادئنا',
+        'values_heading' => 'القيم الأساسية',
         'values' => [
             [
-                'title' => 'Youth Leadership',
-                'desc' => 'Centering young people as primary agents of systemic change.',
+                'title' => 'القيادة الشبابية',
+                'desc' => 'تركيز الشباب كعوامل أساسية للتغيير المنهجي.',
                 'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197',
             ],
             [
-                'title' => 'Innovation',
-                'desc' => 'Fostering creative and context-specific solutions for Africa.',
+                'title' => 'ابتكار',
+                'desc' => 'تعزيز الحلول الإبداعية والمحددة السياق لأفريقيا.',
                 'icon' => 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
             ],
             [
-                'title' => 'Collaboration',
-                'desc' => 'Building strong partnerships with diverse continental stakeholders.',
+                'title' => 'تعاون',
+                'desc' => 'بناء شراكات قوية مع أصحاب المصلحة القاريين المتنوعين.',
                 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
             ],
             [
-                'title' => 'Impact',
-                'desc' => 'Driving measurable and sustainable positive environmental change.',
+                'title' => 'تأثير',
+                'desc' => 'قيادة التغيير البيئي الإيجابي القابل للقياس والمستدام.',
                 'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
             ],
             [
-                'title' => 'Integrity',
-                'desc' => 'Operating with radical transparency and accountability.',
+                'title' => 'نزاهة',
+                'desc' => 'العمل بشفافية جذرية ومساءلة.',
                 'icon' => 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
             ],
             [
-                'title' => 'Inclusivity',
-                'desc' => 'Ensuring equitable participation for all marginalized groups.',
+                'title' => 'الشمولية',
+                'desc' => 'ضمان المشاركة العادلة لجميع الفئات المهمشة.',
                 'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197',
             ],
         ],
-        'founder_title' => 'A Founder\'s Message',
-        'founder_quote' => '"The future of Africa lies in the hands of its <span class="text-acef-green italic">vibrant youth</span>, women, and grassroots communities."',
-        'founder_text_1' => 'Welcome to the digital home of the Africa Climate and Environment Foundation (ACEF)! Officially registered on March 31st, 2021, and with its roots firmly planted in Limbe, Cameroon, ACEF was born out of a deep conviction: that the future of Africa and indeed, our planet lies in the hands of its dedicated youth.',
-        'founder_text_2' => 'In the short time since our founding, ACEF has grown into a vibrant network of over 2,000 members and volunteers across 14 nations. We invite you to explore our platform and discover how you can be part of this vital movement.',
-        'founder_name' => 'Tambe Honourine Enow',
-        'founder_role' => 'Founder, Africa Climate and Environment Foundation (ACEF)',
-        'strategic_focus' => 'Strategic Focus',
-        'objectives_heading' => 'Our Objectives',
+        'founder_title' => 'رسالة المؤسس',
+        'founder_quote' => '"إن مستقبل أفريقيا يكمن في أيدي <span class="text-acef-green italic">شبابها النابض بالحياة</span>، ونسائها، ومجتمعاتها الشعبية.',
+        'founder_text_1' => 'مرحبًا بكم في المنزل الرقمي للمؤسسة الأفريقية للمناخ والبيئة (ACEF)! تم تسجيله رسميًا في 31 مارس 2021، وبجذوره الراسخة في ليمبي، الكاميرون، ولد ACEF انطلاقًا من قناعة عميقة: بأن مستقبل إفريقيا، بل وكوكبنا، يقع في أيدي شبابها المتفانين.',
+        'founder_text_2' => 'في فترة قصيرة منذ تأسيسنا، نمت ACEF لتصبح شبكة نابضة بالحياة تضم أكثر من 2000 عضو ومتطوع عبر 14 دولة. نحن ندعوك لاستكشاف منصتنا واكتشاف كيف يمكنك أن تكون جزءًا من هذه الحركة الحيوية.',
+        'founder_name' => 'تامبي أونورين إينو',
+        'founder_role' => 'مؤسس مؤسسة أفريقيا للمناخ والبيئة (ACEF)',
+        'strategic_focus' => 'التركيز الاستراتيجي',
+        'objectives_heading' => 'أهدافنا',
         'objectives' => [
             [
-                'title' => 'Economic Empowerment',
-                'desc' => 'Promoting economic participation and poverty reduction within African communities.',
+                'title' => 'التمكين الاقتصادي',
+                'desc' => 'تعزيز المشاركة الاقتصادية والحد من الفقر داخل المجتمعات الأفريقية.',
             ],
             [
-                'title' => 'Climate Education',
-                'desc' => 'Providing training in sustainable development through continental networking.',
+                'title' => 'التعليم المناخي',
+                'desc' => 'توفير التدريب في مجال التنمية المستدامة من خلال الشبكات القارية.',
             ],
             [
-                'title' => 'Waste Management',
-                'desc' => 'Promoting effective solid waste management through proper sorting and dumping.',
+                'title' => 'إدارة النفايات',
+                'desc' => 'تعزيز الإدارة الفعالة للنفايات الصلبة من خلال الفرز والتخلص المناسبين.',
             ],
             [
-                'title' => 'WASH Excellence',
-                'desc' => 'Empowering individual and community action on water and sanitation issues.',
+                'title' => 'التميز في مجال المياه والصرف الصحي والنظافة الصحية',
+                'desc' => 'تمكين العمل الفردي والمجتمعي بشأن قضايا المياه والصرف الصحي.',
             ],
             [
-                'title' => 'Eco-Innovation',
-                'desc' => 'Developing innovations to eliminate environmental hazards and adopt alternative energy.',
+                'title' => 'الابتكار البيئي',
+                'desc' => 'تطوير الابتكارات للقضاء على المخاطر البيئية وتبني الطاقة البديلة.',
             ],
             [
-                'title' => 'Cultural Advocacy',
-                'desc' => 'Campaigning against traditions that hinder sustainable development and climate action.',
+                'title' => 'الدعوة الثقافية',
+                'desc' => 'القيام بحملات ضد التقاليد التي تعيق التنمية المستدامة والعمل المناخي.',
             ],
             [
-                'title' => 'Rights Protection',
-                'desc' => 'Safeguarding environmental protection rights across the African continent.',
+                'title' => 'حماية الحقوق',
+                'desc' => 'حماية حقوق حماية البيئة في جميع أنحاء القارة الأفريقية.',
             ],
         ],
-        'journey_heading' => 'Our Journey',
+        'journey_heading' => 'رحلتنا',
         'journey' => [
             [
                 'year' => '2021',
-                'title' => 'Foundation & Registration',
-                'desc' => 'ACEF was officially registered in Limbe, Cameroon, starting our continental mission.',
+                'title' => 'التأسيس والتسجيل',
+                'desc' => 'تم تسجيل ACEF رسميًا في ليمبي، الكاميرون، لبدء مهمتنا القارية.',
             ],
             [
                 'year' => '2022',
-                'title' => 'Coastal Expansion',
-                'desc' => 'Launched our first multi-country marine protection initiative across the West African coast.',
+                'title' => 'التوسع الساحلي',
+                'desc' => 'أطلقنا أول مبادرة متعددة البلدان للحماية البحرية عبر ساحل غرب أفريقيا.',
             ],
             [
                 'year' => '2023',
-                'title' => 'Research Partnership',
-                'desc' => 'Established collaborative research hubs with major African universities.',
+                'title' => 'الشراكة البحثية',
+                'desc' => 'إنشاء مراكز بحثية تعاونية مع الجامعات الأفريقية الكبرى.',
             ],
         ],
-        'team_heading' => 'Meet Our Leadership',
-        'team_subheading' => 'The dedicated team driving continental conservation.',
+        'team_heading' => 'تعرف على قيادتنا',
+        'team_subheading' => 'الفريق المتفاني الذي يقود الحفاظ على القارة.',
         'team' => [
             [
-                'name' => 'Sarah Mbali',
-                'role' => 'Executive Director',
+                'name' => 'سارة مبالي',
+                'role' => 'المدير التنفيذي',
             ],
             [
-                'name' => 'David Chizi',
-                'role' => 'Conservation Lead',
+                'name' => 'ديفيد شيزي',
+                'role' => 'قيادة الحفظ',
             ],
             [
-                'name' => 'Grace Tabi',
-                'role' => 'Programs Manager',
+                'name' => 'جريس تابي',
+                'role' => 'مدير البرامج',
             ],
             [
-                'name' => 'Isaac Obi',
-                'role' => 'Financial Director',
+                'name' => 'إسحاق أوبي',
+                'role' => 'المدير المالي',
             ],
         ],
     ],
     'programmes' => [
-        'hero_title' => 'Our Programmes',
-        'hero_desc' => 'Driving sustainable change across Africa through targeted environmental initiatives and community empowerment.',
-        'explore_btn' => 'Explore Initiatives',
+        'hero_title' => 'برامجنا',
+        'hero_desc' => 'قيادة التغيير المستدام في جميع أنحاء أفريقيا من خلال المبادرات البيئية المستهدفة وتمكين المجتمع.',
+        'explore_btn' => 'اكتشف المبادرات',
         'stats' => [
             [
-                'label' => 'Projects Launched',
+                'label' => 'انطلقت المشاريع',
                 'value' => '50+',
-                'icon' => 'blue',
+                'icon' => 'أزرق',
             ],
             [
-                'label' => 'Trees Planted',
-                'value' => '10k+',
-                'icon' => 'green',
+                'label' => 'الأشجار المزروعة',
+                'value' => '10 ألف+',
+                'icon' => 'أخضر',
             ],
             [
-                'label' => 'Lives Impacted',
-                'value' => '500k',
-                'icon' => 'purple',
+                'label' => 'حياة متأثرة',
+                'value' => '500 ألف',
+                'icon' => 'أرجواني',
             ],
             [
-                'label' => 'Partners',
+                'label' => 'الشركاء',
                 'value' => '35',
-                'icon' => 'orange',
+                'icon' => 'البرتقالي',
             ],
         ],
-        'initiatives_title' => 'Active Initiatives',
-        'search_placeholder' => 'Search programmes...',
-        'filter_btn' => 'Filter',
-        'sort_btn' => 'Sort',
+        'initiatives_title' => 'المبادرات النشطة',
+        'search_placeholder' => 'برامج البحث...',
+        'filter_btn' => 'فلتر',
+        'sort_btn' => 'نوع',
         'list' => [
             [
-                'title' => 'Mangrove Restoration',
-                'category' => 'Marine Ecosystems',
-                'desc' => 'Restoring degraded mangrove forests to protect coastal communities from storm surges and provide critical habitats for marine biodiversity.',
+                'title' => 'ترميم المانجروف',
+                'category' => 'النظم البيئية البحرية',
+                'desc' => 'استعادة غابات المنغروف المتدهورة لحماية المجتمعات الساحلية من هبوب العواصف وتوفير الموائل الحيوية للتنوع البيولوجي البحري.',
                 'icon' => '🌳',
-                'stats' => 'Coastline',
+                'stats' => 'الساحل',
             ],
             [
-                'title' => 'Sea Turtle Protection',
-                'category' => 'Wildlife Conservation',
-                'desc' => 'Community-led monitoring and protection of nesting sites for endangered sea turtles across the African Atlantic and Indian Ocean coasts.',
+                'title' => 'حماية السلاحف البحرية',
+                'category' => 'الحفاظ على الحياة البرية',
+                'desc' => 'المراقبة والحماية بقيادة المجتمع المحلي لمواقع تعشيش السلاحف البحرية المهددة بالانقراض عبر سواحل المحيط الأطلسي والمحيط الهندي الأفريقية.',
                 'icon' => '🐢',
-                'stats' => 'Biodiversity',
+                'stats' => 'التنوع البيولوجي',
             ],
             [
-                'title' => 'Kaya Forest Conservation',
-                'category' => 'Indigenous Knowledge',
-                'desc' => 'Preserving the sacred Kaya forests by integrating traditional ecological knowledge with modern conservation strategies.',
+                'title' => 'محمية غابة كايا',
+                'category' => 'المعرفة الأصلية',
+                'desc' => 'الحفاظ على غابات كايا المقدسة من خلال دمج المعرفة البيئية التقليدية مع استراتيجيات الحفظ الحديثة.',
                 'icon' => '🌲',
-                'stats' => 'Heritage',
+                'stats' => 'إرث',
             ],
             [
-                'title' => 'Plastic Waste Management',
-                'category' => 'Circular Economy',
-                'desc' => 'Implementing grassroots collection and recycling initiatives to eliminate plastic pollution from terrestrial and marine environments.',
+                'title' => 'إدارة النفايات البلاستيكية',
+                'category' => 'الاقتصاد الدائري',
+                'desc' => 'تنفيذ مبادرات الجمع وإعادة التدوير على المستوى الشعبي للقضاء على التلوث البلاستيكي من البيئات البرية والبحرية.',
                 'icon' => '♻️',
-                'stats' => 'Pollution',
+                'stats' => 'تلوث',
             ],
             [
-                'title' => 'Renewable Energy Access',
-                'category' => 'Energy Transition',
-                'desc' => 'Deploying off-grid solar and wind solutions to provide clean, reliable energy to rural and underserved communities.',
+                'title' => 'الوصول إلى الطاقة المتجددة',
+                'category' => 'انتقال الطاقة',
+                'desc' => 'نشر حلول الطاقة الشمسية وطاقة الرياح خارج الشبكة لتوفير طاقة نظيفة وموثوقة للمجتمعات الريفية والمحرومة.',
                 'icon' => '☀️',
-                'stats' => 'Energy',
+                'stats' => 'طاقة',
             ],
             [
-                'title' => 'Sustainable Agriculture',
-                'category' => 'Food Security',
-                'desc' => 'Training youth and women in agroforestry and climate-smart farming techniques to enhance local food security and resilience.',
+                'title' => 'الزراعة المستدامة',
+                'category' => 'الأمن الغذائي',
+                'desc' => 'تدريب الشباب والنساء على تقنيات الزراعة الحراجية والزراعة الذكية مناخياً لتعزيز الأمن الغذائي المحلي والقدرة على الصمود.',
                 'icon' => '🌾',
-                'stats' => 'Nutrition',
+                'stats' => 'تَغذِيَة',
             ],
             [
-                'title' => 'Water and Sanitation (WASH)',
-                'category' => 'Public Health',
-                'desc' => 'Providing clean water access and promoting hygiene practices through community-led infrastructure and education.',
+                'title' => 'المياه والصرف الصحي (WASH)',
+                'category' => 'الصحة العامة',
+                'desc' => 'توفير الوصول إلى المياه النظيفة وتعزيز ممارسات النظافة من خلال البنية التحتية والتعليم التي يقودها المجتمع.',
                 'icon' => '💧',
-                'stats' => 'Health',
+                'stats' => 'صحة',
             ],
             [
-                'title' => 'Eco-Innovation Hubs',
-                'category' => 'Youth Leadership',
-                'desc' => 'Supporting young entrepreneurs in developing technological and social innovations to solve local environmental challenges.',
+                'title' => 'مراكز الابتكار البيئي',
+                'category' => 'القيادة الشبابية',
+                'desc' => 'دعم رواد الأعمال الشباب في تطوير الابتكارات التكنولوجية والاجتماعية لحل التحديات البيئية المحلية.',
                 'icon' => '🚀',
-                'stats' => 'Youth',
+                'stats' => 'شباب',
             ],
             [
-                'title' => 'Climate Education',
-                'category' => 'Advocacy',
-                'desc' => 'Mainstreaming climate literacy through school programs and community workshops across 14 African nations.',
+                'title' => 'التعليم المناخي',
+                'category' => 'المناصرة',
+                'desc' => 'تعميم محو الأمية المناخية من خلال البرامج المدرسية وورش العمل المجتمعية في 14 دولة أفريقية.',
                 'icon' => '📚',
-                'stats' => 'Education',
+                'stats' => 'تعليم',
             ],
             [
-                'title' => 'Coral Reef Restoration',
-                'category' => 'Marine Ecosystems',
-                'desc' => 'Rebuilding damaged coral structures to support fish populations and enhance the scientific resilience of marine habitats.',
+                'title' => 'ترميم الشعاب المرجانية',
+                'category' => 'النظم البيئية البحرية',
+                'desc' => 'إعادة بناء الهياكل المرجانية المتضررة لدعم أعداد الأسماك وتعزيز المرونة العلمية للموائل البحرية.',
                 'icon' => '🐠',
-                'stats' => 'Ocean',
+                'stats' => 'محيط',
             ],
         ],
     ],
     'projects_page' => [
-        'hero_title' => 'Projects Changing the <br> <span class="text-acef-green italic">Future</span>',
-        'hero_subtitle' => 'Explore how we are working with communities across Africa to restore ecosystems, provide clean energy, and build sustainable livelihoods.',
-        'badge' => 'Our Impact Portfolio',
-        'search_placeholder' => 'Search projects...',
-        'filter_category' => 'All Categories',
-        'filter_country' => 'All Countries',
-        'filter_status' => 'All Statuses',
-        'load_more' => 'Load More Projects',
+        'hero_title' => 'مشاريع تغير <br> <span class="text-acef-green italic">المستقبل</span>',
+        'hero_subtitle' => 'اكتشف كيف نعمل مع المجتمعات في جميع أنحاء أفريقيا لاستعادة النظم البيئية، وتوفير الطاقة النظيفة، وبناء سبل العيش المستدامة.',
+        'badge' => 'محفظة تأثيرنا',
+        'search_placeholder' => 'مشاريع البحث...',
+        'filter_category' => 'جميع الفئات',
+        'filter_country' => 'جميع البلدان',
+        'filter_status' => 'جميع الحالات',
+        'load_more' => 'تحميل المزيد من المشاريع',
         'status' => [
-            'ongoing' => 'Ongoing',
-            'completed' => 'Completed',
-            'starting' => 'Starting Soon',
+            'ongoing' => 'مستمر',
+            'completed' => 'مكتمل',
+            'starting' => 'البدء قريباً',
         ],
         'list' => [
             [
-                'title' => 'Reforestation in the Rift Valley',
-                'location' => 'Kenya',
-                'category' => 'Reforestation',
-                'raised' => '$35,250',
+                'title' => 'إعادة التشجير في الوادي المتصدع',
+                'location' => 'كينيا',
+                'category' => 'إعادة التحريج',
+                'raised' => '35,250 دولار',
                 'goal_percent' => 70,
-                'status' => 'Ongoing',
+                'status' => 'مستمر',
                 'image' => '/project_tree_planting_1766827726209.png',
             ],
             [
-                'title' => 'Solar Power for Rural Clinics',
-                'location' => 'Uganda',
-                'category' => 'Energy',
-                'raised' => '$12,000',
+                'title' => 'الطاقة الشمسية للعيادات الريفية',
+                'location' => 'أوغندا',
+                'category' => 'طاقة',
+                'raised' => '12000 دولار',
                 'goal_percent' => 45,
-                'status' => 'Ongoing',
+                'status' => 'مستمر',
                 'image' => '/project_solar_panels_1766827705821.png',
             ],
             [
-                'title' => 'Clean Water Access Initiative',
-                'location' => 'Tanzania',
-                'category' => 'Water',
-                'raised' => 'Goal Met',
+                'title' => 'مبادرة الوصول إلى المياه النظيفة',
+                'location' => 'تنزانيا',
+                'category' => 'ماء',
+                'raised' => 'تم تحقيق الهدف',
                 'goal_percent' => 100,
-                'status' => 'Completed',
+                'status' => 'مكتمل',
                 'image' => '/mission_vision_africa_1766827653058.png',
             ],
             [
-                'title' => 'Sustainable Farming Training',
-                'location' => 'Rwanda',
-                'category' => 'Agriculture',
-                'raised' => '$2,250',
+                'title' => 'التدريب على الزراعة المستدامة',
+                'location' => 'رواندا',
+                'category' => 'زراعة',
+                'raised' => '2,250 دولار',
                 'goal_percent' => 15,
-                'status' => 'Starting Soon',
+                'status' => 'البدء قريباً',
                 'image' => '/project_mangroves_1766827746442.png',
             ],
             [
-                'title' => 'Youth Environmental Leadership',
-                'location' => 'Ghana',
-                'category' => 'Community',
-                'raised' => '$6,000',
+                'title' => 'القيادة البيئية الشبابية',
+                'location' => 'غانا',
+                'category' => 'مجتمع',
+                'raised' => '6000 دولار',
                 'goal_percent' => 30,
-                'status' => 'Ongoing',
+                'status' => 'مستمر',
                 'image' => '/hero_marine_ecosystem_1766827540454.png',
             ],
             [
-                'title' => 'Mangrove Restoration Project',
-                'location' => 'Mozambique',
-                'category' => 'Conservation',
-                'raised' => '$41,000',
+                'title' => 'مشروع ترميم المانجروف',
+                'location' => 'موزمبيق',
+                'category' => 'حفظ',
+                'raised' => '41000 دولار',
                 'goal_percent' => 82,
-                'status' => 'Ongoing',
+                'status' => 'مستمر',
                 'image' => '/project_mangroves_1766827746442.png',
             ],
         ],
     ],
     'impact' => [
-        'hero_title' => 'Real Impact. <br> <span class="text-acef-green">Measurable Change.</span>',
-        'hero_desc' => 'We believe in radical transparency. Explore our data-driven achievements and ongoing reforestation programs across the African continent.',
-        'transparency_badge' => 'Transparency Report 2023-2024',
-        'download_report' => 'Download Annual Report',
-        'view_methodology' => 'View Methodology',
+        'hero_title' => 'التأثير الحقيقي. <br> <span class="text-acef-green">تغيير قابل للقياس.</span>',
+        'hero_desc' => 'نحن نؤمن بالشفافية الجذرية. استكشف إنجازاتنا القائمة على البيانات وبرامج إعادة التشجير المستمرة في جميع أنحاء القارة الأفريقية.',
+        'transparency_badge' => 'تقرير الشفافية 2023-2024',
+        'download_report' => 'تحميل التقرير السنوي',
+        'view_methodology' => 'عرض المنهجية',
         'stats' => [
             [
-                'label' => 'Countries Reached',
+                'label' => 'وصلت الدول',
                 'value' => '12',
             ],
             [
-                'label' => 'Trees Planted',
-                'value' => '1.2M',
+                'label' => 'الأشجار المزروعة',
+                'value' => '1.2 م',
             ],
             [
-                'label' => 'Active Projects',
+                'label' => 'المشاريع النشطة',
                 'value' => '45',
             ],
         ],
-        'map_title' => 'Our Footprint Across Africa',
-        'map_desc' => 'Click on the interactive markers to see specific regional impact data and active field offices.',
-        'map_active' => 'Active',
-        'map_planned' => 'Planned',
-        'projects_title' => 'Active Projects',
-        'projects_load_more' => 'Load more projects',
+        'map_title' => 'بصمتنا في جميع أنحاء أفريقيا',
+        'map_desc' => 'انقر على العلامات التفاعلية لرؤية بيانات التأثير الإقليمي المحددة والمكاتب الميدانية النشطة.',
+        'map_active' => 'نشيط',
+        'map_planned' => 'المخطط لها',
+        'projects_title' => 'المشاريع النشطة',
+        'projects_load_more' => 'تحميل المزيد من المشاريع',
         'project_list' => [
             [
-                'title' => 'Sahara Green Wall Initiative',
-                'category' => 'Reforestation',
-                'desc' => 'Combatting desertification by planting a belt of trees across the Sahel region to restore degraded land.',
+                'title' => 'مبادرة الجدار الأخضر للصحراء',
+                'category' => 'إعادة التحريج',
+                'desc' => 'مكافحة التصحر من خلال زراعة حزام من الأشجار عبر منطقة الساحل لاستعادة الأراضي المتدهورة.',
                 'image' => '/project_tree_planting_1766827726209.png',
-                'date' => 'April 20 - June 10 2024',
-                'status' => 'Ongoing',
+                'date' => '20 أبريل - 10 يونيو 2024',
+                'status' => 'مستمر',
             ],
             [
-                'title' => 'Rural Solar Microgrids',
-                'category' => 'Energy',
-                'desc' => 'Providing clean, reliable electricity to off-grid communities through community-owned solar solutions.',
+                'title' => 'شبكات الطاقة الشمسية الريفية الصغيرة',
+                'category' => 'طاقة',
+                'desc' => 'توفير كهرباء نظيفة وموثوقة للمجتمعات خارج الشبكة من خلال حلول الطاقة الشمسية المملوكة للمجتمع.',
                 'image' => '/project_solar_panels_1766827705821.png',
-                'date' => 'May 12 - Sept 30 2024',
-                'status' => 'Ongoing',
+                'date' => '12 مايو - 30 سبتمبر 2024',
+                'status' => 'مستمر',
             ],
             [
-                'title' => 'Clean Water Access',
-                'category' => 'Water',
-                'desc' => 'Installing rainwater harvesting systems to ensure safe drinking water for highland schools.',
+                'title' => 'الوصول إلى المياه النظيفة',
+                'category' => 'ماء',
+                'desc' => 'تركيب أنظمة تجميع مياه الأمطار لضمان مياه الشرب الآمنة لمدارس المرتفعات.',
                 'image' => '/mission_vision_africa_1766827653058.png',
-                'date' => 'March 01 - June 12 2025',
-                'status' => 'Funded',
+                'date' => '01 مارس - 12 يونيو 2025',
+                'status' => 'ممولة',
             ],
         ],
-        'cta_title' => 'Join Us In Making <br> A Difference',
-        'cta_desc' => 'Your partnership can accelerate these projects. Whether you are an individual donor or a corporate partner, your impact starts here.',
-        'partner_btn' => 'Partner with ACEF',
-        'donate_btn' => 'Make a Donation',
+        'cta_title' => 'انضم إلينا لإحداث فرق',
+        'cta_desc' => 'يمكن لشراكتك تسريع هذه المشاريع. سواء كنت مانحًا فرديًا أو شريكًا في الشركة، فإن تأثيرك يبدأ هنا.',
+        'partner_btn' => 'شريك مع ACEF',
+        'donate_btn' => 'قم بالتبرع',
     ],
     'contact' => [
-        'hero_title' => 'Get in Touch',
-        'hero_desc' => 'Whether you are looking to partner, donate, or learn more about our climate impact across Africa, our team is ready to connect with you.',
-        'form_title' => 'Send us a Message',
-        'form_subtitle' => 'Use the form below to route your inquiry to the right department.',
+        'hero_title' => 'تواصل معنا',
+        'hero_desc' => 'سواء كنت تتطلع إلى الشراكة أو التبرع أو معرفة المزيد حول تأثيرنا على المناخ في جميع أنحاء أفريقيا، فإن فريقنا جاهز للتواصل معك.',
+        'form_title' => 'أرسل لنا رسالة',
+        'form_subtitle' => 'استخدم النموذج أدناه لتوجيه استفسارك إلى القسم المناسب.',
         'form' => [
-            'topic_label' => 'I am interested in...',
-            'topic_placeholder' => 'Select a topic (e.g. Partnership, Media, General)',
-            'name_label' => 'Full Name',
-            'name_placeholder' => 'Jane Doe',
-            'email_label' => 'Email Address',
-            'email_placeholder' => 'jane@example.com',
-            'org_label' => 'Organization (Optional)',
-            'org_placeholder' => 'Company or NGO Name',
-            'message_label' => 'Message',
-            'message_placeholder' => 'How can we help you create impact?',
-            'submit_btn' => 'Send Message',
-            'privacy_note' => 'By submitting this form, you agree to our Privacy Policy. We respect your data.',
+            'topic_label' => 'أنا مهتم ب...',
+            'topic_placeholder' => 'حدد موضوعًا (على سبيل المثال، الشراكة، الإعلام، عام)',
+            'name_label' => 'الاسم الكامل',
+            'name_placeholder' => 'جين دو',
+            'email_label' => 'عنوان البريد الإلكتروني',
+            'email_placeholder' => 'جين@example.com',
+            'org_label' => 'المنظمة (اختياري)',
+            'org_placeholder' => 'اسم الشركة أو المنظمة غير الحكومية',
+            'message_label' => 'رسالة',
+            'message_placeholder' => 'كيف يمكننا مساعدتك في خلق التأثير؟',
+            'submit_btn' => 'أرسل رسالة',
+            'privacy_note' => 'من خلال تقديم هذا النموذج، فإنك توافق على سياسة الخصوصية لدينا. نحن نحترم بياناتك.',
         ],
         'topics' => [
-            'Environmental Partnership',
-            'Media & Press Inquiry',
-            'General Support',
-            'Donation Information',
+            'الشراكة البيئية',
+            'الاستفسار الإعلامي والصحافة',
+            'الدعم العام',
+            'معلومات التبرع',
         ],
-        'regional_offices' => 'Regional Offices',
-        'social_title' => 'Connect on Social',
-        'social_desc' => 'Follow our daily impact stories and updates.',
-        'view_map_btn' => 'View Interactive Map',
+        'regional_offices' => 'المكاتب الإقليمية',
+        'social_title' => 'تواصل على مواقع التواصل الاجتماعي',
+        'social_desc' => 'تابع قصصنا وتحديثاتنا اليومية.',
+        'view_map_btn' => 'عرض الخريطة التفاعلية',
     ],
     'get_involved' => [
-        'hero_title' => 'Join the Movement',
-        'hero_desc' => 'Your actions define our future. Partner with ACEF to drive climate resilience and environmental stewardship across Africa.',
+        'hero_title' => 'انضم إلى الحركة',
+        'hero_desc' => 'أفعالك تحدد مستقبلنا. الشراكة مع ACEF لدفع المرونة المناخية والإشراف البيئي في جميع أنحاء أفريقيا.',
         'stats' => [
             [
                 'value' => '500+',
-                'label' => 'Volunteers',
+                'label' => 'المتطوعين',
             ],
             [
                 'value' => '45',
-                'label' => 'Partners',
+                'label' => 'الشركاء',
             ],
             [
                 'value' => '120',
-                'label' => 'Projects',
+                'label' => 'المشاريع',
             ],
         ],
         'tabs' => [
-            'volunteer' => 'Volunteer',
-            'partner' => 'Partner',
-            'collaborate' => 'Collaborate',
+            'volunteer' => 'متطوع',
+            'partner' => 'شريك',
+            'collaborate' => 'التعاون',
         ],
         'volunteer_form' => [
-            'title' => 'Volunteer Application',
-            'subtitle' => 'Join our network of passionate individuals making a difference on the ground.',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
-            'email' => 'Email Address',
-            'location' => 'Location',
-            'location_placeholder' => 'City, Country',
-            'interests_label' => 'Areas of Interest',
+            'title' => 'تطبيق التطوع',
+            'subtitle' => 'انضم إلى شبكتنا من الأفراد المتحمسين الذين يحدثون فرقًا على أرض الواقع.',
+            'first_name' => 'الاسم الأول',
+            'last_name' => 'اسم العائلة',
+            'email' => 'عنوان البريد الإلكتروني',
+            'location' => 'موقع',
+            'location_placeholder' => 'المدينة، البلد',
+            'interests_label' => 'مجالات الاهتمام',
             'interests' => [
-                'Reforestation Projects',
-                'Community Education',
-                'Marine Conservation',
-                'Renewable Energy Advocacy',
+                'مشاريع إعادة التشجير',
+                'التعليم المجتمعي',
+                'المحافظة على البيئة البحرية',
+                'الدعوة للطاقة المتجددة',
             ],
-            'motivation_label' => 'Why do you want to volunteer?',
-            'motivation_placeholder' => 'Tell us about your motivation...',
-            'newsletter' => 'Sign me up for the monthly newsletter to stay updated.',
-            'submit_btn' => 'Submit Application',
+            'motivation_label' => 'لماذا تريد التطوع؟',
+            'motivation_placeholder' => 'أخبرنا عن دوافعك..',
+            'newsletter' => 'قم بالتسجيل في النشرة الإخبارية الشهرية للبقاء على اطلاع.',
+            'submit_btn' => 'تقديم الطلب',
         ],
         'quick_donate' => [
-            'title' => 'Support Our Mission',
-            'desc' => 'Your contribution directly funds planting trees and educational workshops in rural communities.',
-            'btn' => 'Donate Now',
+            'title' => 'دعم مهمتنا',
+            'desc' => 'مساهمتك تمول بشكل مباشر زراعة الأشجار وورش العمل التعليمية في المجتمعات الريفية.',
+            'btn' => 'تبرع الآن',
         ],
         'testimonial' => [
-            'quote' => '"My perspective on environmental impact is not just about planting trees; it\'s about empowering communities."',
-            'author' => 'Sarah Jenkins',
-            'role' => 'Community Lead',
+            'quote' => '"إن وجهة نظري بشأن التأثير البيئي لا تتعلق بزراعة الأشجار فحسب، بل تتعلق بتمكين المجتمعات."',
+            'author' => 'سارة جنكينز',
+            'role' => 'قائد المجتمع',
         ],
         'digital_cta' => [
-            'title' => 'Make an impact from anywhere',
-            'desc' => 'Can\'t join us on the ground? You can still drive change. Become a digital ambassador and help spread awareness about climate resilience.',
-            'media_kit' => 'Download Media Kit',
-            'share_twitter' => 'Share on Twitter',
+            'title' => 'اصنع تأثيرًا من أي مكان',
+            'desc' => 'لا تستطيع الانضمام إلينا على الأرض؟ لا يزال بإمكانك قيادة التغيير. كن سفيرًا رقميًا وساعد في نشر الوعي حول القدرة على التكيف مع تغير المناخ.',
+            'media_kit' => 'تحميل مجموعة الوسائط',
+            'share_twitter' => 'شارك على تويتر',
         ],
     ],
     'donate' => [
-        'hero_title' => 'Fueling Africa\'s <br> <span class="text-acef-green">Green Future</span>',
-        'hero_desc' => 'Empower Change Across the Continent. Select your country to find the most direct way to support our initiatives. Every contribution helps us plant trees, support local farmers, and build sustainable energy infrastructure.',
+        'hero_title' => 'تعزيز <br> <span class="text-acef-green">المستقبل الأخضر</span> في أفريقيا',
+        'hero_desc' => 'تمكين التغيير عبر القارة. اختر بلدك للعثور على الطريقة الأكثر مباشرة لدعم مبادراتنا. تساعدنا كل مساهمة في زراعة الأشجار ودعم المزارعين المحليين وبناء البنية التحتية للطاقة المستدامة.',
         'stats' => [
             [
-                'value' => '1.2M',
-                'label' => 'Trees Planted',
+                'value' => '1.2 م',
+                'label' => 'الأشجار المزروعة',
             ],
             [
                 'value' => '450+',
-                'label' => 'Communities',
+                'label' => 'المجتمعات',
             ],
             [
                 'value' => '85%',
-                'label' => 'Program Funding',
+                'label' => 'تمويل البرنامج',
             ],
         ],
         'money_goes' => [
-            'title' => 'Where your money goes',
-            'desc' => '100% of public donations go directly to project execution. Administrative costs are covered by private benefactors. We are committed to absolute transparency in our financial reporting.',
-            'link' => 'View Financial Reports',
+            'title' => 'أين تذهب أموالك',
+            'desc' => '100% من التبرعات العامة تذهب مباشرة إلى تنفيذ المشروع. ويتم تغطية التكاليف الإدارية من قبل المتبرعين من القطاع الخاص. نحن ملتزمون بالشفافية المطلقة في تقاريرنا المالية.',
+            'link' => 'عرض التقارير المالية',
         ],
         'form' => [
-            'title' => 'Make a Contribution',
-            'country_label' => 'I am donating from...',
-            'country_placeholder' => 'Select your country',
-            'region_hint' => 'Select a region to see specific projects.',
-            'amount_label' => 'Select Amount',
-            'other_amount' => 'Other',
-            'custom_placeholder' => 'Enter custom amount ($)',
-            'btn_ready' => 'Proceed to Secure Donation',
-            'btn_not_ready' => 'Select Country to Donate',
-            'secure_ssl' => 'Secure SSL',
-            'verified_ngo' => 'Verified NGO',
-            'social_proof' => 'Someone from <span class="text-acef-dark font-black">Kenya</span> just donated <span class="text-acef-green font-black">$25</span> <span class="text-gray-200 ml-2">2m ago</span>',
+            'title' => 'تقديم مساهمة',
+            'country_label' => 'انا اتبرع من...',
+            'country_placeholder' => 'اختر بلدك',
+            'region_hint' => 'اختر منطقة لرؤية مشاريع محددة.',
+            'amount_label' => 'حدد المبلغ',
+            'other_amount' => 'آخر',
+            'custom_placeholder' => 'أدخل المبلغ المخصص ($)',
+            'btn_ready' => 'المضي قدما لتأمين التبرع',
+            'btn_not_ready' => 'اختر الدولة للتبرع',
+            'secure_ssl' => 'تأمين طبقة المقابس الآمنة',
+            'verified_ngo' => 'منظمة غير حكومية تم التحقق منها',
+            'social_proof' => 'شخص من <span class="text-acef-darkfont-black">كينيا</span> تبرع للتو <span class="text-acef-greenfont-black">بقيمة 25 دولارًا</span> <span class="text-gray-200 ml-2">قبل مليوني</span>',
         ],
         'funds_action' => [
-            'title' => 'Funds in Action',
+            'title' => 'الصناديق في العمل',
             'list' => [
                 [
-                    'category' => 'Reforestation',
-                    'title' => 'The Great Green Wall',
-                    'desc' => 'Restoring Africa\'s degraded landscapes and transforming millions of lives in the Sahel.',
+                    'category' => 'إعادة التحريج',
+                    'title' => 'الجدار الأخضر العظيم',
+                    'desc' => 'استعادة المناظر الطبيعية المتدهورة في أفريقيا وإحداث تحول في حياة الملايين في منطقة الساحل.',
                     'image' => '/project_tree_planting_1766827726209.png',
                 ],
                 [
-                    'category' => 'Clean Energy',
-                    'title' => 'Solar for Schools',
-                    'desc' => 'Bringing sustainable electricity to rural schools to power digital learning.',
+                    'category' => 'الطاقة النظيفة',
+                    'title' => 'الطاقة الشمسية للمدارس',
+                    'desc' => 'توفير الكهرباء المستدامة للمدارس الريفية لتشغيل التعلم الرقمي.',
                     'image' => '/project_solar_panels_1766827705821.png',
                 ],
                 [
-                    'category' => 'Community',
-                    'title' => 'Sustainable Farming',
-                    'desc' => 'Empowering local farmers with tools and knowledge for climate-resilient crops.',
+                    'category' => 'مجتمع',
+                    'title' => 'الزراعة المستدامة',
+                    'desc' => 'تمكين المزارعين المحليين بالأدوات والمعرفة اللازمة للمحاصيل المقاومة للمناخ.',
                     'image' => '/uploaded_image_1766828557603.png',
                 ],
             ],
         ],
     ],
     'team' => [
-        'hero_title' => 'The Faces of Impact',
-        'hero_desc' => 'A multi-disciplinary team of climate advocates, policy experts, and community organizers dedicated to Africa\'s environmental future.',
-        'leadership_title' => 'Executive Leadership',
-        'leads_title' => 'Project Leads',
+        'hero_title' => 'وجوه التأثير',
+        'hero_desc' => 'فريق متعدد التخصصات من المدافعين عن المناخ وخبراء السياسات ومنظمي المجتمع المكرسين لمستقبل أفريقيا البيئي.',
+        'leadership_title' => 'القيادة التنفيذية',
+        'leads_title' => 'يؤدي المشروع',
         'cta' => [
-            'title' => 'Become a Part of the Journey',
-            'desc' => 'We are always looking for passionate volunteers and experts to join our mission. If you have skills in environmental science, policy, or digital media, we want to hear from you.',
-            'btn' => 'View Openings',
+            'title' => 'كن جزءًا من الرحلة',
+            'desc' => 'نحن نبحث دائمًا عن متطوعين وخبراء متحمسين للانضمام إلى مهمتنا. إذا كانت لديك مهارات في العلوم البيئية أو السياسة أو الوسائط الرقمية، فنحن نريد أن نسمع منك.',
+            'btn' => 'عرض الفتحات',
         ],
         'members' => [
             [
-                'name' => 'Emmanuel Soita',
-                'role' => 'Founder & Executive Director',
+                'name' => 'إيمانويل سويتا',
+                'role' => 'المؤسس والمدير التنفيذي',
                 'image' => '/uploaded_image_1766827444492.png',
             ],
             [
-                'name' => 'Dr. Amina Bello',
-                'role' => 'Director of Research',
+                'name' => 'دكتورة أمينة بيلو',
+                'role' => 'مدير البحوث',
                 'image' => '/mission_vision_africa_1766827653058.png',
             ],
             [
-                'name' => 'Jean-Luc Ngabo',
-                'role' => 'Regional Coordinator (West Africa)',
+                'name' => 'جان لوك نجابو',
+                'role' => 'المنسق الإقليمي (غرب أفريقيا)',
                 'image' => '/project_solar_panels_1766827705821.png',
             ],
             [
-                'name' => 'Sarah Jenkins',
-                'role' => 'Community Engagement',
+                'name' => 'سارة جنكينز',
+                'role' => 'المشاركة المجتمعية',
                 'image' => '/hero_marine_ecosystem_1766827540454.png',
             ],
             [
-                'name' => 'Mark Otieno',
-                'role' => 'Technical Operations',
+                'name' => 'مارك أوتينو',
+                'role' => 'العمليات الفنية',
                 'image' => '/project_tree_planting_1766827726209.png',
             ],
             [
-                'name' => 'Fatima Yusuf',
-                'role' => 'Policy Advocacy',
+                'name' => 'فاطمة يوسف',
+                'role' => 'مناصرة السياسات',
                 'image' => '/project_mangroves_1766827746442.png',
             ],
             [
-                'name' => 'Abel Tesfaye',
-                'role' => 'Digital Innovation',
+                'name' => 'أبيل تسفاي',
+                'role' => 'الابتكار الرقمي',
                 'image' => '/map_africa_impact_1766827796711.png',
             ],
         ],
     ],
     'partners' => [
-        'hero_title' => 'Global Alliances',
-        'hero_desc' => 'We collaborate with governments, international organizations, and grassroots agencies to scale climate resilience solutions across Africa.',
-        'strategic_title' => 'Strategic Alliances',
-        'institutional_backing' => 'Institutional Backing',
-        'ground_operations' => 'Ground Operations',
-        'regional_implementation' => 'Regional Implementation Partners',
+        'hero_title' => 'التحالفات العالمية',
+        'hero_desc' => 'نحن نتعاون مع الحكومات والمنظمات الدولية والوكالات الشعبية لتوسيع نطاق حلول المرونة المناخية في جميع أنحاء أفريقيا.',
+        'strategic_title' => 'التحالفات الاستراتيجية',
+        'institutional_backing' => 'الدعم المؤسسي',
+        'ground_operations' => 'العمليات الأرضية',
+        'regional_implementation' => 'شركاء التنفيذ الإقليميون',
         'implementation_partners' => [
             [
-                'name' => 'Eco-Sahel Network',
-                'desc' => 'Managing large-scale reforestation efforts across the Great Green Wall initiatives in Senegal and Mali.',
+                'name' => 'شبكة الساحل البيئي',
+                'desc' => 'إدارة جهود إعادة التشجير واسعة النطاق عبر مبادرات الجدار الأخضر العظيم في السنغال ومالي.',
             ],
             [
-                'name' => 'Lake Victoria Alliance',
-                'desc' => 'Direct community interventions for water hygiene and sanitation in the East African lake region.',
+                'name' => 'تحالف بحيرة فيكتوريا',
+                'desc' => 'التدخلات المجتمعية المباشرة لنظافة المياه والصرف الصحي في منطقة بحيرة شرق أفريقيا.',
             ],
             [
-                'name' => 'Sun-Power Africa',
-                'desc' => 'Strategic technical partner for decentralized rural electrification through smart solar grids.',
+                'name' => 'صن باور أفريقيا',
+                'desc' => 'شريك تقني استراتيجي لكهربة الريف اللامركزية من خلال شبكات الطاقة الشمسية الذكية.',
             ],
         ],
         'cta' => [
-            'title' => 'Ready to collaborate?',
-            'desc' => 'Discover how your organization can partner with ACEF to drive meaningful environmental change.',
-            'btn' => 'Discuss Partnership',
+            'title' => 'هل أنت مستعد للتعاون؟',
+            'desc' => 'اكتشف كيف يمكن لمؤسستك الشراكة مع ACEF لإحداث تغيير بيئي ذي معنى.',
+            'btn' => 'مناقشة الشراكة',
         ],
     ],
     'gallery' => [
-        'hero_title' => 'Impact Gallery',
-        'hero_desc' => 'Explore visual evidence of our field activities across all programmes. We believe in radical transparency and showcasing the real ecological impact of your support.',
-        'submit_report_btn' => 'Submit Field Report',
+        'hero_title' => 'معرض التأثير',
+        'hero_desc' => 'استكشف الأدلة المرئية لأنشطتنا الميدانية في جميع البرامج. نحن نؤمن بالشفافية الجذرية ونعرض التأثير البيئي الحقيقي لدعمكم.',
+        'submit_report_btn' => 'إرسال التقرير الميداني',
         'filters' => [
-            'label' => 'Filters:',
-            'programme' => 'Programme',
-            'activity_type' => 'Activity Type',
-            'country' => 'Country',
-            'reset' => 'Reset',
+            'label' => 'المرشحات:',
+            'programme' => 'برنامج',
+            'activity_type' => 'نوع النشاط',
+            'country' => 'دولة',
+            'reset' => 'إعادة ضبط',
         ],
-        'showing_results' => 'Showing <span class="text-acef-dark font-black">12</span> of 348 results',
+        'showing_results' => 'عرض <span class="text-acef-dark Font-black">12</span> من أصل 348 نتيجة',
         'items' => [
             [
-                'category' => 'REFORESTATION',
-                'type' => 'Field Activity',
-                'title' => 'Great Green Wall Expansion',
-                'location' => 'Senegal',
+                'category' => 'إعادة التشجير',
+                'type' => 'النشاط الميداني',
+                'title' => 'توسعة الجدار الأخضر العظيم',
+                'location' => 'السنغال',
             ],
             [
-                'category' => 'WATER SECURITY',
-                'type' => 'Community Workshop',
-                'title' => 'Community Hygiene Training',
-                'location' => 'Rwanda',
+                'category' => 'الأمن المائي',
+                'type' => 'ورشة عمل مجتمعية',
+                'title' => 'التدريب على نظافة المجتمع',
+                'location' => 'رواندا',
             ],
             [
-                'category' => 'CLEAN ENERGY',
-                'type' => 'Infrastructure',
-                'title' => 'School Solar Installation',
-                'location' => 'Nigeria',
+                'category' => 'الطاقة النظيفة',
+                'type' => 'بنية تحتية',
+                'title' => 'تركيب الطاقة الشمسية في المدارس',
+                'location' => 'نيجيريا',
             ],
             [
-                'category' => 'BIODIVERSITY',
-                'type' => 'Drone Survey',
-                'title' => 'Mangrove Restoration Aerials',
-                'location' => 'Mozambique',
+                'category' => 'التنوع البيولوجي',
+                'type' => 'مسح بدون طيار',
+                'title' => 'طائرات استعادة المانغروف',
+                'location' => 'موزمبيق',
             ],
             [
-                'category' => 'SUSTAINABLE AG',
-                'type' => 'Success Story',
-                'title' => 'First Harvest: Eco-Farm',
-                'location' => 'Uganda',
+                'category' => 'AG المستدامة',
+                'type' => 'قصة نجاح',
+                'title' => 'الحصاد الأول: المزرعة البيئية',
+                'location' => 'أوغندا',
             ],
             [
-                'category' => 'RESEARCH',
-                'type' => 'Data Collection',
-                'title' => 'Soil Analysis Survey',
-                'location' => 'Ethiopia',
+                'category' => 'بحث',
+                'type' => 'جمع البيانات',
+                'title' => 'مسح تحليل التربة',
+                'location' => 'أثيوبيا',
             ],
         ],
-        'load_more' => 'Load More Media',
-        'note' => 'Note: Media from this gallery is automatically synced to relevant <a href=":programmes_url" class="text-acef-dark hover:text-acef-green underline">Programme</a> and <a href=":projects_url" class="text-acef-dark hover:text-acef-green underline">Project</a> pages to ensure consistent reporting.',
+        'load_more' => 'تحميل المزيد من الوسائط',
+        'note' => 'ملاحظة: تتم مزامنة الوسائط من هذا المعرض تلقائيًا مع صفحات <a href=":programmes_url" class="text-acef-dark hover:text-acef-green underline">البرنامج</a> و<a href=":projects_url" class="text-acef-dark hover:text-acef-green underline">المشروع</a> ذات الصلة لضمان إعداد تقارير متسقة.',
     ],
     'resources' => [
-        'hero_title' => 'Knowledge Hub',
-        'hero_desc' => 'Access research, reports, and educational materials to advance climate action across Africa.',
-        'search_placeholder' => 'Search resources...',
+        'hero_title' => 'مركز المعرفة',
+        'hero_desc' => 'يمكنك الوصول إلى الأبحاث والتقارير والمواد التعليمية لتعزيز العمل المناخي في جميع أنحاء أفريقيا.',
+        'search_placeholder' => 'مصادر البحث...',
         'filters' => [
-            'all' => 'All Resources',
-            'climate_action' => 'Climate Action',
-            'waste_management' => 'Waste Management',
-            'wash' => 'WASH',
-            'policy' => 'Policy & Advocacy',
-            'education' => 'Education',
+            'all' => 'جميع الموارد',
+            'climate_action' => 'العمل المناخي',
+            'waste_management' => 'إدارة النفايات',
+            'wash' => 'غسل',
+            'policy' => 'السياسة والدعوة',
+            'education' => 'تعليم',
         ],
         'items' => [
             [
-                'title' => 'Official Strategic Plan 2025-2026',
-                'type' => 'Strategic Doc',
-                'desc' => 'The authoritative roadmap for ACEF\'s 1-year transformation and continental youth empowerment.',
+                'title' => 'الخطة الاستراتيجية الرسمية 2025-2026',
+                'type' => 'وثيقة استراتيجية',
+                'desc' => 'خارطة الطريق الرسمية لتحول ACEF لمدة عام واحد وتمكين الشباب القاري.',
             ],
             [
-                'title' => '5-Year Programme of Work (2025-2030)',
-                'type' => 'Programme Doc',
-                'desc' => 'Detailed multi-year plan covering all 10 programme pillars for a resilient Africa.',
+                'title' => 'برنامج العمل الخماسي (2025-2030)',
+                'type' => 'وثيقة البرنامج',
+                'desc' => 'خطة مفصلة متعددة السنوات تغطي جميع ركائز البرنامج العشرة من أجل أفريقيا قادرة على الصمود.',
             ],
             [
-                'title' => 'Africa Climate Resilience Report 2024',
-                'type' => 'Report',
-                'desc' => 'Comprehensive analysis of climate adaptation strategies across 14 African countries.',
+                'title' => 'تقرير المرونة المناخية في أفريقيا 2024',
+                'type' => 'تقرير',
+                'desc' => 'تحليل شامل لاستراتيجيات التكيف مع المناخ في 14 دولة أفريقية.',
             ],
             [
-                'title' => 'Youth-Led Climate Action Toolkit',
-                'type' => 'Guide',
-                'desc' => 'Practical handbook for youth organizing climate initiatives in their communities.',
+                'title' => 'مجموعة أدوات العمل المناخي بقيادة الشباب',
+                'type' => 'مرشد',
+                'desc' => 'دليل عملي للشباب الذين ينظمون المبادرات المناخية في مجتمعاتهم.',
             ],
             [
-                'title' => 'Circular Economy in Africa: Best Practices',
-                'type' => 'Research Paper',
-                'desc' => 'Case studies of successful waste-to-value programs across African cities.',
+                'title' => 'الاقتصاد الدائري في أفريقيا: أفضل الممارسات',
+                'type' => 'ورقة بحثية',
+                'desc' => 'دراسات حالة لبرامج تحويل النفايات إلى قيمة ناجحة في جميع أنحاء المدن الأفريقية.',
             ],
             [
-                'title' => 'WASH Infrastructure for Rural Communities',
-                'type' => 'Technical Guide',
-                'desc' => 'Engineering solutions for sustainable water access in water-stressed regions.',
+                'title' => 'البنية التحتية للمياه والصرف الصحي والنظافة الصحية للمجتمعات الريفية',
+                'type' => 'الدليل الفني',
+                'desc' => 'الحلول الهندسية للوصول المستدام إلى المياه في المناطق التي تعاني من الإجهاد المائي.',
             ],
             [
-                'title' => 'UNFCCC COP Participation Guide for Youth',
-                'type' => 'Policy Brief',
-                'desc' => 'Navigating UN climate negotiations and amplifying grassroots voices.',
+                'title' => 'دليل مشاركة مؤتمر الأطراف التابع لاتفاقية الأمم المتحدة الإطارية بشأن تغير المناخ للشباب',
+                'type' => 'موجز السياسة',
+                'desc' => 'التنقل في مفاوضات الأمم المتحدة بشأن المناخ وتضخيم الأصوات الشعبية.',
             ],
             [
-                'title' => 'Marine Conservation & Blue Economy',
-                'type' => 'Report',
-                'desc' => 'Strategies for protecting coastal ecosystems while supporting local livelihoods.',
+                'title' => 'الحفاظ على البيئة البحرية والاقتصاد الأزرق',
+                'type' => 'تقرير',
+                'desc' => 'استراتيجيات حماية النظم البيئية الساحلية مع دعم سبل العيش المحلية.',
             ],
         ],
-        'download_btn' => 'Download',
-        'members_only_btn' => 'Members Only',
+        'download_btn' => 'تحميل',
+        'members_only_btn' => 'الأعضاء فقط',
     ],
     'accreditations' => [
-        'hero_title' => 'Recognized Standards',
-        'hero_desc' => 'Our impact is built on a foundation of legal compliance, international standards, and radical transparency.',
+        'hero_title' => 'المعايير المعترف بها',
+        'hero_desc' => 'يعتمد تأثيرنا على أساس الامتثال القانوني والمعايير الدولية والشفافية الجذرية.',
         'items' => [
             [
-                'short' => 'UNFCCC',
-                'title' => 'Climate Governance',
-                'desc' => 'Engaging in global climate negotiations and youth participation in COPs.',
+                'short' => 'اتفاقية الأمم المتحدة الإطارية بشأن تغير المناخ',
+                'title' => 'إدارة المناخ',
+                'desc' => 'المشاركة في مفاوضات المناخ العالمية ومشاركة الشباب في مؤتمرات الأطراف.',
             ],
             [
-                'short' => 'UNEP',
-                'title' => 'Environment (UNEA)',
-                'desc' => 'Contributing to policy initiatives and youth participation in the UN Environment Assembly.',
+                'short' => 'برنامج الأمم المتحدة للبيئة',
+                'title' => 'البيئة (جمعية الأمم المتحدة للبيئة)',
+                'desc' => 'المساهمة في مبادرات السياسات ومشاركة الشباب في جمعية الأمم المتحدة للبيئة.',
             ],
             [
-                'short' => 'ECOSOC',
-                'title' => 'Economic & Social',
-                'desc' => 'Consultative status with the Economic and Social Council on environmental justice.',
+                'short' => 'المجلس الاقتصادي والاجتماعي',
+                'title' => 'الاقتصادية والاجتماعية',
+                'desc' => 'مركز استشاري لدى المجلس الاقتصادي والاجتماعي بشأن العدالة البيئية.',
             ],
             [
-                'short' => 'UN-WATER',
-                'title' => 'Water Security',
-                'desc' => 'Advancing water security, sanitation, and sustainable water management.',
+                'short' => 'لجنة الأمم المتحدة للمياه',
+                'title' => 'الأمن المائي',
+                'desc' => 'تعزيز الأمن المائي والصرف الصحي والإدارة المستدامة للمياه.',
             ],
             [
-                'short' => 'IPBES',
-                'title' => 'Biodiversity',
-                'desc' => 'Strengthening biodiversity conservation and science-policy ecosystem resilience.',
+                'short' => 'المنبر الحكومي الدولي',
+                'title' => 'التنوع البيولوجي',
+                'desc' => 'تعزيز الحفاظ على التنوع البيولوجي ومرونة النظام البيئي للعلوم والسياسات.',
             ],
             [
-                'short' => 'SAICM',
-                'title' => 'Chemical Mgt.',
-                'desc' => 'Supporting the sound management of chemicals and pollution control.',
+                'short' => 'النهج الاستراتيجي للإدارة الدولية للمواد الكيميائية',
+                'title' => 'الإدارة الكيميائية.',
+                'desc' => 'دعم الإدارة السليمة للمواد الكيميائية ومكافحة التلوث.',
             ],
             [
-                'short' => 'INC',
-                'title' => 'Plastic Pollution',
-                'desc' => 'Advocating for global policies to combat plastic waste and marine litter.',
+                'short' => 'شركة',
+                'title' => 'التلوث البلاستيكي',
+                'desc' => 'الدعوة إلى سياسات عالمية لمكافحة النفايات البلاستيكية والقمامة البحرية.',
             ],
             [
-                'short' => 'BRS',
-                'title' => 'Conventions',
-                'desc' => 'Accredited to Basel, Rotterdam, and Stockholm conventions on hazardous waste.',
+                'short' => 'بي آر إس',
+                'title' => 'الاتفاقيات',
+                'desc' => 'معتمدة لدى اتفاقيات بازل وروتردام وستوكهولم بشأن النفايات الخطرة.',
             ],
         ],
         'legal' => [
-            'framework' => 'Legal Framework',
-            'title' => 'National Registrations',
-            'desc' => 'We are fully registered as a non-profit organization in our primary operational hubs, ensuring full compliance with regional laws.',
-            'kenya' => 'Kenya (NGO Board)',
-            'cameroon' => 'Cameroon (Minat)',
+            'framework' => 'الإطار القانوني',
+            'title' => 'التسجيلات الوطنية',
+            'desc' => 'نحن مسجلون بالكامل كمنظمة غير ربحية في مراكزنا التشغيلية الرئيسية، مما يضمن الامتثال الكامل للقوانين الإقليمية.',
+            'kenya' => 'كينيا (مجلس المنظمات غير الحكومية)',
+            'cameroon' => 'الكاميرون (مينات)',
         ],
         'transparency' => [
-            'title' => 'Commitment to Accountability',
-            'desc' => 'Beyond international seals, our primary accountability is to the communities we serve. We publish annual impact reports and financial audits as part of our pledge to transparency.',
-            'link' => 'View Impact Documents',
+            'title' => 'الالتزام بالمساءلة',
+            'desc' => 'وبعيدًا عن الأختام الدولية، فإن مسؤوليتنا الأساسية هي تجاه المجتمعات التي نخدمها. ننشر تقارير التأثير السنوية وعمليات التدقيق المالي كجزء من تعهدنا بالشفافية.',
+            'link' => 'عرض وثائق التأثير',
         ],
     ],
     'news' => [
         'featured' => [
-            'label' => 'Featured Insight',
-            'title' => 'The Impact of Plastic Pollution on Marine Life: A Call to Action',
-            'desc' => 'An urgent analysis of how synthetic waste is compromising the health of Africa\'s coastal ecosystems and the necessary community-led steps to mitigate the crisis.',
-            'btn' => 'Read Full Insight',
+            'label' => 'رؤية مميزة',
+            'title' => 'تأثير التلوث البلاستيكي على الحياة البحرية: دعوة للعمل',
+            'desc' => 'تحليل عاجل لكيفية تعريض النفايات الاصطناعية للخطر صحة النظم البيئية الساحلية في أفريقيا والخطوات اللازمة التي يقودها المجتمع للتخفيف من حدة الأزمة.',
+            'btn' => 'قراءة البصيرة الكاملة',
         ],
         'browse' => [
-            'title' => 'Browse Insights',
-            'desc' => 'Explore articles, stories, and research from the field.',
-            'search_placeholder' => 'Search insights...',
+            'title' => 'تصفح الرؤى',
+            'desc' => 'استكشف المقالات والقصص والأبحاث من هذا المجال.',
+            'search_placeholder' => 'رؤى البحث...',
             'filters' => [
-                'all' => 'All',
-                'climate_action' => 'Climate Action',
-                'youth_leadership' => 'Youth Leadership',
-                'conservation' => 'Conservation',
+                'all' => 'الجميع',
+                'climate_action' => 'العمل المناخي',
+                'youth_leadership' => 'القيادة الشبابية',
+                'conservation' => 'حفظ',
             ],
         ],
         'articles' => [
             [
-                'title' => 'Climate Change and its Effects on Agriculture in Africa',
-                'category' => 'Agriculture',
-                'desc' => 'Examining the volatile impact of shifting weather patterns on food security and the resilience of smallholder farmers.',
-                'link_text' => 'Read Analysis',
+                'title' => 'تغير المناخ وآثاره على الزراعة في أفريقيا',
+                'category' => 'زراعة',
+                'desc' => 'دراسة التأثير المتقلب لتغير أنماط الطقس على الأمن الغذائي وقدرة المزارعين أصحاب الحيازات الصغيرة على الصمود.',
+                'link_text' => 'قراءة التحليل',
             ],
             [
-                'title' => 'The Importance of Renewable Energy for Sustainable Development',
-                'category' => 'Renewables',
-                'desc' => 'Why solar and wind energy are not just environmental choices, but economic necessities for the future of the continent.',
-                'link_text' => 'Read Feature',
+                'title' => 'أهمية الطاقة المتجددة للتنمية المستدامة',
+                'category' => 'الطاقة المتجددة',
+                'desc' => 'لماذا لا تعد الطاقة الشمسية وطاقة الرياح مجرد خيارات بيئية، بل هي ضرورات اقتصادية لمستقبل القارة.',
+                'link_text' => 'ميزة القراءة',
             ],
             [
-                'title' => 'The Role of Youth in Environmental Conservation',
-                'category' => 'Youth Leadership',
-                'desc' => 'How the current generation is taking the lead in climate advocacy and grassroots restoration across the continent.',
-                'link_text' => 'Read Story',
+                'title' => 'دور الشباب في الحفاظ على البيئة',
+                'category' => 'القيادة الشبابية',
+                'desc' => 'كيف يأخذ الجيل الحالي زمام المبادرة في الدفاع عن المناخ واستعادة القاعدة الشعبية في جميع أنحاء القارة.',
+                'link_text' => 'قراءة القصة',
             ],
         ],
-        'load_more' => 'Load More Articles',
+        'load_more' => 'تحميل المزيد من المقالات',
         'research_section' => [
-            'label' => 'Data & Analysis',
-            'title' => 'Latest Research Reports',
-            'view_all' => 'View All Research',
+            'label' => 'البيانات والتحليل',
+            'title' => 'أحدث التقارير البحثية',
+            'view_all' => 'عرض جميع الأبحاث',
             'featured_report' => [
-                'type' => 'PDF Report',
-                'title' => 'Climate Resilience 2024',
-                'full_title' => 'ACEF Annual Climate Resilience Report 2024',
-                'desc' => 'Our comprehensive analysis of climate adaptation strategies across 14 African nations. This report highlights key success factors, funding gaps, and the critical role of indigenous knowledge in building long-term resilience.',
-                'stat1_title' => 'Impact Data',
-                'stat1_desc' => 'Quantitative results from 150+ projects.',
-                'stat2_title' => 'Policy Recommendations',
-                'stat2_desc' => 'Actionable steps for governments.',
-                'download_btn' => 'Download Full Report',
-                'summary_btn' => 'Read Executive Summary',
+                'type' => 'تقرير بصيغة PDF',
+                'title' => 'القدرة على الصمود في وجه تغير المناخ 2024',
+                'full_title' => 'تقرير ACEF السنوي حول مرونة المناخ 2024',
+                'desc' => 'تحليلنا الشامل لاستراتيجيات التكيف مع المناخ في 14 دولة أفريقية. ويسلط هذا التقرير الضوء على عوامل النجاح الرئيسية، وفجوات التمويل، والدور الحاسم للمعرفة المحلية في بناء القدرة على الصمود على المدى الطويل.',
+                'stat1_title' => 'بيانات التأثير',
+                'stat1_desc' => 'نتائج كمية من أكثر من 150 مشروعًا.',
+                'stat2_title' => 'توصيات السياسة',
+                'stat2_desc' => 'خطوات قابلة للتنفيذ للحكومات',
+                'download_btn' => 'تحميل التقرير الكامل',
+                'summary_btn' => 'قراءة الملخص التنفيذي',
             ],
         ],
         'subscribe' => [
-            'title' => 'Stay Informed',
-            'desc' => 'Join 12,000+ subscribers. Get the latest insights, stories, and research delivered directly to your inbox.',
-            'email_placeholder' => 'Enter your email address',
-            'btn' => 'Subscribe',
-            'privacy' => 'We respect your privacy. Unsubscribe at any time.',
+            'title' => 'ابق على اطلاع',
+            'desc' => 'انضم إلى أكثر من 12000 مشترك. احصل على أحدث الأفكار والقصص والأبحاث التي يتم تسليمها مباشرة إلى صندوق الوارد الخاص بك.',
+            'email_placeholder' => 'أدخل عنوان بريدك الإلكتروني',
+            'btn' => 'يشترك',
+            'privacy' => 'نحن نحترم خصوصيتك. إلغاء الاشتراك في أي وقت.',
         ],
+    ],
+    'filters' => [
+        'categories' => [
+            'reforestation' => 'إعادة التحريج',
+            'energy' => 'طاقة',
+            'water' => 'ماء',
+            'agriculture' => 'زراعة',
+            'water_security' => 'الأمن المائي',
+            'clean_energy' => 'الطاقة النظيفة',
+            'biodiversity' => 'التنوع البيولوجي',
+            'sustainable_ag' => 'الزراعة المستدامة',
+            'research' => 'بحث',
+        ],
+        'activity_types' => [
+            'field_activity' => 'النشاط الميداني',
+            'community_workshop' => 'ورشة عمل مجتمعية',
+            'drone_survey' => 'مسح بدون طيار',
+            'infrastructure' => 'بنية تحتية',
+            'success_story' => 'قصة نجاح',
+            'data_collection' => 'جمع البيانات',
+        ],
+        'countries' => [
+            'kenya' => 'كينيا',
+            'uganda' => 'أوغندا',
+            'tanzania' => 'تنزانيا',
+            'rwanda' => 'رواندا',
+            'senegal' => 'السنغال',
+            'nigeria' => 'نيجيريا',
+            'mozambique' => 'موزمبيق',
+            'cameroon' => 'الكاميرون',
+            'ghana' => 'غانا',
+            'ethiopia' => 'أثيوبيا',
+        ],
+    ],
+    'common' => [
+        'press_esc_to_close' => 'اضغط على ESC للإغلاق',
     ],
 ];

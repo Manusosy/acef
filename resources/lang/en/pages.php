@@ -441,15 +441,52 @@ return [
             'newsletter' => 'Sign me up for the monthly newsletter to stay updated.',
             'submit_btn' => 'Submit Application'
         ],
+        'partner_form' => [
+            'title' => 'Partnership Inquiry',
+            'subtitle' => 'Collaborate with us to scale impact across the continent.',
+            'org_name' => 'Organization Name',
+            'org_website' => 'Website URL',
+            'contact_person' => 'Contact Person',
+            'email' => 'Email Address',
+            'partnership_type_label' => 'Partnership Type',
+            'partnership_types' => [
+                'Strategic Alliance',
+                'Funding Partner',
+                'Technical Implementation',
+                'Corporate CSR',
+                'Other'
+            ],
+            'message_label' => 'Proposal Summary',
+            'message_placeholder' => 'Briefly describe how we can work together...',
+            'submit_btn' => 'Submit Inquiry'
+        ],
+        'collaborate_form' => [
+            'title' => 'Collaboration Request',
+            'subtitle' => 'Connect on specific projects, media features, or research initiatives.',
+            'name' => 'Full Name',
+            'role' => 'Role / Title',
+            'email' => 'Email Address',
+            'collaboration_type_label' => 'Collaboration Area',
+            'collaboration_types' => [
+                'Media & Press',
+                'Research & Data',
+                'Event Speaker',
+                'Policy Advocacy',
+                'Other'
+            ],
+            'message_label' => 'Message',
+            'message_placeholder' => 'How would you like to collaborate?',
+            'submit_btn' => 'Send Request'
+        ],
         'quick_donate' => [
             'title' => 'Support Our Mission',
             'desc' => 'Your contribution directly funds planting trees and educational workshops in rural communities.',
             'btn' => 'Donate Now'
         ],
         'testimonial' => [
-            'quote' => '"My perspective on environmental impact is not just about planting trees; it\'s about empowering communities."',
-            'author' => 'Sarah Jenkins',
-            'role' => 'Community Lead'
+            'quote' => '"The future of Africa and our planet lies in the hands of its <span class="text-acef-green font-bold">vibrant youth</span>, women, and grassroots communities."',
+            'author' => 'Tambe Honourine Enow',
+            'role' => 'Founder, ACEF'
         ],
         'digital_cta' => [
             'title' => 'Make an impact from anywhere',
@@ -625,41 +662,49 @@ return [
             [
                 'title' => 'Official Strategic Plan 2025-2026',
                 'type' => 'Strategic Doc',
+                'category' => 'Policy & Advocacy',
                 'desc' => 'The authoritative roadmap for ACEF\'s 1-year transformation and continental youth empowerment.'
             ],
             [
                 'title' => '5-Year Programme of Work (2025-2030)',
                 'type' => 'Programme Doc',
+                'category' => 'Climate Action',
                 'desc' => 'Detailed multi-year plan covering all 10 programme pillars for a resilient Africa.'
             ],
             [
                 'title' => 'Africa Climate Resilience Report 2024',
                 'type' => 'Report',
+                'category' => 'Climate Action',
                 'desc' => 'Comprehensive analysis of climate adaptation strategies across 14 African countries.'
             ],
             [
                 'title' => 'Youth-Led Climate Action Toolkit',
                 'type' => 'Guide',
+                'category' => 'Education',
                 'desc' => 'Practical handbook for youth organizing climate initiatives in their communities.'
             ],
             [
                 'title' => 'Circular Economy in Africa: Best Practices',
                 'type' => 'Research Paper',
+                'category' => 'Waste Management',
                 'desc' => 'Case studies of successful waste-to-value programs across African cities.'
             ],
             [
                 'title' => 'WASH Infrastructure for Rural Communities',
                 'type' => 'Technical Guide',
+                'category' => 'WASH',
                 'desc' => 'Engineering solutions for sustainable water access in water-stressed regions.'
             ],
             [
                 'title' => 'UNFCCC COP Participation Guide for Youth',
                 'type' => 'Policy Brief',
+                'category' => 'Policy & Advocacy',
                 'desc' => 'Navigating UN climate negotiations and amplifying grassroots voices.'
             ],
             [
                 'title' => 'Marine Conservation & Blue Economy',
                 'type' => 'Report',
+                'category' => 'Climate Action',
                 'desc' => 'Strategies for protecting coastal ecosystems while supporting local livelihoods.'
             ]
         ],
@@ -713,13 +758,13 @@ return [
         'articles' => [
             [
                 'title' => 'Climate Change and its Effects on Agriculture in Africa',
-                'category' => 'Agriculture',
+                'category' => 'Climate Action',
                 'desc' => 'Examining the volatile impact of shifting weather patterns on food security and the resilience of smallholder farmers.',
                 'link_text' => 'Read Analysis'
             ],
             [
                 'title' => 'The Importance of Renewable Energy for Sustainable Development',
-                'category' => 'Renewables',
+                'category' => 'Conservation',
                 'desc' => 'Why solar and wind energy are not just environmental choices, but economic necessities for the future of the continent.',
                 'link_text' => 'Read Feature'
             ],

@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'donate' => 'Donate',
-    'read_more' => 'Read More',
-    'view_all_projects' => 'View All Projects',
-    'visit_blog' => 'Visit Our Blog',
-    'get_involved' => 'Get Involved',
-    'see_impact' => 'See Our Impact',
-    'our_story' => 'Our Story',
-    'search_placeholder' => 'Search for programmes, projects, resources...',
-    'close' => 'Close',
-    'donate_now' => 'Donate Now',
+    'donate' => 'Bağışlayın',
+    'read_more' => 'Ətraflı Oxu',
+    'view_all_projects' => 'Bütün Layihələrə Baxın',
+    'visit_blog' => 'Blogumuzu ziyarət edin',
+    'get_involved' => 'İşə cəlb olun',
+    'see_impact' => 'Təsirimizə baxın',
+    'our_story' => 'Bizim Hekayəmiz',
+    'search_placeholder' => 'Proqramları, layihələri, resursları axtarın...',
+    'close' => 'Bağlayın',
+    'donate_now' => 'İndi Bağışlayın',
 ];
