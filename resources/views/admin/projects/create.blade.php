@@ -1,132 +1,162 @@
 <x-app-dashboard-layout>
-    <div class="max-w-5xl mx-auto">
+    <div class="space-y-6">
         <!-- Header -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Create Project</h1>
-                <p class="text-gray-500 mt-1">Add a new development project to the platform.</p>
+                <nav class="flex text-sm text-gray-500 mb-1">
+                    <a href="{{ route('admin.projects.index') }}" class="hover:text-emerald-600">Projects</a>
+                    <span class="mx-2">/</span>
+                    <span class="text-gray-900">Add New</span>
+                </nav>
+                <h1 class="text-3xl font-black text-gray-900 tracking-tight">Add New Project</h1>
+                <p class="text-gray-500">Create a new project entry, upload media, and manage content.</p>
             </div>
             <div class="flex items-center gap-3">
-                <a href="{{ route('admin.projects.index') }}" class="px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                <a href="{{ route('admin.projects.index') }}" class="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors">
                     Cancel
                 </a>
-                <button type="submit" form="createProjectForm" class="px-6 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition-colors shadow-sm shadow-emerald-200">
-                    Create Project
+                <button type="submit" form="createProjectForm" class="px-6 py-2.5 bg-emerald-500 text-white font-bold rounded-xl hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-200 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    Save Project
                 </button>
             </div>
         </div>
 
-        <form id="createProjectForm" action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <form id="createProjectForm" action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
 
-            <!-- Main Content -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Basic Details -->
-                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
+            <!-- Basic Information -->
+            <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-sm">i</div>
+                    <h2 class="text-xl font-bold text-gray-900">Basic Information</h2>
+                </div>
+
+                <div class="space-y-6">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Project Title *</label>
-                        <input type="text" name="title" value="{{ old('title') }}" placeholder="e.g. Reforestation in Mount Kenya" 
-                               class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-emerald-500/20 text-gray-900 placeholder-gray-400 font-medium" required>
+                        <input type="text" name="title" value="{{ old('title') }}" placeholder="e.g. Community Reforestation Initiative 2024" 
+                               class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 placeholder-gray-400 font-medium transition-all" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Program Associated *</label>
+                            <select name="programme_id" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 cursor-pointer">
+                                <option value="">Select a program</option>
+                                @foreach(\App\Models\Programme::all() as $programme)
+                                    <option value="{{ $programme->id }}">{{ $programme->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Implementation Year *</label>
+                            <input type="number" name="start_date" placeholder="2024"  value="2024"
+                                   class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 font-medium">
+                        </div>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Description</label>
-                        <textarea name="description" rows="6" placeholder="Describe the project goals, impact, and activities..." 
-                                  class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-emerald-500/20 text-gray-900 placeholder-gray-400"></textarea>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Target Countries</label>
+                        <div class="flex items-center gap-3">
+                             <div class="relative flex-1">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </span>
+                                <input type="text" name="location" placeholder="Search and select countries (e.g. Kenya, Uganda)" 
+                                       class="w-full pl-12 pr-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 placeholder-gray-400">
+                             </div>
+                             <button type="button" class="px-6 py-3.5 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors">Add</button>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                Kenya
+                                <button type="button" class="ml-2 hover:text-emerald-900"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                            </span>
+                             <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                Uganda
+                                <button type="button" class="ml-2 hover:text-emerald-900"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Description -->
+            <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
+                <div class="flex items-center gap-3 mb-2">
+                     <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 011.414.586l5.414 5.414a1 1 0 01.586 1.414V19a2 2 0 01-2 2z"/></svg>
+                    <h2 class="text-xl font-bold text-gray-900">Project Description</h2>
+                </div>
+
+                <div class="border border-gray-200 rounded-xl overflow-hidden">
+                    <!-- Fake Toolbar -->
+                    <div class="bg-gray-50 border-b border-gray-200 px-4 py-2 flex items-center gap-4 text-gray-500">
+                        <div class="flex gap-2">
+                             <button type="button" class="p-1 hover:bg-gray-200 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg></button>
+                             <button type="button" class="p-1 hover:bg-gray-200 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6"/></svg></button>
+                        </div>
+                        <div class="w-px h-4 bg-gray-300"></div>
+                        <div class="flex gap-2 font-serif font-bold">
+                            <button type="button" class="p-1 hover:bg-gray-200 rounded">B</button>
+                            <button type="button" class="p-1 hover:bg-gray-200 rounded italic">I</button>
+                            <button type="button" class="p-1 hover:bg-gray-200 rounded underline">U</button>
+                        </div>
+                    </div>
+                    <textarea name="description" rows="8" placeholder="Write a detailed description of the project, its goals, and expected impact..." 
+                              class="w-full px-6 py-4 border-none focus:ring-0 text-gray-700 leading-relaxed"></textarea>
+                    <div class="bg-gray-50 border-t border-gray-200 px-4 py-2 text-right text-xs text-gray-400">
+                        0 words
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Details (Gallery & Financials) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Gallery -->
+                <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
+                    <h2 class="text-xl font-bold text-gray-900">Project Gallery & Media</h2>
+                    
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Featured Image</label>
+                        <input type="file" name="image" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-emerald-50 file:text-emerald-700 file:font-semibold hover:file:bg-emerald-100">
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Location</label>
-                            <input type="text" name="location" value="{{ old('location') }}" placeholder="e.g. Nyeri, Kenya" 
-                                   class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-emerald-500/20 text-gray-900 placeholder-gray-400">
-                        </div>
-                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Country</label>
-                            <select name="country" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-emerald-500/20 text-gray-900 cursor-pointer">
-                                <option value="Kenya">Kenya</option>
-                                <option value="Uganda">Uganda</option>
-                                <option value="Tanzania">Tanzania</option>
-                                <option value="Rwanda">Rwanda</option>
-                            </select>
-                        </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Video URL</label>
+                        <input type="url" name="video_url" placeholder="https://youtube.com/..." 
+                               class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 text-gray-900">
                     </div>
                 </div>
 
                 <!-- Financials -->
-                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
-                    <h3 class="text-lg font-bold text-gray-900">Financials</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Goal Amount ($)</label>
-                            <input type="number" name="goal_amount" value="{{ old('goal_amount') }}" placeholder="50000" 
-                                   class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-emerald-500/20 text-gray-900 placeholder-gray-400">
+                <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
+                    <h2 class="text-xl font-bold text-gray-900">Financial Overview</h2>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Goal ($)</label>
+                            <input type="number" name="goal_amount" value="{{ old('goal_amount') }}" 
+                                   class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 text-gray-900 font-bold">
                         </div>
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Raised Amount ($)</label>
-                            <input type="number" name="raised_amount" value="{{ old('raised_amount', 0) }}" placeholder="0" 
-                                   class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-emerald-500/20 text-gray-900 placeholder-gray-400">
+                             <label class="block text-sm font-bold text-gray-700 mb-2">Raised ($)</label>
+                            <input type="number" name="raised_amount" value="{{ old('raised_amount', 0) }}" 
+                                   class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 text-gray-900 font-bold">
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Sidebar -->
-            <div class="space-y-6">
-                <!-- Status & Publish -->
-                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider">Status & Visibility</h3>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                        <select name="status" class="w-full px-4 py-2 bg-gray-50 border-none rounded-lg focus:ring-2 focus:ring-emerald-500/20 text-gray-900 text-sm">
-                            <option value="draft">Draft</option>
-                            <option value="ongoing" selected>Ongoing</option>
+                     <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Status</label>
+                        <select name="status" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 text-gray-900 cursor-pointer">
+                            <option value="ongoing">Active / Ongoing</option>
+                            <option value="draft">Pending Approval</option>
                             <option value="completed">Completed</option>
-                            <option value="archived">Archived</option>
                         </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Program</label>
-                        <select name="programme_id" class="w-full px-4 py-2 bg-gray-50 border-none rounded-lg focus:ring-2 focus:ring-emerald-500/20 text-gray-900 text-sm">
-                            <option value="">Select Program</option>
-                            @foreach(\App\Models\Programme::all() as $programme)
-                                <option value="{{ $programme->id }}">{{ $programme->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                        <select name="category" class="w-full px-4 py-2 bg-gray-50 border-none rounded-lg focus:ring-2 focus:ring-emerald-500/20 text-gray-900 text-sm">
-                            <option value="Reforestation">Reforestation</option>
-                            <option value="Energy">Energy</option>
-                            <option value="Water">Water</option>
-                            <option value="Agriculture">Agriculture</option>
-                            <option value="Economic Growth">Economic Growth</option>
-                            <option value="Health & WASH">Health & WASH</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Featured Image -->
-                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider">Cover Image</h3>
-                    
-                    <div class="relative w-full aspect-video bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 hover:border-emerald-400 transition-colors flex flex-col items-center justify-center text-center p-4 cursor-pointer group">
-                        <input type="file" name="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                        
-                        <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-                            </svg>
-                        </div>
-                        <p class="text-sm font-medium text-gray-900">Click to upload</p>
-                        <p class="text-xs text-gray-500 mt-1">SVG, PNG, JPG (Max. 2MB)</p>
                     </div>
                 </div>
             </div>
+
         </form>
     </div>
 </x-app-dashboard-layout>
