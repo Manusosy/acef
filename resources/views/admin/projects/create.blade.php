@@ -138,25 +138,11 @@
                     <h2 class="text-xl font-bold text-gray-900">Project Description</h2>
                 </div>
 
-                <div class="border border-gray-200 rounded-xl overflow-hidden">
-                    <!-- Fake Toolbar -->
-                    <div class="bg-gray-50 border-b border-gray-200 px-4 py-2 flex items-center gap-4 text-gray-500">
-                        <div class="flex gap-2">
-                             <button type="button" class="p-1 hover:bg-gray-200 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg></button>
-                             <button type="button" class="p-1 hover:bg-gray-200 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6"/></svg></button>
-                        </div>
-                        <div class="w-px h-4 bg-gray-300"></div>
-                        <div class="flex gap-2 font-serif font-bold">
-                            <button type="button" class="p-1 hover:bg-gray-200 rounded">B</button>
-                            <button type="button" class="p-1 hover:bg-gray-200 rounded italic">I</button>
-                            <button type="button" class="p-1 hover:bg-gray-200 rounded underline">U</button>
-                        </div>
-                    </div>
-                    <textarea name="description" rows="8" placeholder="Write a detailed description of the project, its goals, and expected impact..." 
-                              class="w-full px-6 py-4 border-none focus:ring-0 text-gray-700 leading-relaxed"></textarea>
-                    <div class="bg-gray-50 border-t border-gray-200 px-4 py-2 text-right text-xs text-gray-400">
-                        0 words
-                    </div>
+                <div class="rounded-xl overflow-hidden">
+                    <x-rich-text-editor 
+                        name="description" 
+                        placeholder="Write a detailed description of the project, its goals, and expected impact..." 
+                    />
                 </div>
             </div>
 

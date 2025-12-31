@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('projects', function (Blueprint $table) {
-            // Change country to text to store JSON array
-            $table->text('country')->change(); 
+            // Drop column to avoid doctrine/dbal requirement
+            $table->dropColumn('country');
+        });
+        
+        Schema::table('projects', function (Blueprint $table) {
+            // Re-add as text/json
+            $table->text('country')->after('category')->nullable();
         });
     }
 
@@ -23,7 +28,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->string('country')->change();
+            $table->dropColumn('country');
+        });
+
+        Schema::table('projects', function (Blueprint $table) {
+            $table->string('country')->after('category');
         });
     }
 };
