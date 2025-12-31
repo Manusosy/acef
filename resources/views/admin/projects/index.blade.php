@@ -1,153 +1,167 @@
-<x-admin-layout>
-    <x-slot name="header">Projects</x-slot>
-    <x-slot name="title">Projects</x-slot>
-
-    <!-- Header Actions -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">All Projects</h2>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Manage your organization's projects</p>
-        </div>
-        <a href="{{ route('admin.projects.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Add Project
-        </a>
-    </div>
-
-    <!-- Filters -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-6">
-        <form method="GET" class="flex flex-col sm:flex-row gap-4">
-            <div class="flex-1">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search projects..." 
-                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+<x-app-dashboard-layout>
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Projects Management</h1>
+                <p class="text-gray-500 mt-1">Manage, add, and edit development projects across regions.</p>
             </div>
-            <select name="status" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                <option value="">All Statuses</option>
-                <option value="ongoing" {{ request('status') === 'ongoing' ? 'selected' : '' }}>Ongoing</option>
-                <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Completed</option>
-                <option value="starting" {{ request('status') === 'starting' ? 'selected' : '' }}>Starting Soon</option>
-            </select>
-            <select name="category" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                <option value="">All Categories</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category }}" {{ request('category') === $category ? 'selected' : '' }}>{{ $category }}</option>
-                @endforeach
-            </select>
-            <button type="submit" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                Filter
-            </button>
-            @if(request()->hasAny(['search', 'status', 'category']))
-                <a href="{{ route('admin.projects.index') }}" class="px-4 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-                    Clear
+            <div class="flex items-center gap-3">
+                <button class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                    </svg>
+                    Export CSV
+                </button>
+                <a href="{{ route('admin.projects.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 transition-colors shadow-sm shadow-emerald-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Add New Project
                 </a>
-            @endif
-        </form>
-    </div>
+            </div>
+        </div>
 
-    <!-- Projects Table -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-700/50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Project</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Category</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Country</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Progress</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+        <!-- Filters -->
+        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div class="relative w-full md:w-96">
+                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input type="text" placeholder="Search projects by title, region, or ID..." 
+                       class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-emerald-500/20 focus:bg-white transition-all placeholder-gray-400">
+            </div>
+            
+            <div class="flex items-center gap-3 w-full md:w-auto overflow-x-auto">
+                <select class="px-4 py-2.5 bg-gray-50 border-none rounded-lg text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500/20 cursor-pointer">
+                    <option>All Programs</option>
+                    @foreach($programmes as $programme)
+                        <option value="{{ $programme->id }}">{{ $programme->title }}</option>
+                    @endforeach
+                </select>
+                
+                <select class="px-4 py-2.5 bg-gray-50 border-none rounded-lg text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500/20 cursor-pointer">
+                    <option>All Countries</option>
+                    <!-- Add countries dynamically later -->
+                    <option>Kenya</option>
+                    <option>Uganda</option>
+                    <option>Tanzania</option>
+                </select>
+
+                 <select class="px-4 py-2.5 bg-gray-50 border-none rounded-lg text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500/20 cursor-pointer">
+                    <option>Year</option>
+                    <option>2024</option>
+                    <option>2023</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-50/50">
+                        <th class="p-4 w-12 text-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500">
+                        </th>
+                        <th class="p-4">Project</th>
+                        <th class="p-4">Program</th>
+                        <th class="p-4">Country</th>
+                        <th class="p-4">Status</th>
+                        <th class="p-4 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody class="divide-y divide-gray-100">
                     @forelse($projects as $project)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden flex-shrink-0">
-                                        @if($project->image)
-                                            <img src="{{ Storage::url($project->image) }}" alt="" class="w-full h-full object-cover">
-                                        @else
-                                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <tr class="hover:bg-gray-50/50 transition-colors group">
+                        <td class="p-4 text-center">
+                             <input type="checkbox" class="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500">
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-200">
+                                    @if($project->image)
+                                        <img src="{{ Storage::url($project->image) }}" class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                             </svg>
-                                        @endif
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $project->title }}</p>
-                                        @if($project->is_featured)
-                                            <span class="inline-flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400">
-                                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                                </svg>
-                                                Featured
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $project->category }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $project->country }}</td>
-                            <td class="px-6 py-4">
-                                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full {{ $project->status === 'completed' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : ($project->status === 'ongoing' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400') }}">
-                                    {{ ucfirst($project->status) }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                @if($project->goal_amount)
-                                    <div class="w-24">
-                                        <div class="flex items-center justify-between text-xs mb-1">
-                                            <span class="text-gray-600 dark:text-gray-400">{{ $project->progress_percent }}%</span>
                                         </div>
-                                        <div class="h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                            <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $project->progress_percent }}%"></div>
-                                        </div>
-                                    </div>
-                                @else
-                                    <span class="text-xs text-gray-400">—</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4 text-right">
-                                <div class="flex items-center justify-end gap-2">
-                                    <a href="{{ route('admin.projects.edit', $project) }}" class="p-2 text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                        </svg>
-                                    </a>
-                                    <form method="POST" action="{{ route('admin.projects.destroy', $project) }}" onsubmit="return confirm('Are you sure you want to delete this project?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="p-2 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                            </svg>
-                                        </button>
-                                    </form>
+                                    @endif
                                 </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="px-6 py-12 text-center">
-                                <div class="flex flex-col items-center">
-                                    <svg class="w-12 h-12 text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                <div>
+                                    <h3 class="font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">{{ $project->title }}</h3>
+                                    <p class="text-xs text-gray-400">ID: ACEF-24-{{ str_pad($project->id, 3, '0', STR_PAD_LEFT) }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            @if($project->programme)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                                {{ $project->programme->title }}
+                            </span>
+                            @else
+                                <span class="text-gray-400 text-sm">-</span>
+                            @endif
+                        </td>
+                        <td class="p-4">
+                            <span class="text-gray-600 font-medium text-sm">{{ $project->country }}</span>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full {{ $project->status === 'completed' ? 'bg-emerald-500' : ($project->status === 'draft' ? 'bg-amber-400' : 'bg-emerald-500') }}"></span> <!-- Assuming active/completed is green, draft is yellow/amber -->
+                                <span class="text-sm font-medium text-gray-700 capitalize">{{ $project->status ?? 'Active' }}</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-right">
+                             <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <a href="{{ route('admin.projects.edit', $project) }}" class="p-2 text-gray-400 hover:text-emerald-600 bg-white hover:bg-emerald-50 rounded-lg border border-transparent hover:border-emerald-100 transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     </svg>
-                                    <p class="text-gray-500 dark:text-gray-400 mb-2">No projects found</p>
-                                    <a href="{{ route('admin.projects.create') }}" class="text-emerald-600 dark:text-emerald-400 hover:underline">Create your first project</a>
-                                </div>
-                            </td>
-                        </tr>
+                                </a>
+                                <form action="{{ route('admin.projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="p-2 text-gray-400 hover:text-red-600 bg-white hover:bg-red-50 rounded-lg border border-transparent hover:border-red-100 transition-all">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="p-8 text-center text-gray-400">
+                             No projects found. <a href="{{ route('admin.projects.create') }}" class="text-emerald-600 hover:underline">Add one now</a>.
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
-        </div>
-
-        @if($projects->hasPages())
-            <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
-                {{ $projects->links() }}
+            
+            <!-- Pagination -->
+            <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+                <p class="text-sm text-gray-500">
+                    Showing <span class="font-bold text-gray-900">{{ $projects->firstItem() ?? 0 }}-{{ $projects->lastItem() ?? 0 }}</span> of <span class="font-bold text-gray-900">{{ $projects->total() }}</span> projects
+                </p>
+                <div class="flex gap-2">
+                     @if($projects->onFirstPage())
+                        <button disabled class="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-400 cursor-not-allowed">Previous</button>
+                    @else
+                        <a href="{{ $projects->previousPageUrl() }}" class="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">Previous</a>
+                    @endif
+                    
+                    @if($projects->hasMorePages())
+                        <a href="{{ $projects->nextPageUrl() }}" class="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">Next</a>
+                    @else
+                         <button disabled class="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-400 cursor-not-allowed">Next</button>
+                    @endif
+                </div>
             </div>
-        @endif
+        </div>
     </div>
-</x-admin-layout>
+</x-app-dashboard-layout>

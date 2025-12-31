@@ -19,6 +19,7 @@ class SettingsController extends Controller
         $validated = $request->validate([
             'site_name' => 'nullable|string|max:255',
             'site_description' => 'nullable|string|max:500',
+            'site_logo' => 'nullable|image|max:2048', // 2MB Max
             'contact_email' => 'nullable|email|max:255',
             'contact_phone' => 'nullable|string|max:50',
             'contact_address' => 'nullable|string|max:500',
@@ -28,6 +29,11 @@ class SettingsController extends Controller
             'social_linkedin' => 'nullable|url|max:255',
             'social_youtube' => 'nullable|url|max:255',
         ]);
+
+        if ($request->hasFile('site_logo')) {
+            $path = $request->file('site_logo')->store('settings', 'public');
+            $validated['site_logo'] = $path;
+        }
 
         Setting::setMany($validated, 'general');
 

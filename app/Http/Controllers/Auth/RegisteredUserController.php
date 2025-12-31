@@ -19,8 +19,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        // Fetch roles available for registration (exclude admin)
-        $roles = \App\Models\Role::where('slug', '!=', 'admin')->get();
+        // Fetch roles available for registration
+        $roles = \App\Models\Role::whereIn('slug', ['admin', 'country_coordinator'])->get();
         return view('auth.register', compact('roles'));
     }
 
@@ -36,6 +36,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role_id' => ['nullable', 'exists:roles,id'],
+            'role' => ['required', 'string', 'in:admin,country_coordinator'],
         ]);
 
         // Security check for Country Coordinator role

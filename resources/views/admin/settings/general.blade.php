@@ -8,13 +8,33 @@
             <p class="text-sm text-gray-500 dark:text-gray-400">Manage your site settings and contact information</p>
         </div>
 
-        <form method="POST" action="{{ route('admin.settings.general.update') }}" class="space-y-6">
+        <form method="POST" action="{{ route('admin.settings.general.update') }}" class="space-y-6" enctype="multipart/form-data">
             @csrf
 
             <!-- Basic Info -->
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Basic Information</h3>
                 <div class="space-y-4">
+                    <!-- Logo Upload -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Site Logo</label>
+                        <div class="flex items-center gap-4">
+                            @if(isset($settings['site_logo']))
+                                <div class="w-16 h-16 rounded-lg border border-gray-200 p-1 flex items-center justify-center bg-gray-50">
+                                    <img src="{{ Storage::url($settings['site_logo']) }}" alt="Current Logo" class="max-w-full max-h-full">
+                                </div>
+                            @endif
+                            <input type="file" name="site_logo" accept="image/*" class="block w-full text-sm text-gray-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-emerald-50 file:text-emerald-700
+                                hover:file:bg-emerald-100
+                            "/>
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">SVG, PNG, JPG or GIF (Max. 2MB)</p>
+                    </div>
+
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Site Name</label>
                         <input type="text" name="site_name" value="{{ $settings['site_name'] ?? 'ACEF' }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
