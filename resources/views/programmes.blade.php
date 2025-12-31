@@ -20,24 +20,23 @@
     @include('components.header')
 
     <!-- Programmes Hero -->
-    <section class="relative pt-32 pb-20 bg-acef-dark overflow-hidden">
-        <!-- Background Elements -->
-        <div class="absolute inset-0 opacity-20">
-            <div class="absolute top-0 right-0 w-96 h-96 bg-acef-green rounded-full blur-[120px]"></div>
-            <div class="absolute bottom-0 left-0 w-96 h-96 bg-acef-green rounded-full blur-[120px]"></div>
+    <section class="relative h-[60vh] min-h-[500px] flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="/hero_marine_ecosystem_1766827540454.png" alt="Programmes" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-acef-dark via-acef-dark/40 to-transparent"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div
-                class="bg-gray-800/50 backdrop-blur-xl rounded-[40px] p-12 md:p-20 text-center space-y-8 border border-white/10 shadow-2xl">
-                <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter">
-                    {{ __('pages.programmes.hero_title') }}</h1>
-                <p class="text-xl text-white/70 max-w-2xl mx-auto font-light leading-relaxed">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-20">
+            <div class="max-w-4xl mx-auto text-center space-y-8">
+                <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none">
+                    {{ __('pages.programmes.hero_title') }}
+                </h1>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto font-light leading-relaxed italic">
                     {{ __('pages.programmes.hero_desc') }}
                 </p>
                 <div class="pt-4">
                     <button
-                        class="bg-acef-green text-acef-dark font-black px-10 py-4 rounded-2xl hover:bg-white transition-all transform hover:scale-105 shadow-xl">
+                        class="bg-acef-green text-acef-dark font-black px-10 py-5 rounded-2xl hover:bg-white transition-all transform hover:scale-105 shadow-xl">
                         {{ __('pages.programmes.explore_btn') }}
                     </button>
                 </div>

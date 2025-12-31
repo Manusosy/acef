@@ -19,7 +19,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        // Fetch roles available for registration (exclude admin)
+        $roles = \App\Models\Role::where('slug', '!=', 'admin')->get();
+        return view('auth.register', compact('roles'));
     }
 
     /**
@@ -33,12 +35,26 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role_id' => ['nullable', 'exists:roles,id'],
         ]);
+
+        // Security check for Country Coordinator role
+        if ($request->role_id) {
+            $role = \App\Models\Role::find($request->role_id);
+            if ($role && $role->slug === 'country_coordinator') {
+                if (!str_ends_with($request->email, '@acef-ngo.org')) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'email' => 'Country Coordinators must use an official @acef-ngo.org email address.',
+                    ]);
+                }
+            }
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role_id' => $request->role_id,
         ]);
 
         event(new Registered($user));

@@ -7,13 +7,18 @@ Route::get('lang/{locale}', [\App\Http\Controllers\LanguageController::class, 's
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/about', [\App\Http\Controllers\HomeController::class, 'about'])->name('about');
+Route::get('/donate', [\App\Http\Controllers\DonationController::class, 'index'])->name('donate');
+Route::post('/donate/process-paypal', [\App\Http\Controllers\DonationController::class, 'processPaypal'])->name('donate.paypal');
+Route::post('/donate/process-mpesa', [\App\Http\Controllers\DonationController::class, 'processMpesa'])->name('donate.mpesa');
+
+// Test Callback Route (In prod this should be excluded from CSRF)
+Route::post('/api/mpesa/callback', function() { return response()->json(['result' => 'ok']); })->name('api.mpesa.callback');
 Route::get('/programmes', [\App\Http\Controllers\HomeController::class, 'programmes'])->name('programmes');
 Route::get('/projects', [\App\Http\Controllers\HomeController::class, 'projects'])->name('projects');
 Route::get('/impact', [\App\Http\Controllers\HomeController::class, 'impact'])->name('impact');
 Route::get('/resources', [\App\Http\Controllers\HomeController::class, 'resources'])->name('resources');
 Route::get('/news', [\App\Http\Controllers\HomeController::class, 'news'])->name('news');
 Route::get('/contact', [\App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
-Route::get('/donate', [\App\Http\Controllers\HomeController::class, 'donate'])->name('donate');
 Route::get('/get-involved', [\App\Http\Controllers\HomeController::class, 'getInvolved'])->name('get-involved');
 Route::get('/privacy', [\App\Http\Controllers\HomeController::class, 'privacy'])->name('privacy');
 Route::get('/terms', [\App\Http\Controllers\HomeController::class, 'terms'])->name('terms');
@@ -37,6 +42,44 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Admin Routes
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        
+        // Content Management
+        Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class);
+        Route::resource('programmes', \App\Http\Controllers\Admin\ProgrammeController::class);
+        Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
+        Route::resource('gallery', \App\Http\Controllers\Admin\GalleryController::class);
+        
+        // Organization
+        Route::resource('team', \App\Http\Controllers\Admin\TeamController::class);
+        Route::resource('partners', \App\Http\Controllers\Admin\PartnerController::class);
+        
+        // Users
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+        
+        // Settings
+        Route::get('/settings/general', [\App\Http\Controllers\Admin\SettingsController::class, 'general'])->name('settings.general');
+        Route::post('/settings/general', [\App\Http\Controllers\Admin\SettingsController::class, 'updateGeneral'])->name('settings.general.update');
+        Route::get('/settings/payments', [\App\Http\Controllers\Admin\SettingsController::class, 'payments'])->name('settings.payments');
+        Route::post('/settings/payments', [\App\Http\Controllers\Admin\SettingsController::class, 'updatePayments'])->name('settings.payments.update');
+        
+        // Donations
+        Route::get('/donations', [\App\Http\Controllers\Admin\DonationController::class, 'index'])->name('donations.index');
+        Route::get('/donations/{donation}', [\App\Http\Controllers\Admin\DonationController::class, 'show'])->name('donations.show');
+
+        // Media Library
+        Route::resource('media', \App\Http\Controllers\Admin\MediaController::class)->except(['create', 'edit']);
+        Route::get('/media/picker', [\App\Http\Controllers\Admin\MediaController::class, 'picker'])->name('media.picker');
+        
+        // Pages CMS
+        Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+        
+        // Hero Sections
+        Route::get('/heroes/{page}', [\App\Http\Controllers\Admin\HeroController::class, 'edit'])->name('heroes.edit');
+        Route::put('/heroes/{page}', [\App\Http\Controllers\Admin\HeroController::class, 'update'])->name('heroes.update');
+        Route::post('/heroes/{page}/slides', [\App\Http\Controllers\Admin\HeroController::class, 'storeSlide'])->name('heroes.slides.store');
+        Route::put('/heroes/slides/{slide}', [\App\Http\Controllers\Admin\HeroController::class, 'updateSlide'])->name('heroes.slides.update');
+        Route::delete('/heroes/slides/{slide}', [\App\Http\Controllers\Admin\HeroController::class, 'destroySlide'])->name('heroes.slides.destroy');
+        Route::post('/heroes/{page}/reorder', [\App\Http\Controllers\Admin\HeroController::class, 'reorderSlides'])->name('heroes.slides.reorder');
     });
 
     // Coordinator Routes

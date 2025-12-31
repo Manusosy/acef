@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'donate' => 'Donate',
-    'read_more' => 'Read More',
-    'view_all_projects' => 'View All Projects',
-    'visit_blog' => 'Visit Our Blog',
-    'get_involved' => 'Get Involved',
-    'see_impact' => 'See Our Impact',
-    'our_story' => 'Our Story',
-    'search_placeholder' => 'Search for programmes, projects, resources...',
-    'close' => 'Close',
-    'donate_now' => 'Donate Now',
+    'donate' => 'Donar',
+    'read_more' => 'Llegeix més',
+    'view_all_projects' => 'Veure tots els projectes',
+    'visit_blog' => 'Visiteu el nostre bloc',
+    'get_involved' => 'Implica’t',
+    'see_impact' => 'Vegeu el nostre impacte',
+    'our_story' => 'La nostra història',
+    'search_placeholder' => 'Cerca programes, projectes, recursos...',
+    'close' => 'Tancar',
+    'donate_now' => 'Dona ara',
 ];

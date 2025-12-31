@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'donate' => 'Donate',
-    'read_more' => 'Read More',
-    'view_all_projects' => 'View All Projects',
-    'visit_blog' => 'Visit Our Blog',
-    'get_involved' => 'Get Involved',
-    'see_impact' => 'See Our Impact',
-    'our_story' => 'Our Story',
-    'search_placeholder' => 'Search for programmes, projects, resources...',
-    'close' => 'Close',
-    'donate_now' => 'Donate Now',
+    'donate' => 'Donirajte',
+    'read_more' => 'Pročitajte više',
+    'view_all_projects' => 'Pogledajte sve projekte',
+    'visit_blog' => 'Posjetite naš blog',
+    'get_involved' => 'Uključite se',
+    'see_impact' => 'Pogledajte naš uticaj',
+    'our_story' => 'Naša priča',
+    'search_placeholder' => 'Potražite programe, projekte, resurse...',
+    'close' => 'Zatvori',
+    'donate_now' => 'Donirajte sada',
 ];

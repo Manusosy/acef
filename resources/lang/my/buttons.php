@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'donate' => 'Donate',
-    'read_more' => 'Read More',
-    'view_all_projects' => 'View All Projects',
-    'visit_blog' => 'Visit Our Blog',
-    'get_involved' => 'Get Involved',
-    'see_impact' => 'See Our Impact',
-    'our_story' => 'Our Story',
-    'search_placeholder' => 'Search for programmes, projects, resources...',
-    'close' => 'Close',
-    'donate_now' => 'Donate Now',
+    'donate' => 'လှူပါ။',
+    'read_more' => 'ပိုပြီးဖတ်ပါ',
+    'view_all_projects' => 'ပရောဂျက်အားလုံးကို ကြည့်ရှုပါ။',
+    'visit_blog' => 'ကျွန်ုပ်တို့၏ဘလော့ဂ်ကို ဝင်ရောက်ကြည့်ရှုပါ။',
+    'get_involved' => 'ပါဝင်လိုက်ပါ။',
+    'see_impact' => 'ကျွန်ုပ်တို့၏သက်ရောက်မှုကိုကြည့်ပါ။',
+    'our_story' => 'ကျွန်ုပ်တို့၏အတ္ထုပ္ပတ္တိ',
+    'search_placeholder' => 'ပရိုဂရမ်များ၊ ပရောဂျက်များ၊ အရင်းအမြစ်များကို ရှာဖွေပါ...',
+    'close' => 'ပိတ်လိုက်',
+    'donate_now' => 'ယခုလှူဒါန်းပါ။',
 ];

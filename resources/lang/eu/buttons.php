@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'donate' => 'Donate',
-    'read_more' => 'Read More',
-    'view_all_projects' => 'View All Projects',
-    'visit_blog' => 'Visit Our Blog',
-    'get_involved' => 'Get Involved',
-    'see_impact' => 'See Our Impact',
-    'our_story' => 'Our Story',
-    'search_placeholder' => 'Search for programmes, projects, resources...',
-    'close' => 'Close',
-    'donate_now' => 'Donate Now',
+    'donate' => 'Dohaintza eman',
+    'read_more' => 'Gehiago irakurri',
+    'view_all_projects' => 'Ikusi proiektu guztiak',
+    'visit_blog' => 'Bisitatu Gure Bloga',
+    'get_involved' => 'Parte hartu',
+    'see_impact' => 'Ikusi Gure Eragina',
+    'our_story' => 'Gure Istorioa',
+    'search_placeholder' => 'Bilatu programak, proiektuak, baliabideak...',
+    'close' => 'Itxi',
+    'donate_now' => 'Eman orain',
 ];

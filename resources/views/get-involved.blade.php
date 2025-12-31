@@ -18,21 +18,23 @@
         @include('components.header')
 
         <!-- Get Involved Hero -->
-        <section class="pt-40 pb-20 bg-white dark:bg-gray-900 transition-colors">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="relative rounded-[50px] overflow-hidden min-h-[460px] flex items-center justify-center text-center p-12 md:p-20">
-                    <div class="absolute inset-0 z-0">
-                        <img src="/mission_vision_africa_1766827653058.png" alt="Join Movement" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
-                    </div>
-                    
-                    <div class="relative z-10 max-w-3xl space-y-8">
-                        <h1 class="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none">{{ __('pages.get_involved.hero_title') }}</h1>
-                        <p class="text-white/70 text-lg md:text-xl font-light italic leading-relaxed">
-                            {{ __('pages.get_involved.hero_desc') }}
-                        </p>
-                    </div>
+        <section class="relative h-[60vh] min-h-[500px] flex items-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="/mission_vision_africa_1766827653058.png" alt="Join Movement" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-acef-dark via-acef-dark/40 to-transparent"></div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-20">
+                <div class="max-w-4xl mx-auto text-center space-y-8">
+                    <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none">
+                        {{ __('pages.get_involved.hero_title') }}
+                    </h1>
+                    <p class="text-xl text-white/80 max-w-2xl mx-auto font-light leading-relaxed italic">
+                        {{ __('pages.get_involved.hero_desc') }}
+                    </p>
                 </div>
+            </div>
+        </section>
 
                 <!-- Three Impact Stats Overlay -->
                 <div class="max-w-5xl mx-auto -mt-16 relative z-20">
@@ -252,9 +254,9 @@
                                 <input type="text" value="50" class="w-full pl-10 pr-6 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl font-black text-acef-dark dark:text-white outline-none focus:ring-2 focus:ring-acef-green">
                             </div>
 
-                            <button class="w-full py-5 bg-acef-dark dark:bg-gray-900 text-white font-black rounded-2xl hover:bg-acef-green hover:text-acef-dark transition-all">
+                            <a href="{{ route('donate') }}" class="block w-full py-5 bg-acef-dark dark:bg-gray-900 text-white font-black rounded-2xl hover:bg-acef-green hover:text-acef-dark transition-all text-center">
                                 {{ __('pages.get_involved.quick_donate.btn') }}
-                            </button>
+                            </a>
                         </div>
 
                         <!-- Testimonial -->

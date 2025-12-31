@@ -135,6 +135,43 @@
                             </div>
                         </div>
 
+                        <!-- User Account Icon -->
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" class="text-white hover:text-acef-green transition-colors flex items-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </button>
+                            
+                            <!-- Dropdown -->
+                            <div x-show="open" @click.away="open = false"
+                                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                                class="absolute top-full right-0 mt-4 w-56 bg-white dark:bg-acef-dark rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 p-2 z-50">
+                                @auth
+                                    <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+                                        <p class="text-sm font-bold text-gray-900 dark:text-white">{{ Auth::user()->name }}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->email }}</p>
+                                    </div>
+                                    <div class="py-1">
+                                        <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium">Dashboard</a>
+                                        <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium">Profile</a>
+                                    </div>
+                                    <div class="py-1 border-t border-gray-100 dark:border-gray-700">
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-bold">Log Out</button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="py-1">
+                                        <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium">Log In</a>
+                                        <a href="{{ route('register') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium">Register</a>
+                                    </div>
+                                @endauth
+                            </div>
+                        </div>
+
                         <!-- Search Button -->
                         <button @click="searchOpen = true" class="text-white hover:text-acef-green transition-colors">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

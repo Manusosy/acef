@@ -4,7 +4,7 @@ return [
     'home' => [
         'hero_title' => 'Empowering <br><span class="text-acef-green">Grassroots</span> for a <br>Sustainable Future',
         'hero_subtitle' => 'Leading youth-led action to address the triple planetary crisis across Africa.',
-        'founded' => 'Founded 2020 · Registered 2021',
+        'founded' => 'Welcome to ACEF',
         'who_we_are_title' => 'Who We Are',
         'who_we_are_heading' => 'Africa Climate and <br><span class="text-acef-green italic">Environment</span> Foundation',
         'who_we_are_text' => 'ACEF is a youth-focused non-governmental organization dedicated to empowering grassroots youth and women, supporting locally driven initiatives to address the <span class="text-acef-dark font-bold">triple planetary crisis</span>: climate change, biodiversity loss, and pollution.',
@@ -56,7 +56,7 @@ return [
             ['value' => '14', 'label' => 'Countries'],
             ['value' => '2,000+', 'label' => 'Volunteers'],
             ['value' => '50+', 'label' => 'Global Partners'],
-            ['value' => '10,000+', 'label' => 'Trees Planted'],
+            ['value' => '10k+', 'label' => 'Trees Planted'],
         ],
         'map_section' => [
             'label' => 'Where We Work',

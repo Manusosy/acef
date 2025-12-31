@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -28,16 +31,16 @@
             <div class="absolute inset-0 bg-gradient-to-r from-acef-dark/80 via-acef-dark/40 to-transparent"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-            <div class="space-y-4 animate-fade-in-up">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-32 pb-20 md:pt-48 md:pb-32">
+            <div class="space-y-6 animate-fade-in-up">
                 <span
                     class="inline-block py-2 px-6 rounded-full bg-acef-green/20 text-acef-green font-bold text-sm tracking-wider uppercase">{!! __('pages.home.founded') !!}</span>
-                <h1 class="text-6xl md:text-8xl font-black text-white leading-tight tracking-tighter">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tighter max-w-4xl">
                     {!! __('pages.home.hero_title') !!}
                 </h1>
             </div>
             <p
-                class="text-xl md:text-2xl font-light text-white/90 leading-relaxed max-w-xl animate-fade-in-up delay-100 italic">
+                class="text-lg md:text-xl font-light text-white/90 leading-relaxed max-w-2xl mt-6 animate-fade-in-up delay-100 italic">
                 {!! __('pages.home.hero_subtitle') !!}
             </p>
             <div
@@ -263,20 +266,42 @@
         </section>
 
         <!-- Stats Section -->
-        <section class="py-20 bg-acef-dark text-white relative overflow-hidden">
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-0 right-0 w-96 h-96 bg-acef-green rounded-full blur-[120px]"></div>
-                <div class="absolute bottom-0 left-0 w-96 h-96 bg-acef-green rounded-full blur-[120px]"></div>
-            </div>
+        <section class="py-16 md:py-24 bg-white relative overflow-hidden border-b border-gray-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
                     @foreach(__('pages.home.stats') as $stat)
-                        <div class="space-y-2">
-                            <span class="text-5xl md:text-6xl font-black text-acef-green block">{{ $stat['value'] }}</span>
+                        <div class="space-y-2 group cursor-default p-4">
+                            <span class="text-4xl md:text-6xl font-black text-acef-green block transform group-hover:scale-110 transition-transform duration-500">{{ $stat['value'] }}</span>
                             <span
-                                class="text-white/60 uppercase tracking-widest text-xs font-bold">{{ $stat['label'] }}</span>
+                                class="text-acef-dark uppercase tracking-widest text-[10px] md:text-xs font-bold group-hover:text-acef-green transition-colors">{{ $stat['label'] }}</span>
                         </div>
                     @endforeach
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Video Section -->
+        <section class="py-16 md:py-24 bg-acef-gray relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-5xl mx-auto">
+                    <div class="relative rounded-[30px] md:rounded-[40px] overflow-hidden shadow-2xl border-4 border-white aspect-video group">
+                        <!-- Video: The Great Green Wall (User Provided) -->
+                        <iframe 
+                            class="w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700"
+                            src="https://www.youtube.com/embed/M_Fx1EhJcA4?start=25&autoplay=1&mute=1&controls=0&loop=1&playlist=M_Fx1EhJcA4&rel=0&modestbranding=1" 
+                            title="The Great Green Wall" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerpolicy="strict-origin-when-cross-origin" 
+                            allowfullscreen>
+                        </iframe>
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-acef-dark/80 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-8 left-8 text-white pointer-events-none">
+                            <span class="bg-acef-green px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 inline-block">Watch Our Impact</span>
+                            <h3 class="text-2xl font-bold">Restoring Africa's Natural Heritage</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -292,23 +317,8 @@
                     <p class="text-white/60 font-light italic">{{ __('pages.home.map_section.subtitle') }}</p>
                 </div>
 
-                <div class="relative w-full max-w-4xl pt-10">
-                    <img src="/map_africa_impact_v2.png" alt="Impact Map"
-                        class="w-full h-auto rounded-3xl shadow-2xl border border-white/10">
-
-                    <!-- Pulse points -->
-                    <div class="absolute top-[34%] left-[55%] group">
-                        <div class="w-3 h-3 bg-acef-green rounded-full animate-ping opacity-75"></div>
-                        <div class="w-3 h-3 bg-acef-green rounded-full relative -mt-3"></div>
-                    </div>
-                    <div class="absolute top-[55%] left-[58%] group">
-                        <div class="w-3 h-3 bg-acef-green rounded-full animate-ping opacity-75"></div>
-                        <div class="w-3 h-3 bg-acef-green rounded-full relative -mt-3"></div>
-                    </div>
-                    <div class="absolute top-[48%] left-[48%] group">
-                        <div class="w-3 h-3 bg-acef-green rounded-full animate-ping opacity-75"></div>
-                        <div class="w-3 h-3 bg-acef-green rounded-full relative -mt-3"></div>
-                    </div>
+                <div class="relative w-full max-w-5xl h-[350px] md:h-[600px] mx-auto mt-10">
+                    <div id="africa-map" class="w-full h-full rounded-3xl shadow-2xl border border-white/10 bg-acef-dark z-10 relative"></div>
                 </div>
             </div>
         </section>
@@ -421,6 +431,79 @@
             animation-delay: 0.4s;
         }
     </style>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+             if (!document.getElementById('africa-map')) return;
+
+            var map = L.map('africa-map', {
+                center: [0, 20],
+                zoom: 3.5,
+                zoomControl: false,
+                scrollWheelZoom: false,
+                dragging: false,
+                doubleClickZoom: false,
+                attributionControl: false
+            });
+
+            L.control.attribution({position: 'bottomright'}).addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors').addTo(map);
+
+            const activeCountries = [
+                'Kenya', 'Cameroon', 'Sierra Leone', 'Benin', 'Nigeria', 
+                'DR Congo', 'Zimbabwe', 'Tanzania', 'Uganda', 'Zambia', 
+                'Liberia', 'Ghana', 'Rwanda', 'Angola'
+            ];
+
+            fetch('/africa.geojson')
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJSON(data, {
+                        style: function(feature) {
+                            const countryName = feature.properties.name;
+                            const isActive = activeCountries.includes(countryName);
+
+                            return {
+                                fillColor: isActive ? '#00e573' : '#1f2937', 
+                                weight: 1,
+                                opacity: 1,
+                                color: '#111827',
+                                dashArray: '',
+                                fillOpacity: isActive ? 0.9 : 0.4
+                            };
+                        },
+                        onEachFeature: function(feature, layer) {
+                            if (activeCountries.includes(feature.properties.name)) {
+                                layer.bindTooltip(feature.properties.name, {
+                                    permanent: false,
+                                    direction: 'center',
+                                    className: 'bg-white text-acef-dark font-bold px-2 py-1 rounded shadow-lg border-0'
+                                });
+                                
+                                layer.on({
+                                    mouseover: function(e) {
+                                        var layer = e.target;
+                                        layer.setStyle({
+                                            fillOpacity: 1,
+                                            weight: 2,
+                                            color: '#fff'
+                                        });
+                                    },
+                                    mouseout: function(e) {
+                                        var layer = e.target;
+                                        layer.setStyle({
+                                            fillOpacity: 0.9,
+                                            weight: 1,
+                                            color: '#111827'
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    }).addTo(map);
+                })
+                .catch(error => console.error('Error loading GeoJSON:', error));
+        });
+    </script>
 </body>
 
 </html>

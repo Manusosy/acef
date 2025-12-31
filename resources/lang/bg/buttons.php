@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'donate' => 'Donate',
-    'read_more' => 'Read More',
-    'view_all_projects' => 'View All Projects',
-    'visit_blog' => 'Visit Our Blog',
-    'get_involved' => 'Get Involved',
-    'see_impact' => 'See Our Impact',
-    'our_story' => 'Our Story',
-    'search_placeholder' => 'Search for programmes, projects, resources...',
-    'close' => 'Close',
-    'donate_now' => 'Donate Now',
+    'donate' => 'Дарете',
+    'read_more' => 'Прочетете повече',
+    'view_all_projects' => 'Вижте всички проекти',
+    'visit_blog' => 'Посетете нашия блог',
+    'get_involved' => 'Включете се',
+    'see_impact' => 'Вижте нашето въздействие',
+    'our_story' => 'Нашата история',
+    'search_placeholder' => 'Търсене на програми, проекти, ресурси...',
+    'close' => 'затвори',
+    'donate_now' => 'Дарете сега',
 ];

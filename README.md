@@ -57,5 +57,23 @@ To set up the project locally:
     php -c php.ini -S 127.0.0.1:9090 -t public
    ```
 
+
+## Access & Testing
+
+The platform includes role-based dashboards for different user types. Use the following credentials to access the system:
+
+### 1. Admin Portal
+- **Login URL**: [http://127.0.0.1:8000/login](http://127.0.0.1:8000/login)
+- **Email**: `admin@acef.org`
+- **Password**: `password`
+- **Features**: Full system access, User Management, Content Management (Articles, Projects), Payment Settings, Donation Tracking.
+
+### 2. Country Coordinator Portal
+- **Login URL**: [http://127.0.0.1:8000/login](http://127.0.0.1:8000/login) (Auto-redirects to Coordinator Dashboard)
+- **Registration URL**: [http://127.0.0.1:8000/register](http://127.0.0.1:8000/register) (Select "Country Coordinator" role)
+- **Test Email**: `coordinator@acef-ngo.org`
+- **Password**: `password`
+- **Features**: Country-specific project view, Article creation (Drafts), Media Library access.
+
 ## Contribution and Legal
 This project is maintained by the ACEF Technical Team. For information regarding data protection and terms of use, refer to the Privacy Policy and Terms of Service pages within the application.

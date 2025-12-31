@@ -1,212 +1,296 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no" class="scroll-smooth">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="google" content="notranslate">
+        <title>Donate - Support Our Cause - ACEF</title>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="google" content="notranslate">
-    <title>{{ strip_tags(__('pages.donate.hero_title')) }} - ACEF</title>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="antialiased font-sans bg-white dark:bg-gray-900 overflow-x-hidden transition-colors">
+        @include('components.header')
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+        <!-- Donate Hero -->
+        <section class="relative h-[50vh] min-h-[400px] flex items-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="/images/hero-donate.jpg" alt="Donate Background" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-acef-dark via-acef-dark/60 to-acef-dark/30"></div>
+            </div>
 
-<body class="antialiased font-sans bg-white overflow-x-hidden">
-    @include('components.header')
-
-    <main class="pt-40 pb-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row gap-16 items-start">
-                <!-- Left: Copy & Stats -->
-                <div class="lg:w-1/2 space-y-12">
-                    <div class="space-y-6">
-                        <h1 class="text-6xl md:text-7xl font-black text-acef-dark tracking-tighter leading-none">
-                            {!! __('pages.donate.hero_title') !!}
-                        </h1>
-                        <p class="text-gray-500 text-lg md:text-xl font-light italic leading-relaxed max-w-xl">
-                            {{ __('pages.donate.hero_desc') }}
-                        </p>
-                    </div>
-
-                    <!-- Mini Stats -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        @foreach(__('pages.donate.stats') as $stat)
-                            <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 space-y-2">
-                                <span class="text-acef-green text-3xl font-black">{{ $stat['value'] }}</span>
-                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                                    {{ $stat['label'] }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Where money goes -->
-                    <div class="bg-acef-green/5 border border-acef-green/20 rounded-[40px] p-8 space-y-4">
-                        <div class="flex items-center space-x-3 text-acef-green">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                                </path>
-                            </svg>
-                            <span
-                                class="font-black text-acef-dark tracking-tight">{{ __('pages.donate.money_goes.title') }}</span>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed italic">
-                            {{ __('pages.donate.money_goes.desc') }}
-                        </p>
-                        <a href="{{ route('impact') }}"
-                            class="text-acef-green text-xs font-bold flex items-center hover:underline">
-                            {{ __('pages.donate.money_goes.link') }} <svg class="w-4 h-4 ml-1" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                            </svg>
-                        </a>
-                    </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-10">
+                <div class="max-w-4xl mx-auto text-center space-y-6">
+                    <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none">
+                        Make a Difference Today
+                    </h1>
+                    <p class="text-xl text-white/80 max-w-2xl mx-auto font-light leading-relaxed italic">
+                        Your contribution empowers communities and changes lives across Africa.
+                    </p>
                 </div>
+            </div>
+        </section>
 
-                <!-- Right: Donation Form -->
-                <div class="lg:w-1/2 w-full lg:sticky lg:top-32" x-data="{ 
-                        country: '', 
-                        amount: 50,
-                        customAmount: '',
-                        get isReady() { return this.country !== '' && (this.amount > 0 || this.customAmount > 0) }
-                    }">
-                    <div class="bg-white rounded-[50px] shadow-2xl border border-gray-50 p-8 md:p-12 space-y-8">
-                        <div class="flex items-center space-x-3 text-acef-green">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                                </path>
-                            </svg>
-                            <h2 class="text-2xl font-black text-acef-dark tracking-tighter">
-                                {{ __('pages.donate.form.title') }}</h2>
-                        </div>
+        <main class="py-24 bg-gray-50/30 dark:bg-[#0c0c0c] transition-colors -mt-12 relative z-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+                    
+                    <!-- Donation Form Column -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white dark:bg-gray-800 rounded-[40px] shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden" x-data="{ method: 'paypal' }">
+                            
+                            <!-- Custom Tab Header -->
+                            <div class="flex border-b border-gray-100 dark:border-gray-700 overflow-x-auto">
+                                @if($settings['paypal_enabled'] ?? false)
+                                <button @click="method = 'paypal'" 
+                                    :class="method === 'paypal' ? 'border-acef-green text-acef-dark dark:text-white bg-gray-50 dark:bg-gray-700/50' : 'border-transparent text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                    class="flex-1 py-6 px-6 flex items-center justify-center space-x-3 font-black tracking-tight border-b-4 transition-all min-w-[140px]">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                                    <span>Card / PayPal</span>
+                                </button>
+                                @endif
 
-                        <div class="space-y-6">
-                            <div class="space-y-3">
-                                <label
-                                    class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.donate.form.country_label') }}</label>
-                                <select x-model="country"
-                                    class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl text-gray-500 focus:ring-2 focus:ring-acef-green transition-all outline-none">
-                                    <option value="">{{ __('pages.donate.form.country_placeholder') }}</option>
-                                    <option value="Kenya">{{ __('pages.filters.countries.kenya') }}</option>
-                                    <option value="Cameroon">{{ __('pages.filters.countries.cameroon') }}</option>
-                                    <option value="Nigeria">{{ __('pages.filters.countries.nigeria') }}</option>
-                                    <option value="Tanzania">{{ __('pages.filters.countries.tanzania') }}</option>
-                                    <option value="Ghana">{{ __('pages.filters.countries.ghana') }}</option>
-                                </select>
-                                <p class="text-[10px] text-gray-300 font-bold uppercase pl-2">
-                                    {{ __('pages.donate.form.region_hint') }}</p>
+                                @if($settings['mpesa_enabled'] ?? false)
+                                <button @click="method = 'mpesa'" 
+                                    :class="method === 'mpesa' ? 'border-acef-green text-acef-dark dark:text-white bg-gray-50 dark:bg-gray-700/50' : 'border-transparent text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                    class="flex-1 py-6 px-6 flex items-center justify-center space-x-3 font-black tracking-tight border-b-4 transition-all min-w-[140px]">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                    <span>M-Pesa</span>
+                                </button>
+                                @endif
+
+                                @if($settings['bank_enabled'] ?? false)
+                                <button @click="method = 'bank'" 
+                                    :class="method === 'bank' ? 'border-acef-green text-acef-dark dark:text-white bg-gray-50 dark:bg-gray-700/50' : 'border-transparent text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                    class="flex-1 py-6 px-6 flex items-center justify-center space-x-3 font-black tracking-tight border-b-4 transition-all min-w-[140px]">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+                                    <span>Bank Transfer</span>
+                                </button>
+                                @endif
                             </div>
 
-                            <div class="space-y-3">
-                                <label
-                                    class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.donate.form.amount_label') }}</label>
-                                <div class="grid grid-cols-4 gap-3">
-                                    <button @click="amount = 25; customAmount = ''"
-                                        :class="amount === 25 ? 'bg-acef-green text-acef-dark shadow-lg shadow-acef-green/20' : 'bg-gray-50 text-gray-400 hover:bg-acef-green/10'"
-                                        class="py-4 rounded-xl font-black transition-all">$25</button>
-                                    <button @click="amount = 50; customAmount = ''"
-                                        :class="amount === 50 ? 'bg-acef-green text-acef-dark shadow-lg shadow-acef-green/20' : 'bg-gray-50 text-gray-400 hover:bg-acef-green/10'"
-                                        class="py-4 rounded-xl font-black transition-all">$50</button>
-                                    <button @click="amount = 100; customAmount = ''"
-                                        :class="amount === 100 ? 'bg-acef-green text-acef-dark shadow-lg shadow-acef-green/20' : 'bg-gray-50 text-gray-400 hover:bg-acef-green/10'"
-                                        class="py-4 rounded-xl font-black transition-all">$100</button>
-                                    <button @click="amount = 0"
-                                        :class="amount === 0 ? 'bg-acef-green text-acef-dark shadow-lg shadow-acef-green/20' : 'bg-gray-50 text-gray-400 hover:bg-acef-green/10'"
-                                        class="py-4 rounded-xl font-black transition-all">{{ __('pages.donate.form.other_amount') }}</button>
-                                </div>
-                                <template x-if="amount === 0">
-                                    <div class="mt-4 pt-2">
-                                        <input type="number" x-model="customAmount"
-                                            placeholder="{{ __('pages.donate.form.custom_placeholder') }}"
-                                            class="w-full px-8 py-4 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-acef-green transition-all outline-none text-sm">
+                            <div class="p-8 md:p-12 space-y-8">
+                                
+                                <!-- PayPal Section -->
+                                <div x-show="method === 'paypal'" class="space-y-8" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+                                    <div class="space-y-2">
+                                        <h2 class="text-3xl font-black text-acef-dark dark:text-white tracking-tighter">Secure Donation</h2>
+                                        <p class="text-gray-400 text-sm font-light italic">Process your donation securely via PayPal or Credit/Debit Card.</p>
                                     </div>
-                                </template>
-                            </div>
+                                    
+                                    <div class="space-y-4">
+                                        <label class="text-xs font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest pl-2">Amount (USD)</label>
+                                        <div class="relative">
+                                            <span class="absolute left-6 top-1/2 -translate-y-1/2 font-bold text-gray-400">$</span>
+                                            <input type="number" id="paypal-amount" value="50" class="w-full pl-12 pr-8 py-5 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-xl font-bold text-acef-dark dark:text-white transition-all placeholder-gray-300" placeholder="50">
+                                        </div>
+                                    </div>
 
-                            <button :disabled="!isReady"
-                                :class="isReady ? 'bg-acef-green text-acef-dark shadow-xl shadow-acef-green/20' : 'bg-gray-100 text-gray-300 cursor-not-allowed'"
-                                class="w-full py-5 font-black rounded-2xl flex items-center justify-center space-x-3 transition-all">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 00-2 2zm10-10V7a4 4 0 00-8 0v4h8z">
-                                    </path>
-                                </svg>
-                                <span
-                                    x-text="isReady ? '{{ __('pages.donate.form.btn_ready') }}' : '{{ __('pages.donate.form.btn_not_ready') }}'"></span>
-                            </button>
+                                    <div class="space-y-4">
+                                        <label class="text-xs font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest pl-2">Optional Message</label>
+                                        <textarea id="paypal-message" rows="3" class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all placeholder-gray-400" placeholder="Leave a message of support..."></textarea>
+                                    </div>
 
-                            <div class="flex items-center justify-center space-x-6 pt-2">
-                                <div
-                                    class="flex items-center space-x-1 text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M2.166 4.9L10 9.503l7.834-4.603a1.166 1.166 0 00-1.134-2.1l-6.7 3.937L3.3 2.8a1.166 1.166 0 00-1.134 2.1z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span>{{ __('pages.donate.form.secure_ssl') }}</span>
+                                    <div id="paypal-button-container" class="pt-4"></div>
                                 </div>
-                                <div
-                                    class="flex items-center space-x-1 text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span>{{ __('pages.donate.form.verified_ngo') }}</span>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Social Proof -->
-                        <div class="pt-8 border-t border-gray-50 flex items-center space-x-4">
-                            <div
-                                class="w-10 h-10 bg-acef-green/10 rounded-full flex items-center justify-center text-acef-green">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-                                    </path>
-                                </svg>
+                                <!-- M-Pesa Section -->
+                                <div x-show="method === 'mpesa'" class="space-y-8" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+                                    <div class="space-y-2">
+                                        <h2 class="text-3xl font-black text-acef-dark dark:text-white tracking-tighter">M-Pesa Express</h2>
+                                        <p class="text-gray-400 text-sm font-light italic">Receive an STK Push directly to your phone.</p>
+                                    </div>
+
+                                    <form id="mpesa-form" class="space-y-6">
+                                        @csrf
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div class="space-y-4">
+                                                <label class="text-xs font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest pl-2">Phone Number</label>
+                                                <input type="text" name="phone" placeholder="2547XXXXXXXX" class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all font-bold">
+                                            </div>
+                                            <div class="space-y-4">
+                                                <label class="text-xs font-black uppercase text-acef-dark dark:text-gray-300 tracking-widest pl-2">Amount (KES)</label>
+                                                <input type="number" name="amount" value="1000" class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl outline-none focus:ring-2 focus:ring-acef-green text-acef-dark dark:text-white transition-all font-bold">
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="w-full py-5 bg-acef-green text-acef-dark font-black rounded-2xl flex items-center justify-center space-x-3 hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
+                                            <span>Send Prompt</span>
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                        </button>
+                                    </form>
+                                    <div id="mpesa-status" class="hidden p-6 rounded-2xl text-center font-bold"></div>
+                                </div>
+
+                                <!-- Bank Section -->
+                                <div x-show="method === 'bank'" class="space-y-8" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+                                    <div class="space-y-2">
+                                        <h2 class="text-3xl font-black text-acef-dark dark:text-white tracking-tighter">Bank Transfer</h2>
+                                        <p class="text-gray-400 text-sm font-light italic">Direct transfer details for larger contributions.</p>
+                                    </div>
+
+                                    <div class="bg-gray-50 dark:bg-gray-900 rounded-3xl p-8 space-y-6 border border-gray-100 dark:border-gray-700">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+                                            <div class="space-y-1">
+                                                <p class="text-xs font-black uppercase text-gray-400 tracking-widest">Bank Name</p>
+                                                <p class="text-lg font-bold text-acef-dark dark:text-white">{{ $settings['bank_name'] ?? 'N/A' }}</p>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <p class="text-xs font-black uppercase text-gray-400 tracking-widest">Account Name</p>
+                                                <p class="text-lg font-bold text-acef-dark dark:text-white">{{ $settings['bank_account_name'] ?? 'N/A' }}</p>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <p class="text-xs font-black uppercase text-gray-400 tracking-widest">Account Number</p>
+                                                <p class="text-lg font-bold text-acef-dark dark:text-white font-mono tracking-wider">{{ $settings['bank_account_number'] ?? 'N/A' }}</p>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <p class="text-xs font-black uppercase text-gray-400 tracking-widest">Swift Code</p>
+                                                <p class="text-lg font-bold text-acef-dark dark:text-white font-mono">{{ $settings['bank_swift_code'] ?? 'N/A' }}</p>
+                                            </div>
+                                        </div>
+                                        @if(!empty($settings['bank_instructions']))
+                                        <div class="pt-6 border-t border-gray-200 dark:border-gray-800">
+                                            <p class="text-sm text-gray-500 italic">{{ $settings['bank_instructions'] }}</p>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+
                             </div>
-                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-loose">
-                                {!! __('pages.donate.form.social_proof') !!}
-                            </p>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Funds in Action -->
-            <div class="mt-32 space-y-12">
-                <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
-                    {{ __('pages.donate.funds_action.title') }}</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
-                    @foreach(__('pages.donate.funds_action.list') as $action)
-                        <div class="space-y-6 group">
-                            <div class="aspect-video rounded-[30px] overflow-hidden">
-                                <img src="{{ $action['image'] }}" alt="{{ $action['category'] }}"
-                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            </div>
-                            <div class="space-y-2">
-                                <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">
-                                    {{ $action['category'] }}</p>
-                                <h3 class="text-2xl font-black text-acef-dark tracking-tight">{{ $action['title'] }}</h3>
-                                <p class="text-gray-400 text-sm font-light italic leading-relaxed">{{ $action['desc'] }}</p>
-                            </div>
+                    <!-- Sidebar -->
+                    <div class="space-y-8 lg:sticky lg:top-8">
+                        
+                        <!-- GoFundMe -->
+                        @if($settings['gofundme_enabled'] ?? false)
+                        <div class="bg-gradient-to-br from-[#fc4c02] to-[#e04000] rounded-[40px] p-10 shadow-xl text-center relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <h3 class="font-black text-2xl text-white mb-4 relative z-10">Donate via GoFundMe</h3>
+                            <p class="text-white/80 mb-8 max-w-xs mx-auto text-sm font-medium relative z-10">Use our official GoFundMe campaign for secure international donations.</p>
+                            <a href="{{ $settings['gofundme_campaign_url'] ?? '#' }}" target="_blank" class="inline-block w-full bg-white text-[#fc4c02] font-black py-4 rounded-2xl hover:bg-[#ffebe0] transition-colors shadow-lg relative z-10">
+                                Visit Campaign
+                            </a>
                         </div>
-                    @endforeach
+                        @endif
+
+                        <!-- Value Props -->
+                        <div class="bg-acef-dark rounded-[40px] p-10 space-y-8 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-acef-green rounded-full blur-[80px] opacity-20 translate-x-1/2 -translate-y-1/2"></div>
+                            
+                            <h3 class="font-black text-xl text-white tracking-tight relative z-10">Why Support ACEF?</h3>
+                            
+                            <ul class="space-y-6 relative z-10">
+                                <li class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 rounded-full bg-acef-green/20 flex items-center justify-center shrink-0 text-acef-green">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </div>
+                                    <span class="text-gray-300 text-sm font-light leading-relaxed"><strong class="text-white font-bold block mb-0.5">Community First</strong> Direct impact on local grassroots initiatives.</span>
+                                </li>
+                                <li class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 rounded-full bg-acef-green/20 flex items-center justify-center shrink-0 text-acef-green">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </div>
+                                    <span class="text-gray-300 text-sm font-light leading-relaxed"><strong class="text-white font-bold block mb-0.5">Transparency</strong>Full visibility on how funds are utilized.</span>
+                                </li>
+                                <li class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 rounded-full bg-acef-green/20 flex items-center justify-center shrink-0 text-acef-green">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </div>
+                                    <span class="text-gray-300 text-sm font-light leading-relaxed"><strong class="text-white font-bold block mb-0.5">Sustainable</strong>Focus on long-term ecological solutions.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    @include('components.footer')
-</body>
+        @include('components.footer')
 
+        <!-- Scripts -->
+        @if($settings['paypal_enabled'] ?? false)
+            <script src="https://www.paypal.com/sdk/js?client-id={{ $settings['paypal_client_id'] ?? '' }}&currency=USD"></script>
+            <script>
+                if(document.getElementById('paypal-button-container')) {
+                    paypal.Buttons({
+                        createOrder: function(data, actions) {
+                            const amount = document.getElementById('paypal-amount').value;
+                            return actions.order.create({
+                                purchase_units: [{ amount: { value: amount } }]
+                            });
+                        },
+                        onApprove: function(data, actions) {
+                            return actions.order.capture().then(function(details) {
+                                fetch('{{ route("donate.paypal") }}', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                    body: JSON.stringify({
+                                        order_id: data.orderID,
+                                        amount: details.purchase_units[0].amount.value,
+                                        details: details,
+                                        message: document.getElementById('paypal-message').value
+                                    })
+                                }).then(() => {
+                                    alert('Thank you for your generous donation!');
+                                    window.location.reload();
+                                });
+                            });
+                        }
+                    }).render('#paypal-button-container');
+                }
+            </script>
+        @endif
+
+        @if($settings['mpesa_enabled'] ?? false)
+            <script>
+                document.getElementById('mpesa-form')?.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const btn = this.querySelector('button');
+                    const status = document.getElementById('mpesa-status');
+                    
+                    btn.disabled = true;
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = 'Processing...';
+                    status.classList.add('hidden');
+
+                    const formData = new FormData(this);
+
+                    fetch('{{ route("donate.mpesa") }}', {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        status.classList.remove('hidden');
+                        if(data.success) {
+                            status.className = 'p-6 rounded-2xl bg-green-100 text-green-800 border border-green-200 mt-6';
+                            status.innerText = data.message;
+                        } else {
+                            status.className = 'p-6 rounded-2xl bg-red-100 text-red-800 border border-red-200 mt-6';
+                            status.innerText = data.message || 'Payment initiation failed.';
+                        }
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                    });
+                });
+            </script>
+        @endif
+    </body>
 </html>
