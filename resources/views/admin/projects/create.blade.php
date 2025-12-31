@@ -58,25 +58,74 @@
 
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Target Countries</label>
-                        <div class="flex items-center gap-3">
-                             <div class="relative flex-1">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                </span>
-                                <input type="text" name="location" placeholder="Search and select countries (e.g. Kenya, Uganda)" 
-                                       class="w-full pl-12 pr-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 placeholder-gray-400">
-                             </div>
-                             <button type="button" class="px-6 py-3.5 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors">Add</button>
-                        </div>
-                        <div class="flex flex-wrap gap-2 mt-4">
-                            <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
-                                Kenya
-                                <button type="button" class="ml-2 hover:text-emerald-900"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
-                            </span>
-                             <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
-                                Uganda
-                                <button type="button" class="ml-2 hover:text-emerald-900"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
-                            </span>
+                        <div x-data="{
+                            availableCountries: [
+                                'Angola', 'Benin', 'Cameroon', 'Democratic Republic of the Congo', 
+                                'Ghana', 'Kenya', 'Liberia', 'Nigeria', 'Rwanda', 'Sierra Leone', 
+                                'Tanzania', 'Uganda', 'Zambia', 'Zimbabwe'
+                            ],
+                            selectedCountries: [],
+                            search: '',
+                            filteredCountries() {
+                                if (this.search === '') return [];
+                                return this.availableCountries.filter(c => 
+                                    c.toLowerCase().includes(this.search.toLowerCase()) && 
+                                    !this.selectedCountries.includes(c)
+                                );
+                            },
+                            addCountry(country) {
+                                if (country && !this.selectedCountries.includes(country)) {
+                                    this.selectedCountries.push(country);
+                                    this.search = '';
+                                }
+                            },
+                            removeCountry(index) {
+                                this.selectedCountries.splice(index, 1);
+                            }
+                        }" class="space-y-3">
+                            
+                            <!-- Search & Add -->
+                            <div class="flex items-center gap-3 relative">
+                                <div class="relative flex-1">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </span>
+                                    <input type="text" x-model="search" placeholder="Search and select countries (e.g. Kenya, Uganda)" 
+                                           @keydown.enter.prevent="addCountry(filteredCountries()[0])"
+                                           class="w-full pl-12 pr-5 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 placeholder-gray-400">
+                                    
+                                    <!-- Dropdown Suggestions -->
+                                    <div x-show="search.length > 0 && filteredCountries().length > 0" 
+                                         class="absolute z-10 w-full mt-1 bg-white border border-gray-100 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+                                        <template x-for="country in filteredCountries()" :key="country">
+                                            <div @click="addCountry(country)" class="px-4 py-2 hover:bg-emerald-50 cursor-pointer text-gray-700 font-medium">
+                                                <span x-text="country"></span>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                                <button type="button" @click="addCountry(filteredCountries()[0])" 
+                                        class="px-6 py-3.5 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors">
+                                    Add
+                                </button>
+                            </div>
+
+                            <!-- Selected Tags -->
+                            <div class="flex flex-wrap gap-3">
+                                <template x-for="(country, index) in selectedCountries" :key="index">
+                                    <span class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                        <span x-text="country"></span>
+                                        <button type="button" @click="removeCountry(index)" class="ml-2 hover:text-emerald-900 focus:outline-none">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        </button>
+                                    </span>
+                                </template>
+                            </div>
+
+                            <!-- Hidden Input for Form Submission -->
+                            <template x-for="country in selectedCountries">
+                                <input type="hidden" name="country[]" :value="country">
+                            </template>
                         </div>
                     </div>
                 </div>

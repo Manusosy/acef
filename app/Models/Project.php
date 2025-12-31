@@ -13,10 +13,15 @@ class Project extends Model
         'description',
         'category',
         'country',
+        'location',
         'status',
         'goal_amount',
         'raised_amount',
         'image',
+        'gallery',
+        'objectives',
+        'video_url',
+        'programme_id',
         'start_date',
         'end_date',
         'is_featured',
@@ -30,6 +35,9 @@ class Project extends Model
         'end_date' => 'date',
         'is_featured' => 'boolean',
         'is_active' => 'boolean',
+        'country' => 'array',
+        'gallery' => 'array',
+        'objectives' => 'array',
     ];
 
     protected static function boot()
