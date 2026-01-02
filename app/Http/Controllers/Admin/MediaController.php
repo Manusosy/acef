@@ -46,7 +46,7 @@ class MediaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,xls,xlsx|max:20480',
+            'file' => 'required|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,xls,xlsx|max:65536',
             'alt_text' => 'nullable|string|max:255',
             'folder_id' => 'nullable|exists:media_folders,id',
         ]);

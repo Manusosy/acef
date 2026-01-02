@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">Payment Settings</x-slot>
     <x-slot name="title">Payment Settings</x-slot>
 
@@ -158,4 +158,4 @@
             </div>
         </form>
     </div>
-</x-admin-layout>
+</x-app-dashboard-layout>

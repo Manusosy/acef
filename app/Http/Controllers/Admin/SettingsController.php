@@ -33,9 +33,11 @@ class SettingsController extends Controller
             'social_instagram' => 'nullable|url|max:255',
             'social_linkedin' => 'nullable|url|max:255',
             'social_youtube' => 'nullable|url|max:255',
+            'annual_report' => 'nullable|string|max:2048',
+            'methodology_doc' => 'nullable|string|max:2048',
         ]);
 
-        $imageFields = ['site_logo', 'site_logo_dark', 'site_favicon', 'dashboard_logo'];
+        $imageFields = ['site_logo', 'site_logo_dark', 'site_favicon', 'dashboard_logo', 'annual_report', 'methodology_doc'];
         foreach ($imageFields as $field) {
             if ($request->hasFile($field)) {
                 $path = $request->file($field)->store('settings', 'public');

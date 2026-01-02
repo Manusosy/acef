@@ -1,4 +1,23 @@
-<x-app-layout>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google" content="notranslate">
+    <title>{{ $article->title }} - ACEF</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body class="antialiased font-sans bg-white dark:bg-gray-950 transition-colors duration-300">
+    @include('components.header')
     <div class="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 lg:py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
@@ -13,7 +32,7 @@
 
             <div class="max-w-4xl mx-auto">
                 <!-- Category Badge -->
-                <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider rounded-sm mb-4">
+                <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider rounded-lg mb-4">
                     {{ $article->category->name }}
                 </span>
 
@@ -37,7 +56,7 @@
             <!-- Featured Image -->
             @if($article->image)
             <div class="max-w-5xl mx-auto mb-12">
-                <img src="{{ Storage::url($article->image) }}" alt="{{ $article->title }}" class="w-full h-[400px] md:h-[500px] object-cover rounded-2xl shadow-lg">
+                <img src="{{ Storage::url($article->image) }}" alt="{{ $article->title }}" class="w-full h-[400px] md:h-[500px] object-cover rounded-lg shadow-lg">
             </div>
             @endif
 
@@ -116,4 +135,6 @@
 
         </div>
     </div>
-</x-app-layout>
+    @include('components.footer')
+</body>
+</html>

@@ -26,6 +26,7 @@ class Project extends Model
         'end_date',
         'is_featured',
         'is_active',
+        'voices',
     ];
 
     protected $casts = [
@@ -38,6 +39,7 @@ class Project extends Model
         'country' => 'array',
         'gallery' => 'array',
         'objectives' => 'array',
+        'voices' => 'array',
     ];
 
     protected static function boot()
@@ -77,5 +79,15 @@ class Project extends Model
     public function scopeRecent($query)
     {
         return $query->orderBy('created_at', 'desc');
+    }
+
+    public function partners()
+    {
+        return $this->belongsToMany(Partner::class, 'partner_project');
+    }
+
+    public function programme()
+    {
+        return $this->belongsTo(Program::class, 'programme_id');
     }
 }

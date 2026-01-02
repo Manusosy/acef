@@ -138,6 +138,64 @@
                 </div>
             </div>
 
+            <!-- Legal & Compliance -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 overflow-hidden">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">Legal & Compliance</h3>
+                        <p class="text-xs text-gray-500">Manage public documents and reports</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    @foreach([
+                        'annual_report' => 'Latest Annual Report (PDF)',
+                        'methodology_doc' => 'Implementation Methodology (PDF)'
+                    ] as $field => $label)
+                    <div x-data="{ 
+                        preview: '{{ isset($settings[$field]) ? Storage::url($settings[$field]) : '' }}',
+                        path: '{{ $settings[$field] ?? '' }}',
+                        selectFile() {
+                            window.openMediaPicker((item) => {
+                                this.preview = item.url;
+                                this.path = item.url;
+                                $refs.input.value = item.url;
+                            });
+                        }
+                    }">
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3">{{ $label }}</label>
+                        <div @click="selectFile()" class="relative group cursor-pointer">
+                            <div class="h-24 bg-gray-50 dark:bg-gray-900 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 flex items-center justify-center overflow-hidden hover:border-blue-500/50 transition-all">
+                                <template x-if="path">
+                                    <div class="flex items-center gap-3 px-4">
+                                        <div class="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-900/30 flex items-center justify-center text-red-600">
+                                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="text-[10px] font-black text-gray-900 dark:text-white truncate max-w-[150px]">Document Selected</span>
+                                            <span class="text-[9px] text-gray-400 font-bold uppercase tracking-tight">Click to change</span>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template x-if="!path">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-300">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                        </div>
+                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Select PDF</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <input type="hidden" name="{{ $field }}" x-ref="input" value="{{ $settings[$field] ?? '' }}">
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
             <div class="flex items-center gap-4">
                 <button type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors">
                     Save Settings

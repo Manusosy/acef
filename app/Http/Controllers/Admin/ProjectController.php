@@ -51,7 +51,8 @@ class ProjectController extends Controller
             ? \App\Models\Program::all() 
             : \App\Models\Program::whereJsonContains('country', $user->country)->get();
 
-        return view('admin.projects.create', compact('programmes'));
+        $partners = \App\Models\Partner::where('is_active', true)->get();
+        return view('admin.projects.create', compact('programmes', 'partners'));
     }
 
     public function store(Request $request)
@@ -95,7 +96,12 @@ class ProjectController extends Controller
             $validated['image'] = $request->file('image')->store('projects', 'public');
         }
 
-        Project::create($validated);
+        $project = Project::create($validated);
+
+        // Sync Partners if provided
+        if ($request->has('partners')) {
+            $project->partners()->sync($request->partners);
+        }
 
         return redirect()->route('admin.projects.index')
             ->with('success', 'Project created successfully.');
@@ -108,7 +114,8 @@ class ProjectController extends Controller
             ? \App\Models\Program::all() 
             : \App\Models\Program::whereJsonContains('country', $user->country)->get();
 
-        return view('admin.projects.edit', compact('project', 'programmes'));
+        $partners = \App\Models\Partner::where('is_active', true)->get();
+        return view('admin.projects.edit', compact('project', 'programmes', 'partners'));
     }
 
     public function update(Request $request, Project $project)
@@ -151,6 +158,18 @@ class ProjectController extends Controller
         }
 
         $project->update($validated);
+
+        // Sync Partners if provided
+        if ($request->has('partners')) {
+            $project->partners()->sync($request->partners);
+        } else {
+             $project->partners()->detach();
+        }
+
+        // Sync Partners if provided
+        if ($request->has('partners')) {
+            $project->partners()->sync($request->partners);
+        }
 
         return redirect()->route('admin.projects.index')
             ->with('success', 'Project updated successfully.');

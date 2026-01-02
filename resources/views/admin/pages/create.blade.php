@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">Create Page</x-slot>
     <x-slot name="title">Create Page</x-slot>
     <div class="max-w-2xl">
@@ -15,4 +15,4 @@
             <div class="flex gap-4"><button type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg">Create Page</button><a href="{{ route('admin.pages.index') }}" class="px-6 py-2.5 text-gray-600">Cancel</a></div>
         </form>
     </div>
-</x-admin-layout>
+</x-app-dashboard-layout>

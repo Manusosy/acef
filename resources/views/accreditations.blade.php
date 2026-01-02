@@ -35,17 +35,20 @@
 
             <!-- Main Accreditations -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach(__('pages.accreditations.items') as $acc)
+                @foreach($accreditations as $acc)
                     <div
-                        class="bg-gray-50 rounded-[30px] p-8 space-y-6 border border-gray-100 hover:border-acef-green transition-all group flex flex-col justify-between">
-                        <div
-                            class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-acef-green text-xs font-black group-hover:bg-acef-green group-hover:text-white transition-colors">
-                            {{ $acc['short'] }}
+                        class="bg-gray-50 rounded-2xl p-8 space-y-6 border border-gray-100 hover:border-acef-green transition-all group flex flex-col justify-between">
+                        <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center text-acef-green text-xs font-black group-hover:bg-acef-green group-hover:text-white transition-colors overflow-hidden p-2">
+                            @if($acc->image)
+                                <img src="{{ Storage::url($acc->image) }}" alt="{{ $acc->acronym }}" class="w-full h-full object-contain">
+                            @else
+                                {{ $acc->acronym }}
+                            @endif
                         </div>
                         <div class="space-y-2">
-                            <h3 class="text-lg font-black text-acef-dark tracking-tight">{{ $acc['title'] }}</h3>
+                            <h3 class="text-lg font-black text-acef-dark tracking-tight">{{ $acc->title }}</h3>
                             <p class="text-[12px] text-gray-400 font-light leading-relaxed">
-                                {{ $acc['desc'] }}
+                                {{ $acc->description }}
                             </p>
                         </div>
                     </div>
@@ -53,7 +56,7 @@
             </div>
 
             <!-- Legal Standings -->
-            <section class="bg-acef-green/5 border border-acef-green/10 rounded-[60px] p-12 md:p-20 space-y-12">
+            <section class="bg-acef-green/5 border border-acef-green/10 rounded-2xl p-12 md:p-20 space-y-12">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-8">
                     <div class="space-y-4 max-w-xl">
                         <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">
@@ -65,10 +68,10 @@
                     </div>
                     <div class="flex flex-wrap gap-4">
                         <div
-                            class="bg-white px-8 py-5 rounded-2xl shadow-sm border border-black/5 font-black text-acef-dark text-xs uppercase tracking-widest leading-loose">
+                            class="bg-white px-8 py-5 rounded-xl shadow-sm border border-black/5 font-black text-acef-dark text-xs uppercase tracking-widest leading-loose">
                             {{ __('pages.accreditations.legal.kenya') }}</div>
                         <div
-                            class="bg-white px-8 py-5 rounded-2xl shadow-sm border border-black/5 font-black text-acef-dark text-xs uppercase tracking-widest leading-loose">
+                            class="bg-white px-8 py-5 rounded-xl shadow-sm border border-black/5 font-black text-acef-dark text-xs uppercase tracking-widest leading-loose">
                             {{ __('pages.accreditations.legal.cameroon') }}</div>
                     </div>
                 </div>

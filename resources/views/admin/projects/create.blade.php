@@ -149,6 +149,46 @@
                 </div>
             </div>
 
+            <!-- Objectives (Repeater) -->
+            <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6" x-data="{ objectives: [''] }">
+                <div class="flex items-center justify-between">
+                     <h2 class="text-xl font-bold text-gray-900">Key Objectives</h2>
+                     <button type="button" @click="objectives.push('')" class="text-sm text-emerald-600 font-bold hover:text-emerald-700">+ Add Objective</button>
+                </div>
+                <div class="space-y-3">
+                    <template x-for="(objective, index) in objectives" :key="index">
+                        <div class="flex gap-2">
+                            <input type="text" :name="'objectives[' + index + ']'" x-model="objectives[index]" placeholder="Enter objective..." class="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500">
+                            <button type="button" @click="objectives.splice(index, 1)" class="text-red-500 hover:text-red-700 font-bold px-2">&times;</button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Voices (Repeater) -->
+            <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6" x-data="{ 
+                voices: [],
+                addVoice() { this.voices.push({ name: '', role: '', quote: '' }); }
+            }">
+                <div class="flex items-center justify-between">
+                     <h2 class="text-xl font-bold text-gray-900">Voices & Testimonials</h2>
+                     <button type="button" @click="addVoice()" class="text-sm text-emerald-600 font-bold hover:text-emerald-700">+ Add Testimonial</button>
+                </div>
+                <div class="space-y-4">
+                    <template x-for="(voice, index) in voices" :key="index">
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3 relative">
+                            <button type="button" @click="voices.splice(index, 1)" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">&times;</button>
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="text" :name="'voices[' + index + '][name]'" x-model="voice.name" placeholder="Name (e.g. Sarah J.)" class="w-full px-3 py-2 border border-gray-200 rounded-lg">
+                                <input type="text" :name="'voices[' + index + '][role]'" x-model="voice.role" placeholder="Role (e.g. Farmer)" class="w-full px-3 py-2 border border-gray-200 rounded-lg">
+                            </div>
+                            <textarea :name="'voices[' + index + '][quote]'" x-model="voice.quote" rows="2" placeholder="Quote..." class="w-full px-3 py-2 border border-gray-200 rounded-lg"></textarea>
+                        </div>
+                    </template>
+                     <div x-show="voices.length === 0" class="text-center py-4 text-gray-400 text-sm">No testimonials added yet.</div>
+                </div>
+            </div>
+
             <!-- Additional Details (Gallery & Financials) -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Gallery -->
@@ -199,6 +239,98 @@
                         
                         <!-- Hidden input for media ID -->
                         <input type="hidden" name="media_id" :value="mediaId">
+                    </div>
+
+                    <!-- Gallery (Multi-Select / Repeater) -->
+                     <div x-data="{ 
+                        gallery: [],
+                        selectGalleryImage() {
+                            if (window.openMediaPicker) {
+                                window.openMediaPicker((media) => {
+                                    this.gallery.push(media.url);
+                                });
+                            }
+                        }
+                    }">
+                        <div class="flex items-center justify-between mb-2">
+                             <label class="block text-sm font-bold text-gray-700">Project Gallery</label>
+                             <button type="button" @click="selectGalleryImage()" class="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded-lg font-bold hover:bg-emerald-100">Add Image</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <template x-for="(img, index) in gallery" :key="index">
+                                <div class="relative aspect-square rounded-lg overflow-hidden group">
+                                    <img :src="img" class="w-full h-full object-cover">
+                                    <input type="hidden" name="gallery[]" :value="img">
+                                    <button type="button" @click="gallery.splice(index, 1)" class="absolute inset-0 bg-black/50 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                        &times;
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Partners -->
+                    <div>
+                         <label class="block text-sm font-bold text-gray-700 mb-2">Supporting Partners</label>
+                         <div class="space-y-2 max-h-48 overflow-y-auto border border-gray-200 rounded-xl p-3">
+                            @foreach($partners as $partner)
+                                <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                    <input type="checkbox" name="partners[]" value="{{ $partner->id }}" class="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500">
+                                    @if($partner->logo)
+                                        <img src="{{ Storage::url($partner->logo) }}" class="h-6 w-6 object-contain">
+                                    @else
+                                        <div class="h-6 w-6 bg-gray-100 rounded flex items-center justify-center text-xs font-bold text-gray-500">{{ substr($partner->name, 0, 1) }}</div>
+                                    @endif
+                                    <span class="text-sm text-gray-700">{{ $partner->name }}</span>
+                                </label>
+                            @endforeach
+                         </div>
+                    </div>
+
+                    </div>
+
+                    <!-- Gallery (Multi-Select / Repeater) -->
+                     <div x-data="{ 
+                        gallery: [],
+                        selectGalleryImage() {
+                            if (window.openMediaPicker) {
+                                window.openMediaPicker((media) => {
+                                    this.gallery.push(media.url);
+                                });
+                            }
+                        }
+                    }">
+                        <div class="flex items-center justify-between mb-2">
+                             <label class="block text-sm font-bold text-gray-700">Project Gallery</label>
+                             <button type="button" @click="selectGalleryImage()" class="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded-lg font-bold hover:bg-emerald-100">Add Image</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <template x-for="(img, index) in gallery" :key="index">
+                                <div class="relative aspect-square rounded-lg overflow-hidden group">
+                                    <img :src="img" class="w-full h-full object-cover">
+                                    <input type="hidden" name="gallery[]" :value="img">
+                                    <button type="button" @click="gallery.splice(index, 1)" class="absolute inset-0 bg-black/50 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                        &times;
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Partners -->
+                    <div>
+                         <label class="block text-sm font-bold text-gray-700 mb-2">Supporting Partners</label>
+                         <div class="space-y-2 max-h-48 overflow-y-auto border border-gray-200 rounded-xl p-3">
+                            @foreach($partners as $partner)
+                                <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                    <input type="checkbox" name="partners[]" value="{{ $partner->id }}" class="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500">
+                                    @if($partner->logo)
+                                        <img src="{{ Storage::url($partner->logo) }}" class="h-6 w-6 object-contain">
+                                    @endif
+                                    <span class="text-sm text-gray-700">{{ $partner->name }}</span>
+                                </label>
+                            @endforeach
+                         </div>
                     </div>
 
                     <div>

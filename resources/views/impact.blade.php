@@ -41,7 +41,8 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8 pb-12">
-                    <button
+                    <a href="{{ isset($settings['annual_report']) ? Storage::url($settings['annual_report']) : '#' }}"
+                        {{ isset($settings['annual_report']) ? 'download' : '' }}
                         class="bg-acef-green text-acef-dark font-black px-8 py-4 rounded-2xl flex items-center space-x-3 hover:bg-white transition-all shadow-xl group transform hover:scale-105">
                         <span>{{ __('pages.impact.download_report') }}</span>
                         <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none"
@@ -49,23 +50,48 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                         </svg>
-                    </button>
-                    <button
+                    </a>
+                    <a href="{{ isset($settings['methodology_doc']) ? Storage::url($settings['methodology_doc']) : '#' }}"
+                        {{ isset($settings['methodology_doc']) ? 'target="_blank"' : '' }}
                         class="text-white font-black px-8 py-4 rounded-2xl border-2 border-white/30 hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm">
                         {{ __('pages.impact.view_methodology') }}
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Key Stats -->
-    <section class="pb-24 bg-white dark:bg-gray-900 transition-colors">
+    <section class="pt-24 pb-24 bg-white dark:bg-gray-900 transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6" x-data="{
+                stats: [
+                    @foreach(__('pages.home.stats') as $stat)
+                    { value: {{ (int)str_replace(['+', '%', ','], '', $stat['value']) }}, label: '{{ $stat['label'] }}', current: 0, suffix: '{{ preg_replace('/[0-9]/', '', $stat['value']) }}' },
+                    @endforeach
+                ],
+                startCount() {
+                    this.stats.forEach(stat => {
+                        let start = 0;
+                        let end = stat.value;
+                        let duration = 2000;
+                        let startTime = null;
+
+                        const step = (timestamp) => {
+                            if (!startTime) startTime = timestamp;
+                            const progress = Math.min((timestamp - startTime) / duration, 1);
+                            stat.current = Math.floor(progress * (end - start) + start);
+                            if (progress < 1) {
+                                window.requestAnimationFrame(step);
+                            }
+                        };
+                        window.requestAnimationFrame(step);
+                    });
+                }
+            }" x-intersect.once="startCount()">
                 @foreach(__('pages.home.stats') as $index => $stat)
                     <div
-                        class="bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-8 rounded-[30px] flex flex-col items-center space-y-4 shadow-sm hover:shadow-xl transition-all">
+                        class="bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-8 rounded-xl flex flex-col items-center space-y-4 shadow-sm hover:shadow-xl transition-all">
                         <div
                             class="w-14 h-14 bg-white dark:bg-gray-700 rounded-2xl flex items-center justify-center shadow-sm text-acef-green">
                             @if($index === 0)
@@ -87,7 +113,7 @@
                             @endif
                         </div>
                         <h3 class="text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest text-[10px]">{{ $stat['label'] }}</h3>
-                        <span class="text-4xl font-black text-acef-dark dark:text-white">{{ $stat['value'] }}</span>
+                        <span class="text-4xl font-black text-acef-dark dark:text-white" x-text="stats[{{ $index }}].current.toLocaleString() + stats[{{ $index }}].suffix">0</span>
                     </div>
                 @endforeach
             </div>
@@ -229,22 +255,22 @@
     </script>
 
     <!-- Final Projects Slider/Highlights -->
-    <section class="py-24 bg-white">
+    <section class="py-24 bg-white dark:bg-gray-900 transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             <div class="flex flex-wrap items-end justify-between gap-8">
-                <h2 class="text-5xl font-black text-acef-dark tracking-tighter">{{ __('pages.impact.projects_title') }}
+                <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">{{ __('pages.impact.projects_title') }}
                 </h2>
-                <div class="flex items-center space-x-4">
-                    <select class="bg-gray-50 border-none rounded-xl py-3 px-6 text-sm font-bold text-gray-400">
+                <div class="flex flex-wrap items-center gap-4">
+                    <select class="bg-gray-50 dark:bg-gray-800 border-none rounded-xl py-3 px-6 text-sm font-bold text-gray-400 dark:text-gray-500 focus:ring-2 focus:ring-acef-green outline-none">
                         <option>{{ __('pages.projects_page.filter_category') }}</option>
                     </select>
-                    <select class="bg-gray-50 border-none rounded-xl py-3 px-6 text-sm font-bold text-gray-400">
+                    <select class="bg-gray-50 dark:bg-gray-800 border-none rounded-xl py-3 px-6 text-sm font-bold text-gray-400 dark:text-gray-500 focus:ring-2 focus:ring-acef-green outline-none">
                         <option>{{ __('pages.projects_page.filter_country') }}</option>
                     </select>
                     <div class="relative">
                         <input type="text" placeholder="{{ __('pages.projects_page.search_placeholder') }}"
-                            class="pl-12 pr-6 py-3 bg-gray-50 border-none rounded-xl text-sm w-64">
-                        <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" fill="none"
+                            class="pl-12 pr-6 py-3 bg-gray-50 dark:bg-gray-800 border-none rounded-xl text-sm w-full md:w-64 dark:text-white focus:ring-2 focus:ring-acef-green outline-none">
+                        <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -256,25 +282,27 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 @foreach(__('pages.impact.project_list') as $proj)
                     <div
-                        class="group bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50">
+                        class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 dark:border-gray-700">
                         <div class="relative aspect-[4/3] overflow-hidden">
-                            <img src="{{ $proj['image'] }}" alt="{{ $proj['title'] }}" class="w-full h-full object-cover">
+                            <img src="{{ $proj['image'] }}" alt="{{ $proj['title'] }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute top-6 left-6">
                                 <span
-                                    class="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider text-acef-dark {{ $proj['category'] == 'Energy' ? 'text-blue-500 italic' : ($proj['category'] == 'Water' ? 'text-acef-green' : '') }}">{{ $proj['category'] }}</span>
+                                    class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-acef-dark dark:text-white border border-white/20">
+                                    {{ $proj['category'] }}
+                                </span>
                             </div>
                         </div>
                         <div class="p-8 space-y-4">
                             <div class="flex items-center text-acef-green text-[10px] font-bold uppercase tracking-widest">
                                 <span>{{ $proj['date'] }}</span>
-                                <span class="mx-2">•</span>
+                                <span class="mx-2 text-gray-300 dark:text-gray-600">•</span>
                                 <span
                                     class="{{ $proj['status'] === 'Funded' ? 'text-blue-500' : '' }}">{{ $proj['status'] }}</span>
                             </div>
-                            <h3 class="text-2xl font-black text-acef-dark leading-tight">{{ $proj['title'] }}</h3>
-                            <p class="text-gray-400 text-sm line-clamp-3">{{ $proj['desc'] }}</p>
+                            <h3 class="text-2xl font-black text-acef-dark dark:text-white leading-tight group-hover:text-acef-green transition-colors">{{ $proj['title'] }}</h3>
+                            <p class="text-gray-400 dark:text-gray-500 text-sm line-clamp-3 font-light leading-relaxed">{{ $proj['desc'] }}</p>
                             <a href="{{ route('projects') }}"
-                                class="w-full py-4 border-2 border-gray-100 rounded-2xl font-black text-xs hover:border-acef-dark transition-all block text-center uppercase">{{ __('buttons.read_more') }}</a>
+                                class="w-full py-4 border-2 border-gray-100 dark:border-gray-700 rounded-xl font-black text-xs hover:border-acef-dark dark:hover:border-acef-green dark:hover:text-acef-green transition-all block text-center uppercase tracking-widest">{{ __('buttons.read_more') }}</a>
                         </div>
                     </div>
                 @endforeach
@@ -282,9 +310,9 @@
 
             <div class="flex justify-center pt-8">
                 <button
-                    class="flex items-center space-x-2 text-acef-dark font-black text-sm hover:text-acef-green transition-colors">
+                    class="flex items-center space-x-2 text-acef-dark dark:text-white font-black text-sm hover:text-acef-green transition-colors group">
                     <span>{{ __('pages.impact.projects_load_more') }}</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M19 13l-7 7-7-7m14-8l-7 7-7-7"></path>
                     </svg>

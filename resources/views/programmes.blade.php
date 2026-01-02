@@ -98,20 +98,20 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     @foreach($programmes as $program)
                         <div x-show="checkVisible({{ json_encode($program) }})" x-transition
-                            class="bg-white dark:bg-gray-800 rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all group border border-gray-50 dark:border-gray-700">
+                            class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all group border border-gray-50 dark:border-gray-700">
                             <div class="relative aspect-[4/3] overflow-hidden">
                                 @if($program->image)
                                     <img src="{{ Str::startsWith($program->image, 'http') ? $program->image : Storage::url($program->image) }}" alt="{{ $program->title }}"
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 @else
                                     <div class="w-full h-full bg-emerald-50 dark:bg-gray-700 flex items-center justify-center">
-                                        <span class="text-6xl">{{ $program->icon ?: '🌱' }}</span>
+                                        <svg class="w-12 h-12 text-acef-green/20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     </div>
                                 @endif
                                 
                                 <div class="absolute top-6 left-6">
                                     <span
-                                        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md text-acef-dark dark:text-acef-green px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider shadow-sm border border-gray-100 dark:border-gray-700">
+                                        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md text-acef-dark dark:text-acef-green px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm border border-gray-100 dark:border-gray-700">
                                         {{ $program->category ?: 'General' }}
                                     </span>
                                 </div>
@@ -120,9 +120,6 @@
                             <div class="p-10 space-y-6">
                                 <div class="space-y-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 text-acef-green flex items-center justify-center text-lg shadow-sm">
-                                            {!! $program->icon ?: '🌱' !!}
-                                        </div>
                                         <div class="text-acef-green dark:text-acef-green/80 text-[10px] font-bold uppercase tracking-widest">
                                             {{ $program->meta_val ?: 'Active Initiative' }}
                                         </div>

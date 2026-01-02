@@ -41,16 +41,22 @@
                         {{ __('pages.team.leadership_title') }}</h2>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                    @foreach(array_slice(__('pages.team.members'), 0, 3) as $leader)
+                    @foreach($leadership as $leader)
                         <div class="group space-y-6">
                             <div
-                                class="aspect-[4/5] rounded-[40px] overflow-hidden bg-gray-100 grayscale hover:grayscale-0 transition-all duration-700">
-                                <img src="{{ $leader['image'] }}" alt="{{ $leader['name'] }}"
-                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                class="aspect-[4/5] rounded-2xl overflow-hidden bg-gray-100 grayscale hover:grayscale-0 transition-all duration-700">
+                                @if($leader->image)
+                                    <img src="{{ Storage::url($leader->image) }}" alt="{{ $leader->name }}"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400">
+                                        <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                    </div>
+                                @endif
                             </div>
                             <div class="space-y-1">
-                                <h3 class="text-2xl font-black text-acef-dark tracking-tight">{{ $leader['name'] }}</h3>
-                                <p class="text-acef-green font-bold text-xs uppercase tracking-widest">{{ $leader['role'] }}
+                                <h3 class="text-2xl font-black text-acef-dark tracking-tight">{{ $leader->name }}</h3>
+                                <p class="text-acef-green font-bold text-xs uppercase tracking-widest">{{ $leader->role }}
                                 </p>
                             </div>
                         </div>
@@ -66,16 +72,22 @@
                     </h2>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                    @foreach(array_slice(__('pages.team.members'), 3, 4) as $lead)
+                    @foreach($staff as $lead)
                         <div class="group space-y-4">
-                            <div class="aspect-square rounded-[30px] overflow-hidden bg-gray-50 border border-gray-100">
-                                <img src="{{ $lead['image'] }}" alt="{{ $lead['name'] }}"
-                                    class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+                            <div class="aspect-square rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
+                                @if($lead->image)
+                                    <img src="{{ Storage::url($lead->image) }}" alt="{{ $lead->name }}"
+                                        class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+                                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                    </div>
+                                @endif
                             </div>
                             <div class="space-y-0.5">
-                                <h4 class="font-black text-acef-dark text-sm">{{ $lead['name'] }}</h4>
+                                <h4 class="font-black text-acef-dark text-sm">{{ $lead->name }}</h4>
                                 <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-loose">
-                                    {{ $lead['role'] }}</p>
+                                    {{ $lead->role }}</p>
                             </div>
                         </div>
                     @endforeach
@@ -84,7 +96,7 @@
 
             <!-- Join the Team CTA -->
             <section
-                class="bg-acef-dark rounded-[50px] p-12 md:p-20 flex flex-col items-center text-center space-y-8 relative overflow-hidden">
+                class="bg-acef-dark rounded-3xl p-12 md:p-20 flex flex-col items-center text-center space-y-8 relative overflow-hidden">
                 <div class="absolute inset-0 opacity-10">
                     <div class="absolute -top-24 -left-24 w-96 h-96 bg-acef-green rounded-full blur-3xl"></div>
                 </div>

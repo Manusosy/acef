@@ -58,4 +58,14 @@ class Partner extends Model
     {
         return $query->where('category', 'implementation');
     }
+
+    public function programs()
+    {
+        return $this->belongsToMany(Program::class, 'partner_program');
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'partner_project');
+    }
 }

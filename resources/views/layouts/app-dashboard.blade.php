@@ -198,6 +198,17 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                         <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Media Library</div>
                     </a>
 
+                    <!-- Resources -->
+                    <a href="{{ route('admin.resources.index') }}" 
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.resources.*') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       :class="sidebarCollapsed ? 'justify-center' : ''">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                        <span x-show="!sidebarCollapsed" x-transition class="font-medium">Resources</span>
+                        <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Resources</div>
+                    </a>
+
                     <!-- Organization -->
                     <div class="pt-4 pb-2 text-gray-500 uppercase text-xs font-bold tracking-wider" x-show="!sidebarCollapsed">Organization</div>
                     
@@ -219,6 +230,16 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                         </svg>
                         <span x-show="!sidebarCollapsed" x-transition class="font-medium">Partners</span>
                         <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Partners</div>
+                    </a>
+
+                    <a href="{{ route('admin.accreditations.index') }}" 
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.accreditations.*') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       :class="sidebarCollapsed ? 'justify-center' : ''">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span x-show="!sidebarCollapsed" x-transition class="font-medium">Accreditations</span>
+                        <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Accreditations</div>
                     </a>
 
                     <a href="{{ route('admin.users.index') }}" 

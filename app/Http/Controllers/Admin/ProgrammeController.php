@@ -25,7 +25,8 @@ class ProgrammeController extends Controller
 
     public function create()
     {
-        return view('admin.programmes.create');
+        $partners = \App\Models\Partner::where('is_active', true)->get();
+        return view('admin.programmes.create', compact('partners'));
     }
 
     public function store(Request $request)
@@ -53,12 +54,19 @@ class ProgrammeController extends Controller
         if ($user->isAdmin()) {
             $rules['status'] = 'required|in:draft,published,archived';
             $rules['country'] = 'nullable|array';
+            $rules['partners'] = 'nullable|array';
+            $rules['partners.*'] = 'exists:partners,id';
         }
 
         $validated = $request->validate($rules);
 
-        $program = new Program();
-        $program->fill($validated);
+        // Create the program first to get an ID for syncing relationships
+        $program = Program::create($validated);
+
+        // Sync partners if provided
+        if ($request->has('partners')) {
+            $program->partners()->sync($request->partners);
+        }
 
         // Handle Images
         if ($request->hasFile('image')) {
@@ -95,7 +103,7 @@ class ProgrammeController extends Controller
             $program->country = [$user->country];
         }
 
-        $program->save();
+        $program->save(); // Save again to persist image/factsheet paths and JSON fields
 
         return redirect()->route('admin.programmes.index')->with('success', 'Program created successfully.');
     }
@@ -130,6 +138,9 @@ class ProgrammeController extends Controller
             'stats' => 'nullable|array',
             'category' => 'nullable|string|max:255',
             'icon' => 'nullable|string|max:255',
+            'icon' => 'nullable|string|max:255',
+            'partners' => 'nullable|array',
+            'partners.*' => 'exists:partners,id',
         ];
 
         if ($user->isAdmin()) {
@@ -139,7 +150,15 @@ class ProgrammeController extends Controller
 
         $validated = $request->validate($rules);
 
-        $programme->fill($validated);
+        $programme->update($validated);
+
+        // Sync partners if provided
+        if ($request->has('partners')) {
+            $programme->partners()->sync($request->partners);
+        } else {
+            // If partners field is not present, detach all partners
+            $programme->partners()->detach();
+        }
 
         if ($request->hasFile('image')) {
             $programme->image = $request->file('image')->store('programs', 'public');

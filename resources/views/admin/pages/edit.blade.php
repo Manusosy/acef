@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">Edit Page: {{ $page->title }}</x-slot>
     <x-slot name="title">Edit Page</x-slot>
 
@@ -81,4 +81,4 @@
             document.getElementById('metaCharCount').textContent = this.value.length;
         });
     </script>
-</x-admin-layout>
+</x-app-dashboard-layout>

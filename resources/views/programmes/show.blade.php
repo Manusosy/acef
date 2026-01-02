@@ -1,4 +1,23 @@
-<x-app-layout>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google" content="notranslate">
+    <title>{{ $programme->title }} - ACEF</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body class="antialiased font-sans bg-white dark:bg-gray-950 transition-colors duration-300">
+    @include('components.header')
     <!-- Hero Section -->
     <div class="relative h-[500px] md:h-[600px] flex items-end justify-center overflow-hidden">
         <div class="absolute inset-0">
@@ -72,7 +91,7 @@
                 <!-- Left Column (Content) -->
                 <div class="lg:col-span-8 space-y-12">
                     <!-- Overview -->
-                    <section id="overview" class="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <section id="overview" class="bg-white dark:bg-gray-800 rounded-lg p-8 border border-gray-100 dark:border-gray-700 shadow-sm">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Programme Overview</h2>
                         <div class="prose prose-lg dark:prose-invert prose-emerald max-w-none">
                             {!! $programme->content !!}
@@ -80,7 +99,7 @@
                         
                         <!-- Location Map Placeholder -->
                         @if($programme->location)
-                        <div class="mt-8 relative h-64 bg-gray-100 dark:bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center group">
+                        <div class="mt-8 relative h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden flex items-center justify-center group">
                              <!-- Replace with real map if available -->
                              <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Map Location" class="absolute inset-0 w-full h-full object-cover opacity-50 grayscale group-hover:grayscale-0 transition-all duration-500">
                              <div class="relative bg-white dark:bg-gray-800 px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
@@ -97,7 +116,7 @@
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Focus Areas</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             @foreach($programme->focus_areas as $area)
-                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm flex items-start gap-4">
+                            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm flex items-start gap-4">
                                 <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                 </div>
@@ -125,7 +144,7 @@
                         <!-- Story Card -->
                         <div class="space-y-6">
                             @foreach($programme->impact_stories as $story)
-                                <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col md:flex-row">
+                                <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col md:flex-row">
                                     <div class="md:w-1/3">
                                         <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover min-h-[200px]" alt="Story Image">
                                     </div>
@@ -147,25 +166,28 @@
                 <!-- Right Column (Sidebar) -->
                 <div class="lg:col-span-4 space-y-8">
                     
-                    <!-- Programme Lead -->
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
-                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Programme Lead</h3>
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="https://ui-avatars.com/api/?name=Dr+Amina+K&background=0D9488&color=fff" class="w-16 h-16 rounded-full ring-4 ring-gray-50 dark:ring-gray-700">
-                            <div>
-                                <h4 class="font-bold text-gray-900 dark:text-white text-lg">Dr. Amina K.</h4>
-                                <p class="text-xs text-acef-green font-bold uppercase tracking-wider">Head of Agriculture</p>
+                    <!-- Supporting Organizations -->
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
+                        <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-50 dark:border-gray-700 pb-3">Supporting Organizations</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            @forelse($programme->partners as $partner)
+                            <div class="aspect-square bg-gray-50 dark:bg-gray-900 rounded-lg p-4 flex items-center justify-center group hover:bg-white dark:hover:bg-gray-800 transition-all border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md">
+                                <img src="{{ $partner->logo ? Storage::url($partner->logo) : '/placeholder.png' }}" alt="{{ $partner->name }}" class="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transition-all">
                             </div>
+                            @empty
+                            <div class="col-span-2 py-4 text-center">
+                                <p class="text-xs text-gray-400 italic">Partners will be listed soon.</p>
+                            </div>
+                            @endforelse
                         </div>
-                        <p class="text-sm text-gray-500 mb-6 italic">"This initiative is close to my heart. We are seeing real change on the ground."</p>
-                        <a href="{{ route('contact') }}" class="block w-full py-3 border border-gray-200 dark:border-gray-700 text-center rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                            Contact Team
-                        </a>
+                        <p class="mt-6 text-[10px] text-gray-400 font-medium leading-relaxed italic">
+                            These organizations directly contribute to the implementation and success of this programme.
+                        </p>
                     </div>
 
                     <!-- Funding Goal -->
                     @if($programme->funding_goal > 0)
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
                          <div class="flex items-center justify-between mb-2">
                              <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Funding Goal</h3>
                              <span class="text-xs font-bold text-acef-green">{{ round(($programme->funding_raised / $programme->funding_goal) * 100) }}%</span>
@@ -183,14 +205,18 @@
                                  <div class="text-xs text-gray-500">Target</div>
                              </div>
                          </div>
-                         <a href="{{ route('donate') }}" id="donate" class="block w-full py-4 bg-acef-green hover:bg-emerald-500 text-white font-bold rounded-xl text-center shadow-lg shadow-emerald-200 dark:shadow-none transition-all hover:-translate-y-1">
-                             Donate Now
+                         <a href="{{ route('donate') }}" id="donate" class="group relative block w-full py-5 bg-acef-green text-acef-dark font-black rounded-lg text-center overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98]">
+                             <span class="relative z-10 flex items-center justify-center gap-2 uppercase tracking-widest text-sm">
+                                Donate to this Program
+                                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                             </span>
+                             <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
                          </a>
                     </div>
                     @endif
 
                     <!-- On This Page -->
-                    <div class="hidden lg:block bg-gray-50 dark:bg-gray-800/50 p-6 rounded-2xl">
+                    <div class="hidden lg:block bg-gray-50 dark:bg-gray-800/50 p-6 rounded-lg">
                         <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">On This Page</h3>
                         <nav class="space-y-2">
                             <a href="#overview" class="block text-sm font-medium text-acef-green pl-3 border-l-2 border-acef-green">Overview</a>
@@ -204,4 +230,6 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+    @include('components.footer')
+</body>
+</html>

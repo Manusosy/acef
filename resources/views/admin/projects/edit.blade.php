@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">Edit Project</x-slot>
     <x-slot name="title">Edit Project</x-slot>
 
@@ -155,6 +155,46 @@
                                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent">{{ old('description', $project->description) }}</textarea>
                     </div>
 
+                    <!-- Objectives (Repeater) -->
+                    <div class="md:col-span-2 space-y-2" x-data="{ objectives: {{ json_encode($project->objectives ?? ['']) }} }">
+                        <div class="flex items-center justify-between">
+                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Key Objectives</label>
+                             <button type="button" @click="objectives.push('')" class="text-xs text-acef-green font-bold hover:text-emerald-700">+ Add Objective</button>
+                        </div>
+                        <div class="space-y-2">
+                            <template x-for="(objective, index) in objectives" :key="index">
+                                <div class="flex gap-2">
+                                    <input type="text" :name="'objectives[' + index + ']'" x-model="objectives[index]" placeholder="Enter objective..." class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                                    <button type="button" @click="objectives.splice(index, 1)" class="text-red-500 hover:text-red-700 font-bold px-2">&times;</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Voices (Repeater) -->
+                    <div class="md:col-span-2 space-y-2" x-data="{ 
+                        voices: {{ json_encode($project->voices ?? []) }},
+                        addVoice() { this.voices.push({ name: '', role: '', quote: '' }); }
+                    }">
+                        <div class="flex items-center justify-between">
+                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Voices & Testimonials</label>
+                             <button type="button" @click="addVoice()" class="text-xs text-acef-green font-bold hover:text-emerald-700">+ Add Testimonial</button>
+                        </div>
+                        <div class="space-y-3">
+                            <template x-for="(voice, index) in voices" :key="index">
+                                <div class="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600 space-y-2 relative group">
+                                    <button type="button" @click="voices.splice(index, 1)" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">&times;</button>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <input type="text" :name="'voices[' + index + '][name]'" x-model="voice.name" placeholder="Name" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-xs">
+                                        <input type="text" :name="'voices[' + index + '][role]'" x-model="voice.role" placeholder="Role" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-xs">
+                                    </div>
+                                    <textarea :name="'voices[' + index + '][quote]'" x-model="voice.quote" rows="2" placeholder="Quote..." class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-xs"></textarea>
+                                </div>
+                            </template>
+                             <div x-show="voices.length === 0" class="text-center py-4 text-gray-400 text-xs italic">No testimonials added yet.</div>
+                        </div>
+                    </div>
+
                     <!-- Current Image -->
                     @if($project->image)
                         <div class="md:col-span-2">
@@ -171,6 +211,54 @@
                         <input type="file" name="image" id="image" accept="image/*"
                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-900/30 dark:file:text-emerald-400">
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Max 2MB. Supported formats: JPEG, PNG, GIF, WebP</p>
+                    </div>
+
+                    <!-- Gallery -->
+                     <div class="md:col-span-2" x-data="{ 
+                        gallery: {{ json_encode($project->gallery ?? []) }},
+                        selectGalleryImage() {
+                            if (window.openMediaPicker) {
+                                window.openMediaPicker((media) => {
+                                    this.gallery.push(media.url);
+                                });
+                            }
+                        }
+                    }">
+                        <div class="flex items-center justify-between mb-2">
+                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Project Gallery</label>
+                             <button type="button" @click="selectGalleryImage()" class="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded-lg font-bold hover:bg-emerald-100">Add Image</button>
+                        </div>
+                        <div class="grid grid-cols-4 gap-3">
+                            <template x-for="(img, index) in gallery" :key="index">
+                                <div class="relative aspect-square rounded-lg overflow-hidden group">
+                                    <img :src="img.startsWith('http') || img.startsWith('/') ? img : '/storage/' + img" class="w-full h-full object-cover">
+                                    <input type="hidden" name="gallery[]" :value="img">
+                                    <button type="button" @click="gallery.splice(index, 1)" class="absolute inset-0 bg-black/50 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                        &times;
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Partners -->
+                    <div class="md:col-span-2">
+                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Supporting Partners</label>
+                         <div class="space-y-2 max-h-48 overflow-y-auto border border-gray-200 dark:border-gray-600 rounded-lg p-3 bg-white dark:bg-gray-700">
+                            @foreach($partners as $partner)
+                                <label class="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg cursor-pointer">
+                                    <input type="checkbox" name="partners[]" value="{{ $partner->id }}" 
+                                           {{ $project->partners->contains($partner->id) ? 'checked' : '' }}
+                                           class="rounded border-gray-300 dark:border-gray-500 text-emerald-600 focus:ring-emerald-500">
+                                    @if($partner->logo)
+                                        <img src="{{ Storage::url($partner->logo) }}" class="h-6 w-6 object-contain bg-white rounded p-0.5">
+                                    @else
+                                        <div class="h-6 w-6 bg-gray-100 rounded flex items-center justify-center text-xs font-bold text-gray-500">{{ substr($partner->name, 0, 1) }}</div>
+                                    @endif
+                                    <span class="text-sm text-gray-700 dark:text-gray-300">{{ $partner->name }}</span>
+                                </label>
+                            @endforeach
+                         </div>
                     </div>
 
                     <!-- Toggles (Admins Only) -->
@@ -208,4 +296,4 @@
             </div>
         </form>
     </div>
-</x-admin-layout>
+</x-app-dashboard-layout>

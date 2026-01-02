@@ -16,6 +16,7 @@ Route::post('/api/mpesa/callback', function() { return response()->json(['result
 Route::get('/programmes', [\App\Http\Controllers\HomeController::class, 'programmes'])->name('programmes');
 Route::get('/programmes/{programme:slug}', [\App\Http\Controllers\HomeController::class, 'showProgramme'])->name('programmes.show');
 Route::get('/projects', [\App\Http\Controllers\HomeController::class, 'projects'])->name('projects');
+Route::get('/projects/{project:slug}', [\App\Http\Controllers\HomeController::class, 'showProject'])->name('projects.show');
 Route::get('/impact', [\App\Http\Controllers\HomeController::class, 'impact'])->name('impact');
 Route::get('/resources', [\App\Http\Controllers\HomeController::class, 'resources'])->name('resources');
 Route::get('/news', [\App\Http\Controllers\HomeController::class, 'news'])->name('news');
@@ -57,8 +58,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('gallery', \App\Http\Controllers\Admin\GalleryController::class);
         
         // Organization
-        Route::resource('team', \App\Http\Controllers\Admin\TeamController::class);
+        Route::resource('team', \App\Http\Controllers\Admin\TeamMemberController::class);
         Route::resource('partners', \App\Http\Controllers\Admin\PartnerController::class);
+        Route::resource('accreditations', \App\Http\Controllers\Admin\AccreditationController::class);
+        Route::resource('resources', \App\Http\Controllers\Admin\ResourceController::class);
         
         // Users
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
@@ -100,5 +103,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__ . '/auth.php';

@@ -140,7 +140,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-16">
                     @foreach(__('pages.home.programmes') as $prog)
                         <div
-                            class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all group text-left border border-black/5 flex flex-col justify-between">
+                            class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all group text-left border border-black/5 flex flex-col justify-between">
                             <div class="space-y-4">
                                 <div
                                     class="w-14 h-14 rounded-2xl bg-{{ $prog['icon'] }}-50 flex items-center justify-center group-hover:bg-acef-green group-hover:text-white transition-colors duration-500 text-{{ $prog['icon'] }}-500">
@@ -249,7 +249,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                     @foreach(__('pages.home.projects') as $project)
                         <div class="group cursor-pointer">
-                            <div class="relative rounded-3xl overflow-hidden aspect-[4/5] mb-6 shadow-lg">
+                            <div class="relative rounded-lg overflow-hidden aspect-[4/5] mb-6 shadow-lg">
                                 <img src="{{ $project['image'] }}" alt="{{ $project['title'] }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute top-6 left-6">
@@ -295,7 +295,7 @@
         <section class="py-16 md:py-24 bg-acef-gray relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-5xl mx-auto">
-                    <div class="relative rounded-[30px] md:rounded-[40px] overflow-hidden shadow-2xl border-4 border-white aspect-video group">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-video group">
                         <!-- Video: The Great Green Wall (User Provided) -->
                         <iframe 
                             class="w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700"
@@ -329,7 +329,7 @@
                 </div>
 
                 <div class="relative w-full max-w-5xl h-[350px] md:h-[600px] mx-auto mt-10">
-                    <div id="africa-map" class="w-full h-full rounded-3xl shadow-2xl border border-white/10 bg-acef-dark z-10 relative"></div>
+                    <div id="africa-map" class="w-full h-full rounded-2xl shadow-2xl border border-white/10 bg-acef-dark z-10 relative"></div>
                 </div>
             </div>
         </section>
@@ -364,7 +364,7 @@
                         ];
                     @endphp
                     @foreach($news_items as $index => $news)
-                        <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+                        <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all group">
                             <div class="relative aspect-video overflow-hidden">
                                 <img src="{{ $news_images[$index] }}" alt="{{ $news['category'] }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">

@@ -23,7 +23,7 @@
     <section class="pt-32 pb-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
-                class="bg-white border border-gray-100 rounded-[50px] overflow-hidden shadow-2xl flex flex-col lg:flex-row">
+                class="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row">
                 <div class="lg:w-1/2 relative min-h-[400px]">
                     <img src="/project_mangroves_1766827746442.png" alt="Marine Life"
                         class="absolute inset-0 w-full h-full object-cover">
@@ -55,16 +55,7 @@
         <!-- Browse Insights -->
     <main>
         <!-- Browse Insights -->
-        <section class="py-24 bg-gray-50/50" x-data="{
-            search: '',
-            filter: 'all',
-            checkVisible(item) {
-                const searchLower = this.search.toLowerCase();
-                const matchesSearch = item.title.toLowerCase().includes(searchLower) || item.desc.toLowerCase().includes(searchLower);
-                const matchesFilter = this.filter === 'all' || item.category === this.filter;
-                return matchesSearch && matchesFilter;
-            }
-        }">
+        <section class="py-24 bg-gray-50/50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
                 <div class="flex flex-col md:flex-row justify-between items-end gap-8">
                     <div class="space-y-4">
@@ -73,30 +64,36 @@
                         <p class="text-gray-400 font-light italic">{{ __('pages.news.browse.desc') }}</p>
                     </div>
                     <div class="relative w-full md:w-80">
-                        <input type="text" x-model="search" placeholder="{{ __('pages.news.browse.search_placeholder') }}"
-                            class="w-full pl-12 pr-6 py-4 bg-white border-none rounded-2xl shadow-sm text-sm">
-                        <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
+                        <form action="{{ route('news.index') }}" method="GET">
+                            @if(request('category'))
+                                <input type="hidden" name="category" value="{{ request('category') }}">
+                            @endif
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('pages.news.browse.search_placeholder') }}"
+                                class="w-full pl-12 pr-6 py-4 bg-white border-none rounded-2xl shadow-sm text-sm focus:ring-2 focus:ring-acef-green">
+                            <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-acef-green">
+                                <svg class="w-5 h-5" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
                 <!-- Category Pills -->
                 <div class="flex flex-wrap gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                    <button @click="filter = 'all'"
-                        :class="filter === 'all' ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark'"
-                        class="px-8 py-3 font-black rounded-xl text-sm whitespace-nowrap transition-all">{{ __('pages.news.browse.filters.all') }}</button>
-                    <button @click="filter = '{{ __('pages.news.browse.filters.climate_action') }}'"
-                        :class="filter === '{{ __('pages.news.browse.filters.climate_action') }}' ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark'"
-                        class="px-8 py-3 font-bold rounded-xl text-sm transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.climate_action') }}</button>
-                    <button @click="filter = '{{ __('pages.news.browse.filters.youth_leadership') }}'"
-                        :class="filter === '{{ __('pages.news.browse.filters.youth_leadership') }}' ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark'"
-                        class="px-8 py-3 font-bold rounded-xl text-sm transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.youth_leadership') }}</button>
-                    <button @click="filter = '{{ __('pages.news.browse.filters.conservation') }}'"
-                        :class="filter === '{{ __('pages.news.browse.filters.conservation') }}' ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark'"
-                        class="px-8 py-3 font-bold rounded-xl text-sm transition-all whitespace-nowrap">{{ __('pages.news.browse.filters.conservation') }}</button>
+                    <a href="{{ route('news.index') }}"
+                        class="{{ !request('category') ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark' }} px-8 py-3 font-black rounded-xl text-sm whitespace-nowrap transition-all">
+                        {{ __('pages.news.browse.filters.all') }}
+                    </a>
+                    
+                    @foreach($categories as $category)
+                        <a href="{{ route('news.index', ['category' => $category->slug]) }}"
+                            class="{{ request('category') == $category->slug ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark' }} px-8 py-3 font-bold rounded-xl text-sm transition-all whitespace-nowrap">
+                            {{ $category->name }}
+                        </a>
+                    @endforeach
                 </div>
 
                 <!-- Article Grid -->
@@ -104,13 +101,13 @@
                     <!-- Dynamic Articles -->
 
                     @forelse($articles as $article)
-                        <div class="group bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 flex flex-col">
+                        <div class="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 flex flex-col">
                             <div class="relative aspect-[16/10] overflow-hidden">
                                 <img src="{{ $article->image ? asset('storage/' . $article->image) : '/project_solar_panels_1766827705821.png' }}" alt="{{ $article->title }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute top-6 left-6">
                                     <span
-                                        class="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider text-acef-dark">{{ $article->category }}</span>
+                                        class="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-acef-dark">{{ $article->category?->name ?? 'Uncategorized' }}</span>
                                 </div>
                             </div>
                             <div class="p-10 space-y-6 flex-1 flex flex-col">
@@ -175,9 +172,9 @@
                 </div>
 
                 <div
-                    class="bg-gray-800/30 rounded-[50px] border border-white/5 p-8 md:p-12 flex flex-col lg:flex-row gap-12 items-center">
+                    class="bg-gray-800/30 rounded-2xl border border-white/5 p-8 md:p-12 flex flex-col lg:flex-row gap-12 items-center">
                     <div class="lg:w-1/3 w-full">
-                        <div class="relative aspect-square rounded-[30px] overflow-hidden group">
+                        <div class="relative aspect-square rounded-xl overflow-hidden group">
                             <img src="/map_africa_impact_1766827796711.png" alt="Report"
                                 class="w-full h-full object-cover">
                             <div

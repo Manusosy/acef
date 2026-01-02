@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">Pages</x-slot>
     <x-slot name="title">Pages</x-slot>
 
@@ -70,4 +70,4 @@
             </tbody>
         </table>
     </div>
-</x-admin-layout>
+</x-app-dashboard-layout>

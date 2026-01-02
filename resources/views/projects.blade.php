@@ -118,7 +118,7 @@
                             $barWidth = min($percent, 100);
                         @endphp
                         <div x-show="checkVisible({{ json_encode($project) }})" x-transition
-                            class="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all group border border-gray-100 dark:border-gray-800">
+                            class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all group border border-gray-100 dark:border-gray-800">
                             <div class="relative aspect-[4/3] overflow-hidden">
                                 @if($project->image)
                                     <img src="{{ Str::startsWith($project->image, 'http') ? $project->image : Storage::url($project->image) }}" alt="{{ $project->title }}"
@@ -130,14 +130,14 @@
                                 @endif
                                 <div class="absolute top-6 left-6">
                                     <span
-                                        class="bg-white/90 backdrop-blur-md text-acef-dark px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                                        class="bg-white/90 backdrop-blur-md text-acef-dark px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm">
                                         {{ $project->category }}
                                     </span>
                                 </div>
                                 @if($percent >= 100)
                                     <div class="absolute top-6 right-6">
                                         <span
-                                            class="bg-acef-green text-acef-dark px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider flex items-center">
+                                            class="bg-acef-green text-acef-dark px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center">
                                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd"
                                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"

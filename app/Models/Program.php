@@ -45,4 +45,14 @@ class Program extends Model
             }
         });
     }
+
+    public function partners()
+    {
+        return $this->belongsToMany(Partner::class, 'partner_program');
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'programme_id');
+    }
 }

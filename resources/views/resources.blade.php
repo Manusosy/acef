@@ -31,26 +31,6 @@
     </section>
 
     <main class="pb-24">
-        @php
-            $translated_items = __('pages.resources.items');
-            // Metadata that isn't translated but needs to be associated
-            $meta = [
-                ['size' => '1.2 MB', 'date' => '2025', 'locked' => false, 'color' => 'acef-green'],
-                ['size' => '2.5 MB', 'date' => '2025', 'locked' => false, 'color' => 'acef-green'],
-                ['size' => '2.4 MB', 'date' => '2024', 'locked' => false, 'color' => 'acef-green'],
-                ['size' => '1.8 MB', 'date' => '2024', 'locked' => false, 'color' => 'acef-green'],
-                ['size' => '3.2 MB', 'date' => '2024', 'locked' => true, 'color' => 'gray-400'],
-                ['size' => '5.1 MB', 'date' => '2023', 'locked' => false, 'color' => 'acef-green'],
-                ['size' => '1.2 MB', 'date' => '2024', 'locked' => true, 'color' => 'gray-400'],
-                ['size' => '4.3 MB', 'date' => '2023', 'locked' => false, 'color' => 'acef-green'],
-            ];
-            
-            $allResources = [];
-            foreach($translated_items as $index => $res) {
-                $m = $meta[$index] ?? ['size' => '', 'date' => '', 'locked' => false, 'color' => 'gray-400'];
-                $allResources[] = array_merge($res, $m);
-            }
-        @endphp
 
         <div x-data="{
             search: '',
@@ -58,7 +38,7 @@
             resources: {{ json_encode($allResources) }},
             checkVisible(item) {
                 const searchLower = this.search.toLowerCase();
-                const matchesSearch = item.title.toLowerCase().includes(searchLower) || item.desc.toLowerCase().includes(searchLower);
+                const matchesSearch = item.title.toLowerCase().includes(searchLower) || (item.description && item.description.toLowerCase().includes(searchLower));
                 
                 // Filter Logic
                 // We compare the filter value (which corresponds to the category key presumably or text)
@@ -114,10 +94,10 @@
             <section class="py-16">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        @foreach($allResources as $res)
-                            <div x-show="checkVisible({{ json_encode($res) }})" x-transition
-                                class="bg-white p-10 rounded-[40px] border border-gray-100 shadow-sm hover:shadow-2xl transition-all flex flex-col justify-between h-[420px] group relative overflow-hidden">
-                                @if($res['locked'])
+                        <template x-for="res in resources" :key="res.id">
+                            <div x-show="checkVisible(res)" x-transition
+                                class="bg-white p-10 rounded-2xl border border-gray-100 shadow-sm hover:shadow-2xl transition-all flex flex-col justify-between h-[420px] group relative overflow-hidden">
+                                <template x-if="res.is_locked">
                                     <div class="absolute top-8 right-8 text-gray-300">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
@@ -125,31 +105,31 @@
                                                 clip-rule="evenodd"></path>
                                         </svg>
                                     </div>
-                                @endif
+                                </template>
 
                                 <div class="space-y-6">
                                     <span
-                                        class="bg-{{ $res['color'] == 'acef-green' ? 'acef-green/10' : 'gray-100' }} text-{{ $res['color'] == 'acef-green' ? 'acef-green' : 'gray-400' }} px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest inline-block">
-                                        {{ $res['type'] }}
+                                        class="px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest inline-block bg-acef-green/10 text-acef-green"
+                                        x-text="res.type">
                                     </span>
                                     <div class="space-y-4">
                                         <h3
                                             class="text-2xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors">
-                                            {{ $res['title'] }}
+                                            <span x-text="res.title"></span>
                                         </h3>
                                         <p class="text-gray-400 text-sm leading-relaxed font-light italic">
-                                            {{ $res['desc'] }}
+                                            <span x-text="res.description"></span>
                                         </p>
                                     </div>
                                 </div>
 
                                 <div class="space-y-6">
                                     <div class="flex justify-between items-center text-xs font-bold text-gray-300">
-                                        <span>{{ $res['size'] }}</span>
-                                        <span>{{ $res['date'] }}</span>
+                                        <span x-text="res.size"></span>
+                                        <span x-text="res.year"></span>
                                     </div>
 
-                                    @if($res['locked'])
+                                    <template x-if="res.is_locked">
                                         <button
                                             class="w-full py-5 bg-gray-50 text-acef-dark font-black rounded-2xl flex items-center justify-center space-x-2 border-2 border-gray-100/50 cursor-not-allowed">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -159,8 +139,10 @@
                                             </svg>
                                             <span>{{ __('pages.resources.members_only_btn') }}</span>
                                         </button>
-                                    @else
-                                        <button
+                                        </button>
+                                    </template>
+                                    <template x-if="!res.is_locked">
+                                        <a :href="'/storage/' + res.file_path" download 
                                             class="w-full py-5 bg-acef-green text-acef-dark font-black rounded-2xl flex items-center justify-center space-x-3 hover:bg-white border-2 border-transparent hover:border-acef-green transition-all shadow-xl shadow-acef-green/20 group/btn">
                                             <svg class="w-5 h-5 group-hover/btn:translate-y-1 transition-transform" fill="none"
                                                 stroke="currentColor" viewBox="0 0 24 24">
@@ -168,11 +150,11 @@
                                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                                             </svg>
                                             <span>{{ __('pages.resources.download_btn') }}</span>
-                                        </button>
-                                    @endif
+                                        </a>
+                                    </template>
                                 </div>
                             </div>
-                        @endforeach
+                        </template>
                     </div>
                 </div>
             </section>

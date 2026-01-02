@@ -28,7 +28,21 @@ class HomeController extends Controller
         if ($programme->status !== 'published') {
             abort(404);
         }
+
+        $programme->load(['partners', 'projects']);
+        
         return view('programmes.show', compact('programme'));
+    }
+
+    public function showProject(\App\Models\Project $project)
+    {
+        if ($project->status === 'draft') {
+            abort(404);
+        }
+
+        $project->load(['partners', 'programme']);
+        
+        return view('projects.show', compact('project'));
     }
 
     public function projects()
@@ -40,18 +54,37 @@ class HomeController extends Controller
 
     public function impact()
     {
-        return view('impact');
+        $settings = \App\Models\Setting::getGroup('general');
+        return view('impact', compact('settings'));
     }
 
     public function resources()
     {
-        return view('resources');
+        $allResources = \App\Models\Resource::latest()->get();
+        return view('resources', compact('allResources'));
     }
 
     public function news()
     {
-        $articles = \App\Models\Article::with(['category', 'author'])->published()->latest('published_at')->paginate(9);
-        return view('news', compact('articles'));
+        $query = \App\Models\Article::with(['category', 'author'])->published();
+
+        if ($search = request('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('excerpt', 'like', "%{$search}%");
+            });
+        }
+
+        if ($category = request('category')) {
+             $query->whereHas('category', function($q) use ($category) {
+                 $q->where('slug', $category)->orWhere('name', $category);
+             });
+        }
+
+        $articles = $query->latest('published_at')->paginate(9)->withQueryString();
+        $categories = \App\Models\Category::has('articles')->get();
+
+        return view('news', compact('articles', 'categories'));
     }
 
     public function showNews(\App\Models\Article $article)
@@ -107,17 +140,22 @@ class HomeController extends Controller
 
     public function team()
     {
-        return view('team');
+        $members = \App\Models\TeamMember::orderBy('order')->orderBy('name')->get();
+        $leadership = $members->where('group', 'leadership');
+        $staff = $members->where('group', 'staff');
+        return view('team', compact('leadership', 'staff'));
     }
 
     public function partners()
     {
-        return view('partners');
+        $partners = \App\Models\Partner::orderBy('name')->get();
+        return view('partners', compact('partners'));
     }
 
     public function accreditations()
     {
-        return view('accreditations');
+        $accreditations = \App\Models\Accreditation::all();
+        return view('accreditations', compact('accreditations'));
     }
     public function cookies()
     {

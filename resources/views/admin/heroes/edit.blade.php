@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">Hero Section: {{ $page->title }}</x-slot>
     <x-slot name="title">Hero Settings</x-slot>
 
@@ -97,4 +97,4 @@
             if (response.ok) location.reload();
         }
     </script>
-</x-admin-layout>
+</x-app-dashboard-layout>
