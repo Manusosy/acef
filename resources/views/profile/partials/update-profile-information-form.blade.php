@@ -89,24 +89,14 @@
                        class="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-xl text-sm font-semibold focus:ring-2 focus:ring-emerald-500/20 dark:text-gray-300" 
                        value="{{ old('email', $user->email) }}" required autocomplete="username" />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            </div>
 
-                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                    <div class="mt-4">
-                        <p class="text-xs text-gray-800">
-                            {{ __('Your email address is unverified.') }}
-
-                            <button form="send-verification" class="font-bold text-emerald-600 hover:text-emerald-700 underline uppercase tracking-tighter">
-                                {{ __('Click here to re-send the verification email.') }}
-                            </button>
-                        </p>
-
-                        @if (session('status') === 'verification-link-sent')
-                            <p class="mt-2 text-xs font-bold text-green-600">
-                                {{ __('A new verification link has been sent to your email address.') }}
-                            </p>
-                        @endif
-                    </div>
-                @endif
+            <div>
+                <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Jurisdiction / Country</label>
+                <div class="w-full px-4 py-3 bg-gray-100 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 rounded-xl text-sm font-semibold text-gray-600 dark:text-gray-400">
+                    {{ $user->country ?? 'Global / Administrator' }}
+                </div>
+                <p class="mt-1 text-[10px] text-gray-400 italic">This is assigned by the system administrator.</p>
             </div>
         </div>
 

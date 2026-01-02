@@ -11,7 +11,10 @@
         </a>
     </div>
 
-    <form method="POST" action="{{ route('admin.users.update', $user->id) }}" class="max-w-3xl" x-data="{ role: '{{ old('role_id', $user->role_id) }}' }">
+    <form method="POST" action="{{ route('admin.users.update', $user->id) }}" class="max-w-3xl" x-data="{ 
+        roleId: '{{ old('role_id', $user->role_id) }}',
+        roles: {{ $roles->pluck('slug', 'id')->toJson() }}
+    }">
         @csrf
         @method('PUT')
         
@@ -38,7 +41,7 @@
                 <!-- Role -->
                 <div class="col-span-2 md:col-span-1">
                     <label for="role_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role *</label>
-                    <select name="role_id" id="role_id" required x-model="role"
+                    <select name="role_id" id="role_id" required x-model="roleId"
                         class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-acef-green focus:border-transparent outline-none transition text-gray-900 dark:text-white">
                         <option value="">Select Role</option>
                         @foreach($roles as $r)
@@ -49,7 +52,7 @@
                 </div>
 
                 <!-- Country (Conditional) -->
-                <div class="col-span-2 md:col-span-1" x-show="role == '2' || role == 'country_coordinator'" x-transition>
+                <div class="col-span-2 md:col-span-1" x-show="roles[roleId] === 'country_coordinator'" x-transition>
                     <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
                     <select name="country" id="country" 
                         class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-acef-green focus:border-transparent outline-none transition text-gray-900 dark:text-white">
