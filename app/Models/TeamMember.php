@@ -9,8 +9,13 @@ class TeamMember extends Model
     protected $fillable = [
         'name',
         'role',
+        'bio',
         'image',
-        'group',
-        'order'
+        'email',
+        'linkedin',
+        'twitter',
+        'team_type',
+        'sort_order',
+        'is_active'
     ];
 }

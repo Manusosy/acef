@@ -118,7 +118,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-gray-600 dark:text-gray-400">{{ $article->category }}</span>
+                            <span class="text-gray-600 dark:text-gray-400">{{ $article->category->name ?? 'Uncategorized' }}</span>
                         </td>
                         <td class="px-6 py-4">
                             <div class="font-medium text-gray-900 dark:text-white">{{ $article->status === 'published' ? 'Published' : ucfirst($article->status) }}</div>

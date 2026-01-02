@@ -13,7 +13,7 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $query = Article::with('author');
+        $query = Article::with(['author', 'category']);
 
         // Scope to country if Coordinator
         if ($user->isCoordinator()) {

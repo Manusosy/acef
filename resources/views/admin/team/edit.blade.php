@@ -23,16 +23,17 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Group *</label>
-                    <select name="group" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                        <option value="leadership" {{ $teamMember->group == 'leadership' ? 'selected' : '' }}>Leadership</option>
-                        <option value="staff" {{ $teamMember->group == 'staff' ? 'selected' : '' }}>Staff / Operations</option>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Team Type *</label>
+                    <select name="team_type" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        <option value="leadership" {{ $teamMember->team_type == 'leadership' ? 'selected' : '' }}>Leadership</option>
+                        <option value="project_lead" {{ $teamMember->team_type == 'project_lead' ? 'selected' : '' }}>Project Lead</option>
+                        <option value="staff" {{ $teamMember->team_type == 'staff' ? 'selected' : '' }}>Staff / Operations</option>
                     </select>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Display Order (Optional)</label>
-                    <input type="number" name="order" value="{{ old('order', $teamMember->order) }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                    <input type="number" name="sort_order" value="{{ old('sort_order', $teamMember->sort_order) }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
 
                 <div class="md:col-span-2">

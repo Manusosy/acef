@@ -67,7 +67,13 @@ class HomeController extends Controller
 
     public function news()
     {
+        $featuredArticle = \App\Models\Article::with(['category', 'author'])->published()->latest('published_at')->first();
+
         $query = \App\Models\Article::with(['category', 'author'])->published();
+
+        if ($featuredArticle) {
+            $query->where('id', '!=', $featuredArticle->id);
+        }
 
         if ($search = request('search')) {
             $query->where(function($q) use ($search) {
@@ -85,7 +91,7 @@ class HomeController extends Controller
         $articles = $query->latest('published_at')->paginate(9)->withQueryString();
         $categories = \App\Models\Category::has('articles')->get();
 
-        return view('news', compact('articles', 'categories'));
+        return view('news', compact('articles', 'categories', 'featuredArticle'));
     }
 
     public function showNews(\App\Models\Article $article)
@@ -141,10 +147,11 @@ class HomeController extends Controller
 
     public function team()
     {
-        $members = \App\Models\TeamMember::orderBy('order')->orderBy('name')->get();
-        $leadership = $members->where('group', 'leadership');
-        $staff = $members->where('group', 'staff');
-        return view('team', compact('leadership', 'staff'));
+        $members = \App\Models\TeamMember::where('is_active', true)->orderBy('sort_order')->orderBy('name')->get();
+        $leadership = $members->where('team_type', 'leadership');
+        $projectLeads = $members->where('team_type', 'project_lead');
+        $staff = $members->where('team_type', 'staff');
+        return view('team', compact('leadership', 'projectLeads', 'staff'));
     }
 
     public function partners()

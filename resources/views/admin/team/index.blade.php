@@ -23,7 +23,7 @@
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse($members as $member)
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $member->order }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $member->sort_order }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="h-10 w-10 flex-shrink-0">
@@ -42,8 +42,12 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $member->group === 'leadership' ? 'bg-purple-50 text-purple-700' : 'bg-blue-50 text-blue-700' }}">
-                                    {{ ucfirst($member->group) }}
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full 
+                                    {{ $member->team_type === 'leadership' ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400' : '' }}
+                                    {{ $member->team_type === 'project_lead' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400' : '' }}
+                                    {{ $member->team_type === 'staff' ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400' : '' }}
+                                ">
+                                    {{ ucfirst(str_replace('_', ' ', $member->team_type)) }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

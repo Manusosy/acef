@@ -10,7 +10,7 @@ class TeamMemberController extends Controller
 {
     public function index()
     {
-        $members = TeamMember::orderBy('order')->orderBy('name')->paginate(20);
+        $members = TeamMember::orderBy('sort_order')->orderBy('name')->paginate(20);
         return view('admin.team.index', compact('members'));
     }
 
@@ -25,8 +25,8 @@ class TeamMemberController extends Controller
             'name' => 'required|string|max:255',
             'role' => 'required|string|max:255',
             'image' => 'nullable',
-            'group' => 'required|in:leadership,staff',
-            'order' => 'integer|min:0',
+            'team_type' => 'required|in:leadership,project_lead,staff',
+            'sort_order' => 'integer|min:0',
         ]);
 
         if ($request->hasFile('image_file')) {
@@ -51,8 +51,8 @@ class TeamMemberController extends Controller
             'name' => 'required|string|max:255',
             'role' => 'required|string|max:255',
             'image' => 'nullable',
-            'group' => 'required|in:leadership,staff',
-            'order' => 'integer|min:0',
+            'team_type' => 'required|in:leadership,project_lead,staff',
+            'sort_order' => 'integer|min:0',
         ]);
 
         if ($request->hasFile('image_file')) {

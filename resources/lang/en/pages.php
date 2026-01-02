@@ -550,7 +550,8 @@ return [
         'hero_title' => 'The Faces of Impact',
         'hero_desc' => 'A multi-disciplinary team of climate advocates, policy experts, and community organizers dedicated to Africa\'s environmental future.',
         'leadership_title' => 'Executive Leadership',
-        'leads_title' => 'Project Leads',
+        'project_leads_title' => 'Project Leads',
+        'leads_title' => 'Operations & Strategy',
         'cta' => [
             'title' => 'Become a Part of the Journey',
             'desc' => 'We are always looking for passionate volunteers and experts to join our mission. If you have skills in environmental science, policy, or digital media, we want to hear from you.',

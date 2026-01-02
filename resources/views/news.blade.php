@@ -22,32 +22,39 @@
     <!-- Featured News Hero -->
     <section class="pt-32 pb-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            @if($featuredArticle)
             <div
-                class="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row">
-                <div class="lg:w-1/2 relative min-h-[400px]">
-                    <img src="/project_mangroves_1766827746442.png" alt="Marine Life"
-                        class="absolute inset-0 w-full h-full object-cover">
+                class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row group hover:shadow-3xl transition-all duration-500">
+                <div class="lg:w-1/2 relative min-h-[400px] overflow-hidden">
+                    <img src="{{ $featuredArticle->image ? Storage::url($featuredArticle->image) : asset('img/placeholders/default-news.jpg') }}" alt="{{ $featuredArticle->title }}"
+                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent lg:bg-none"></div>
                 </div>
-                <div class="lg:w-1/2 p-12 md:p-20 flex flex-col justify-center space-y-8">
-                    <span
-                        class="bg-acef-green/10 text-acef-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest w-fit">{{ __('pages.news.featured.label') }}</span>
-                    <h1 class="text-4xl md:text-5xl font-black text-acef-dark leading-tight tracking-tighter">
-                        {{ __('pages.news.featured.title') }}
+                <div class="lg:w-1/2 p-12 md:p-20 flex flex-col justify-center space-y-8 relative">
+                    <div class="flex items-center gap-3">
+                         <span
+                            class="bg-acef-green/10 text-acef-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest w-fit">{{ $featuredArticle->category?->name ?? __('pages.news.featured.label') }}</span>
+                         <span class="text-gray-400 text-xs font-medium">{{ $featuredArticle->formatted_date }}</span>
+                    </div>
+
+                    <h1 class="text-4xl md:text-5xl font-black text-acef-dark dark:text-white leading-tight tracking-tighter">
+                        {{ $featuredArticle->title }}
                     </h1>
-                    <p class="text-gray-500 font-light leading-relaxed italic">
-                        {{ __('pages.news.featured.desc') }}
+                    <p class="text-gray-500 dark:text-gray-400 font-light leading-relaxed italic line-clamp-3">
+                        {{ $featuredArticle->excerpt }}
                     </p>
-                    <button
-                        class="bg-acef-green text-acef-dark font-black px-10 py-5 rounded-2xl flex items-center space-x-3 hover:bg-acef-dark hover:text-white transition-all w-fit group">
+                    <a href="{{ route('news.show', $featuredArticle->slug) }}"
+                        class="bg-acef-green text-acef-dark font-black px-8 py-4 rounded-xl flex items-center space-x-3 hover:bg-acef-dark hover:text-white transition-all w-fit group shadow-lg shadow-acef-green/20">
                         <span>{{ __('pages.news.featured.btn') }}</span>
                         <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
-                    </button>
+                    </a>
                 </div>
             </div>
+            @endif
         </div>
     </section>
 
@@ -55,79 +62,133 @@
         <!-- Browse Insights -->
     <main>
         <!-- Browse Insights -->
-        <section class="py-24 bg-gray-50/50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-                <div class="flex flex-col md:flex-row justify-between items-end gap-8">
+        <section class="py-24 bg-gray-50/50 dark:bg-gray-900 transition-colors" x-data="{ view: 'grid', categoryOpen: false }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="flex flex-col lg:flex-row justify-between items-end gap-8 border-b border-gray-200 dark:border-gray-800 pb-8">
                     <div class="space-y-4">
-                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
+                        <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
                             {{ __('pages.news.browse.title') }}</h2>
                         <p class="text-gray-400 font-light italic">{{ __('pages.news.browse.desc') }}</p>
                     </div>
-                    <div class="relative w-full md:w-80">
-                        <form action="{{ route('news.index') }}" method="GET">
-                            @if(request('category'))
-                                <input type="hidden" name="category" value="{{ request('category') }}">
-                            @endif
-                            <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('pages.news.browse.search_placeholder') }}"
-                                class="w-full pl-12 pr-6 py-4 bg-white border-none rounded-2xl shadow-sm text-sm focus:ring-2 focus:ring-acef-green">
-                            <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-acef-green">
-                                <svg class="w-5 h-5" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    <div class="w-full lg:w-auto flex flex-col sm:flex-row gap-4">
+                        <!-- Search & Filter Bar -->
+                        <div class="flex-1 flex gap-4 bg-white dark:bg-gray-800 p-2 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+                            <form action="{{ route('news') }}" method="GET" class="flex-1 relative">
+                                @if(request('category'))
+                                    <input type="hidden" name="category" value="{{ request('category') }}">
+                                @endif
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <input type="text" name="search" value="{{ request('search') }}" 
+                                    class="block w-full pl-10 pr-3 py-2.5 border-none bg-transparent text-gray-900 dark:text-white placeholder-gray-400 focus:ring-0 sm:text-sm" 
+                                    placeholder="{{ __('pages.news.browse.search_placeholder') }}">
+                            </form>
+
+                            <div class="w-px bg-gray-200 dark:bg-gray-700 my-1"></div>
+
+                            <!-- Category Dropdown -->
+                            <div class="relative" @click.away="categoryOpen = false">
+                                <button @click="categoryOpen = !categoryOpen" 
+                                    class="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-gray-700 dark:text-gray-200 hover:text-acef-dark dark:hover:text-white transition-colors h-full">
+                                    <span>{{ request('category') ? $categories->firstWhere('slug', request('category'))?->name : __('pages.news.browse.filters.all') }}</span>
+                                    <svg class="w-4 h-4 transition-transform duration-200" :class="{'rotate-180': categoryOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                
+                                <div x-show="categoryOpen" 
+                                    x-transition:enter="transition ease-out duration-100"
+                                    x-transition:enter-start="transform opacity-0 scale-95"
+                                    x-transition:enter-end="transform opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    x-transition:leave-start="transform opacity-100 scale-100"
+                                    x-transition:leave-end="transform opacity-0 scale-95"
+                                    class="absolute right-0 mt-4 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 z-50 overflow-hidden py-1">
+                                    
+                                    @php
+                                        $baseParams = [];
+                                        if(request('search')) $baseParams['search'] = request('search');
+                                    @endphp
+
+                                    <a href="{{ route('news', $baseParams) }}" 
+                                        class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-acef-green dark:hover:text-acef-green font-medium {{ !request('category') ? 'text-acef-green bg-gray-50 dark:bg-gray-700/50' : '' }}">
+                                        {{ __('pages.news.browse.filters.all') }}
+                                    </a>
+                                    
+                                    @foreach($categories as $category)
+                                        <a href="{{ route('news', array_merge($baseParams, ['category' => $category->slug])) }}" 
+                                            class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-acef-green dark:hover:text-acef-green font-medium {{ request('category') == $category->slug ? 'text-acef-green bg-gray-50 dark:bg-gray-700/50' : '' }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- View Toggle -->
+                        <div class="flex bg-white dark:bg-gray-800 p-1.5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 h-fit">
+                            <button @click="view = 'grid'" 
+                                :class="view === 'grid' ? 'bg-acef-green text-acef-dark shadow-sm' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'"
+                                class="p-3 rounded-xl transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                                 </svg>
                             </button>
-                        </form>
+                            <button @click="view = 'list'" 
+                                :class="view === 'list' ? 'bg-acef-green text-acef-dark shadow-sm' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'"
+                                class="p-3 rounded-xl transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Category Pills -->
-                <div class="flex flex-wrap gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                    <a href="{{ route('news.index') }}"
-                        class="{{ !request('category') ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark' }} px-8 py-3 font-black rounded-xl text-sm whitespace-nowrap transition-all">
-                        {{ __('pages.news.browse.filters.all') }}
-                    </a>
-                    
-                    @foreach($categories as $category)
-                        <a href="{{ route('news.index', ['category' => $category->slug]) }}"
-                            class="{{ request('category') == $category->slug ? 'bg-acef-green text-acef-dark' : 'bg-white text-gray-400 border border-gray-100 hover:border-acef-dark' }} px-8 py-3 font-bold rounded-xl text-sm transition-all whitespace-nowrap">
-                            {{ $category->name }}
-                        </a>
-                    @endforeach
-                </div>
-
                 <!-- Article Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div :class="view === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10' : 'flex flex-col gap-6'">
                     <!-- Dynamic Articles -->
 
                     @forelse($articles as $article)
-                        <div class="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 flex flex-col">
-                            <div class="relative aspect-[16/10] overflow-hidden">
-                                <img src="{{ $article->image ? asset('storage/' . $article->image) : '/project_solar_panels_1766827705821.png' }}" alt="{{ $article->title }}"
+                        <div class="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 dark:border-gray-700 flex w-full"
+                             :class="view === 'grid' ? 'flex-col h-full' : 'flex-col md:flex-row h-auto md:h-64'">
+                            
+                            <!-- Image -->
+                            <div class="relative overflow-hidden" 
+                                 :class="view === 'grid' ? 'aspect-[16/10] w-full' : 'w-full md:w-1/3 h-64 md:h-full'">
+                                <img src="{{ $article->image ? Storage::url($article->image) : asset('img/placeholders/default-news.jpg') }}" alt="{{ $article->title }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                                <div class="absolute top-6 left-6">
+                                <div class="absolute top-4 left-4" :class="view === 'grid' ? 'top-6 left-6' : ''">
                                     <span
-                                        class="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-acef-dark">{{ $article->category?->name ?? 'Uncategorized' }}</span>
+                                        class="bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-acef-dark shadow-sm">
+                                        {{ $article->category?->name ?? 'Uncategorized' }}
+                                    </span>
                                 </div>
                             </div>
-                            <div class="p-10 space-y-6 flex-1 flex flex-col">
-                                <div class="space-y-4 flex-1">
-                                    <div
-                                        class="flex items-center text-gray-300 text-[10px] font-bold uppercase tracking-widest">
+
+                            <!-- Content -->
+                            <div class="space-y-4 flex-1 flex flex-col justify-between"
+                                 :class="view === 'grid' ? 'p-8' : 'p-6 md:p-8 w-full md:w-2/3'">
+                                <div class="space-y-3">
+                                    <div class="flex items-center text-gray-400 dark:text-gray-500 text-[10px] font-bold uppercase tracking-widest">
                                         <span>{{ $article->author->name ?? 'ACEF Team' }}</span>
                                         <span class="mx-2">•</span>
                                         <span>{{ $article->formatted_date }}</span>
                                     </div>
-                                    <h3
-                                        class="text-2xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors">
+                                    <h3 class="font-black text-acef-dark dark:text-white leading-tight group-hover:text-acef-green transition-colors"
+                                        :class="view === 'grid' ? 'text-2xl' : 'text-xl md:text-2xl'">
                                         {{ $article->title }}
                                     </h3>
-                                    <p class="text-gray-400 text-sm leading-relaxed font-light line-clamp-3 italic">
+                                    <p class="text-gray-400 dark:text-gray-400 text-sm leading-relaxed font-light italic line-clamp-2"
+                                       :class="view === 'grid' ? 'line-clamp-3' : ''">
                                         {{ $article->excerpt }}
                                     </p>
                                 </div>
-                                <div class="pt-6 border-t border-gray-50 flex justify-start">
-                                    <a href="#"
+                                <div class="pt-4 border-t border-gray-50 dark:border-gray-700 flex justify-start">
+                                    <a href="{{ route('news.show', $article->slug) }}"
                                         class="text-acef-green font-black text-xs flex items-center group-hover:translate-x-1 transition-transform">
                                         Read Article
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -226,7 +287,7 @@
                         </div>
                         <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
                             <button
-                                class="w-full sm:w-auto bg-acef-green text-acef-dark font-black px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 hover:bg-white transition-all">
+                                class="w-full sm:w-auto bg-acef-green text-acef-dark font-black px-6 py-3.5 rounded-xl flex items-center justify-center space-x-3 hover:bg-white transition-all text-sm">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
@@ -234,7 +295,7 @@
                                 <span>{{ __('pages.news.research_section.featured_report.download_btn') }}</span>
                             </button>
                             <button
-                                class="w-full sm:w-auto text-white font-bold px-10 py-5 rounded-2xl hover:bg-white/5 transition-all">
+                                class="w-full sm:w-auto text-white font-bold px-6 py-3.5 rounded-xl hover:bg-white/5 transition-all border border-white/20 text-sm">
                                 {{ __('pages.news.research_section.featured_report.summary_btn') }}
                             </button>
                         </div>
@@ -244,32 +305,32 @@
         </section>
 
         <!-- Subscription CTA -->
-        <section class="py-24 bg-gray-50 overflow-hidden relative">
+        <section class="py-24 bg-gray-50 dark:bg-gray-900 overflow-hidden relative transition-colors">
             <div class="max-w-4xl mx-auto px-4 relative z-10">
                 <div
-                    class="bg-acef-green/5 border border-acef-green/10 rounded-3xl p-12 md:p-20 text-center space-y-8 flex flex-col items-center">
+                    class="bg-acef-green/5 dark:bg-gray-800/50 border border-acef-green/10 dark:border-white/5 rounded-3xl p-12 md:p-20 text-center space-y-8 flex flex-col items-center backdrop-blur-sm">
                     <div
-                        class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-acef-green">
+                        class="w-16 h-16 bg-white dark:bg-gray-700 rounded-2xl shadow-sm flex items-center justify-center text-acef-green text-2xl">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                             </path>
                         </svg>
                     </div>
-                    <h2 class="text-4xl md:text-5xl font-black text-acef-dark tracking-tighter">
+                    <h2 class="text-4xl md:text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
                         {{ __('pages.news.subscribe.title') }}</h2>
-                    <p class="text-gray-400 font-light max-w-lg leading-relaxed italic">
+                    <p class="text-gray-400 dark:text-gray-400 font-light max-w-lg leading-relaxed italic">
                         {{ __('pages.news.subscribe.desc') }}
                     </p>
                     <form class="w-full max-w-lg flex flex-col sm:flex-row gap-4 pt-4">
                         <input type="email" placeholder="{{ __('pages.news.subscribe.email_placeholder') }}"
-                            class="flex-1 px-8 py-5 bg-white border-2 border-gray-100 rounded-2xl focus:border-acef-green transition-all outline-none">
+                            class="flex-1 px-8 py-5 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl focus:border-acef-green dark:focus:border-acef-green transition-all outline-none text-gray-900 dark:text-white placeholder-gray-400">
                         <button
                             class="bg-acef-green text-acef-dark font-black px-12 py-5 rounded-2xl hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
                             {{ __('pages.news.subscribe.btn') }}
                         </button>
                     </form>
-                    <p class="text-[10px] text-gray-300 font-bold uppercase tracking-widest leading-loose">
+                    <p class="text-[10px] text-gray-300 dark:text-gray-600 font-bold uppercase tracking-widest leading-loose">
                         {{ __('pages.news.subscribe.privacy') }}</p>
                 </div>
             </div>

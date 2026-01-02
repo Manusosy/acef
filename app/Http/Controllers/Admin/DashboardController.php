@@ -25,7 +25,7 @@ class DashboardController extends Controller
         ];
 
         $recentProjects = Project::latest()->take(5)->get();
-        $recentArticles = Article::latest()->take(5)->get();
+        $recentArticles = Article::with('category')->latest()->take(5)->get();
 
         return view('admin.dashboard', compact('stats', 'recentProjects', 'recentArticles'));
     }

@@ -16,13 +16,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="antialiased font-sans bg-white overflow-x-hidden">
+<body class="antialiased font-sans bg-white dark:bg-gray-900 overflow-x-hidden transition-colors">
     @include('components.header')
 
     <!-- Accreditations Hero -->
-    <section class="pt-40 pb-24 bg-white text-center">
+    <section class="pt-40 pb-24 bg-white dark:bg-gray-900 text-center transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            <h1 class="text-6xl md:text-8xl font-black text-acef-dark tracking-tighter leading-none">
+            <h1 class="text-6xl md:text-8xl font-black text-acef-dark dark:text-white tracking-tighter leading-none">
                 {{ __('pages.accreditations.hero_title') }}</h1>
             <p class="text-gray-400 text-lg md:text-xl font-light italic leading-relaxed max-w-3xl mx-auto">
                 {{ __('pages.accreditations.hero_desc') }}
@@ -37,8 +37,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($accreditations as $acc)
                     <div
-                        class="bg-gray-50 rounded-2xl p-8 space-y-6 border border-gray-100 hover:border-acef-green transition-all group flex flex-col justify-between">
-                        <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center text-acef-green text-xs font-black group-hover:bg-acef-green group-hover:text-white transition-colors overflow-hidden p-2">
+                        class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 space-y-6 border border-gray-100 dark:border-gray-700 hover:border-acef-green dark:hover:border-acef-green transition-all group flex flex-col justify-between shadow-sm hover:shadow-xl">
+                        <div class="w-16 h-16 bg-white dark:bg-gray-700 rounded-xl shadow-sm flex items-center justify-center text-acef-green text-xs font-black group-hover:bg-acef-green group-hover:text-white transition-colors overflow-hidden p-2">
                             @if($acc->image)
                                 <img src="{{ Storage::url($acc->image) }}" alt="{{ $acc->acronym }}" class="w-full h-full object-contain">
                             @else
@@ -46,8 +46,8 @@
                             @endif
                         </div>
                         <div class="space-y-2">
-                            <h3 class="text-lg font-black text-acef-dark tracking-tight">{{ $acc->title }}</h3>
-                            <p class="text-[12px] text-gray-400 font-light leading-relaxed">
+                            <h3 class="text-lg font-black text-acef-dark dark:text-white tracking-tight">{{ $acc->title }}</h3>
+                            <p class="text-[12px] text-gray-600 dark:text-gray-400 font-light leading-relaxed">
                                 {{ $acc->description }}
                             </p>
                         </div>
@@ -61,17 +61,17 @@
                     <div class="space-y-4 max-w-xl">
                         <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">
                             {{ __('pages.accreditations.legal.framework') }}</p>
-                        <h2 class="text-4xl font-black text-acef-dark tracking-tight">
+                        <h2 class="text-4xl font-black text-acef-dark dark:text-white tracking-tight">
                             {{ __('pages.accreditations.legal.title') }}</h2>
-                        <p class="text-gray-400 font-light italic leading-relaxed">
+                        <p class="text-gray-600 dark:text-gray-400 font-light italic leading-relaxed">
                             {{ __('pages.accreditations.legal.desc') }}</p>
                     </div>
                     <div class="flex flex-wrap gap-4">
                         <div
-                            class="bg-white px-8 py-5 rounded-xl shadow-sm border border-black/5 font-black text-acef-dark text-xs uppercase tracking-widest leading-loose">
+                            class="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-black/5 dark:border-white/10 font-black text-acef-dark dark:text-white text-xs uppercase tracking-widest leading-loose">
                             {{ __('pages.accreditations.legal.kenya') }}</div>
                         <div
-                            class="bg-white px-8 py-5 rounded-xl shadow-sm border border-black/5 font-black text-acef-dark text-xs uppercase tracking-widest leading-loose">
+                            class="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-black/5 dark:border-white/10 font-black text-acef-dark dark:text-white text-xs uppercase tracking-widest leading-loose">
                             {{ __('pages.accreditations.legal.cameroon') }}</div>
                     </div>
                 </div>
@@ -80,14 +80,14 @@
             <!-- Transparency Seal -->
             <section class="flex flex-col items-center text-center space-y-10 max-w-4xl mx-auto py-12">
                 <div
-                    class="w-24 h-24 bg-white rounded-full shadow-2xl flex items-center justify-center text-acef-green scale-150 mb-10 border border-gray-50">
+                    class="w-24 h-24 bg-white dark:bg-gray-800 rounded-full shadow-2xl flex items-center justify-center text-acef-green scale-150 mb-10 border border-gray-50 dark:border-gray-700">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
                         </path>
                     </svg>
                 </div>
-                <h2 class="text-4xl font-black text-acef-dark tracking-tighter">
+                <h2 class="text-4xl font-black text-acef-dark dark:text-white tracking-tighter">
                     {{ __('pages.accreditations.transparency.title') }}</h2>
                 <p class="text-gray-400 font-light italic leading-relaxed">
                     {{ __('pages.accreditations.transparency.desc') }}
