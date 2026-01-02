@@ -57,11 +57,11 @@
             <div
                 class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4 animate-fade-in-up delay-200">
                 <a href="{{ route('get-involved') }}"
-                    class="bg-acef-green text-white px-10 py-5 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-acef-green/30 flex items-center justify-center">
+                    class="bg-acef-green text-white px-10 py-5 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-acef-green/30 flex items-center justify-center">
                     {{ __('buttons.get_involved') }}
                 </a>
                 <a href="{{ route('impact') }}"
-                    class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-white/20 transition-all flex items-center justify-center">
+                    class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-xl font-bold text-lg hover:bg-white/20 transition-all flex items-center justify-center">
                     {{ __('buttons.see_impact') }}
                 </a>
             </div>
@@ -119,7 +119,7 @@
                         </div>
                         <div class="pt-4">
                             <a href="{{ route('about') }}"
-                                class="inline-block bg-acef-dark text-white px-10 py-5 rounded-full font-bold hover:bg-opacity-90 transition-all shadow-xl">
+                                class="inline-block bg-acef-dark text-white px-10 py-5 rounded-xl font-bold hover:bg-opacity-90 transition-all shadow-xl">
                                 {{ __('buttons.our_story') }}
                             </a>
                         </div>

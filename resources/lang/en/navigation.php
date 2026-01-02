@@ -15,4 +15,8 @@ return [
     'contact' => 'Contact',
     'donate' => 'Donate',
     'get_involved' => 'Get Involved',
+    'knowledge_hub' => 'Knowledge Hub',
+    'news_insights' => 'News & Insights',
+    'media_gallery' => 'Media Gallery',
+    'impact_reports' => 'Impact & Reports',
 ];

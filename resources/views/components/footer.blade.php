@@ -66,16 +66,16 @@
                 <h4 class="text-lg font-semibold mb-6 uppercase tracking-wider">
                     {{ __('pages.layout.footer.quick_links') }}</h4>
                 <ul class="space-y-4 text-white/60 font-medium">
+                    <li><a href="{{ route('home') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.home') }}</a></li>
                     <li><a href="{{ route('about') }}"
                             class="hover:text-acef-green transition-colors">{{ __('navigation.about') }}</a></li>
                     <li><a href="{{ route('programmes') }}"
                             class="hover:text-acef-green transition-colors">{{ __('navigation.programmes') }}</a></li>
                     <li><a href="{{ route('projects') }}"
                             class="hover:text-acef-green transition-colors">{{ __('navigation.projects') }}</a></li>
-                    <li><a href="{{ route('impact') }}"
-                            class="hover:text-acef-green transition-colors">{{ __('navigation.impact') }}</a></li>
-                    <li><a href="{{ route('resources') }}"
-                            class="hover:text-acef-green transition-colors">{{ __('navigation.resources') }}</a></li>
+                    <li><a href="{{ route('get-involved') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.get_involved') }}</a></li>
                     <li><a href="{{ route('contact') }}"
                             class="hover:text-acef-green transition-colors">{{ __('navigation.contact') }}</a></li>
                 </ul>
@@ -86,15 +86,15 @@
                 <h4 class="text-lg font-semibold mb-6 uppercase tracking-wider">
                     {{ __('pages.layout.footer.resources') }}</h4>
                 <ul class="space-y-4 text-white/60 font-medium">
-                    <li><a href="{{ route('resources') }}"
-                            class="hover:text-acef-green transition-colors">{{ __('navigation.resources') }}</a></li>
                     <li><a href="{{ route('impact') }}"
-                            class="hover:text-acef-green transition-colors">{{ __('navigation.impact') }}</a></li>
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.impact_reports') }}</a></li>
+                    <li><a href="{{ route('resources') }}"
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.knowledge_hub') }}</a></li>
                     <li><a href="{{ route('news') }}"
-                            class="hover:text-acef-green transition-colors">{{ __('navigation.media') }}</a>
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.news_insights') }}</a>
                     </li>
                     <li><a href="{{ route('gallery') }}"
-                            class="hover:text-acef-green transition-colors">{{ __('navigation.media') }}</a>
+                            class="hover:text-acef-green transition-colors">{{ __('navigation.media_gallery') }}</a>
                     </li>
                 </ul>
             </div>

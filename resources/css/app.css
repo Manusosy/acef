@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+[x-cloak] {
+    display: none !important;
+}
+
 /* Hide Google Translate Banner */
 .goog-te-banner-frame.skiptranslate, 
 .goog-te-gadget-icon,
