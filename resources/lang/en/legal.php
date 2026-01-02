@@ -202,70 +202,65 @@ return [
         'toc' => 'Table of Contents',
         'sections' => [
             'acceptance' => '1. Acceptance of Terms',
-            'usage' => '2. Mission-Aligned Usage',
+            'donations' => '2. Donations & Stewardship',
             'ip' => '3. Intellectual Property',
-            'stewardship' => '4. Donations & Stewardship',
-            'conduct' => '5. Community Conduct',
-            'liability' => '6. Limitation of Liability',
+            'prohibited' => '4. Prohibited Use',
+            'liability' => '5. Limitation of Liability',
+            'termination' => '6. Termination',
             'law' => '7. Governing Law'
         ],
+        'safety_title' => 'Safety & Security',
+        'safety_desc' => 'We take your security seriously. All transactions and data are protected by industry-standard encryption.',
         'help_title' => 'Need Clarification?',
         'help_desc' => 'Our legal team is available to answer your questions regarding these terms.',
         'acceptance' => [
             'title' => 'Acceptance of Terms',
-            'desc' => 'By accessing the ACEF website, engaging with our resources, or participating in our programmes, you agree to comply with these Terms of Service. These terms govern your use of our digital platforms, including our Knowledge Hub, advocacy tools, and donation portals. If you do not agree with any part of these terms, you may not access our services.'
+            'desc' => 'By accessing the ACEF website, engaging with our resources, or participating in our programmes, you agree to comply with these Terms of Service.',
+            'warning' => 'If you do not agree with any part of these terms, you may not access our services.'
         ],
-        'usage' => [
-            'title' => 'Mission-Aligned Usage',
-            'desc' => 'ACEF provides a platform for climate action, environmental education, and sustainable development. Users agree to use the site only for lawful purposes that align with our mission to empower African youth and communities.',
-            'prohibited_title' => 'Prohibited Activities',
-            'prohibited_items' => [
-                'Misrepresenting affiliation with ACEF for personal or commercial gain.',
-                'Postings, uploads, or sharing content that is hateful, racially discriminatory, or promotes illegal activities.',
-                'Attempting to disrupt digital security or gain unauthorized access to our systems.'
+        'donations' => [
+            'title' => 'Donations & Stewardship',
+            'desc' => 'ACEF operates with integrity and transparency in handling all funds.',
+            'finality' => [
+                'title' => 'Donation Finality',
+                'desc' => 'All donations are final and non-refundable unless a clerical error occurred.'
+            ],
+            'tax' => [
+                'title' => 'Tax Documentation',
+                'desc' => 'Tax receipts are provided for all eligible donations according to local laws.'
             ]
         ],
         'ip' => [
-            'title' => 'Intellectual Property & Knowledge Sovereignty',
-            'desc' => 'In line with our value of Knowledge Sovereignty, ACEF produces original research, educational curricula, and Climate Literacy materials.',
-            'edu' => [
-                'title' => 'Educational Resources',
-                'desc' => 'You may freely share resources for non-commercial educational purposes, provided ACEF is credited.'
-            ],
-            'research' => [
-                'title' => 'Proprietary Research',
-                'desc' => 'ACEF retains full copyright on strategic data, white papers, and research trials unless stated otherwise in individual licenses.'
+            'title' => 'Intellectual Property',
+            'desc' => 'In line with our value of Knowledge Sovereignty, ACEF produces original research and materials.',
+            'usage' => 'You may freely share resources for non-commercial educational purposes, provided ACEF is credited.'
+        ],
+        'prohibited' => [
+            'title' => 'Prohibited Use',
+            'desc' => 'Users agree to use the site only for lawful purposes.',
+            'list' => [
+                'Illegal activities',
+                'Hate speech',
+                'Spamming',
+                'Hacking'
             ]
-        ],
-        'stewardship' => [
-            'title' => 'Donations & Financial Stewardship',
-            'desc' => 'ACEF operates with integrity and transparency in handling all funds. Donations made through our website are processed securely via independent payment partners (e.g., Stripe, PayPal).',
-            'badges' => [
-                'Secure Platforms',
-                'Anti-Fraud Monitored',
-                'Transparency Reports'
-            ],
-            'refund_note' => 'Donations are usually non-refundable unless a clerical error occurred during transaction processing which is rare.'
-        ],
-        'conduct' => [
-            'title' => 'Community & Volunteer Conduct',
-            'desc' => 'As a member of the ACEF community (Volunteer, Partner, or Ambassador), you agree to uphold our core values of Inclusivity, Diversity, and Pan-African Unity.',
-            'policy' => 'We maintain a zero-tolerance policy towards harassment, discrimination, or hate speech based on gender, region, religion, or background. We reserve the right to terminate the account or membership of any individual violating these community standards.'
         ],
         'liability' => [
             'title' => 'Limitation of Liability',
-            'desc' => 'While we strive to provide accurate and up-to-date information regarding climate research and policy, ACEF does not warrant the completeness of the materials on this site. We are not liable for any direct or indirect damages arising from the use of our shared resources or reliance on our climate impact forecasts.'
+            'desc' => 'While we strive to provide accurate and up-to-date information regarding climate research and policy, ACEF does not warrant the completeness of the materials on this site.'
+        ],
+        'termination' => [
+            'title' => 'Termination',
+            'desc' => 'We reserve the right to terminate or suspend access to our Service immediately for any violation of these terms.'
         ],
         'law' => [
             'title' => 'Governing Law',
-            'desc' => 'These Terms of Service shall be governed by and construed in accordance with the laws of Kenya and Cameroon, where ACEF is officially registered. Any disputes shall be subject to the exclusive jurisdiction of the courts in these jurisdictions.'
+            'desc' => 'These Terms of Service shall be governed by and construed in accordance with the laws of Kenya and Cameroon.'
         ],
         'contact' => [
             'title' => 'Contact Us',
-            'desc' => 'For any questions regarding these Terms of Service or to report a violation, please contact our administrative team.',
-            'hq' => 'Headquarters',
-            'location' => 'Nairobi, Kenya',
-            'email_label' => 'Email Us',
+            'desc' => 'For any questions regarding these Terms of Service, please contact us.',
+            'email_label' => 'Email',
             'email' => 'info@acef-ngo.org'
         ]
     ]

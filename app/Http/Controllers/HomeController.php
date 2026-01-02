@@ -71,7 +71,9 @@ class HomeController extends Controller
 
     public function contact()
     {
-        $admin = \App\Models\User::where('role_id', 1)->first(); // Assuming role_id 1 is admin
+        $admin = \App\Models\User::whereHas('role', function($q) {
+            $q->where('slug', 'admin');
+        })->first();
         return view('contact', compact('admin'));
     }
 
@@ -82,7 +84,10 @@ class HomeController extends Controller
 
     public function getInvolved()
     {
-        return view('get-involved');
+        $admin = \App\Models\User::whereHas('role', function($q) {
+            $q->where('slug', 'admin');
+        })->first();
+        return view('get-involved', compact('admin'));
     }
 
     public function privacy()

@@ -200,62 +200,30 @@
                         </div>
                     </div>
 
-                    <!-- Mini Map Preview -->
-                    <div
-                        class="relative bg-gray-100 rounded-[40px] aspect-video overflow-hidden border border-gray-100 shadow-sm group">
-                        <img src="/map_africa_impact_1766827796711.png" alt="Map Preview"
-                            class="w-full h-full object-cover grayscale opacity-50">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <button
-                                class="bg-white/80 backdrop-blur-md px-6 py-3 rounded-xl font-black text-xs text-acef-dark flex items-center space-x-2 shadow-lg border border-white hover:bg-white transition-all">
-                                <svg class="w-4 h-4 text-acef-green" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                    </path>
-                                </svg>
-                                <span>{{ __('pages.contact.view_map_btn') }}</span>
-                            </button>
+                    <!-- Download Business Card -->
+                    @if($admin && $admin->business_card)
+                    <div class="bg-acef-dark rounded-[40px] p-10 space-y-6 relative overflow-hidden group shadow-2xl">
+                        <div class="absolute inset-0 z-0">
+                            <img src="{{ Storage::url($admin->business_card) }}" alt="Card Background" class="w-full h-full object-cover blur-sm opacity-20 group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div class="relative z-10 space-y-6">
+                            <div class="w-12 h-12 bg-acef-green rounded-2xl flex items-center justify-center text-acef-dark shadow-xl">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                            </div>
+                            <div class="space-y-2">
+                                <h3 class="text-2xl font-black text-white tracking-tighter">Download Business Card</h3>
+                                <p class="text-white/40 text-xs font-light italic leading-relaxed">Get our official contact details directly to your device for offline access.</p>
+                            </div>
+                            <a href="{{ Storage::url($admin->business_card) }}" download class="inline-flex items-center space-x-3 bg-acef-green text-acef-dark font-black px-8 py-4 rounded-xl hover:bg-white hover:scale-105 transition-all shadow-lg active:scale-95 group/btn">
+                                <span>Download Card</span>
+                                <svg class="w-5 h-5 group-hover/btn:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            </a>
                         </div>
                     </div>
-                </div>
-            <!-- Digital Impact CTA -->
-            <div class="mt-32 bg-acef-dark rounded-[50px] p-12 md:p-20 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden">
-                <div class="absolute inset-0 opacity-10">
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-acef-green rounded-full blur-3xl"></div>
-                </div>
-                
-                <div class="space-y-6 relative z-10 max-w-xl text-left">
-                    <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter">{{ __('pages.get_involved.digital_cta.title') }}</h2>
-                    <p class="text-white/40 text-sm font-light leading-relaxed italic">
-                        {{ __('pages.get_involved.digital_cta.desc') }}
-                    </p>
-                    <div class="flex flex-wrap gap-6 pt-4">
-                        @if($admin && $admin->business_card)
-                            <a href="{{ Storage::url($admin->business_card) }}" download class="flex items-center space-x-2 text-acef-green font-black text-xs hover:text-white transition-all">
-                                <span>Download Business Card</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            </a>
-                        @endif
-                        <a href="https://twitter.com/intent/tweet?text=I'm%20supporting%20ACEF%20in%20their%20mission%20to%20drive%20climate%20resilience%20across%20Africa!%20Join%20us%20at%20https://acef-ngo.org" target="_blank" class="flex items-center space-x-2 text-acef-green font-black text-xs hover:text-white transition-all">
-                            <span>Share on Twitter</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="flex space-x-4 relative z-10">
-                    <div class="w-32 h-40 bg-white rounded-2xl rotate-[-6deg] shadow-2xl p-2 border border-black/5">
-                        <img src="/project_tree_planting_1766827726209.png" class="w-full h-full object-cover rounded-xl grayscale">
-                    </div>
-                    <div class="w-32 h-40 bg-white border border-black/5 rounded-2xl rotate-[6deg] shadow-2xl p-2">
-                         <img src="/project_solar_panels_1766827705821.png" class="w-full h-full object-cover rounded-xl grayscale">
-                    </div>
-                </div>
-            </div>
-        </div>
+                    @endif
+                </div> <!-- Sidebar -->
+            </div> <!-- Flex -->
+        </div> <!-- Container -->
     </main>
 
     @include('components.footer')
