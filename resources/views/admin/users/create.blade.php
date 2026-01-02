@@ -48,10 +48,15 @@
                 </div>
 
                 <!-- Country (Conditional) -->
-                <div class="col-span-2 md:col-span-1" x-show="role == '2' || role == 'country-admin'" x-transition>
+                <div class="col-span-2 md:col-span-1" x-show="role == '2' || role == 'country_coordinator'" x-transition>
                     <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
-                    <input type="text" name="country" id="country" value="{{ old('country') }}" placeholder="e.g. Kenya"
+                    <select name="country" id="country" 
                         class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-acef-green focus:border-transparent outline-none transition text-gray-900 dark:text-white">
+                        <option value="">Select Country</option>
+                        @foreach($countries as $country)
+                            <option value="{{ $country }}" {{ old('country') == $country ? 'selected' : '' }}>{{ $country }}</option>
+                        @endforeach
+                    </select>
                     <p class="text-xs text-gray-500 mt-1">Required for Country Coordinators</p>
                 </div>
 

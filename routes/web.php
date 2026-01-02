@@ -42,13 +42,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     // Admin Routes
-    Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-        
-        // Content Management
+    // Shared Content Management (Admin & Coordinator)
+    Route::middleware(['role:admin,coordinator'])->prefix('admin')->name('admin.')->group(function () {
         Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class);
         Route::resource('programmes', \App\Http\Controllers\Admin\ProgrammeController::class);
         Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
+    });
+
+    // Admin-Only Routes
+    Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('gallery', \App\Http\Controllers\Admin\GalleryController::class);
         

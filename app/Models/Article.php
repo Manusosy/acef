@@ -12,7 +12,8 @@ class Article extends Model
         'slug',
         'excerpt',
         'content',
-        'category_id', // Changed from category
+        'category_id',
+        'country',
         'image',
         'author_id',
         'is_featured',

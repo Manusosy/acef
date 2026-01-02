@@ -56,6 +56,7 @@
                             </span>
                         </div>
                         
+                         @if(auth()->user()->isAdmin())
                          <div>
                             <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Change Status</label>
                             <select name="status" id="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-acef-green text-sm">
@@ -64,6 +65,9 @@
                                 <option value="pending" {{ $article->status === 'pending' ? 'selected' : '' }}>Pending Review</option>
                             </select>
                         </div>
+                        @else
+                            <input type="hidden" name="status" value="draft">
+                        @endif
                         
                         <div class="pt-4 border-t border-gray-100 dark:border-gray-700">
                              <label class="flex items-center gap-2 cursor-pointer">
@@ -112,11 +116,26 @@
                             <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Category</label>
                             <select name="category_id" id="category_id" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-acef-green text-sm">
                                 <option value="">Select Category</option>
-                                @foreach(\App\Models\Category::all() as $category)
+                                @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id', $article->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+
+                        <!-- Country (Admins Only) -->
+                        @if(auth()->user()->isAdmin())
+                        <div>
+                            <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Country</label>
+                            <select name="country" id="country" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-acef-green text-sm">
+                                <option value="">All Countries (Global)</option>
+                                @foreach($countries as $code => $name)
+                                    <option value="{{ $code }}" {{ old('country', $article->country) == $code ? 'selected' : '' }}>{{ $name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @else
+                            <input type="hidden" name="country" value="{{ $article->country }}">
+                        @endif
 
                         <!-- Read Time -->
                          <div>

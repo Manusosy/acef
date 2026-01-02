@@ -100,8 +100,10 @@
             <!-- Sidebar -->
             <div class="space-y-6">
                 <!-- Status -->
+                <!-- Status (Admins Only) -->
                  <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 shadow-sm">
                     <h3 class="font-semibold text-gray-900 dark:text-white mb-4 uppercase text-xs tracking-wider">Publishing</h3>
+                    @if(auth()->user()->isAdmin())
                     <div>
                         <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Status</label>
                         <select name="status" id="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-acef-green text-sm">
@@ -110,6 +112,12 @@
                             <option value="archived" {{ $programme->status === 'archived' ? 'selected' : '' }}>Archived</option>
                         </select>
                     </div>
+                    @else
+                        <div class="flex items-center gap-2 text-amber-600 bg-amber-50 dark:bg-amber-900/20 p-2 rounded-lg text-xs font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Saves as Draft for Admin Review
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Featured Image -->
@@ -153,6 +161,7 @@
                     </div>
 
                     <div>
+                        @if(auth()->user()->isAdmin())
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Target Countries</label>
                         <div x-data="{
                             availableCountries: {{ json_encode(config('acef.countries')) }},
@@ -160,41 +169,49 @@
                             search: '',
                             filteredCountries() {
                                 if (this.search === '') return [];
-                                return this.availableCountries.filter(c => 
-                                    c.toLowerCase().includes(this.search.toLowerCase()) && 
-                                    !this.selectedCountries.includes(c)
-                                );
+                                return Object.entries(this.availableCountries).filter(([code, name]) => 
+                                    (name.toLowerCase().includes(this.search.toLowerCase()) || code.toLowerCase().includes(this.search.toLowerCase())) && 
+                                    !this.selectedCountries.includes(code)
+                                ).map(([code, name]) => code);
                             },
-                            addCountry(country) {
-                                if (country && !this.selectedCountries.includes(country)) {
-                                    this.selectedCountries.push(country);
+                            getCountryName(code) {
+                                return this.availableCountries[code] || code;
+                            },
+                            addCountry(code) {
+                                if (code && !this.selectedCountries.includes(code)) {
+                                    this.selectedCountries.push(code);
                                     this.search = '';
                                 }
                             }
                         }" class="space-y-3">
                             <div class="flex items-center gap-2">
                                 <input type="text" x-model="search" placeholder="Search countries..." 
-                                       @keydown.enter.prevent="addCountry(filteredCountries()[0])"
+                                       @keydown.enter.prevent="if(filteredCountries().length > 0) addCountry(filteredCountries()[0])"
                                        class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-sm">
                                 <div x-show="search.length > 0 && filteredCountries().length > 0" 
                                      class="absolute z-50 mt-10 w-64 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl shadow-lg max-h-48 overflow-y-auto">
-                                    <template x-for="country in filteredCountries()" :key="country">
-                                        <div @click="addCountry(country)" class="px-4 py-2 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 cursor-pointer text-gray-700 dark:text-gray-300 text-sm">
-                                            <span x-text="country"></span>
+                                    <template x-for="code in filteredCountries()" :key="code">
+                                        <div @click="addCountry(code)" class="px-4 py-2 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 cursor-pointer text-gray-700 dark:text-gray-300 text-sm">
+                                            <span x-text="getCountryName(code)"></span>
                                         </div>
                                     </template>
                                 </div>
                             </div>
                             <div class="flex flex-wrap gap-2">
-                                <template x-for="(country, index) in selectedCountries" :key="index">
+                                <template x-for="(code, index) in selectedCountries" :key="index">
                                     <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-800">
-                                        <span x-text="country"></span>
+                                        <span x-text="getCountryName(code)"></span>
                                         <button type="button" @click="selectedCountries.splice(index, 1)" class="ml-1.5 focus:outline-none">&times;</button>
-                                        <input type="hidden" name="country[]" :value="country">
+                                        <input type="hidden" name="country[]" :value="code">
                                     </span>
                                 </template>
                             </div>
                         </div>
+                        @else
+                            @foreach($programme->country as $code)
+                                <input type="hidden" name="country[]" value="{{ $code }}">
+                            @endforeach
+                        @endif
                     </div>
 
                     <div>

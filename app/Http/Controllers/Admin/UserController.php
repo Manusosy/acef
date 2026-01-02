@@ -41,7 +41,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('admin.users.create', compact('roles'));
+        $countries = config('acef.countries');
+        return view('admin.users.create', compact('roles', 'countries'));
     }
 
     public function store(Request $request)
@@ -54,6 +55,12 @@ class UserController extends Controller
             'country' => 'nullable|string|max:100',
         ]);
 
+        // If role is Country Coordinator (slug: country_coordinator), country is required
+        $role = Role::find($validated['role_id']);
+        if ($role && $role->slug === 'country_coordinator' && empty($validated['country'])) {
+            return back()->withErrors(['country' => 'The country field is required for Country Coordinators.'])->withInput();
+        }
+
         $validated['password'] = Hash::make($validated['password']);
 
         User::create($validated);
@@ -65,7 +72,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        $countries = config('acef.countries');
+        return view('admin.users.edit', compact('user', 'roles', 'countries'));
     }
 
     public function update(Request $request, User $user)
@@ -77,6 +85,12 @@ class UserController extends Controller
             'role_id' => 'required|exists:roles,id',
             'country' => 'nullable|string|max:100',
         ]);
+
+        // If role is Country Coordinator (slug: country_coordinator), country is required
+        $role = Role::find($validated['role_id']);
+        if ($role && $role->slug === 'country_coordinator' && empty($validated['country'])) {
+            return back()->withErrors(['country' => 'The country field is required for Country Coordinators.'])->withInput();
+        }
 
         if (!empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);

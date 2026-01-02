@@ -11,7 +11,15 @@ class ProgrammeController extends Controller
 {
     public function index()
     {
-        $programmes = Program::latest()->paginate(10);
+        $user = auth()->user();
+        $query = Program::query();
+
+        // Scope to country if Coordinator
+        if ($user->isCoordinator()) {
+            $query->whereJsonContains('country', $user->country);
+        }
+
+        $programmes = $query->latest()->paginate(10);
         return view('admin.programmes.index', compact('programmes'));
     }
 
@@ -22,25 +30,32 @@ class ProgrammeController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $user = auth()->user();
+
+        $rules = [
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string',
             'content' => 'required|string',
             'image' => 'nullable',
             'hero_image' => 'nullable',
             'factsheet' => 'nullable',
-            'status' => 'required|in:draft,published,archived',
             'impact_stories' => 'nullable|json',
             'focus_areas' => 'nullable|json',
             'funding_goal' => 'nullable|numeric|min:0',
             'funding_raised' => 'nullable|numeric|min:0',
             'duration' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
-            'country' => 'nullable|array',
             'stats' => 'nullable|array',
             'category' => 'nullable|string|max:255',
             'icon' => 'nullable|string|max:255',
-        ]);
+        ];
+
+        if ($user->isAdmin()) {
+            $rules['status'] = 'required|in:draft,published,archived';
+            $rules['country'] = 'nullable|array';
+        }
+
+        $validated = $request->validate($rules);
 
         $program = new Program();
         $program->fill($validated);
@@ -74,6 +89,12 @@ class ProgrammeController extends Controller
             $program->focus_areas = json_decode($request->focus_areas, true);
         }
 
+        // Enforce coordinator restrictions
+        if ($user->isCoordinator()) {
+            $program->status = 'draft';
+            $program->country = [$user->country];
+        }
+
         $program->save();
 
         return redirect()->route('admin.programmes.index')->with('success', 'Program created successfully.');
@@ -86,25 +107,37 @@ class ProgrammeController extends Controller
 
     public function update(Request $request, Program $programme)
     {
-        $validated = $request->validate([
+        $user = auth()->user();
+
+        // Scope check for coordinator
+        if ($user->isCoordinator() && !in_array($user->country, (array)$programme->country)) {
+            abort(403);
+        }
+
+        $rules = [
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string',
             'content' => 'required|string',
             'image' => 'nullable',
             'hero_image' => 'nullable',
             'factsheet' => 'nullable',
-            'status' => 'required|in:draft,published,archived',
             'impact_stories' => 'nullable|json',
             'focus_areas' => 'nullable|json',
             'funding_goal' => 'nullable|numeric|min:0',
             'funding_raised' => 'nullable|numeric|min:0',
             'duration' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
-            'country' => 'nullable|array',
             'stats' => 'nullable|array',
             'category' => 'nullable|string|max:255',
             'icon' => 'nullable|string|max:255',
-        ]);
+        ];
+
+        if ($user->isAdmin()) {
+            $rules['status'] = 'required|in:draft,published,archived';
+            $rules['country'] = 'nullable|array';
+        }
+
+        $validated = $request->validate($rules);
 
         $programme->fill($validated);
 
@@ -140,6 +173,11 @@ class ProgrammeController extends Controller
 
     public function destroy(Program $programme)
     {
+        $user = auth()->user();
+        if ($user->isCoordinator() && !in_array($user->country, (array)$programme->country)) {
+            abort(403);
+        }
+
         $programme->delete();
         return redirect()->route('admin.programmes.index')->with('success', 'Program deleted successfully.');
     }

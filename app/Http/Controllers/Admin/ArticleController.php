@@ -12,12 +12,20 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user();
         $query = Article::with('author');
+
+        // Scope to country if Coordinator
+        if ($user->isCoordinator()) {
+            $query->where('country', $user->country);
+        }
 
         // Search
         if ($request->filled('search')) {
-            $query->where('title', 'like', '%' . $request->search . '%')
+            $query->where(function($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
                   ->orWhere('content', 'like', '%' . $request->search . '%');
+            });
         }
 
         // Filter by Status
@@ -28,56 +36,73 @@ class ArticleController extends Controller
         $articles = $query->latest()->paginate(10);
 
         // Stats for cards
-        $stats = [
-            'published' => Article::where('status', 'published')->count(),
-            'drafts' => Article::where('status', 'draft')->count(),
-            'pending' => Article::where('status', 'pending')->count(),
-            'total' => Article::count(),
-        ];
+        if ($user->isAdmin()) {
+            $stats = [
+                'published' => Article::where('status', 'published')->count(),
+                'drafts' => Article::where('status', 'draft')->count(),
+                'pending' => Article::where('status', 'pending')->count(),
+                'total' => Article::count(),
+            ];
+        } else {
+            $stats = [
+                'published' => Article::where('country', $user->country)->where('status', 'published')->count(),
+                'drafts' => Article::where('country', $user->country)->where('status', 'draft')->count(),
+                'pending' => Article::where('country', $user->country)->where('status', 'pending')->count(),
+                'total' => Article::where('country', $user->country)->count(),
+            ];
+        }
 
         return view('admin.articles.index', compact('articles', 'stats'));
     }
 
     public function create()
     {
-        return view('admin.articles.create');
+        $categories = Category::all();
+        $countries = config('acef.countries');
+        return view('admin.articles.create', compact('categories', 'countries'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $user = auth()->user();
+        
+        $rules = [
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'content' => 'required|string',
             'excerpt' => 'nullable|string',
-            'image' => 'nullable', // string path OR file
-            'status' => 'required|in:draft,published,pending',
+            'image' => 'nullable',
             'read_time' => 'nullable|integer|min:1',
             'tags' => 'nullable|json',
             'is_featured' => 'nullable|boolean',
-        ]);
+        ];
+
+        if ($user->isAdmin()) {
+            $rules['status'] = 'required|in:draft,published,pending';
+            $rules['country'] = 'nullable|string';
+        }
+
+        $validated = $request->validate($rules);
 
         $article = new Article();
         $article->fill($validated);
-        $article->author_id = auth()->id();
+        $article->author_id = $user->id;
         $article->is_featured = $request->has('is_featured');
         
-        // Handle Image: Check if string (path from picker) or file
+        // Enforce coordinator restrictions
+        if ($user->isCoordinator()) {
+            $article->status = 'draft';
+            $article->country = $user->country;
+        }
+
+        // Handle Image
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('articles', 'public');
             $article->image = $path;
         } elseif ($request->filled('image') && is_string($request->image)) {
-            // It's a path from Media Picker.
-            // If full URL, strip domain to store relative path if needed, 
-            // but for simplicity we assume picker returns partial path or we store full URL if external.
-            // For now, let's just save what we get, usually it's correct relative path or full URL.
-            // Adjust based on MediaItem url logic. 
-            // The picker returns `item.url` which is typically `/storage/path/to/file.jpg`.
-            // We can store this directly or strip `/storage/`.
-            
             $path = $request->image;
             if(str_starts_with($path, '/storage/')) {
-                 $path = substr($path, 9); // Remove /storage/ prefix to match Storage::url logic which ADDS it.
+                 $path = substr($path, 9);
             }
             $article->image = $path;
         }
@@ -86,7 +111,7 @@ class ArticleController extends Controller
             $article->tags = json_decode($request->tags, true);
         }
 
-        if ($validated['status'] === 'published') {
+        if ($article->status === 'published') {
             $article->published_at = now();
         }
 
@@ -98,25 +123,45 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        return view('admin.articles.edit', compact('article'));
+        $categories = Category::all();
+        $countries = config('acef.countries');
+        return view('admin.articles.edit', compact('article', 'categories', 'countries'));
     }
 
     public function update(Request $request, Article $article)
     {
-        $validated = $request->validate([
+        $user = auth()->user();
+
+        // Scope check for coordinator
+        if ($user->isCoordinator() && $article->country !== $user->country) {
+            abort(403);
+        }
+
+        $rules = [
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'content' => 'required|string',
             'excerpt' => 'nullable|string',
             'image' => 'nullable',
-            'status' => 'required|in:draft,published,pending',
             'read_time' => 'nullable|integer|min:1',
             'tags' => 'nullable|json',
             'is_featured' => 'nullable|boolean',
-        ]);
+        ];
+
+        if ($user->isAdmin()) {
+            $rules['status'] = 'required|in:draft,published,pending';
+            $rules['country'] = 'nullable|string';
+        }
+
+        $validated = $request->validate($rules);
 
         $article->fill($validated);
         $article->is_featured = $request->has('is_featured');
+
+        // Enforce coordinator restrictions
+        if ($user->isCoordinator()) {
+            $article->status = 'draft';
+        }
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('articles', 'public');
@@ -133,7 +178,7 @@ class ArticleController extends Controller
             $article->tags = json_decode($request->tags, true);
         }
 
-        if ($validated['status'] === 'published' && $article->getOriginal('status') !== 'published') {
+        if ($article->status === 'published' && $article->getOriginal('status') !== 'published') {
             $article->published_at = now();
         }
 
@@ -145,6 +190,11 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
+        $user = auth()->user();
+        if ($user->isCoordinator() && $article->country !== $user->country) {
+            abort(403);
+        }
+
         $article->delete();
         return redirect()->route('admin.articles.index')
             ->with('success', 'Article deleted successfully.');

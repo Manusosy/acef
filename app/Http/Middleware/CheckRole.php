@@ -13,7 +13,7 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
         $user = $request->user();
 
@@ -23,12 +23,23 @@ class CheckRole
 
         $hasRole = false;
         
-        if ($role === 'admin') {
-            $hasRole = $user->isAdmin();
-        } elseif ($role === 'country_coordinator' || $role === 'coordinator') {
-            $hasRole = $user->isCoordinator();
-        } else {
-            $hasRole = $user->role && $user->role->slug === $role;
+        foreach ($roles as $role) {
+            if ($role === 'admin') {
+                if ($user->isAdmin()) {
+                    $hasRole = true;
+                    break;
+                }
+            } elseif ($role === 'country_coordinator' || $role === 'coordinator') {
+                if ($user->isCoordinator()) {
+                    $hasRole = true;
+                    break;
+                }
+            } else {
+                if ($user->role && $user->role->slug === $role) {
+                    $hasRole = true;
+                    break;
+                }
+            }
         }
 
         if (!$hasRole) {
