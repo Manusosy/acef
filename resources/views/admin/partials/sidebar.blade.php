@@ -38,6 +38,7 @@
             'children' => [
                 ['label' => 'General', 'route' => 'admin.settings.general'],
                 ['label' => 'Payments', 'route' => 'admin.settings.payments'],
+                ['label' => 'Admin Account', 'route' => 'profile.edit'],
             ]
         ],
         [
@@ -118,10 +119,10 @@
                 <a href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}" 
                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group
                           {{ $currentRoute === $item['route'] 
-                             ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-white border-l-2 border-emerald-400' 
+                             ? 'bg-white/10 text-white' 
                              : 'text-gray-300 hover:bg-white/10 hover:text-white' }}"
                    :class="{ 'justify-center': !sidebarOpen }">
-                    <svg class="w-5 h-5 flex-shrink-0 transition-colors {{ $currentRoute === $item['route'] ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}" 
+                    <svg class="w-5 h-5 flex-shrink-0 transition-colors {{ $currentRoute === $item['route'] ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" 
                          fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         {!! $item['icon'] !!}
                     </svg>

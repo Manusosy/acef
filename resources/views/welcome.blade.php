@@ -1,3 +1,9 @@
+@php
+    $generalSettings = \App\Models\Setting::getGroup('general');
+    $siteName = $generalSettings['site_name'] ?? 'ACEF';
+    $siteTagline = $generalSettings['site_tagline'] ?? null;
+    $siteFavicon = $generalSettings['site_favicon'] ?? null;
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no" class="scroll-smooth">
 
@@ -5,7 +11,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google" content="notranslate">
-    <title>ACEF - {{ strip_tags(__('pages.home.hero_title')) }}</title>
+    
+    @if($siteFavicon)
+        <link rel="icon" type="image/x-icon" href="{{ Storage::url($siteFavicon) }}">
+    @endif
+
+    <title>{{ $siteName }} @if($siteTagline) - {{ $siteTagline }} @endif</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -388,21 +399,33 @@
         </section>
 
         <!-- Partners Section -->
-        <section class="py-20 bg-white">
+        @php
+            $homepagePartners = \App\Models\Partner::where('is_active', true)
+                ->where('show_on_homepage', true)
+                ->orderBy('sort_order')
+                ->get();
+        @endphp
+        @if($homepagePartners->count() > 0)
+        <section class="py-20 bg-white overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <p class="text-center text-gray-400 font-bold uppercase tracking-[0.3em] text-xs">
                     {{ __('pages.home.partners_title') }}
                 </p>
-                <div
-                    class="flex flex-wrap justify-center items-center gap-12 grayscale opacity-40 hover:opacity-100 transition-opacity">
-                    <span class="text-3xl font-black text-acef-dark tracking-tighter">UN@ENVIRONMENT</span>
-                    <span class="text-3xl font-black text-acef-dark tracking-tighter">GREENPEACE</span>
-                    <span class="text-3xl font-black text-acef-dark tracking-tighter">WWF</span>
-                    <span class="text-3xl font-black text-acef-dark tracking-tighter">ECO-TRUST</span>
-                    <span class="text-3xl font-black text-acef-dark tracking-tighter">PLANET@FIRST</span>
+                <div class="relative">
+                    <!-- Simple Logo Cloud -->
+                    <div class="flex flex-wrap justify-center items-center gap-12 grayscale opacity-40 hover:opacity-100 transition-opacity">
+                        @foreach($homepagePartners as $partner)
+                            @if($partner->logo)
+                                <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->name }}" class="h-12 w-auto object-contain transition-transform hover:scale-110" title="{{ $partner->name }}">
+                            @else
+                                <span class="text-2xl font-black text-acef-dark tracking-tighter">{{ strtoupper($partner->name) }}</span>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </section>
+        @endif
     </main>
     @include('components.footer')
 

@@ -221,6 +221,39 @@
                         </div>
                     </div>
                 </div>
+            <!-- Digital Impact CTA -->
+            <div class="mt-32 bg-acef-dark rounded-[50px] p-12 md:p-20 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10">
+                    <div class="absolute top-0 right-0 w-96 h-96 bg-acef-green rounded-full blur-3xl"></div>
+                </div>
+                
+                <div class="space-y-6 relative z-10 max-w-xl text-left">
+                    <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter">{{ __('pages.get_involved.digital_cta.title') }}</h2>
+                    <p class="text-white/40 text-sm font-light leading-relaxed italic">
+                        {{ __('pages.get_involved.digital_cta.desc') }}
+                    </p>
+                    <div class="flex flex-wrap gap-6 pt-4">
+                        @if($admin && $admin->business_card)
+                            <a href="{{ Storage::url($admin->business_card) }}" download class="flex items-center space-x-2 text-acef-green font-black text-xs hover:text-white transition-all">
+                                <span>Download Business Card</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            </a>
+                        @endif
+                        <a href="https://twitter.com/intent/tweet?text=I'm%20supporting%20ACEF%20in%20their%20mission%20to%20drive%20climate%20resilience%20across%20Africa!%20Join%20us%20at%20https://acef-ngo.org" target="_blank" class="flex items-center space-x-2 text-acef-green font-black text-xs hover:text-white transition-all">
+                            <span>Share on Twitter</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex space-x-4 relative z-10">
+                    <div class="w-32 h-40 bg-white rounded-2xl rotate-[-6deg] shadow-2xl p-2 border border-black/5">
+                        <img src="/project_tree_planting_1766827726209.png" class="w-full h-full object-cover rounded-xl grayscale">
+                    </div>
+                    <div class="w-32 h-40 bg-white border border-black/5 rounded-2xl rotate-[6deg] shadow-2xl p-2">
+                         <img src="/project_solar_panels_1766827705821.png" class="w-full h-full object-cover rounded-xl grayscale">
+                    </div>
+                </div>
             </div>
         </div>
     </main>

@@ -40,16 +40,22 @@ class PartnerController extends Controller
             'website' => 'nullable|url|max:255',
             'category' => 'required|in:strategic,institutional,implementation',
             'sort_order' => 'nullable|integer|min:0',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:1024',
+            'logo' => 'nullable|string|max:1000',
             'is_active' => 'boolean',
+            'show_on_homepage' => 'boolean',
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
         $validated['is_active'] = $request->boolean('is_active', true);
+        $validated['show_on_homepage'] = $request->boolean('show_on_homepage', false);
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
 
-        if ($request->hasFile('logo')) {
-            $validated['logo'] = $request->file('logo')->store('partners', 'public');
+        if ($request->filled('logo')) {
+            $path = $request->input('logo');
+            if (str_contains($path, '/storage/')) {
+                $path = Str::after($path, '/storage/');
+            }
+            $validated['logo'] = $path;
         }
 
         Partner::create($validated);
@@ -71,17 +77,20 @@ class PartnerController extends Controller
             'website' => 'nullable|url|max:255',
             'category' => 'required|in:strategic,institutional,implementation',
             'sort_order' => 'nullable|integer|min:0',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:1024',
+            'logo' => 'nullable|string|max:1000',
             'is_active' => 'boolean',
+            'show_on_homepage' => 'boolean',
         ]);
 
         $validated['is_active'] = $request->boolean('is_active');
+        $validated['show_on_homepage'] = $request->boolean('show_on_homepage');
 
-        if ($request->hasFile('logo')) {
-            if ($partner->logo) {
-                Storage::disk('public')->delete($partner->logo);
+        if ($request->filled('logo')) {
+            $path = $request->input('logo');
+            if (str_contains($path, '/storage/')) {
+                $path = Str::after($path, '/storage/');
             }
-            $validated['logo'] = $request->file('logo')->store('partners', 'public');
+            $validated['logo'] = $path;
         }
 
         $partner->update($validated);
@@ -92,10 +101,6 @@ class PartnerController extends Controller
 
     public function destroy(Partner $partner)
     {
-        if ($partner->logo) {
-            Storage::disk('public')->delete($partner->logo);
-        }
-
         $partner->delete();
 
         return redirect()->route('admin.partners.index')

@@ -44,6 +44,26 @@
         this.selectedItem = item;
     },
     
+    async updateMedia() {
+        if (!this.selectedItem) return;
+        try {
+            await fetch(`/admin/media/${this.selectedItem.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    alt_text: this.selectedItem.alt_text,
+                    caption: this.selectedItem.caption
+                })
+            });
+        } catch (e) {
+            console.error('Failed to update media', e);
+        }
+    },
+
     confirm() {
         if (this.selectedItem && this.callback) {
             this.callback(this.selectedItem);
@@ -213,11 +233,13 @@
                 <div class="flex-1 overflow-y-auto p-8 space-y-6">
                     <div>
                         <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Alternative Text</label>
-                        <input type="text" x-model="selectedItem.alt_text" class="w-full bg-gray-50 border-none rounded-xl text-xs font-semibold focus:ring-2 focus:ring-emerald-500/20">
+                        <input type="text" x-model="selectedItem.alt_text" @input.debounce.500ms="updateMedia()" 
+                               class="w-full bg-gray-50 border-none rounded-xl text-xs font-semibold focus:ring-2 focus:ring-emerald-500/20">
                     </div>
                     <div>
                         <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Caption</label>
-                        <textarea x-model="selectedItem.caption" rows="3" class="w-full bg-gray-50 border-none rounded-xl text-xs font-semibold focus:ring-2 focus:ring-emerald-500/20"></textarea>
+                        <textarea x-model="selectedItem.caption" @input.debounce.500ms="updateMedia()" rows="3" 
+                                  class="w-full bg-gray-50 border-none rounded-xl text-xs font-semibold focus:ring-2 focus:ring-emerald-500/20"></textarea>
                     </div>
                 </div>
             </div>

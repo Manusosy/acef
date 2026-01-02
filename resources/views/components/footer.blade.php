@@ -1,9 +1,24 @@
+@php
+    $generalSettings = \App\Models\Setting::getGroup('general');
+    $siteName = $generalSettings['site_name'] ?? 'ACEF';
+    $siteLogo = $generalSettings['site_logo'] ?? null;
+    $siteLogoDark = $generalSettings['site_logo_dark'] ?? null;
+@endphp
+
 <footer class="bg-acef-dark text-white pt-20 pb-10" translate="no">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-b border-white/10 pb-16">
             <!-- Brand & Social -->
             <div class="space-y-6">
-                <a href="/" class="text-acef-green font-bold text-3xl tracking-tighter italic">ACEF</a>
+                <a href="/" class="flex items-center space-x-2">
+                    @if($siteLogoDark)
+                        <img src="{{ Storage::url($siteLogoDark) }}" alt="{{ $siteName }}" class="h-10 w-auto object-contain">
+                    @elseif($siteLogo)
+                        <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" class="h-10 w-auto object-contain grayscale invert brightness-200">
+                    @else
+                        <span class="text-acef-green font-bold text-3xl tracking-tighter italic">{{ $siteName }}</span>
+                    @endif
+                </a>
                 <p class="text-white/60 leading-relaxed font-light italic">
                     {{ __('pages.layout.footer.desc') }}
                 </p>

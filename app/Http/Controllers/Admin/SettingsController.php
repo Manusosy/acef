@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SettingsController extends Controller
 {
@@ -18,8 +19,12 @@ class SettingsController extends Controller
     {
         $validated = $request->validate([
             'site_name' => 'nullable|string|max:255',
+            'site_tagline' => 'nullable|string|max:255',
             'site_description' => 'nullable|string|max:500',
-            'site_logo' => 'nullable|image|max:2048', // 2MB Max
+            'site_logo' => 'nullable|string|max:2048',
+            'site_logo_dark' => 'nullable|string|max:2048',
+            'site_favicon' => 'nullable|string|max:1024',
+            'dashboard_logo' => 'nullable|string|max:2048',
             'contact_email' => 'nullable|email|max:255',
             'contact_phone' => 'nullable|string|max:50',
             'contact_address' => 'nullable|string|max:500',
@@ -30,9 +35,24 @@ class SettingsController extends Controller
             'social_youtube' => 'nullable|url|max:255',
         ]);
 
-        if ($request->hasFile('site_logo')) {
-            $path = $request->file('site_logo')->store('settings', 'public');
-            $validated['site_logo'] = $path;
+        $imageFields = ['site_logo', 'site_logo_dark', 'site_favicon', 'dashboard_logo'];
+        foreach ($imageFields as $field) {
+            if ($request->hasFile($field)) {
+                $path = $request->file($field)->store('settings', 'public');
+                $validated[$field] = $path;
+            } elseif ($request->filled($field) && !is_object($request->input($field))) {
+                // Handle path from media library (string)
+                $path = $request->input($field);
+                // If it's a full URL, we might want to strip the storage part or keep it as is
+                // For consistency with how we store uploads, we prefer relative paths
+                if (str_contains($path, '/storage/')) {
+                    $path = Str::after($path, '/storage/');
+                }
+                $validated[$field] = $path;
+            } else {
+                // Remove from validated if no new file is uploaded to avoid overwriting with null
+                unset($validated[$field]);
+            }
         }
 
         Setting::setMany($validated, 'general');

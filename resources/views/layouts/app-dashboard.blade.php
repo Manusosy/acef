@@ -1,3 +1,10 @@
+@php
+    $generalSettings = \App\Models\Setting::getGroup('general');
+    $siteName = $generalSettings['site_name'] ?? 'ACEF';
+    $siteLogo = $generalSettings['site_logo'] ?? null;
+    $dashboardLogo = $generalSettings['dashboard_logo'] ?? $siteLogo;
+    $siteFavicon = $generalSettings['site_favicon'] ?? null;
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ 
     darkMode: localStorage.getItem('theme') === 'dark',
@@ -11,7 +18,12 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'ACEF') }} - Dashboard</title>
+    
+    @if($siteFavicon)
+        <link rel="icon" type="image/x-icon" href="{{ Storage::url($siteFavicon) }}">
+    @endif
+
+    <title>{{ $siteName }} - Dashboard</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,14 +85,8 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
             <!-- Logo/Brand -->
             <div class="px-6 py-6 border-b border-gray-800">
                 <div class="flex items-center gap-3" :class="sidebarCollapsed ? 'justify-center' : ''">
-                    @php
-                        $generalSettings = \App\Models\Setting::getGroup('general');
-                        $siteLogo = $generalSettings['site_logo'] ?? null;
-                        $siteName = $generalSettings['site_name'] ?? 'ACEF Admin';
-                    @endphp
-
-                    @if($siteLogo)
-                        <img :src="'{{ Storage::url($siteLogo) }}'" alt="{{ $siteName }}" 
+                    @if($dashboardLogo)
+                        <img :src="'{{ Storage::url($dashboardLogo) }}'" alt="{{ $siteName }}" 
                              class="object-contain" 
                              :class="sidebarCollapsed ? 'h-8 w-8' : 'h-10 w-auto'">
                     @else
@@ -102,7 +108,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                 
                 <!-- Dashboard -->
                 <a href="{{ Auth::user()->isAdmin() ? route('admin.dashboard') : route('coordinator.dashboard') }}" 
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.dashboard') || request()->routeIs('coordinator.dashboard') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.dashboard') || request()->routeIs('coordinator.dashboard') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
                    :class="sidebarCollapsed ? 'justify-center' : ''">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
@@ -118,7 +124,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                                 class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 {{ request()->routeIs('admin.articles.*') ? 'bg-white/5' : '' }}"
                                 :class="sidebarCollapsed ? 'justify-center' : ''">
                             <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.articles.*') ? 'text-acef-green' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.articles.*') ? 'text-white' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                                 </svg>
                                 <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Posts</span>
@@ -129,15 +135,15 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                             <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Posts</div>
                         </button>
                         <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
-                            <a href="{{ route('admin.articles.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.articles.index') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Articles</a>
-                            <a href="{{ route('admin.articles.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.articles.create') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
-                            <a href="{{ route('admin.categories.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.categories.*') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Categories</a>
+                            <a href="{{ route('admin.articles.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.articles.index') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Articles</a>
+                            <a href="{{ route('admin.articles.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.articles.create') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
+                            <a href="{{ route('admin.categories.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.categories.*') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Categories</a>
                         </div>
                     </div>
 
                     <!-- Media Library -->
                     <a href="{{ route('admin.media.index') }}" 
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.media.*') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.media.*') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
                        :class="sidebarCollapsed ? 'justify-center' : ''">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -152,7 +158,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                                 class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 {{ request()->routeIs('admin.programmes.*') ? 'bg-white/5' : '' }}"
                                 :class="sidebarCollapsed ? 'justify-center' : ''">
                             <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.programmes.*') ? 'text-acef-green' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.programmes.*') ? 'text-white' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
                                 </svg>
                                 <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Programs</span>
@@ -163,8 +169,8 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                             <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Programs</div>
                         </button>
                         <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
-                            <a href="{{ route('admin.programmes.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.programmes.index') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Programs</a>
-                            <a href="{{ route('admin.programmes.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.programmes.create') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
+                            <a href="{{ route('admin.programmes.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.programmes.index') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Programs</a>
+                            <a href="{{ route('admin.programmes.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.programmes.create') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
                         </div>
                     </div>
 
@@ -174,7 +180,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                                 class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 {{ request()->routeIs('admin.projects.*') ? 'bg-white/5' : '' }}"
                                 :class="sidebarCollapsed ? 'justify-center' : ''">
                             <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.projects.*') ? 'text-acef-green' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.projects.*') ? 'text-white' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
                                 </svg>
                                 <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Projects</span>
@@ -185,14 +191,14 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                             <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Projects</div>
                         </button>
                         <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
-                            <a href="{{ route('admin.projects.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.projects.index') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Projects</a>
-                            <a href="{{ route('admin.projects.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.projects.create') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
+                            <a href="{{ route('admin.projects.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.projects.index') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Projects</a>
+                            <a href="{{ route('admin.projects.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.projects.create') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
                         </div>
                     </div>
 
                     <!-- Donations -->
                     <a href="{{ route('admin.donations.index') }}" 
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.donations.*') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.donations.*') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
                        :class="sidebarCollapsed ? 'justify-center' : ''">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
@@ -203,7 +209,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
 
                     <!-- Partners -->
                     <a href="{{ route('admin.partners.index') }}" 
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.partners.*') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.partners.*') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
                        :class="sidebarCollapsed ? 'justify-center' : ''">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -214,7 +220,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
 
                     <!-- Users -->
                     <a href="{{ route('admin.users.index') }}" 
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.users.*') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.users.*') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
                        :class="sidebarCollapsed ? 'justify-center' : ''">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
@@ -229,7 +235,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                                 class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 {{ request()->routeIs('admin.settings.*') ? 'bg-white/5' : '' }}"
                                 :class="sidebarCollapsed ? 'justify-center' : ''">
                             <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.settings.*') ? 'text-acef-green' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.settings.*') ? 'text-white' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 </svg>
                                 <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Settings</span>
@@ -240,8 +246,8 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                             <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Settings</div>
                         </button>
                         <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
-                            <a href="{{ route('admin.settings.general') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.settings.general') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Site Settings</a>
-                            <a href="#" class="block px-3 py-1.5 text-sm rounded-md transition-colors text-gray-400 hover:text-white hover:bg-white/5">Admin Account</a>
+                            <a href="{{ route('admin.settings.general') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.settings.general') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Site Settings</a>
+                            <a href="{{ route('profile.edit') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('profile.edit') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Admin Account</a>
                         </div>
                     </div>
 
@@ -258,25 +264,21 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                 @endif
             </nav>
             
-            <!-- User Profile (Bottom) -->
+            <!-- Back to Home (Bottom) -->
             <div class="p-4 border-t border-gray-800">
-                <div class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer" :class="sidebarCollapsed ? 'justify-center' : ''">
-                    <div class="w-10 h-10 rounded-full bg-acef-green flex items-center justify-center font-bold text-white flex-shrink-0">
-                         {{ substr(Auth::user()->name, 0, 1) }}
+                <a href="{{ route('home') }}" 
+                   class="flex items-center gap-3 w-full p-2 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-all group"
+                   :class="sidebarCollapsed ? 'justify-center' : ''">
+                    <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center group-hover:bg-acef-green transition-colors flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
                     </div>
                     <div x-show="!sidebarCollapsed" x-transition class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-white truncate">{{ Auth::user()->name }}</p>
-                        <p class="text-xs text-gray-400 truncate">{{ Auth::user()->email }}</p>
+                        <p class="text-sm font-medium truncate">Go Back Home</p>
+                        <p class="text-xs opacity-60 truncate">Exit Dashboard</p>
                     </div>
-                    <form x-show="!sidebarCollapsed" method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="text-gray-400 hover:text-white">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
+                </a>
             </div>
         </aside>
 
@@ -380,8 +382,8 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                                 <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->email }}</p>
                             </div>
                             
-                            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors {{ request()->routeIs('profile.edit') ? 'bg-gray-50 dark:bg-gray-700' : '' }}">
+                                <svg class="w-4 h-4 {{ request()->routeIs('profile.edit') ? 'text-acef-green' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
                                 My Profile

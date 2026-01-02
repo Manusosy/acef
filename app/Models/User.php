@@ -23,6 +23,8 @@ class User extends Authenticatable
         'password',
         'role_id',
         'country',
+        'profile_image',
+        'business_card',
         'last_login_at',
         'is_active',
     ];

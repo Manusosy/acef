@@ -1,3 +1,11 @@
+@php
+    $generalSettings = \App\Models\Setting::getGroup('general');
+    $siteName = $generalSettings['site_name'] ?? 'ACEF';
+    $siteLogo = $generalSettings['site_logo'] ?? null;
+    $siteLogoDark = $generalSettings['site_logo_dark'] ?? null;
+    $siteTagline = $generalSettings['site_tagline'] ?? null;
+@endphp
+
 <div x-data="layoutData">
     <header
         class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 {{ request()->routeIs('home') ? 'bg-transparent py-4' : 'bg-acef-dark shadow-md py-4' }}"
@@ -6,8 +14,28 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="/" class="flex items-center space-x-2">
-                        <span class="text-acef-green font-bold text-3xl tracking-tighter">ACEF</span>
+                    <a href="/" class="flex flex-col lg:flex-row lg:items-center group">
+                        <div class="flex items-center space-x-2">
+                            @if($siteLogo)
+                                <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" 
+                                     x-show="!darkMode" class="h-10 w-auto object-contain">
+                                @if($siteLogoDark)
+                                    <img src="{{ Storage::url($siteLogoDark) }}" alt="{{ $siteName }}" 
+                                         x-show="darkMode" class="h-10 w-auto object-contain" style="display: none;">
+                                @else
+                                    <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" 
+                                         x-show="darkMode" class="h-10 w-auto object-contain grayscale invert" style="display: none;">
+                                @endif
+                            @else
+                                <span class="text-acef-green font-bold text-3xl tracking-tighter">{{ $siteName }}</span>
+                            @endif
+                        </div>
+                        
+                        @if($siteTagline)
+                            <div class="hidden lg:block border-l border-white/20 pl-3 ml-3">
+                                <p class="text-[10px] leading-tight text-white/60 font-medium uppercase tracking-widest max-w-[150px]">{{ $siteTagline }}</p>
+                            </div>
+                        @endif
                     </a>
                 </div>
 
@@ -212,7 +240,13 @@
         <div class="p-6 space-y-8">
             <!-- Close Button -->
             <div class="flex justify-between items-center">
-                <span class="text-acef-green font-bold text-3xl tracking-tighter">ACEF</span>
+                <div class="flex items-center space-x-2">
+                    @if($siteLogo)
+                        <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" class="h-8 w-auto object-contain">
+                    @else
+                        <span class="text-acef-green font-bold text-3xl tracking-tighter">{{ $siteName }}</span>
+                    @endif
+                </div>
                 <button @click="mobileMenuOpen = false" class="text-white hover:text-acef-green transition-colors">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">

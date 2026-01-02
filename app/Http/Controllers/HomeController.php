@@ -71,7 +71,8 @@ class HomeController extends Controller
 
     public function contact()
     {
-        return view('contact');
+        $admin = \App\Models\User::where('role_id', 1)->first(); // Assuming role_id 1 is admin
+        return view('contact', compact('admin'));
     }
 
     public function donate()
