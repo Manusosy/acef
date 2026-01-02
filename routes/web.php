@@ -14,10 +14,12 @@ Route::post('/donate/process-mpesa', [\App\Http\Controllers\DonationController::
 // Test Callback Route (In prod this should be excluded from CSRF)
 Route::post('/api/mpesa/callback', function() { return response()->json(['result' => 'ok']); })->name('api.mpesa.callback');
 Route::get('/programmes', [\App\Http\Controllers\HomeController::class, 'programmes'])->name('programmes');
+Route::get('/programmes/{programme:slug}', [\App\Http\Controllers\HomeController::class, 'showProgramme'])->name('programmes.show');
 Route::get('/projects', [\App\Http\Controllers\HomeController::class, 'projects'])->name('projects');
 Route::get('/impact', [\App\Http\Controllers\HomeController::class, 'impact'])->name('impact');
 Route::get('/resources', [\App\Http\Controllers\HomeController::class, 'resources'])->name('resources');
 Route::get('/news', [\App\Http\Controllers\HomeController::class, 'news'])->name('news');
+Route::get('/news/{article:slug}', [\App\Http\Controllers\HomeController::class, 'showNews'])->name('news.show');
 Route::get('/contact', [\App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
 Route::get('/get-involved', [\App\Http\Controllers\HomeController::class, 'getInvolved'])->name('get-involved');
 Route::get('/privacy', [\App\Http\Controllers\HomeController::class, 'privacy'])->name('privacy');
@@ -47,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class);
         Route::resource('programmes', \App\Http\Controllers\Admin\ProgrammeController::class);
         Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
+        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('gallery', \App\Http\Controllers\Admin\GalleryController::class);
         
         // Organization
@@ -68,6 +71,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Media Library
         Route::resource('media', \App\Http\Controllers\Admin\MediaController::class)->except(['create', 'edit']);
+        Route::post('/media/folders', [\App\Http\Controllers\Admin\MediaController::class, 'storeFolder'])->name('media.folders.store');
+        Route::delete('/media/folders/{folder}', [\App\Http\Controllers\Admin\MediaController::class, 'destroyFolder'])->name('media.folders.destroy');
         Route::get('/media/picker', [\App\Http\Controllers\Admin\MediaController::class, 'picker'])->name('media.picker');
         
         // Pages CMS

@@ -15,7 +15,23 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (!$request->user() || $request->user()->role?->slug !== $role) {
+        $user = $request->user();
+
+        if (!$user) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $hasRole = false;
+        
+        if ($role === 'admin') {
+            $hasRole = $user->isAdmin();
+        } elseif ($role === 'country_coordinator' || $role === 'coordinator') {
+            $hasRole = $user->isCoordinator();
+        } else {
+            $hasRole = $user->role && $user->role->slug === $role;
+        }
+
+        if (!$hasRole) {
             abort(403, 'Unauthorized action.');
         }
 

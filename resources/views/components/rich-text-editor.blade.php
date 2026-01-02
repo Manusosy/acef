@@ -1,7 +1,6 @@
 @props(['name', 'value' => '', 'placeholder' => '', 'id' => null])
 
 <div x-data="setupEditor(`{!! addslashes($value) !!}`, { placeholder: '{{ $placeholder }}' })"
-     x-init="init()"
      class="border border-gray-200 rounded-xl overflow-hidden bg-white w-full"
      wire:ignore>
     
@@ -9,13 +8,13 @@
     <div class="flex flex-wrap items-center gap-1 p-2 border-b border-gray-200 bg-gray-50 text-gray-600">
         <!-- History -->
         <div class="flex items-center gap-1 border-r border-gray-300 pr-2 mr-2">
-            <button type="button" @click="undo()" :disabled="!editor?.can().undo()" 
-                    :class="{ 'opacity-50 cursor-not-allowed': !editor?.can().undo() }"
+            <button type="button" @click="undo()" :disabled="!canUndo" 
+                    :class="{ 'opacity-50 cursor-not-allowed': !canUndo }"
                     class="p-1.5 rounded hover:bg-gray-200 transition-colors" title="Undo">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
             </button>
-            <button type="button" @click="redo()" :disabled="!editor?.can().redo()"
-                    :class="{ 'opacity-50 cursor-not-allowed': !editor?.can().redo() }"
+            <button type="button" @click="redo()" :disabled="!canRedo"
+                    :class="{ 'opacity-50 cursor-not-allowed': !canRedo }"
                     class="p-1.5 rounded hover:bg-gray-200 transition-colors" title="Redo">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6"/></svg>
             </button>

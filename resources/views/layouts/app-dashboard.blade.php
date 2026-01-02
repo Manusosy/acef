@@ -1,5 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ 
+    darkMode: localStorage.getItem('theme') === 'dark',
+    sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true',
+    sidebarOpen: false
+}" 
+:class="{ 'dark': darkMode }" 
+x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : 'light')); 
+        $watch('sidebarCollapsed', val => localStorage.setItem('sidebarCollapsed', val))">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,19 +18,61 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Media Picker Modal -->
+    @include('admin.media.partials.picker')
     <style>
         [x-cloak] { display: none !important; }
+        
+        /* Theme Variables */
+        :root {
+            --color-bg-primary: #ffffff;
+            --color-bg-secondary: #f9fafb;
+            --color-text-primary: #111827;
+            --color-text-secondary: #6b7280;
+            --color-border: #e5e7eb;
+        }
+        
+        .dark {
+            --color-bg-primary: #1f2937;
+            --color-bg-secondary: #111827;
+            --color-text-primary: #f9fafb;
+            --color-text-secondary: #9ca3af;
+            --color-border: #374151;
+        }
+        
+        /* Smooth transitions */
+        .sidebar-transition {
+            transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1), 
+                        margin 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 200ms, visibility 200ms;
+        }
+        
+        .group:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
-<body class="font-sans antialiased bg-gray-50 text-gray-900" x-data="{ sidebarOpen: false }">
+<body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-100 transform transition-transform duration-300 lg:static lg:translate-x-0 flex flex-col"
-               :class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}">
+        <aside class="fixed inset-y-0 left-0 z-50 bg-gradient-to-b from-acef-dark via-acef-dark to-gray-900 border-r border-gray-800 transform transition-all duration-300 lg:static lg:translate-x-0 flex flex-col sidebar-transition"
+               :class="{
+                   'translate-x-0': sidebarOpen, 
+                   '-translate-x-full': !sidebarOpen,
+                   'w-64': !sidebarCollapsed,
+                   'w-20': sidebarCollapsed
+               }">
             
-            <!-- Logo -->
-            <div class="px-6 py-8">
-                <div class="flex items-center gap-3">
+            <!-- Logo/Brand -->
+            <div class="px-6 py-6 border-b border-gray-800">
+                <div class="flex items-center gap-3" :class="sidebarCollapsed ? 'justify-center' : ''">
                     @php
                         $generalSettings = \App\Models\Setting::getGroup('general');
                         $siteLogo = $generalSettings['site_logo'] ?? null;
@@ -31,129 +80,197 @@
                     @endphp
 
                     @if($siteLogo)
-                        <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" class="h-10 w-auto object-contain">
+                        <img :src="'{{ Storage::url($siteLogo) }}'" alt="{{ $siteName }}" 
+                             class="object-contain" 
+                             :class="sidebarCollapsed ? 'h-8 w-8' : 'h-10 w-auto'">
                     @else
-                        <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-xl">
+                        <div class="rounded-full bg-acef-green flex items-center justify-center text-white font-bold" 
+                             :class="sidebarCollapsed ? 'w-8 h-8 text-sm' : 'w-10 h-10 text-xl'">
                             {{ substr($siteName, 0, 1) }}
                         </div>
                     @endif
                     
-                    <div>
-                        <h1 class="font-bold text-gray-900 leading-tight">{{ $siteName }}</h1>
+                    <div x-show="!sidebarCollapsed" x-transition class="min-w-0">
+                        <h1 class="font-bold text-white leading-tight truncate">{{ $siteName }}</h1>
                         <p class="text-xs text-gray-400 font-medium">Platform Manager</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Nav -->
-            <nav class="flex-1 px-4 space-y-1 overflow-y-auto" x-data="{ openMenu: '{{ request()->segment(2) }}' }">
+            <!-- Navigation -->
+            <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto" x-data="{ openMenu: '{{ request()->segment(2) }}' }">
+                
                 <!-- Dashboard -->
                 <a href="{{ Auth::user()->isAdmin() ? route('admin.dashboard') : route('coordinator.dashboard') }}" 
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('admin.dashboard') || request()->routeIs('coordinator.dashboard') ? 'bg-emerald-50 text-emerald-600' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 {{ request()->routeIs('admin.dashboard') || request()->routeIs('coordinator.dashboard') ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.dashboard') || request()->routeIs('coordinator.dashboard') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                   :class="sidebarCollapsed ? 'justify-center' : ''">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
                     </svg>
-                    <span class="font-medium">Dashboard</span>
+                    <span x-show="!sidebarCollapsed" x-transition class="font-medium">Dashboard</span>
+                    <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Dashboard</div>
                 </a>
 
                 @if(Auth::user()->isAdmin())
-                    <!-- Programs -->
-                    <div x-data="{ open: {{ request()->routeIs('admin.programmes.*') ? 'true' : 'false' }} }">
-                        <button @click="open = !open" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors group hover:bg-gray-50 {{ request()->routeIs('admin.programmes.*') ? 'bg-gray-50' : '' }}">
+                    <!-- Posts (Articles) -->
+                    <div x-data="{ open: {{ request()->routeIs('admin.articles.*') ? 'true' : 'false' }} }">
+                        <button @click="if (!sidebarCollapsed) open = !open" 
+                                class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 {{ request()->routeIs('admin.articles.*') ? 'bg-white/5' : '' }}"
+                                :class="sidebarCollapsed ? 'justify-center' : ''">
                             <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 {{ request()->routeIs('admin.programmes.*') ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.articles.*') ? 'text-acef-green' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                                 </svg>
-                                <span class="font-medium text-gray-700">Programs</span>
+                                <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Posts</span>
                             </div>
-                            <svg class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg x-show="!sidebarCollapsed" class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
+                            <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Posts</div>
                         </button>
-                        <div x-show="open" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
-                            <a href="{{ route('admin.programmes.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.programmes.index') ? 'text-emerald-600 font-medium bg-emerald-50' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">All Programs</a>
-                            <a href="{{ route('admin.programmes.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.programmes.create') ? 'text-emerald-600 font-medium bg-emerald-50' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">Add New</a>
+                        <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
+                            <a href="{{ route('admin.articles.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.articles.index') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Articles</a>
+                            <a href="{{ route('admin.articles.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.articles.create') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
+                            <a href="{{ route('admin.categories.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.categories.*') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Categories</a>
+                        </div>
+                    </div>
+
+                    <!-- Media Library -->
+                    <a href="{{ route('admin.media.index') }}" 
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.media.*') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       :class="sidebarCollapsed ? 'justify-center' : ''">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span x-show="!sidebarCollapsed" x-transition class="font-medium">Media Library</span>
+                        <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Media Library</div>
+                    </a>
+
+                    <!-- Programs -->
+                    <div x-data="{ open: {{ request()->routeIs('admin.programmes.*') ? 'true' : 'false' }} }">
+                        <button @click="if (!sidebarCollapsed) open = !open" 
+                                class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 {{ request()->routeIs('admin.programmes.*') ? 'bg-white/5' : '' }}"
+                                :class="sidebarCollapsed ? 'justify-center' : ''">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.programmes.*') ? 'text-acef-green' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                                </svg>
+                                <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Programs</span>
+                            </div>
+                            <svg x-show="!sidebarCollapsed" class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                            <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Programs</div>
+                        </button>
+                        <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
+                            <a href="{{ route('admin.programmes.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.programmes.index') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Programs</a>
+                            <a href="{{ route('admin.programmes.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.programmes.create') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
                         </div>
                     </div>
 
                     <!-- Projects -->
                     <div x-data="{ open: {{ request()->routeIs('admin.projects.*') ? 'true' : 'false' }} }">
-                        <button @click="open = !open" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors group hover:bg-gray-50 {{ request()->routeIs('admin.projects.*') ? 'bg-gray-50' : '' }}">
+                        <button @click="if (!sidebarCollapsed) open = !open" 
+                                class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 {{ request()->routeIs('admin.projects.*') ? 'bg-white/5' : '' }}"
+                                :class="sidebarCollapsed ? 'justify-center' : ''">
                             <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 {{ request()->routeIs('admin.projects.*') ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.projects.*') ? 'text-acef-green' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
                                 </svg>
-                                <span class="font-medium text-gray-700">Projects</span>
+                                <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Projects</span>
                             </div>
-                            <svg class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg x-show="!sidebarCollapsed" class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
+                            <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Projects</div>
                         </button>
-                        <div x-show="open" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
-                            <a href="{{ route('admin.projects.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.projects.index') ? 'text-emerald-600 font-medium bg-emerald-50' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">All Projects</a>
-                            <a href="{{ route('admin.projects.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.projects.create') ? 'text-emerald-600 font-medium bg-emerald-50' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">Add New</a>
+                        <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
+                            <a href="{{ route('admin.projects.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.projects.index') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Projects</a>
+                            <a href="{{ route('admin.projects.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.projects.create') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
                         </div>
                     </div>
 
-                    <!-- Partners -->
-                    <a href="{{ route('admin.partners.index') }}" 
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('admin.partners.*') ? 'bg-emerald-50 text-emerald-600' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' }}">
-                         <svg class="w-5 h-5 {{ request()->routeIs('admin.partners.*') ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <!-- Donations -->
+                    <a href="{{ route('admin.donations.index') }}" 
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.donations.*') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       :class="sidebarCollapsed ? 'justify-center' : ''">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                         </svg>
-                        <span class="font-medium">Partners</span>
+                        <span x-show="!sidebarCollapsed" x-transition class="font-medium">Donations</span>
+                        <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Donations</div>
                     </a>
 
-                    <!-- Articles (Keeping this as extra but styled) -->
-                    <a href="{{ route('admin.articles.index') }}" 
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('admin.articles.*') ? 'bg-emerald-50 text-emerald-600' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' }}">
-                        <svg class="w-5 h-5 {{ request()->routeIs('admin.articles.*') ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                    <!-- Partners -->
+                    <a href="{{ route('admin.partners.index') }}" 
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.partners.*') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       :class="sidebarCollapsed ? 'justify-center' : ''">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
-                        <span class="font-medium">Articles</span>
+                        <span x-show="!sidebarCollapsed" x-transition class="font-medium">Partners</span>
+                        <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Partners</div>
                     </a>
-                    
-                    <!-- Media (Keeping this as extra) -->
-                    <a href="{{ route('admin.media.index') }}" 
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('admin.media.*') ? 'bg-emerald-50 text-emerald-600' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' }}">
-                        <svg class="w-5 h-5 {{ request()->routeIs('admin.media.*') ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+
+                    <!-- Users -->
+                    <a href="{{ route('admin.users.index') }}" 
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.users.*') ? 'bg-white/10 text-white border-l-4 border-acef-green' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       :class="sidebarCollapsed ? 'justify-center' : ''">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                         </svg>
-                        <span class="font-medium">Media</span>
+                        <span x-show="!sidebarCollapsed" x-transition class="font-medium">Users</span>
+                        <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Users</div>
                     </a>
+
+                    <!-- Settings -->
+                    <div x-data="{ open: {{ request()->routeIs('admin.settings.*') ? 'true' : 'false' }} }">
+                        <button @click="if (!sidebarCollapsed) open = !open" 
+                                class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 {{ request()->routeIs('admin.settings.*') ? 'bg-white/5' : '' }}"
+                                :class="sidebarCollapsed ? 'justify-center' : ''">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.settings.*') ? 'text-acef-green' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Settings</span>
+                            </div>
+                            <svg x-show="!sidebarCollapsed" class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                            <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Settings</div>
+                        </button>
+                        <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
+                            <a href="{{ route('admin.settings.general') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.settings.general') ? 'text-acef-green font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Site Settings</a>
+                            <a href="#" class="block px-3 py-1.5 text-sm rounded-md transition-colors text-gray-400 hover:text-white hover:bg-white/5">Admin Account</a>
+                        </div>
+                    </div>
 
                 @else
                     <!-- Coordinator Menu Items -->
-                     <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group hover:bg-gray-50">
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 relative"
+                        :class="sidebarCollapsed ? 'justify-center' : ''">
+                        <svg class="w-5 h-5 text-gray-300 group-hover:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                         </svg>
-                        <span class="font-medium text-gray-500 group-hover:text-gray-900">My Articles</span>
+                        <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">My Articles</span>
+                        <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">My Articles</div>
                     </a>
                 @endif
-                
-                <!-- Settings (All Roles) -->
-                <a href="{{ route('admin.settings.general') }}" 
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('admin.settings.*') ? 'bg-emerald-50 text-emerald-600' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' }}">
-                     <svg class="w-5 h-5 {{ request()->routeIs('admin.settings.*') ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    <span class="font-medium">Settings</span>
-                </a>
             </nav>
             
             <!-- User Profile (Bottom) -->
-            <div class="p-4 border-t border-gray-100">
-                <div class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-gray-50 transition-colors">
-                    <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
+            <div class="p-4 border-t border-gray-800">
+                <div class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer" :class="sidebarCollapsed ? 'justify-center' : ''">
+                    <div class="w-10 h-10 rounded-full bg-acef-green flex items-center justify-center font-bold text-white flex-shrink-0">
                          {{ substr(Auth::user()->name, 0, 1) }}
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-gray-900 truncate">{{ Auth::user()->name }}</p>
-                        <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</p>
+                    <div x-show="!sidebarCollapsed" x-transition class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-white truncate">{{ Auth::user()->name }}</p>
+                        <p class="text-xs text-gray-400 truncate">{{ Auth::user()->email }}</p>
                     </div>
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form x-show="!sidebarCollapsed" method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="text-gray-400 hover:text-gray-600">
+                        <button type="submit" class="text-gray-400 hover:text-white">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                             </svg>
@@ -167,33 +284,137 @@
 
         <!-- Main Content Wrapper -->
         <div class="flex-1 flex flex-col h-screen overflow-hidden">
-            <!-- Topbar -->
-            <!-- Topbar (Mobile Only mostly) -->
-            <header class="flex items-center justify-between h-16 px-6 bg-white border-b border-gray-100 lg:hidden">
-                <!-- Mobile Menu Button -->
-                <button @click="sidebarOpen = !sidebarOpen" class="text-gray-500 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
-
-                <div class="font-bold text-lg">ACEF Admin</div>
-
-                <!-- Mobile Profile -->
-                <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold">
-                        {{ substr(Auth::user()->name, 0, 1) }}
+            <!-- Enhanced Header -->
+            <header class="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6 gap-4 z-30 transition-all"
+                    :class="sidebarCollapsed ? 'lg:ml-0' : 'lg:ml-0'">
+                
+                <!-- Left: Menu + Breadcrumbs -->
+                <div class="flex items-center gap-4">
+                    <!-- Hamburger Menu Button -->
+                    <button @click="sidebarCollapsed = !sidebarCollapsed" 
+                            class="hidden lg:block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
                     </button>
-                    <!-- Dropdown -->
-                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-50">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Log Out</button>
-                        </form>
+                    
+                    <!-- Mobile menu button -->
+                    <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Breadcrumbs -->
+                    <nav class="hidden md:flex items-center gap-2 text-sm">
+                        <a href="{{ Auth::user()->isAdmin() ? route('admin.dashboard') : route('coordinator.dashboard') }}" 
+                           class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Dashboard</a>
+                        @if(request()->segment(2) && request()->segment(2) !== 'dashboard')
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span class="text-gray-900 dark:text-white font-medium capitalize">{{ str_replace('-', ' ', request()->segment(2)) }}</span>
+                        @endif
+                    </nav>
+                </div>
+                
+                <!-- Center: Global Search -->
+                <div class="flex-1 max-w-2xl hidden md:block">
+                    <div class="relative">
+                        <input type="search" 
+                               placeholder="Search... (⌘K)"
+                               class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-acef-green transition-all">
+                        <svg class="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Right: Actions -->
+                <div class="flex items-center gap-2">
+                    <!-- Notifications -->
+                    <button class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="darkMode = !darkMode" 
+                            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <svg x-show="!darkMode" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                        <svg x-show="darkMode" class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Profile Dropdown -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" 
+                                class="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <div class="w-8 h-8 rounded-full bg-acef-green flex items-center justify-center text-white font-bold text-sm">
+                                {{ substr(Auth::user()->name, 0, 1) }}
+                            </div>
+                            <span class="hidden lg:block text-sm font-medium text-gray-700 dark:text-gray-300">{{ explode(' ', Auth::user()->name)[0] }}</span>
+                            <svg class="hidden lg:block w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div x-show="open" 
+                             @click.away="open = false"
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="transform opacity-0 scale-95"
+                             x-transition:enter-end="transform opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="transform opacity-100 scale-100"
+                             x-transition:leave-end="transform opacity-0 scale-95"
+                             class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
+                            
+                            <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+                                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ Auth::user()->name }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->email }}</p>
+                            </div>
+                            
+                            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                My Profile
+                            </a>
+                            
+                            <a href="{{ route('admin.settings.general') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                Settings
+                            </a>
+                            
+                            <div class="border-t border-gray-100 dark:border-gray-700 my-2"></div>
+                            
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                    </svg>
+                                    Sign Out
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </header>
 
             <!-- Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900 p-8">
+                <!-- Session Status -->
+                <x-auth-session-status class="mb-6 px-4 py-3 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300" :status="session('status')" />
+                
                 {{ $slot }}
             </main>
         </div>

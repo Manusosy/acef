@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\MediaFolder;
 use App\Models\MediaItem;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -12,7 +15,11 @@ class MediaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = MediaItem::images()->with('uploader');
+        $query = MediaItem::with('uploader');
+
+        if ($request->filled('folder_id')) {
+            $query->where('folder_id', $request->folder_id);
+        }
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
@@ -22,23 +29,28 @@ class MediaController extends Controller
         }
 
         $media = $query->recent()->paginate(24);
+        $folders = MediaFolder::orderBy('name')->get();
 
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
+                'items' => $media->items(),
+                'folders' => $folders,
                 'html' => view('admin.media.partials.grid', compact('media'))->render(),
                 'hasMore' => $media->hasMorePages(),
             ]);
         }
 
-        return view('admin.media.index', compact('media'));
+        return view('admin.media.index', compact('media', 'folders'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+            'file' => 'required|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,xls,xlsx|max:20480',
             'alt_text' => 'nullable|string|max:255',
+            'folder_id' => 'nullable|exists:media_folders,id',
         ]);
+
 
         $file = $request->file('file');
         $hash = MediaItem::hashFile($file);
@@ -120,14 +132,32 @@ class MediaController extends Controller
         ]);
     }
 
-    // API endpoint for media picker
-    public function picker(Request $request)
+    // Folder Management
+    public function storeFolder(Request $request)
     {
-        $media = MediaItem::images()
-            ->recent()
-            ->take(50)
-            ->get();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:media_folders,name',
+        ]);
 
-        return view('admin.media.partials.picker', compact('media'));
+        $folder = MediaFolder::create($validated);
+
+        return response()->json([
+            'success' => true,
+            'folder' => $folder,
+            'message' => 'Folder created successfully.',
+        ]);
+    }
+
+    public function destroyFolder(MediaFolder $folder)
+    {
+        // Move items to root
+        MediaItem::where('folder_id', $folder->id)->update(['folder_id' => null]);
+        
+        $folder->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Folder deleted successfully.',
+        ]);
     }
 }

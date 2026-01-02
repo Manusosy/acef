@@ -12,19 +12,26 @@ class Article extends Model
         'slug',
         'excerpt',
         'content',
-        'category',
+        'category_id', // Changed from category
         'image',
         'author_id',
         'is_featured',
-        'is_published',
+        'status', // draft, pending, published
         'published_at',
+        'tags',
+        'read_time',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
-        'is_published' => 'boolean',
         'published_at' => 'datetime',
+        'tags' => 'array',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     protected static function boot()
     {
@@ -44,7 +51,7 @@ class Article extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('is_published', true)
+        return $query->where('status', 'published')
                      ->whereNotNull('published_at')
                      ->where('published_at', '<=', now());
     }
@@ -57,5 +64,15 @@ class Article extends Model
     public function getFormattedDateAttribute()
     {
         return $this->published_at?->format('F d, Y') ?? 'Draft';
+    }
+
+    public function getStatusBadgeAttribute()
+    {
+        return match($this->status) {
+            'published' => 'bg-emerald-100 text-emerald-700',
+            'draft' => 'bg-gray-100 text-gray-700',
+            'pending' => 'bg-amber-100 text-amber-700',
+            default => 'bg-gray-100 text-gray-700',
+        };
     }
 }

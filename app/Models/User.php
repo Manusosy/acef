@@ -59,11 +59,16 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->role && $this->role->slug === 'admin';
+        return $this->role && ($this->role->slug === 'admin' || $this->role->slug === 'administrator');
+    }
+
+    public function isCountryAdmin()
+    {
+        return $this->role && $this->role->slug === 'country_coordinator';
     }
 
     public function isCoordinator()
     {
-        return $this->role && $this->role->slug === 'country_coordinator';
+        return $this->isCountryAdmin();
     }
 }

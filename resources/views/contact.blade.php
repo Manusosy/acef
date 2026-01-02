@@ -16,11 +16,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="antialiased font-sans bg-white overflow-x-hidden">
+<body class="antialiased font-sans bg-white dark:bg-gray-900 overflow-x-hidden">
     @include('components.header')
 
     <!-- Contact Hero -->
-    <section class="pt-40 pb-24 bg-white">
+    <section class="pt-40 pb-24 bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
                 class="relative rounded-[50px] overflow-hidden min-h-[400px] flex items-center justify-center text-center p-12 md:p-20">
@@ -51,7 +51,7 @@
                     <div class="space-y-4">
                         <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
                             {{ __('pages.contact.form_title') }}</h2>
-                        <p class="text-gray-400 font-light italic">{{ __('pages.contact.form_subtitle') }}</p>
+                        <p class="text-gray-400 dark:text-gray-500 font-light italic">{{ __('pages.contact.form_subtitle') }}</p>
                     </div>
 
                     <form class="space-y-8" action="mailto:info@acef-ngo.org" method="POST" enctype="text/plain">
@@ -59,7 +59,7 @@
                             <label
                                 class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.topic_label') }}</label>
                             <select name="topic" required
-                                class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl text-gray-500 focus:ring-2 focus:ring-acef-green transition-all outline-none">
+                                class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl text-gray-500 dark:text-white focus:ring-2 focus:ring-acef-green transition-all outline-none">
                                 <option value="" disabled selected>{{ __('pages.contact.form.topic_placeholder') }}</option>
                                 @foreach(__('pages.contact.topics') as $topic)
                                     <option value="{{ $topic }}">{{ $topic }}</option>
@@ -72,13 +72,13 @@
                                 <label
                                     class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.name_label') }}</label>
                                 <input type="text" name="name" placeholder="{{ __('pages.contact.form.name_placeholder') }}" required
-                                    class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none">
+                                    class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none dark:text-white">
                             </div>
                             <div class="space-y-4">
                                 <label
                                     class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.email_label') }}</label>
                                 <input type="email" name="email" placeholder="{{ __('pages.contact.form.email_placeholder') }}" required
-                                    class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none">
+                                    class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none dark:text-white">
                             </div>
                         </div>
 
@@ -86,14 +86,14 @@
                             <label
                                 class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.org_label') }}</label>
                             <input type="text" name="organization" placeholder="{{ __('pages.contact.form.org_placeholder') }}"
-                                class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none">
+                                class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none dark:text-white">
                         </div>
 
                         <div class="space-y-4">
                             <label
                                 class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.message_label') }}</label>
                             <textarea name="message" rows="6" placeholder="{{ __('pages.contact.form.message_placeholder') }}" required
-                                class="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none"></textarea>
+                                class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none dark:text-white"></textarea>
                         </div>
 
                         <button
@@ -108,7 +108,7 @@
                 <!-- Sidebar Info -->
                 <div class="lg:w-2/5 space-y-10">
                     <!-- Regional Offices -->
-                    <div class="bg-white border border-gray-100 rounded-[40px] p-10 shadow-sm space-y-10">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-[40px] p-10 shadow-sm space-y-10">
                         <div class="flex items-center space-x-3 text-acef-green">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -117,7 +117,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
-                            <h3 class="text-2xl font-black text-acef-dark tracking-tighter">
+                            <h3 class="text-2xl font-black text-acef-dark dark:text-white tracking-tighter">
                                 {{ __('pages.contact.regional_offices') }}</h3>
                         </div>
 
@@ -143,7 +143,7 @@
                             @endphp
                             @foreach($offices as $office)
                                 <div class="space-y-2 py-2">
-                                    <h4 class="font-bold text-acef-dark text-lg flex items-center">
+                                    <h4 class="font-bold text-acef-dark dark:text-white text-lg flex items-center">
                                         <span class="w-2 h-2 bg-acef-green rounded-full mr-3"></span>
                                         ACEF {{ $office['name'] }}
                                     </h4>
@@ -158,9 +158,9 @@
 
                     <!-- Connect on Social -->
                     <div class="bg-acef-green/5 border border-acef-green/10 rounded-[40px] p-10 space-y-6">
-                        <h3 class="text-2xl font-black text-acef-dark tracking-tighter">
+                        <h3 class="text-2xl font-black text-acef-dark dark:text-white tracking-tighter">
                             {{ __('pages.contact.social_title') }}</h3>
-                        <p class="text-gray-400 text-sm font-light italic">{{ __('pages.contact.social_desc') }}</p>
+                        <p class="text-gray-400 dark:text-gray-500 text-sm font-light italic">{{ __('pages.contact.social_desc') }}</p>
                         <div class="flex items-center space-x-4">
                             <!-- Facebook -->
                             <a href="https://www.facebook.com/share/172ZDMd2dL/" target="_blank" rel="noopener noreferrer"

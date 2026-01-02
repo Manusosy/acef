@@ -18,7 +18,13 @@ class MediaItem extends Model
         'alt_text',
         'caption',
         'uploaded_by',
+        'folder_id',
     ];
+
+    public function folder()
+    {
+        return $this->belongsTo(MediaFolder::class, 'folder_id');
+    }
 
     protected $casts = [
         'size' => 'integer',
@@ -43,7 +49,30 @@ class MediaItem extends Model
 
     public function getThumbnailUrlAttribute()
     {
-        return $this->url;
+        if (str_starts_with($this->mime_type, 'image/')) {
+            return $this->url;
+        }
+
+        if ($this->mime_type === 'application/pdf') {
+            return asset('images/icons/pdf-icon.png'); // I will assume this exists or use a generic SVG placeholder in blade
+        }
+
+        return asset('images/icons/file-icon.png');
+    }
+
+    public function getCreatedAtFormattedAttribute()
+    {
+        return $this->created_at->format('F j, Y');
+    }
+
+    public function isImage(): bool
+    {
+        return str_starts_with($this->mime_type, 'image/');
+    }
+
+    public function isPdf(): bool
+    {
+        return $this->mime_type === 'application/pdf';
     }
 
     public function getSizeFormattedAttribute()

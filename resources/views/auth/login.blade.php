@@ -95,9 +95,9 @@
                 <div class="pt-8 border-t border-gray-100 text-center space-y-4">
                     <p class="text-xs text-gray-400">© {{ date('Y') }} Africa Climate and Environment Foundation. Secure Server.</p>
                     <div class="flex justify-center space-x-4 text-xs text-gray-400">
-                        <a href="#" class="hover:text-gray-600">Privacy Policy</a>
+                        <a href="{{ route('privacy') }}" class="hover:text-gray-600">Privacy Policy</a>
                         <span>·</span>
-                        <a href="#" class="hover:text-gray-600">Terms of Service</a>
+                        <a href="{{ route('terms') }}" class="hover:text-gray-600">Terms of Service</a>
                     </div>
                 </div>
             </div>

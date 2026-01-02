@@ -7,13 +7,16 @@ import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
 
 window.setupEditor = function (content, options = {}) {
+    let editorInstance = null;
+
     return {
-        editor: null,
         content: content,
         updatedAt: Date.now(),
 
         init() {
-            this.editor = new Editor({
+            if (editorInstance) return;
+
+            editorInstance = new Editor({
                 element: this.$refs.editorElement,
                 extensions: [
                     StarterKit,
@@ -26,7 +29,7 @@ window.setupEditor = function (content, options = {}) {
                     }),
                     Image.configure({
                         HTMLAttributes: {
-                            class: 'rounded-lg max-w-full h-auto',
+                            class: 'rounded-lg max-w-full h-auto my-4',
                         },
                     }),
                     Placeholder.configure({
@@ -47,40 +50,70 @@ window.setupEditor = function (content, options = {}) {
                 },
                 editorProps: {
                     attributes: {
-                        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[150px] px-6 py-4',
+                        class: 'prose max-w-none w-full focus:outline-none min-h-[150px] px-6 py-4 text-gray-800',
                     },
                 },
             });
         },
 
         isActive(type, opts = {}) {
-            return this.editor ? this.editor.isActive(type, opts) : false;
+            return editorInstance ? editorInstance.isActive(type, opts) : false;
         },
-        toggleBold() { this.editor.chain().focus().toggleBold().run(); },
-        toggleItalic() { this.editor.chain().focus().toggleItalic().run(); },
-        toggleUnderline() { this.editor.chain().focus().toggleUnderline().run(); },
-        toggleHeading(level) { this.editor.chain().focus().toggleHeading({ level }).run(); },
-        toggleBulletList() { this.editor.chain().focus().toggleBulletList().run(); },
-        toggleOrderedList() { this.editor.chain().focus().toggleOrderedList().run(); },
-        undo() { this.editor.chain().focus().undo().run(); },
-        redo() { this.editor.chain().focus().redo().run(); },
+        toggleBold() { editorInstance && editorInstance.chain().focus().toggleBold().run(); },
+        toggleItalic() { editorInstance && editorInstance.chain().focus().toggleItalic().run(); },
+        toggleUnderline() { editorInstance && editorInstance.chain().focus().toggleUnderline().run(); },
+        toggleHeading(level) { editorInstance && editorInstance.chain().focus().toggleHeading({ level }).run(); },
+        toggleBulletList() { editorInstance && editorInstance.chain().focus().toggleBulletList().run(); },
+        toggleOrderedList() { editorInstance && editorInstance.chain().focus().toggleOrderedList().run(); },
+        undo() { editorInstance && editorInstance.chain().focus().undo().run(); },
+        redo() { editorInstance && editorInstance.chain().focus().redo().run(); },
 
         setLink() {
-            const previousUrl = this.editor.getAttributes('link').href;
+            if (!editorInstance) return;
+            const previousUrl = editorInstance.getAttributes('link').href;
             const url = window.prompt('URL', previousUrl);
             if (url === null) return;
             if (url === '') {
-                this.editor.chain().focus().extendMarkRange('link').unsetLink().run();
+                editorInstance.chain().focus().extendMarkRange('link').unsetLink().run();
                 return;
             }
-            this.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+            editorInstance.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
         },
 
         addImage() {
-            const url = window.prompt('Image URL');
-            if (url) {
-                this.editor.chain().focus().setImage({ src: url }).run();
+            if (!editorInstance) return;
+
+            if (window.openMediaPicker) {
+                window.openMediaPicker((media) => {
+                    editorInstance.chain().focus().setImage({
+                        src: media.url,
+                        alt: media.alt_text,
+                        title: media.original_filename
+                    }).run();
+                });
+            } else {
+                const url = window.prompt('Image URL');
+                if (url) {
+                    editorInstance.chain().focus().setImage({ src: url }).run();
+                }
             }
+        },
+
+        destroy() {
+            if (editorInstance) {
+                editorInstance.destroy();
+                editorInstance = null;
+            }
+        },
+
+        // Clean up getter to check if editor exists (for disabled button states)
+        get canUndo() {
+            this.updatedAt;
+            return editorInstance ? editorInstance.can().undo() : false;
+        },
+        get canRedo() {
+            this.updatedAt;
+            return editorInstance ? editorInstance.can().redo() : false;
         }
     }
 };

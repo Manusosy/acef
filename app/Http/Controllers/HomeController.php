@@ -18,12 +18,24 @@ class HomeController extends Controller
 
     public function programmes()
     {
-        return view('programmes');
+        $programmes = \App\Models\Program::where('status', 'published')->get();
+        $countries = config('acef.countries');
+        return view('programmes', compact('programmes', 'countries'));
+    }
+
+    public function showProgramme(\App\Models\Program $programme)
+    {
+        if ($programme->status !== 'published') {
+            abort(404);
+        }
+        return view('programmes.show', compact('programme'));
     }
 
     public function projects()
     {
-        return view('projects');
+        $projects = \App\Models\Project::where('is_active', true)->where('status', '!=', 'draft')->get();
+        $countries = config('acef.countries');
+        return view('projects', compact('projects', 'countries'));
     }
 
     public function impact()
@@ -38,7 +50,23 @@ class HomeController extends Controller
 
     public function news()
     {
-        return view('news');
+        $articles = \App\Models\Article::with(['category', 'author'])->published()->latest('published_at')->paginate(9);
+        return view('news', compact('articles'));
+    }
+
+    public function showNews(\App\Models\Article $article)
+    {
+        if ($article->status !== 'published') {
+            abort(404);
+        }
+
+        $related = \App\Models\Article::where('category_id', $article->category_id)
+            ->where('id', '!=', $article->id)
+            ->published()
+            ->take(3)
+            ->get();
+
+        return view('news.show', compact('article', 'related'));
     }
 
     public function contact()

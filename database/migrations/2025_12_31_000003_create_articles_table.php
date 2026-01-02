@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('category');
             $table->string('image')->nullable();
             $table->foreignId('author_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->boolean('is_featured')->default(false);
-            $table->boolean('is_published')->default(false);
+            $table->enum('status', ['draft', 'pending', 'published'])->default('draft');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

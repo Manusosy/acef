@@ -3,8 +3,8 @@
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Projects</h1>
-                <p class="text-gray-500 mt-1">Oversee, track, and manage all environmental initiatives and programs.</p>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Projects</h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-1">Oversee, track, and manage all environmental initiatives and programs.</p>
             </div>
             <a href="{{ route('admin.projects.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white font-bold rounded-xl hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-200">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -17,10 +17,10 @@
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Active -->
-            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex items-center justify-between">
                 <div>
-                    <h4 class="text-gray-500 text-sm font-medium mb-1">Active Projects</h4>
-                    <span class="text-3xl font-bold text-gray-900">{{ \App\Models\Project::where('status', 'ongoing')->count() }}</span>
+                    <h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Active Projects</h4>
+                    <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ \App\Models\Project::where('status', 'ongoing')->count() }}</span>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/></svg>
@@ -49,9 +49,9 @@
         </div>
 
         <!-- Filters + Table Container -->
-        <div class="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden">
             <!-- Filter Bar -->
-            <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex flex-col md:flex-row gap-4 justify-between items-center">
                 <div class="flex items-center gap-2">
                     <button class="px-4 py-2 bg-gray-50 text-gray-900 font-bold rounded-lg text-sm hover:bg-gray-100 transition-colors">All</button>
                     <button class="px-4 py-2 text-gray-500 font-medium rounded-lg text-sm hover:bg-gray-50 hover:text-gray-900 transition-colors">Active</button>
@@ -84,9 +84,9 @@
                         <th class="p-6 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
                     @forelse($projects as $project)
-                    <tr class="hover:bg-gray-50/50 transition-colors group">
+                    <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-700/30 transition-colors group">
                         <td class="p-6 text-center">
                              <input type="checkbox" class="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500 h-5 w-5">
                         </td>
@@ -102,7 +102,7 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">{{ $project->title }}</h3>
+                                    <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-acef-green transition-colors">{{ $project->title }}</h3>
                                     <p class="text-xs text-gray-400 font-medium">ID: PRJ-2024-{{ str_pad($project->id, 3, '0', STR_PAD_LEFT) }}</p>
                                 </div>
                             </div>

@@ -101,50 +101,38 @@
 
                 <!-- Article Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    @php
-                        $articles = __('pages.news.articles');
-                        $meta = [
-                            ['author' => 'ACEF Research', 'date' => 'Dec 27, 2024', 'image' => '/uploaded_image_1766828557603.png'],
-                            ['author' => 'Energy Lead', 'date' => 'Dec 20, 2024', 'image' => '/project_solar_panels_1766827705821.png'],
-                            ['author' => 'Youth Network', 'date' => 'Dec 15, 2024', 'image' => '/project_tree_planting_1766827726209.png']
-                        ];
-                    @endphp
+                    <!-- Dynamic Articles -->
 
-                    @foreach($articles as $index => $art)
-                        @php 
-                            $m = $meta[$index]; 
-                            $mergedArt = array_merge($art, $m);
-                        @endphp
-                        <div x-show="checkVisible({{ json_encode($mergedArt) }})" x-transition
-                            class="group bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 flex flex-col">
+                    @forelse($articles as $article)
+                        <div class="group bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 flex flex-col">
                             <div class="relative aspect-[16/10] overflow-hidden">
-                                <img src="{{ $m['image'] }}" alt="{{ $art['title'] }}"
+                                <img src="{{ $article->image ? asset('storage/' . $article->image) : '/project_solar_panels_1766827705821.png' }}" alt="{{ $article->title }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute top-6 left-6">
                                     <span
-                                        class="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider text-acef-dark">{{ $art['category'] }}</span>
+                                        class="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider text-acef-dark">{{ $article->category }}</span>
                                 </div>
                             </div>
                             <div class="p-10 space-y-6 flex-1 flex flex-col">
                                 <div class="space-y-4 flex-1">
                                     <div
                                         class="flex items-center text-gray-300 text-[10px] font-bold uppercase tracking-widest">
-                                        <span>{{ $m['author'] }}</span>
+                                        <span>{{ $article->author->name ?? 'ACEF Team' }}</span>
                                         <span class="mx-2">•</span>
-                                        <span>{{ $m['date'] }}</span>
+                                        <span>{{ $article->formatted_date }}</span>
                                     </div>
                                     <h3
                                         class="text-2xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors">
-                                        {{ $art['title'] }}
+                                        {{ $article->title }}
                                     </h3>
                                     <p class="text-gray-400 text-sm leading-relaxed font-light line-clamp-3 italic">
-                                        {{ $art['desc'] }}
+                                        {{ $article->excerpt }}
                                     </p>
                                 </div>
                                 <div class="pt-6 border-t border-gray-50 flex justify-start">
-                                    <a href="{{ route('news') }}"
+                                    <a href="#"
                                         class="text-acef-green font-black text-xs flex items-center group-hover:translate-x-1 transition-transform">
-                                        {{ $art['link_text'] }}
+                                        Read Article
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
@@ -153,18 +141,15 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="col-span-full text-center py-20 text-gray-400">
+                            No articles found.
+                        </div>
+                    @endforelse
                 </div>
 
-                <div class="flex justify-center">
-                    <button
-                        class="text-acef-dark font-black text-sm flex items-center space-x-2 border-b-2 border-acef-green pb-1 hover:text-acef-green transition-colors">
-                        <span>{{ __('pages.news.load_more') }}</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7">
-                            </path>
-                        </svg>
-                    </button>
+                <div class="flex justify-center pt-8">
+                     {{ $articles->links() }}
                 </div>
             </div>
         </section>

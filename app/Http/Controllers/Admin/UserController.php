@@ -28,6 +28,10 @@ class UserController extends Controller
             });
         }
 
+        if ($request->filled('status')) {
+            $query->where('is_active', (bool) $request->status);
+        }
+
         $users = $query->latest()->paginate(10);
         $roles = Role::all();
 

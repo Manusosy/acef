@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         // Fetch roles available for registration
-        $roles = \App\Models\Role::whereIn('slug', ['admin', 'country_coordinator'])->get();
+        $roles = \App\Models\Role::whereIn('slug', ['admin', 'country_coordinator', 'country-admin'])->get();
         return view('auth.register', compact('roles'));
     }
 
@@ -35,14 +35,13 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role_id' => ['nullable', 'exists:roles,id'],
-            'role' => ['required', 'string', 'in:admin,country_coordinator'],
+            'role_id' => ['required', 'exists:roles,id'],
         ]);
 
         // Security check for Country Coordinator role
         if ($request->role_id) {
             $role = \App\Models\Role::find($request->role_id);
-            if ($role && $role->slug === 'country_coordinator') {
+            if ($role && ($role->slug === 'country_coordinator' || $role->slug === 'country-admin')) {
                 if (!str_ends_with($request->email, '@acef-ngo.org')) {
                     throw \Illuminate\Validation\ValidationException::withMessages([
                         'email' => 'Country Coordinators must use an official @acef-ngo.org email address.',
@@ -54,7 +53,7 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
             'role_id' => $request->role_id,
         ]);
 
@@ -62,6 +61,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        session()->flash('status', 'Account created successfully! Welcome to ACEF.');
         return redirect(route('dashboard', absolute: false));
     }
 }

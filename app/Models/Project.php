@@ -73,4 +73,9 @@ class Project extends Model
     {
         return $query->where('is_featured', true);
     }
+
+    public function scopeRecent($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
 }

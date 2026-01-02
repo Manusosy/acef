@@ -36,11 +36,52 @@
                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                     </div>
 
-                    <!-- Country -->
-                    <div>
-                        <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Country *</label>
-                        <input type="text" name="country" id="country" value="{{ old('country', $project->country) }}" required
-                               class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+                    <!-- Country Selector -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Target Countries *</label>
+                        <div x-data="{
+                            availableCountries: {{ json_encode(config('acef.countries')) }},
+                            selectedCountries: {{ json_encode($project->country ?? []) }},
+                            search: '',
+                            filteredCountries() {
+                                if (this.search === '') return [];
+                                return this.availableCountries.filter(c => 
+                                    c.toLowerCase().includes(this.search.toLowerCase()) && 
+                                    !this.selectedCountries.includes(c)
+                                );
+                            },
+                            addCountry(country) {
+                                if (country && !this.selectedCountries.includes(country)) {
+                                    this.selectedCountries.push(country);
+                                    this.search = '';
+                                }
+                            }
+                        }" class="space-y-3">
+                            <div class="flex items-center gap-2 relative">
+                                <input type="text" x-model="search" placeholder="Search and select countries..." 
+                                       @keydown.enter.prevent="addCountry(filteredCountries()[0])"
+                                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500">
+                                
+                                <div x-show="search.length > 0 && filteredCountries().length > 0" 
+                                     class="absolute z-50 top-full mt-1 w-full bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl shadow-lg max-h-48 overflow-y-auto">
+                                    <template x-for="country in filteredCountries()" :key="country">
+                                        <div @click="addCountry(country)" class="px-4 py-2 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 cursor-pointer text-gray-700 dark:text-gray-300">
+                                            <span x-text="country"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2">
+                                <template x-for="(country, index) in selectedCountries" :key="index">
+                                    <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-800">
+                                        <span x-text="country"></span>
+                                        <button type="button" @click="selectedCountries.splice(index, 1)" class="ml-2 focus:outline-none">&times;</button>
+                                        <input type="hidden" name="country[]" :value="country">
+                                    </span>
+                                </template>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Status -->
@@ -109,11 +150,14 @@
 
                     <!-- Toggles -->
                     <div class="md:col-span-2 flex flex-wrap gap-6">
+                        <input type="hidden" name="is_featured" value="0">
                         <label class="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $project->is_featured) ? 'checked' : '' }}
                                    class="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-emerald-600 focus:ring-emerald-500">
                             <span class="text-sm text-gray-700 dark:text-gray-300">Featured Project</span>
                         </label>
+                        
+                        <input type="hidden" name="is_active" value="0">
                         <label class="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" name="is_active" value="1" {{ old('is_active', $project->is_active) ? 'checked' : '' }}
                                    class="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-emerald-600 focus:ring-emerald-500">

@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class Programme extends Model
 {
+    protected $table = 'programs';
+
     protected $fillable = [
         'title',
         'slug',

@@ -51,13 +51,13 @@
             // Normalise search
             const searchLower = this.search.toLowerCase();
             const titleMatch = item.title.toLowerCase().includes(searchLower);
-            const catMatch = item.category.toLowerCase().includes(searchLower);
+            const catMatch = item.category ? item.category.toLowerCase().includes(searchLower) : false;
             
             // Category Filter
             const matchesCategory = this.category === '' || item.category === this.category;
             
-            // Country Filter (Location usually contains 'City, Country')
-            const matchesCountry = this.country === '' || item.location.includes(this.country);
+            // Country Filter
+            const matchesCountry = this.country === '' || (item.country && item.country.includes(this.country));
             
             // Status Filter
             const matchesStatus = this.status === '' || item.status === this.status;
@@ -73,25 +73,23 @@
                     <select x-model="category"
                         class="bg-gray-50 border-none rounded-2xl py-3 px-6 text-sm font-bold text-gray-500 focus:ring-2 focus:ring-acef-green">
                         <option value="">{{ __('pages.projects_page.filter_category') }}</option>
-                        <option value="{{ __('pages.filters.categories.reforestation') }}">{{ __('pages.filters.categories.reforestation') }}</option>
-                        <option value="{{ __('pages.filters.categories.energy') }}">{{ __('pages.filters.categories.energy') }}</option>
-                        <option value="{{ __('pages.filters.categories.water') }}">{{ __('pages.filters.categories.water') }}</option>
-                        <option value="{{ __('pages.filters.categories.agriculture') }}">{{ __('pages.filters.categories.agriculture') }}</option>
+                        @foreach($projects->pluck('category')->unique() as $cat)
+                            <option value="{{ $cat }}">{{ $cat }}</option>
+                        @endforeach
                     </select>
                     <select x-model="country"
                         class="bg-gray-50 border-none rounded-2xl py-3 px-6 text-sm font-bold text-gray-500 focus:ring-2 focus:ring-acef-green">
                         <option value="">{{ __('pages.projects_page.filter_country') }}</option>
-                        <option value="{{ __('pages.filters.countries.kenya') }}">{{ __('pages.filters.countries.kenya') }}</option>
-                        <option value="{{ __('pages.filters.countries.uganda') }}">{{ __('pages.filters.countries.uganda') }}</option>
-                        <option value="{{ __('pages.filters.countries.tanzania') }}">{{ __('pages.filters.countries.tanzania') }}</option>
-                        <option value="{{ __('pages.filters.countries.rwanda') }}">{{ __('pages.filters.countries.rwanda') }}</option>
+                        @foreach($countries as $c)
+                            <option value="{{ $c }}">{{ $c }}</option>
+                        @endforeach
                     </select>
                     <select x-model="status"
                         class="bg-gray-50 border-none rounded-2xl py-3 px-6 text-sm font-bold text-gray-500 focus:ring-2 focus:ring-acef-green">
                         <option value="">{{ __('pages.projects_page.filter_status') }}</option>
-                        <option value="{{ __('pages.projects_page.status.ongoing') }}">{{ __('pages.projects_page.status.ongoing') }}</option>
-                        <option value="{{ __('pages.projects_page.status.completed') }}">{{ __('pages.projects_page.status.completed') }}</option>
-                        <option value="{{ __('pages.projects_page.status.starting') }}">{{ __('pages.projects_page.status.starting') }}</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="completed">Completed</option>
+                        <option value="starting">Starting Soon</option>
                     </select>
                 </div>
 
@@ -111,19 +109,32 @@
         <section class="py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    @foreach(__('pages.projects_page.list') as $proj)
-                        <div x-show="checkVisible({{ json_encode($proj) }})" x-transition
-                            class="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all group">
+                    @foreach($projects as $project)
+                        @php
+                            $goal = floatval($project->goal_amount);
+                            $raised = floatval($project->raised_amount);
+                            $percent = $goal > 0 ? round(($raised / $goal) * 100) : 0;
+                            // Ensure the percent shown doesn't exceed 100 for the progress bar width
+                            $barWidth = min($percent, 100);
+                        @endphp
+                        <div x-show="checkVisible({{ json_encode($project) }})" x-transition
+                            class="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all group border border-gray-100 dark:border-gray-800">
                             <div class="relative aspect-[4/3] overflow-hidden">
-                                <img src="{{ $proj['image'] }}" alt="{{ $proj['title'] }}"
-                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                @if($project->image)
+                                    <img src="{{ Str::startsWith($project->image, 'http') ? $project->image : Storage::url($project->image) }}" alt="{{ $project->title }}"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                @else
+                                    <div class="w-full h-full bg-emerald-50 dark:bg-gray-700 flex items-center justify-center">
+                                        <span class="text-6xl">🌍</span>
+                                    </div>
+                                @endif
                                 <div class="absolute top-6 left-6">
                                     <span
                                         class="bg-white/90 backdrop-blur-md text-acef-dark px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider shadow-sm">
-                                        {{ $proj['category'] }}
+                                        {{ $project->category }}
                                     </span>
                                 </div>
-                                @if($proj['status'] === 'Completed')
+                                @if($percent >= 100)
                                     <div class="absolute top-6 right-6">
                                         <span
                                             class="bg-acef-green text-acef-dark px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider flex items-center">
@@ -147,33 +158,34 @@
                                                 d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                                                 clip-rule="evenodd"></path>
                                         </svg>
-                                        {{ $proj['location'] }}
+                                        {{ is_array($project->country) ? implode(', ', $project->country) : $project->country }}
                                     </div>
                                     <h3
                                         class="text-2xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors">
-                                        {{ $proj['title'] }}
+                                        {{ $project->title }}
                                     </h3>
                                 </div>
 
                                 <div class="space-y-2">
                                     <div class="flex justify-between text-xs font-bold whitespace-nowrap">
-                                        <span class="text-acef-dark">{{ $proj['raised'] }} raised</span>
-                                        <span class="text-gray-400">{{ $proj['goal_percent'] }}%</span>
+                                        <span class="text-acef-dark">${{ number_format($raised) }} raised</span>
+                                        <span class="text-gray-400">{{ $percent }}%</span>
                                     </div>
                                     <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
                                         <div class="h-full bg-acef-green rounded-full transition-all duration-1000"
-                                            style="width: {{ $proj['goal_percent'] }}%"></div>
+                                            style="width: {{ $barWidth }}%"></div>
                                     </div>
                                 </div>
 
                                 <div class="flex justify-between items-center pt-2">
                                     <span
-                                        class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $proj['status'] === 'Ongoing' ? 'bg-acef-green/10 text-acef-green' : ($proj['status'] === 'Completed' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600') }}">
-                                        {{ $proj['status'] }}
+                                        class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider 
+                                        {{ $project->status === 'ongoing' ? 'bg-acef-green/10 text-acef-green' : ($project->status === 'completed' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600') }}">
+                                        {{ ucfirst($project->status) }}
                                     </span>
                                     <a href="{{ route('projects') }}"
                                         class="text-acef-dark font-black text-xs flex items-center hover:text-acef-green transition-colors">
-                                        {{ $proj['status'] === 'Completed' ? 'View Impact' : 'View Project' }}
+                                        {{ $project->status === 'completed' ? 'View Impact' : 'View Project' }}
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M17 8l4 4m0 0l-4 4m4-4H3"></path>

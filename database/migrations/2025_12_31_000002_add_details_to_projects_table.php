@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('gallery')->nullable()->after('image'); // JSON
             $table->text('objectives')->nullable()->after('description'); // JSON
             $table->string('video_url')->nullable()->after('gallery');
-            $table->foreignId('programme_id')->nullable()->constrained()->nullOnDelete()->after('title');
+            // Foreign key handled in later migration to ensure table existence
         });
     }
 
