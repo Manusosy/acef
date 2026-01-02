@@ -17,13 +17,22 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = Session::get('locale') ?? $request->cookie('locale');
+        // Get locale from session or cookie, fallback to app default
+        $locale = Session::get('locale') ?? $request->cookie('locale') ?? config('app.locale');
 
+        // Validate locale exists in languages config
         if ($locale && array_key_exists($locale, config('languages'))) {
             App::setLocale($locale);
+            
+            // Store in session if not already there
             if (!Session::has('locale')) {
                 Session::put('locale', $locale);
             }
+        } else {
+            // If invalid locale, use app default
+            $defaultLocale = config('app.locale');
+            App::setLocale($defaultLocale);
+            Session::put('locale', $defaultLocale);
         }
 
         return $next($request);

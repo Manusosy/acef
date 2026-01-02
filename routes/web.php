@@ -8,12 +8,11 @@ Route::get('lang/{locale}', [\App\Http\Controllers\LanguageController::class, 's
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/about', [\App\Http\Controllers\HomeController::class, 'about'])->name('about');
 Route::get('/donate', [\App\Http\Controllers\DonationController::class, 'index'])->name('donate');
-Route::post('/donate/process-paypal', [\App\Http\Controllers\DonationController::class, 'processPaypal'])->name('donate.paypal');
-Route::post('/donate/process-mpesa', [\App\Http\Controllers\DonationController::class, 'processMpesa'])->name('donate.mpesa');
+Route::middleware(['throttle:10,1'])->group(function () {
+    Route::post('/donate/process-paypal', [\App\Http\Controllers\DonationController::class, 'processPaypal'])->name('donate.paypal');
+    Route::post('/donate/process-mpesa', [\App\Http\Controllers\DonationController::class, 'processMpesa'])->name('donate.mpesa');
+});
 Route::get('/search', [\App\Http\Controllers\GlobalSearchController::class, 'index'])->name('search');
-
-// Test Callback Route (In prod this should be excluded from CSRF)
-Route::post('/api/mpesa/callback', function() { return response()->json(['result' => 'ok']); })->name('api.mpesa.callback');
 Route::get('/programmes', [\App\Http\Controllers\HomeController::class, 'programmes'])->name('programmes');
 Route::get('/programmes/{programme:slug}', [\App\Http\Controllers\HomeController::class, 'showProgramme'])->name('programmes.show');
 Route::get('/projects', [\App\Http\Controllers\HomeController::class, 'projects'])->name('projects');

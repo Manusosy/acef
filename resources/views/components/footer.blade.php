@@ -125,4 +125,7 @@
             </div>
         </div>
     </div>
+    
+    {{-- Cookie Consent Banner --}}
+    @include('components.cookie-consent')
 </footer>
