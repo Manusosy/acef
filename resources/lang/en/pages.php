@@ -709,7 +709,10 @@ return [
             ]
         ],
         'download_btn' => 'Download',
-        'members_only_btn' => 'Members Only'
+        'members_only_btn' => 'Members Only',
+        'no_results_title' => 'No resources found',
+        'no_results_desc' => 'Try adjusting your search or filters to find what you are looking for.',
+        'clear_filters' => 'Clear all filters',
     ],
     'accreditations' => [
         'hero_title' => 'Recognized Standards',

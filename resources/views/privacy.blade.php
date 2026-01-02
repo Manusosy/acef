@@ -30,7 +30,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="space-y-6 mb-16">
                     <h1 class="text-6xl md:text-7xl font-black text-acef-dark tracking-tighter leading-none">{{ __('legal.privacy.title') }}</h1>
-                    <p class="text-gray-400 text-lg font-light italic leading-relaxed max-w-3xl">
+                    <p class="text-gray-600 text-lg font-light italic leading-relaxed max-w-3xl">
                         {{ __('legal.privacy.desc') }}
                     </p>
                     <div class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-widest text-gray-300 pt-4">
@@ -55,9 +55,9 @@
                             </nav>
                         </div>
 
-                        <div class="bg-acef-green/5 rounded-[30px] p-8 space-y-6 border border-acef-green/10">
+                        <div class="bg-acef-green/5 rounded-3xl p-8 space-y-6 border border-acef-green/10">
                             <h4 class="text-xl font-black text-acef-dark tracking-tight leading-tight">{{ __('legal.privacy.help_title') }}</h4>
-                            <p class="text-xs text-gray-400 italic font-light">{{ __('legal.privacy.help_desc') }}</p>
+                            <p class="text-xs text-gray-600 italic font-light">{{ __('legal.privacy.help_desc') }}</p>
                             <a href="mailto:{{ __('legal.privacy.contact.email') }}" class="text-acef-green text-xs font-black flex items-center hover:underline">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                                 {{ __('legal.privacy.contact.email') }}
@@ -74,17 +74,17 @@
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.privacy.data_collection.title') }}</h2>
                             </div>
                             <div class="space-y-6">
-                                <p class="text-gray-400 font-light italic leading-relaxed">{{ __('legal.privacy.data_collection.desc') }}</p>
+                                <p class="text-gray-600 font-light italic leading-relaxed">{{ __('legal.privacy.data_collection.desc') }}</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="p-8 bg-gray-50 rounded-[30px] border border-gray-100 space-y-4 shadow-sm">
+                                    <div class="p-8 bg-gray-50 rounded-3xl border border-gray-100 space-y-4 shadow-sm">
                                         <h4 class="font-black text-acef-dark tracking-tight">{{ __('legal.privacy.data_collection.personal.title') }}</h4>
-                                        <ul class="text-sm text-gray-400 space-y-2 italic font-light">
+                                        <ul class="text-sm text-gray-600 space-y-2 italic font-light">
                                             <li class="flex items-start"><span class="mr-2 text-acef-green">•</span> {{ __('legal.privacy.data_collection.personal.item') }}</li>
                                         </ul>
                                     </div>
-                                    <div class="p-8 bg-gray-50 rounded-[30px] border border-gray-100 space-y-4 shadow-sm">
+                                    <div class="p-8 bg-gray-50 rounded-3xl border border-gray-100 space-y-4 shadow-sm">
                                         <h4 class="font-black text-acef-dark tracking-tight">{{ __('legal.privacy.data_collection.donation.title') }}</h4>
-                                        <ul class="text-sm text-gray-400 space-y-2 italic font-light">
+                                        <ul class="text-sm text-gray-600 space-y-2 italic font-light">
                                             <li class="flex items-start"><span class="mr-2 text-acef-green">•</span> {{ __('legal.privacy.data_collection.donation.item') }}</li>
                                         </ul>
                                     </div>
@@ -99,9 +99,9 @@
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.privacy.usage.title') }}</h2>
                             </div>
                             <div class="space-y-6">
-                                <p class="text-gray-400 font-light italic leading-relaxed">{{ __('legal.privacy.usage.desc') }}</p>
-                                <div class="bg-gray-50 rounded-[30px] p-10 border border-gray-100 italic space-y-4 shadow-sm">
-                                    <ul class="space-y-4 text-sm text-gray-400 font-light">
+                                <p class="text-gray-600 font-light italic leading-relaxed">{{ __('legal.privacy.usage.desc') }}</p>
+                                <div class="bg-gray-50 rounded-3xl p-10 border border-gray-100 italic space-y-4 shadow-sm">
+                                    <ul class="space-y-4 text-sm text-gray-600 font-light">
                                         @foreach(__('legal.privacy.usage.items') as $item)
                                         <li class="flex items-start">
                                             <span class="text-acef-green mr-3 font-bold">✓</span>
@@ -126,7 +126,7 @@
                                     </div>
                                     <p class="text-sm font-bold text-orange-800 tracking-tight italic">{{ __('legal.privacy.sharing.warning') }}</p>
                                 </div>
-                                <p class="text-gray-400 font-light italic leading-relaxed">
+                                <p class="text-gray-600 font-light italic leading-relaxed">
                                     {{ __('legal.privacy.sharing.desc') }}
                                 </p>
                             </div>
@@ -138,8 +138,8 @@
                                 <span class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green font-black text-lg">04</span>
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.privacy.cookies_tracking.title') }}</h2>
                             </div>
-                            <div class="bg-gray-50 rounded-[40px] p-10 space-y-8 border border-gray-100 shadow-sm">
-                                <p class="text-gray-400 font-light italic leading-relaxed">{{ __('legal.privacy.cookies_tracking.desc') }}</p>
+                            <div class="bg-gray-50 rounded-3xl p-10 space-y-8 border border-gray-100 shadow-sm">
+                                <p class="text-gray-600 font-light italic leading-relaxed">{{ __('legal.privacy.cookies_tracking.desc') }}</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="flex items-start space-x-4">
                                         <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-acef-green shadow-sm">
@@ -147,7 +147,7 @@
                                         </div>
                                         <div class="space-y-1">
                                             <h5 class="font-black text-acef-dark text-sm">{{ __('legal.privacy.cookies_tracking.analytical.title') }}</h5>
-                                            <p class="text-xs text-gray-400 italic font-light">{{ __('legal.privacy.cookies_tracking.analytical.desc') }}</p>
+                                            <p class="text-xs text-gray-600 italic font-light">{{ __('legal.privacy.cookies_tracking.analytical.desc') }}</p>
                                         </div>
                                     </div>
                                     <div class="flex items-start space-x-4">
@@ -156,7 +156,7 @@
                                         </div>
                                         <div class="space-y-1">
                                             <h5 class="font-black text-acef-dark text-sm">{{ __('legal.privacy.cookies_tracking.functional.title') }}</h5>
-                                            <p class="text-xs text-gray-400 italic font-light">{{ __('legal.privacy.cookies_tracking.functional.desc') }}</p>
+                                            <p class="text-xs text-gray-600 italic font-light">{{ __('legal.privacy.cookies_tracking.functional.desc') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@
                                 <span class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green font-black text-lg">05</span>
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.privacy.security.title') }}</h2>
                             </div>
-                            <p class="text-gray-400 font-light italic leading-relaxed text-sm">
+                            <p class="text-gray-600 font-light italic leading-relaxed text-sm">
                                 {{ __('legal.privacy.security.desc') }}
                             </p>
                         </section>
@@ -181,7 +181,7 @@
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.privacy.rights.title') }}</h2>
                             </div>
                             <div class="space-y-8">
-                                <p class="text-gray-400 font-light italic leading-relaxed text-sm">{{ __('legal.privacy.rights.desc') }}</p>
+                                <p class="text-gray-600 font-light italic leading-relaxed text-sm">{{ __('legal.privacy.rights.desc') }}</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     @foreach(__('legal.privacy.rights.list') as $right)
                                     <div class="px-6 py-4 bg-gray-50 rounded-2xl flex items-center space-x-3 shadow-sm">
@@ -199,13 +199,13 @@
                                 <span class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green font-black text-lg">07</span>
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.privacy.retention.title') }}</h2>
                             </div>
-                            <p class="text-gray-400 font-light italic leading-relaxed text-sm">
+                            <p class="text-gray-600 font-light italic leading-relaxed text-sm">
                                 {{ __('legal.privacy.retention.desc') }}
                             </p>
                         </section>
 
                         <!-- Contact CTA -->
-                        <div class="bg-acef-green rounded-[40px] p-10 md:p-12 space-y-8 flex flex-col md:flex-row items-center justify-between gap-8">
+                        <div class="bg-acef-green rounded-3xl p-10 md:p-12 space-y-8 flex flex-col md:flex-row items-center justify-between gap-8">
                             <div class="space-y-4 max-w-lg">
                                 <div class="w-12 h-12 bg-acef-dark rounded-2xl flex items-center justify-center text-acef-green shadow-xl">
                                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>

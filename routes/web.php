@@ -10,6 +10,7 @@ Route::get('/about', [\App\Http\Controllers\HomeController::class, 'about'])->na
 Route::get('/donate', [\App\Http\Controllers\DonationController::class, 'index'])->name('donate');
 Route::post('/donate/process-paypal', [\App\Http\Controllers\DonationController::class, 'processPaypal'])->name('donate.paypal');
 Route::post('/donate/process-mpesa', [\App\Http\Controllers\DonationController::class, 'processMpesa'])->name('donate.mpesa');
+Route::get('/search', [\App\Http\Controllers\GlobalSearchController::class, 'index'])->name('search');
 
 // Test Callback Route (In prod this should be excluded from CSRF)
 Route::post('/api/mpesa/callback', function() { return response()->json(['result' => 'ok']); })->name('api.mpesa.callback');

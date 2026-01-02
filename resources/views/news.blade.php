@@ -247,7 +247,7 @@
         <section class="py-24 bg-gray-50 overflow-hidden relative">
             <div class="max-w-4xl mx-auto px-4 relative z-10">
                 <div
-                    class="bg-acef-green/5 border border-acef-green/10 rounded-[50px] p-12 md:p-20 text-center space-y-8 flex flex-col items-center">
+                    class="bg-acef-green/5 border border-acef-green/10 rounded-3xl p-12 md:p-20 text-center space-y-8 flex flex-col items-center">
                     <div
                         class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-acef-green">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

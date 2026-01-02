@@ -64,7 +64,7 @@
                 <!-- MVV Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-24">
                     <div
-                        class="bg-acef-gray p-10 rounded-3xl border border-black/5 hover:shadow-xl transition-all h-full flex flex-col">
+                        class="bg-acef-gray p-10 rounded-2xl border border-black/5 hover:shadow-xl transition-all h-full flex flex-col">
                         <div
                             class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green mb-6 flex-shrink-0">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +76,7 @@
                         <p class="text-gray-500 leading-relaxed font-light">{{ __('pages.about.mission_desc') }}</p>
                     </div>
                     <div
-                        class="bg-acef-gray p-10 rounded-3xl border border-black/5 hover:shadow-xl transition-all h-full flex flex-col">
+                        class="bg-acef-gray p-10 rounded-2xl border border-black/5 hover:shadow-xl transition-all h-full flex flex-col">
                         <div
                             class="w-12 h-12 bg-acef-dark/10 rounded-2xl flex items-center justify-center text-acef-dark mb-6 flex-shrink-0">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,7 +107,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach(__('pages.about.values') as $v)
                         <div
-                            class="bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm hover:shadow-xl transition-all group flex flex-col items-center text-center space-y-6">
+                            class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all group flex flex-col items-center text-center space-y-6">
                             <div
                                 class="w-16 h-16 bg-acef-green/5 rounded-2xl flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-white transition-all duration-500">
                                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,7 +181,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach(__('pages.about.objectives') as $obj)
                         <div
-                            class="p-8 rounded-3xl border border-gray-100 hover:border-acef-green/30 hover:shadow-xl transition-all group">
+                            class="p-8 rounded-2xl border border-gray-100 hover:border-acef-green/30 hover:shadow-xl transition-all group">
                             <div class="flex items-start space-x-4">
                                 <div
                                     class="w-1.5 h-8 bg-acef-green rounded-full group-hover:scale-y-125 transition-transform">
@@ -263,7 +263,7 @@
                     @foreach(__('pages.about.team') as $key => $member)
                         <div class="group">
                             <div
-                                class="relative rounded-3xl overflow-hidden mb-6 aspect-square grayscale group-hover:grayscale-0 transition-all duration-500 shadow-xl">
+                                class="relative rounded-2xl overflow-hidden mb-6 aspect-square grayscale group-hover:grayscale-0 transition-all duration-500 shadow-xl">
                                 <img src="{{ $team_images[$key] ?? '/mission_vision_africa_1766827653058.png' }}"
                                     alt="{{ $member['name'] }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform">

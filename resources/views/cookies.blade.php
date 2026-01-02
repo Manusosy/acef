@@ -35,7 +35,7 @@
                 <h1 class="text-6xl md:text-7xl font-black text-acef-dark tracking-tighter leading-none">
                     {{ __('legal.cookies.title') }}
                 </h1>
-                <p class="text-gray-400 text-lg font-light italic leading-relaxed max-w-3xl">
+                <p class="text-gray-600 text-lg font-light italic leading-relaxed max-w-3xl">
                     {{ __('legal.cookies.desc') }}
                 </p>
                 <div
@@ -86,20 +86,20 @@
                                 {{ __('legal.cookies.what_are_cookies.title') }}</h2>
                         </div>
                         <div class="space-y-6">
-                            <p class="text-gray-400 font-light italic leading-relaxed">
+                            <p class="text-gray-600 font-light italic leading-relaxed">
                                 {{ __('legal.cookies.what_are_cookies.desc') }}
                             </p>
-                            <div class="bg-gray-50 rounded-[30px] p-8 border border-gray-100 space-y-4">
+                            <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 space-y-4">
                                 <h4 class="font-black text-acef-dark">
                                     {{ __('legal.cookies.what_are_cookies.info_collected_title') }}</h4>
-                                <ul class="space-y-2 text-sm text-gray-400 font-light italic">
+                                <ul class="space-y-2 text-sm text-gray-600 font-light italic">
                                     @foreach(__('legal.cookies.what_are_cookies.info_collected') as $item)
                                         <li class="flex items-start"><span class="mr-2 text-acef-green">•</span> {{ $item }}
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
-                            <p class="text-gray-400 font-light italic leading-relaxed">
+                            <p class="text-gray-600 font-light italic leading-relaxed">
                                 {!! __('legal.cookies.what_are_cookies.personal_data_note') !!}
                             </p>
                         </div>
@@ -114,15 +114,15 @@
                                 {{ __('legal.cookies.how_we_use.title') }}</h2>
                         </div>
                         <div class="space-y-8">
-                            <p class="text-gray-400 font-light italic leading-relaxed">
+                            <p class="text-gray-600 font-light italic leading-relaxed">
                                 {{ __('legal.cookies.how_we_use.desc') }}</p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div
-                                    class="p-8 bg-gray-50 rounded-[30px] border border-gray-100 space-y-4 hover:shadow-lg transition-shadow">
+                                    class="p-8 bg-gray-50 rounded-3xl border border-gray-100 space-y-4 hover:shadow-lg transition-shadow">
                                     <h4 class="font-black text-acef-dark">
                                         {{ __('legal.cookies.how_we_use.functionality.title') }}</h4>
-                                    <ul class="space-y-2 text-sm text-gray-400 font-light italic">
+                                    <ul class="space-y-2 text-sm text-gray-600 font-light italic">
                                         @foreach(__('legal.cookies.how_we_use.functionality.items') as $item)
                                             <li class="flex items-start"><span class="mr-2 text-acef-green">✓</span>
                                                 {{ $item }}</li>
@@ -130,10 +130,10 @@
                                     </ul>
                                 </div>
                                 <div
-                                    class="p-8 bg-gray-50 rounded-[30px] border border-gray-100 space-y-4 hover:shadow-lg transition-shadow">
+                                    class="p-8 bg-gray-50 rounded-3xl border border-gray-100 space-y-4 hover:shadow-lg transition-shadow">
                                     <h4 class="font-black text-acef-dark">
                                         {{ __('legal.cookies.how_we_use.experience.title') }}</h4>
-                                    <ul class="space-y-2 text-sm text-gray-400 font-light italic">
+                                    <ul class="space-y-2 text-sm text-gray-600 font-light italic">
                                         @foreach(__('legal.cookies.how_we_use.experience.items') as $item)
                                             <li class="flex items-start"><span class="mr-2 text-acef-green">✓</span>
                                                 {{ $item }}</li>
@@ -161,10 +161,10 @@
                         <div class="space-y-6">
 
                             <!-- 3.1 -->
-                            <div class="p-8 bg-white border border-gray-100 rounded-[30px] shadow-sm space-y-4">
+                            <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm space-y-4">
                                 <h3 class="text-xl font-black text-acef-dark">
                                     {{ __('legal.cookies.types.strictly_necessary.title') }}</h3>
-                                <p class="text-sm text-gray-400 font-light italic">
+                                <p class="text-sm text-gray-600 font-light italic">
                                     {{ __('legal.cookies.types.strictly_necessary.desc') }}</p>
                                 <div class="flex flex-wrap gap-4 text-xs font-bold uppercase tracking-widest pt-2">
                                     <span
@@ -175,10 +175,10 @@
                             </div>
 
                             <!-- 3.2 -->
-                            <div class="p-8 bg-white border border-gray-100 rounded-[30px] shadow-sm space-y-4">
+                            <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm space-y-4">
                                 <h3 class="text-xl font-black text-acef-dark">
                                     {{ __('legal.cookies.types.performance.title') }}</h3>
-                                <p class="text-sm text-gray-400 font-light italic">
+                                <p class="text-sm text-gray-600 font-light italic">
                                     {{ __('legal.cookies.types.performance.desc') }}</p>
                                 <div class="flex flex-wrap gap-4 text-xs font-bold uppercase tracking-widest pt-2">
                                     <span
@@ -189,10 +189,10 @@
                             </div>
 
                             <!-- 3.3 -->
-                            <div class="p-8 bg-white border border-gray-100 rounded-[30px] shadow-sm space-y-4">
+                            <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm space-y-4">
                                 <h3 class="text-xl font-black text-acef-dark">
                                     {{ __('legal.cookies.types.functionality.title') }}</h3>
-                                <p class="text-sm text-gray-400 font-light italic">
+                                <p class="text-sm text-gray-600 font-light italic">
                                     {{ __('legal.cookies.types.functionality.desc') }}</p>
                                 <div class="flex flex-wrap gap-4 text-xs font-bold uppercase tracking-widest pt-2">
                                     <span
@@ -203,12 +203,12 @@
                             </div>
 
                             <!-- 3.4 -->
-                            <div class="p-8 bg-white border border-gray-100 rounded-[30px] shadow-sm space-y-4">
+                            <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm space-y-4">
                                 <h3 class="text-xl font-black text-acef-dark">
                                     {{ __('legal.cookies.types.third_party.title') }}</h3>
-                                <p class="text-sm text-gray-400 font-light italic">
+                                <p class="text-sm text-gray-600 font-light italic">
                                     {{ __('legal.cookies.types.third_party.desc') }}</p>
-                                <p class="text-xs text-gray-400 pt-2">
+                                <p class="text-xs text-gray-600 pt-2">
                                     {{ __('legal.cookies.types.third_party.examples') }}</p>
                             </div>
 
@@ -224,26 +224,26 @@
                                 {{ __('legal.cookies.managing.title') }}</h2>
                         </div>
                         <div class="space-y-8">
-                            <p class="text-gray-400 font-light italic leading-relaxed">
+                            <p class="text-gray-600 font-light italic leading-relaxed">
                                 {{ __('legal.cookies.managing.desc') }}
                             </p>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
                                     <h4 class="font-bold text-acef-dark mb-2">
                                         {{ __('legal.cookies.managing.banner.title') }}</h4>
-                                    <p class="text-xs text-gray-400 italic font-light">
+                                    <p class="text-xs text-gray-600 italic font-light">
                                         {{ __('legal.cookies.managing.banner.desc') }}</p>
                                 </div>
                                 <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
                                     <h4 class="font-bold text-acef-dark mb-2">
                                         {{ __('legal.cookies.managing.browser.title') }}</h4>
-                                    <p class="text-xs text-gray-400 italic font-light">
+                                    <p class="text-xs text-gray-600 italic font-light">
                                         {{ __('legal.cookies.managing.browser.desc') }}</p>
                                 </div>
                                 <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
                                     <h4 class="font-bold text-acef-dark mb-2">
                                         {{ __('legal.cookies.managing.withdraw.title') }}</h4>
-                                    <p class="text-xs text-gray-400 italic font-light">
+                                    <p class="text-xs text-gray-600 italic font-light">
                                         {{ __('legal.cookies.managing.withdraw.desc') }}</p>
                                 </div>
                             </div>
@@ -258,7 +258,7 @@
                             <h2 class="text-3xl font-black text-acef-dark tracking-tight">
                                 {{ __('legal.cookies.gdpr.title') }}</h2>
                         </div>
-                        <div class="bg-gray-800 rounded-[30px] p-10 text-white space-y-6">
+                        <div class="bg-gray-800 rounded-3xl p-10 text-white space-y-6">
                             <p class="font-light leading-relaxed opacity-80 italic">{{ __('legal.cookies.gdpr.desc') }}
                             </p>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-bold">
@@ -279,14 +279,14 @@
                             <h2 class="text-3xl font-black text-acef-dark tracking-tight">
                                 {{ __('legal.cookies.changes.title') }}</h2>
                         </div>
-                        <p class="text-gray-400 font-light italic leading-relaxed">
+                        <p class="text-gray-600 font-light italic leading-relaxed">
                             {{ __('legal.cookies.changes.desc') }}
                         </p>
                     </section>
 
                     <!-- Contact CTA -->
                     <div id="contact"
-                        class="bg-acef-green rounded-[40px] p-10 md:p-12 space-y-8 flex flex-col md:flex-row items-center justify-between gap-8">
+                        class="bg-acef-green rounded-3xl p-10 md:p-12 space-y-8 flex flex-col md:flex-row items-center justify-between gap-8">
                         <div class="space-y-4 max-w-lg">
                             <div
                                 class="w-12 h-12 bg-acef-dark rounded-2xl flex items-center justify-center text-acef-green">

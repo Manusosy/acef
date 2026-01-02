@@ -30,7 +30,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="space-y-6 mb-16">
                     <h1 class="text-6xl md:text-7xl font-black text-acef-dark tracking-tighter leading-none">{{ __('legal.terms.title') }}</h1>
-                    <p class="text-gray-400 text-lg font-light italic leading-relaxed max-w-3xl">
+                    <p class="text-gray-600 text-lg font-light italic leading-relaxed max-w-3xl">
                         {{ __('legal.terms.desc') }}
                     </p>
                     <div class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-widest text-gray-300 pt-4">
@@ -55,12 +55,12 @@
                             </nav>
                         </div>
 
-                        <div class="p-8 bg-gray-50 rounded-[40px] border border-gray-100 shadow-sm space-y-6">
+                        <div class="p-8 bg-gray-50 rounded-3xl border border-gray-100 shadow-sm space-y-6">
                             <div class="w-12 h-12 bg-acef-green rounded-2xl flex items-center justify-center text-acef-dark shadow-xl">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             </div>
                             <h4 class="text-xl font-black text-acef-dark tracking-tight leading-tight">{{ __('legal.terms.safety_title') }}</h4>
-                            <p class="text-xs text-gray-400 italic font-light">{{ __('legal.terms.safety_desc') }}</p>
+                            <p class="text-xs text-gray-600 italic font-light">{{ __('legal.terms.safety_desc') }}</p>
                         </div>
                     </div>
 
@@ -73,8 +73,8 @@
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.terms.acceptance.title') }}</h2>
                             </div>
                             <div class="space-y-6">
-                                <p class="text-gray-400 font-light italic leading-relaxed">{{ __('legal.terms.acceptance.desc') }}</p>
-                                <div class="bg-acef-green p-8 rounded-[30px] shadow-sm">
+                                <p class="text-gray-600 font-light italic leading-relaxed">{{ __('legal.terms.acceptance.desc') }}</p>
+                                <div class="bg-acef-green p-8 rounded-3xl shadow-sm">
                                     <p class="text-acef-dark font-bold text-sm leading-relaxed italic">
                                         {{ __('legal.terms.acceptance.warning') }}
                                     </p>
@@ -89,15 +89,15 @@
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.terms.donations.title') }}</h2>
                             </div>
                             <div class="space-y-6">
-                                <p class="text-gray-400 font-light italic leading-relaxed">{{ __('legal.terms.donations.desc') }}</p>
+                                <p class="text-gray-600 font-light italic leading-relaxed">{{ __('legal.terms.donations.desc') }}</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div class="p-8 bg-gray-50 border border-gray-100 rounded-[30px] space-y-3 shadow-sm">
+                                    <div class="p-8 bg-gray-50 border border-gray-100 rounded-3xl space-y-3 shadow-sm">
                                         <h4 class="font-black text-acef-dark text-sm uppercase tracking-tight">{{ __('legal.terms.donations.finality.title') }}</h4>
-                                        <p class="text-xs text-gray-400 font-light italic leading-relaxed">{{ __('legal.terms.donations.finality.desc') }}</p>
+                                        <p class="text-xs text-gray-600 font-light italic leading-relaxed">{{ __('legal.terms.donations.finality.desc') }}</p>
                                     </div>
-                                    <div class="p-8 bg-gray-50 border border-gray-100 rounded-[30px] space-y-3 shadow-sm">
+                                    <div class="p-8 bg-gray-50 border border-gray-100 rounded-3xl space-y-3 shadow-sm">
                                         <h4 class="font-black text-acef-dark text-sm uppercase tracking-tight">{{ __('legal.terms.donations.tax.title') }}</h4>
-                                        <p class="text-xs text-gray-400 font-light italic leading-relaxed">{{ __('legal.terms.donations.tax.desc') }}</p>
+                                        <p class="text-xs text-gray-600 font-light italic leading-relaxed">{{ __('legal.terms.donations.tax.desc') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -110,8 +110,8 @@
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.terms.ip.title') }}</h2>
                             </div>
                             <div class="space-y-6">
-                                <p class="text-gray-400 font-light italic leading-relaxed">{{ __('legal.terms.ip.desc') }}</p>
-                                <div class="bg-gray-800 rounded-[40px] p-10 text-white italic font-light text-sm shadow-xl">
+                                <p class="text-gray-600 font-light italic leading-relaxed">{{ __('legal.terms.ip.desc') }}</p>
+                                <div class="bg-gray-800 rounded-3xl p-10 text-white italic font-light text-sm shadow-xl">
                                     {{ __('legal.terms.ip.usage') }}
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.terms.prohibited.title') }}</h2>
                             </div>
                             <div class="space-y-6">
-                                <p class="text-gray-400 font-light italic leading-relaxed">{{ __('legal.terms.prohibited.desc') }}</p>
+                                <p class="text-gray-600 font-light italic leading-relaxed">{{ __('legal.terms.prohibited.desc') }}</p>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4">
                                     @foreach(__('legal.terms.prohibited.list') as $item)
                                     <div class="flex items-center space-x-3 text-xs font-black text-acef-dark">
@@ -142,7 +142,7 @@
                                 <span class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green font-black text-lg">05</span>
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.terms.liability.title') }}</h2>
                             </div>
-                            <p class="text-gray-400 font-light italic leading-relaxed text-sm">
+                            <p class="text-gray-600 font-light italic leading-relaxed text-sm">
                                 {{ __('legal.terms.liability.desc') }}
                             </p>
                         </section>
@@ -153,7 +153,7 @@
                                 <span class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green font-black text-lg">06</span>
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.terms.termination.title') }}</h2>
                             </div>
-                            <p class="text-gray-400 font-light italic leading-relaxed text-sm">
+                            <p class="text-gray-600 font-light italic leading-relaxed text-sm">
                                 {{ __('legal.terms.termination.desc') }}
                             </p>
                         </section>
@@ -164,13 +164,13 @@
                                 <span class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green font-black text-lg">07</span>
                                 <h2 class="text-3xl font-black text-acef-dark tracking-tight">{{ __('legal.terms.law.title') }}</h2>
                             </div>
-                            <p class="text-gray-400 font-light italic leading-relaxed text-sm">
+                            <p class="text-gray-600 font-light italic leading-relaxed text-sm">
                                 {{ __('legal.terms.law.desc') }}
                             </p>
                         </section>
 
                         <!-- Contact CTA -->
-                        <div class="bg-acef-green rounded-[40px] p-10 md:p-12 space-y-8 flex flex-col md:flex-row items-center justify-between gap-8">
+                        <div class="bg-acef-green rounded-3xl p-10 md:p-12 space-y-8 flex flex-col md:flex-row items-center justify-between gap-8">
                             <div class="space-y-4 max-w-lg">
                                 <div class="w-12 h-12 bg-acef-dark rounded-2xl flex items-center justify-center text-acef-green shadow-xl">
                                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>

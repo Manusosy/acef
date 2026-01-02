@@ -279,14 +279,38 @@
         <!-- Stats Section -->
         <section class="py-16 md:py-24 bg-white relative overflow-hidden border-b border-gray-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
-                    @foreach(__('pages.home.stats') as $stat)
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center" x-data="{
+                    stats: [
+                        @foreach(__('pages.home.stats') as $stat)
+                        { value: {{ (int)str_replace(['+', '%', ','], '', $stat['value']) }}, label: '{{ $stat['label'] }}', current: 0, suffix: '{{ preg_replace('/[0-9,]/', '', $stat['value']) }}' },
+                        @endforeach
+                    ],
+                    startCount() {
+                        this.stats.forEach(stat => {
+                            let start = 0;
+                            let end = stat.value;
+                            let duration = 2000;
+                            let startTime = null;
+
+                            const step = (timestamp) => {
+                                if (!startTime) startTime = timestamp;
+                                const progress = Math.min((timestamp - startTime) / duration, 1);
+                                stat.current = Math.floor(progress * (end - start) + start);
+                                if (progress < 1) {
+                                    window.requestAnimationFrame(step);
+                                }
+                            };
+                            window.requestAnimationFrame(step);
+                        });
+                    }
+                }" x-intersect.once="startCount()">
+                    <template x-for="stat in stats">
                         <div class="space-y-2 group cursor-default p-4">
-                            <span class="text-4xl md:text-6xl font-black text-acef-green block transform group-hover:scale-110 transition-transform duration-500">{{ $stat['value'] }}</span>
+                            <span class="text-4xl md:text-6xl font-black text-acef-green block transform group-hover:scale-110 transition-transform duration-500" x-text="stat.current.toLocaleString() + stat.suffix">0</span>
                             <span
-                                class="text-acef-dark uppercase tracking-widest text-[10px] md:text-xs font-bold group-hover:text-acef-green transition-colors">{{ $stat['label'] }}</span>
+                                class="text-acef-dark uppercase tracking-widest text-[10px] md:text-xs font-bold group-hover:text-acef-green transition-colors" x-text="stat.label"></span>
                         </div>
-                    @endforeach
+                    </template>
                 </div>
             </div>
         </section>

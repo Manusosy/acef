@@ -61,7 +61,8 @@ class HomeController extends Controller
     public function resources()
     {
         $allResources = \App\Models\Resource::latest()->get();
-        return view('resources', compact('allResources'));
+        $categories = $allResources->pluck('category')->unique()->values();
+        return view('resources', compact('allResources', 'categories'));
     }
 
     public function news()

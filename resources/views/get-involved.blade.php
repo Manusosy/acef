@@ -38,23 +38,47 @@
 
                 <!-- Three Impact Stats Overlay -->
                 <div class="max-w-5xl mx-auto -mt-16 relative z-20">
-                    <div class="bg-acef-dark rounded-[30px] p-10 flex flex-wrap items-center justify-around gap-8 border border-white/10 shadow-2xl">
-                        @foreach(__('pages.get_involved.stats') as $stat)
-                        <div class="text-center space-y-1">
-                            <span class="text-4xl font-black text-acef-green">{{ $stat['value'] }}</span>
-                            <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest">{{ $stat['label'] }}</p>
-                        </div>
-                        @endforeach
+                    <div class="bg-acef-dark rounded-3xl p-10 flex flex-wrap items-center justify-around gap-8 border border-white/10 shadow-2xl" x-data="{
+                        stats: [
+                            @foreach(__('pages.home.stats') as $stat)
+                            { value: {{ (int)str_replace(['+', '%', ','], '', $stat['value']) }}, label: '{{ $stat['label'] }}', current: 0, suffix: '{{ preg_replace('/[0-9,]/', '', $stat['value']) }}' },
+                            @endforeach
+                        ],
+                        startCount() {
+                            this.stats.forEach(stat => {
+                                let start = 0;
+                                let end = stat.value;
+                                let duration = 2000;
+                                let startTime = null;
+    
+                                const step = (timestamp) => {
+                                    if (!startTime) startTime = timestamp;
+                                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                                    stat.current = Math.floor(progress * (end - start) + start);
+                                    if (progress < 1) {
+                                        window.requestAnimationFrame(step);
+                                    }
+                                };
+                                window.requestAnimationFrame(step);
+                            });
+                        }
+                    }" x-intersect.once="startCount()">
+                        <template x-for="stat in stats">
+                            <div class="text-center space-y-1">
+                                <span class="text-4xl font-black text-acef-green" x-text="stat.current.toLocaleString() + stat.suffix">0</span>
+                                <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest" x-text="stat.label"></p>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
         </section>
 
-        <main class="py-24 bg-gray-50/30 dark:bg-[#0c0c0c] transition-colors">
+        <main class="py-24 bg-gray-50/30 dark:bg-gray-900 transition-colors">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row gap-12 items-start">
                     <!-- Application Form Column -->
-                    <div x-data="{ tab: 'volunteer' }" class="lg:w-2/3 bg-white dark:bg-gray-800 rounded-[50px] shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transition-colors">
+                    <div x-data="{ tab: 'volunteer' }" class="lg:w-2/3 bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transition-colors">
                         <!-- Custom Tab Header -->
                         <div class="flex border-b border-gray-100 dark:border-gray-700">
                             <button @click="tab = 'volunteer'" 
@@ -234,7 +258,7 @@
                     <!-- Right Column: Donation Side & Testimonial -->
                     <div class="lg:w-1/3 space-y-8">
                         <!-- Quick Donate -->
-                        <div class="bg-white dark:bg-gray-800 rounded-[50px] p-10 border border-gray-100 dark:border-gray-700 shadow-sm space-y-8 transition-colors">
+                        <div class="bg-white dark:bg-gray-800 rounded-3xl p-10 border border-gray-100 dark:border-gray-700 shadow-sm space-y-8 transition-colors">
                             <div class="w-12 h-12 bg-acef-green/10 rounded-2xl flex items-center justify-center text-acef-green">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                             </div>
@@ -260,7 +284,7 @@
                         </div>
 
                         <!-- Testimonial -->
-                        <div class="bg-acef-green/5 border border-acef-green/10 rounded-[50px] p-10 space-y-8">
+                        <div class="bg-acef-green/5 border border-acef-green/10 rounded-3xl p-10 space-y-8">
                             <div class="flex text-acef-green">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -285,7 +309,7 @@
                 </div>
 
                 <!-- Digital Impact CTA -->
-                <div class="mt-32 bg-acef-dark rounded-[50px] p-12 md:p-20 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden">
+                <div class="mt-32 bg-acef-dark rounded-3xl p-12 md:p-20 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden">
                     <div class="absolute inset-0 opacity-10">
                         <div class="absolute top-0 right-0 w-96 h-96 bg-acef-green rounded-full blur-3xl"></div>
                     </div>

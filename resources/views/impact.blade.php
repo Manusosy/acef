@@ -67,7 +67,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6" x-data="{
                 stats: [
                     @foreach(__('pages.home.stats') as $stat)
-                    { value: {{ (int)str_replace(['+', '%', ','], '', $stat['value']) }}, label: '{{ $stat['label'] }}', current: 0, suffix: '{{ preg_replace('/[0-9]/', '', $stat['value']) }}' },
+                    { value: {{ (int)str_replace(['+', '%', ','], '', $stat['value']) }}, label: '{{ $stat['label'] }}', current: 0, suffix: '{{ preg_replace('/[0-9,]/', '', $stat['value']) }}' },
                     @endforeach
                 ],
                 startCount() {
@@ -91,7 +91,7 @@
             }" x-intersect.once="startCount()">
                 @foreach(__('pages.home.stats') as $index => $stat)
                     <div
-                        class="bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-8 rounded-xl flex flex-col items-center space-y-4 shadow-sm hover:shadow-xl transition-all">
+                        class="bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-8 rounded-2xl flex flex-col items-center space-y-4 shadow-sm hover:shadow-xl transition-all">
                         <div
                             class="w-14 h-14 bg-white dark:bg-gray-700 rounded-2xl flex items-center justify-center shadow-sm text-acef-green">
                             @if($index === 0)
@@ -131,14 +131,14 @@
                         <p class="text-gray-500 dark:text-gray-400 font-light italic text-lg">{{ __('pages.impact.map_desc') }}</p>
                     </div>
                     
-                    <div class="relative w-full rounded-[40px] overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700 bg-acef-dark h-[600px] z-10">
+                    <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700 bg-acef-dark h-[600px] z-10">
                         <div id="africa-map" class="w-full h-full"></div>
                     </div>
                 </div>
 
                 <!-- Countries List -->
                 <div class="lg:col-span-4 space-y-8">
-                    <div class="bg-gray-50 dark:bg-gray-800 rounded-[40px] p-8 md:p-10 border border-gray-100 dark:border-gray-700 h-full">
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 md:p-10 border border-gray-100 dark:border-gray-700 h-full">
                         <div class="flex items-center space-x-3 mb-6">
                             <span class="w-2 h-8 bg-acef-green rounded-full"></span>
                             <h3 class="text-2xl font-black text-acef-dark dark:text-white tracking-tight">Active Nations</h3>
@@ -282,7 +282,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 @foreach(__('pages.impact.project_list') as $proj)
                     <div
-                        class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 dark:border-gray-700">
+                        class="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 dark:border-gray-700">
                         <div class="relative aspect-[4/3] overflow-hidden">
                             <img src="{{ $proj['image'] }}" alt="{{ $proj['title'] }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute top-6 left-6">
