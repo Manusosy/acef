@@ -283,6 +283,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                     <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
                         @if(Auth::user()->isAdmin())
                         <a href="{{ route('admin.settings.general') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.settings.general') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Site Settings</a>
+                        <a href="{{ route('admin.settings.apis') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.settings.apis') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">API Settings</a>
                         @endif
                         <a href="{{ route('profile.edit') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('profile.edit') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Admin Account</a>
                     </div>

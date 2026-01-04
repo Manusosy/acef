@@ -71,6 +71,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/settings/general', [\App\Http\Controllers\Admin\SettingsController::class, 'updateGeneral'])->name('settings.general.update');
         Route::get('/settings/payments', [\App\Http\Controllers\Admin\SettingsController::class, 'payments'])->name('settings.payments');
         Route::post('/settings/payments', [\App\Http\Controllers\Admin\SettingsController::class, 'updatePayments'])->name('settings.payments.update');
+        Route::get('/settings/apis', [\App\Http\Controllers\Admin\SettingsController::class, 'apis'])->name('settings.apis');
+        Route::post('/settings/apis', [\App\Http\Controllers\Admin\SettingsController::class, 'updateApis'])->name('settings.apis.update');
         
         // Donations
         Route::get('/donations', [\App\Http\Controllers\Admin\DonationController::class, 'index'])->name('donations.index');

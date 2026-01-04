@@ -218,7 +218,10 @@ class HomeController extends Controller
             ->latest()
             ->first();
 
-        return view('gallery', compact('folders', 'galleryItems', 'categories', 'programmes', 'projects', 'featuredVideo'));
+        // YouTube Settings
+        $youtubeSettings = \App\Models\Setting::getGroup('apis');
+
+        return view('gallery', compact('folders', 'galleryItems', 'categories', 'programmes', 'projects', 'featuredVideo', 'youtubeSettings'));
     }
 
     public function team()

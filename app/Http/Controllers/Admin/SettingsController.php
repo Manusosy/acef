@@ -115,4 +115,35 @@ class SettingsController extends Controller
         return redirect()->route('admin.settings.payments')
             ->with('success', 'Payment settings updated successfully.');
     }
+
+    public function apis()
+    {
+        $settings = Setting::getGroup('apis');
+        return view('admin.settings.apis', compact('settings'));
+    }
+
+    public function updateApis(Request $request)
+    {
+        $validated = $request->validate([
+            // YouTube
+            'youtube_api_key' => 'nullable|string|max:255',
+            'youtube_channel_id' => 'nullable|string|max:255',
+            
+            // Google Translate
+            'google_translate_api_key' => 'nullable|string|max:255',
+            'google_translate_enabled' => 'nullable|boolean',
+
+            // PayPal (moved here for centralization as per QA)
+            'paypal_client_id' => 'nullable|string|max:255',
+            'paypal_client_secret' => 'nullable|string|max:255',
+            'paypal_mode' => 'nullable|in:sandbox,live',
+        ]);
+
+        $validated['google_translate_enabled'] = $request->boolean('google_translate_enabled');
+
+        Setting::setMany($validated, 'apis');
+
+        return redirect()->route('admin.settings.apis')
+            ->with('success', 'API settings updated successfully.');
+    }
 }

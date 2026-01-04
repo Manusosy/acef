@@ -32,11 +32,40 @@
     <main class="pt-40 pb-24" x-data="{
         folders: {{ json_encode($folders) }},
         galleryItems: {{ json_encode($galleryItems) }},
+        youtubeSettings: {{ json_encode($youtubeSettings) }},
+        youtubeVideos: [],
+        loadingYoutube: true,
+        youtubeError: null,
         selectedAlbum: null,
         filters: {
             programme: '',
             project: '',
             category: ''
+        },
+        async init() {
+            if (this.youtubeSettings.youtube_api_key && this.youtubeSettings.youtube_channel_id) {
+                try {
+                    const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${this.youtubeSettings.youtube_api_key}&channelId=${this.youtubeSettings.youtube_channel_id}&part=snippet,id&order=date&maxResults=6&type=video`);
+                    const data = await response.json();
+                    
+                    if (data.error) {
+                        this.youtubeError = data.error.message;
+                    } else if (data.items) {
+                        this.youtubeVideos = data.items.map(item => ({
+                            id: item.id.videoId,
+                            title: item.snippet.title,
+                            thumbnail: item.snippet.thumbnails.high.url,
+                            publishedAt: new Date(item.snippet.publishedAt).toLocaleDateString()
+                        }));
+                    }
+                } catch (e) {
+                    this.youtubeError = 'Failed to load videos. Please check your API configuration.';
+                } finally {
+                    this.loadingYoutube = false;
+                }
+            } else {
+                this.loadingYoutube = false;
+            }
         },
         get filteredFolders() {
             return this.folders.filter(f => {
@@ -110,7 +139,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <template x-for="folder in filteredFolders" :key="folder.id">
                         <div @click="selectedAlbum = folder" class="group cursor-pointer">
-                            <div class="relative aspect-[4/3] rounded-3xl overflow-hidden mb-6 bg-gray-100 dark:bg-white/5">
+                            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-100 dark:bg-white/5">
                                 <template x-if="folder.media_items.length > 0">
                                     <img :src="'/storage/' + folder.media_items[0].path" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 </template>
@@ -141,7 +170,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
                     <template x-for="item in filteredItems" :key="item.id">
                         <div class="group flex flex-col space-y-4">
-                            <div class="relative aspect-square rounded-[32px] overflow-hidden bg-gray-100 dark:bg-white/5 border border-gray-50 dark:border-white/5">
+                            <div class="relative aspect-square rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/5 border border-gray-50 dark:border-white/5">
                                 <img :src="'/storage/' + item.image" :alt="item.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </div>
@@ -154,15 +183,12 @@
                 </div>
             </div>
 
-            <div x-show="filteredFolders.length === 0 && filteredItems.length === 0" class="py-20 text-center text-gray-400 italic">
-                No items found matching your filters.
-            </div>
         </section>
 
         <!-- Album Modal -->
         <div x-show="selectedAlbum" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <div @click="selectedAlbum = null" class="absolute inset-0 bg-black/95 backdrop-blur-xl"></div>
-            <div class="bg-white dark:bg-gray-900 rounded-[40px] w-full max-w-6xl max-h-[90vh] overflow-hidden relative shadow-2xl flex flex-col">
+            <div class="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden relative shadow-2xl flex flex-col">
                 <div class="p-8 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
                     <div>
                         <h2 class="text-2xl font-black text-acef-dark dark:text-white" x-text="selectedAlbum?.name"></h2>
@@ -188,129 +214,60 @@
             </div>
         </div>
 
-        <!-- YouTube Channel Section -->
-        <section class="py-24 bg-acef-dark relative overflow-hidden">
-             <!-- Featured Video Section -->
-             @if(isset($featuredVideo) && $featuredVideo->video_url)
-             <div class="mb-20">
-                 <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-video group max-w-4xl mx-auto">
-                     @php
-                         $videoUrl = $featuredVideo->video_url;
-                         $embedUrl = $videoUrl;
-                         if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $videoUrl, $matches)) {
-                             $videoId = $matches[1];
-                             $embedUrl = "https://www.youtube.com/embed/{$videoId}?autoplay=0&rel=0&modestbranding=1";
-                         }
-                     @endphp
-                     <iframe 
-                         class="w-full h-full object-cover"
-                         src="{{ $embedUrl }}" 
-                         title="{{ $featuredVideo->title }}" 
-                         frameborder="0" 
-                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                         allowfullscreen>
-                     </iframe>
-                     <div class="absolute bottom-8 left-8 text-white pointer-events-none bg-black/50 p-4 rounded-xl backdrop-blur-sm">
-                         <span class="bg-acef-green px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 inline-block text-acef-dark">Featured Video</span>
-                         <h3 class="text-2xl font-bold">{{ $featuredVideo->title }}</h3>
-                     </div>
-                 </div>
-             </div>
-             @endif
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
-                <template x-for="item in filteredItems" :key="item.id">
-                    <div class="group flex flex-col space-y-6 cursor-pointer">
-                        <div
-                            class="relative aspect-[4/5] rounded-[40px] overflow-hidden bg-gray-100 dark:bg-white/5 shadow-sm border border-gray-50 dark:border-white/5">
-                            <img :src="'/storage/' + item.image" :alt="item.title"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-
-                            <!-- Badges -->
-                            <div class="absolute top-6 left-6 flex space-x-2">
-                                <span
-                                    class="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest text-acef-dark" x-text="item.category"></span>
-                            </div>
-
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                        </div>
-
-                        <div class="space-y-4 px-2">
-                            <div class="space-y-1">
-                                <span
-                                    class="text-acef-green font-bold text-[10px] uppercase tracking-widest" x-text="item.activity_type"></span>
-                                <h3
-                                    class="text-xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors" x-text="item.title">
-                                    </h3>
-                            </div>
-                            <div
-                                class="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-gray-300">
-                                <div class="flex items-center space-x-2">
-                                    <svg class="w-3 h-3 text-acef-green" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                        </path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    <span x-text="item.location || 'Unknown'"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-                
-                <div x-show="filteredItems.length === 0" class="col-span-full text-center py-20 text-gray-400">
-                    <p class="text-xl font-light italic">No gallery items found matching your filters.</p>
-                    <button @click="resetFilters()" class="text-acef-green font-bold mt-4 hover:underline">Clear Filters</button>
-                </div>
-            </div>
-
-            <!-- Footer / Load More -->
-            <div class="pt-24 flex flex-col items-center space-y-10" x-show="filteredItems.length > 0">
-                <p
-                    class="text-[10px] font-bold text-gray-300 uppercase tracking-widest leading-loose italic max-w-sm text-center">
-                    {!! __('pages.gallery.note', ['programmes_url' => route('programmes'), 'projects_url' => route('projects')]) !!}
-                </p>
-            </div>
-        </section>
-
-        <!-- YouTube Channel Section -->
+        <!-- YouTube Channel Section (Dynamic) -->
         <section class="py-24 bg-acef-dark relative overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
                     <div class="space-y-4">
                         <p class="text-acef-green font-bold tracking-widest uppercase text-sm">Media Hub</p>
-                        <h2 class="text-5xl font-black text-white tracking-tighter">YouTube Channel</h2>
-                        <p class="text-white/60 font-light italic">Watch our latest stories of impact from the field.</p>
+                        <h2 class="text-5xl font-black text-white tracking-tighter">Voices of Impact: Our YouTube Channel</h2>
+                        <p class="text-white/60 font-light italic">Watch our latest stories of impact from the field. Your support allows us to document these milestones and share the radical transparency of our work in the field. Join us in our journey towards a sustainable future.</p>
                     </div>
-                    <a href="https://youtube.com/@acefngo" target="_blank" class="bg-red-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-red-700 transition-all flex items-center gap-3">
+                    <a :href="'https://youtube.com/channel/' + (youtubeSettings.youtube_channel_id || '')" target="_blank" class="bg-red-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-red-700 transition-all flex items-center gap-3">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                        Subscribe to Channel
+                        Visit our Channel
                     </a>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @php
-                        $youtubeVideos = [
-                            ['id' => 'M_Fx1EhJcA4', 'title' => 'The Great Green Wall'],
-                            ['id' => 'dQw4w9WgXcQ', 'title' => 'Community Impact Story'],
-                            ['id' => 'aqz-KE-bpKQ', 'title' => 'Ocean Conservation']
-                        ];
-                    @endphp
-                    @foreach($youtubeVideos as $video)
-                        <div class="group relative rounded-2xl overflow-hidden aspect-video border border-white/10 bg-black/40 shadow-2xl">
-                            <iframe 
-                                class="w-full h-full"
-                                src="https://www.youtube.com/embed/{{ $video['id'] }}?rel=0&modestbranding=1" 
-                                title="{{ $video['title'] }}" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                allowfullscreen>
-                            </iframe>
+                <!-- Loading State -->
+                <div x-show="loadingYoutube" class="py-20 flex flex-col items-center justify-center space-y-4">
+                    <div class="w-12 h-12 border-4 border-acef-green/20 border-t-acef-green rounded-full animate-spin"></div>
+                    <p class="text-gray-400 font-bold uppercase tracking-widest text-xs">Syncing with YouTube...</p>
+                </div>
+
+                <!-- Error State -->
+                <div x-show="!loadingYoutube && youtubeError" class="py-12 px-8 bg-red-900/20 border border-red-800 rounded-3xl text-center">
+                    <p class="text-red-400 font-medium" x-text="youtubeError"></p>
+                </div>
+
+                <!-- Unconfigured State -->
+                <div x-show="!loadingYoutube && !youtubeError && youtubeVideos.length === 0" class="py-20 text-center border-2 border-dashed border-white/10 rounded-[40px]">
+                    <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-500">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h3 class="text-white font-bold text-xl mb-2">Stay Tuned for Video Updates</h3>
+                    <p class="text-gray-400 max-w-md mx-auto italic">We're currently updating our media hub to bring you more immersive stories from our projects across the globe.</p>
+                </div>
+
+                <!-- Videos Grid -->
+                <div x-show="!loadingYoutube && youtubeVideos.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <template x-for="video in youtubeVideos" :key="video.id">
+                        <div class="group relative flex flex-col">
+                            <div class="relative aspect-video rounded-xl overflow-hidden border border-white/10 bg-black/40 shadow-2xl mb-4">
+                                <img :src="video.thumbnail" :alt="video.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-transform">
+                                        <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </div>
+                                </div>
+                                <a :href="'https://youtube.com/watch?v=' + video.id" target="_blank" class="absolute inset-0 z-10"></a>
+                            </div>
+                            <div class="px-2">
+                                <h3 class="text-white font-bold text-lg leading-tight mb-2 group-hover:text-acef-green transition-colors line-clamp-2" x-text="video.title"></h3>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-gray-400" x-text="'Published ' + video.publishedAt"></p>
+                            </div>
                         </div>
-                    @endforeach
+                    </template>
                 </div>
             </div>
         </section>

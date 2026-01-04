@@ -8,6 +8,16 @@
             <p class="text-sm text-gray-500 dark:text-gray-400">Configure your payment methods for donations</p>
         </div>
 
+        <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="flex-1">
+                <p class="text-sm text-blue-800 dark:text-blue-300 font-medium">Centralized API Management</p>
+                <p class="text-xs text-blue-600/80 dark:text-blue-400/80">PayPal and other external service credentials can now also be managed in the <a href="{{ route('admin.settings.apis') }}" class="font-bold underline hover:text-blue-800">API Settings</a> page.</p>
+            </div>
+        </div>
+
         <form method="POST" action="{{ route('admin.settings.payments.update') }}" class="space-y-6">
             @csrf
 
