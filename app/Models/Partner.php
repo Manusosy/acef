@@ -16,11 +16,13 @@ class Partner extends Model
         'category',
         'sort_order',
         'is_active',
+        'show_on_homepage',
     ];
 
     protected $casts = [
         'sort_order' => 'integer',
         'is_active' => 'boolean',
+        'show_on_homepage' => 'boolean',
     ];
 
     protected static function boot()

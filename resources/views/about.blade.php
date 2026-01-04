@@ -305,8 +305,8 @@
                     
                     if (rect.top < windowHeight && rect.bottom > 0) {
                         const totalHeight = rect.height;
-                        const visibleTop = Math.max(0, -rect.top + windowHeight / 2);
-                        const progress = Math.min(100, Math.max(0, (visibleTop / totalHeight) * 100));
+                        const scrollIn = windowHeight - rect.top;
+                        const progress = Math.min(100, Math.max(0, (scrollIn / (totalHeight + windowHeight/2)) * 120));
                         progressLine.style.height = `${progress}%`;
                     }
                 };

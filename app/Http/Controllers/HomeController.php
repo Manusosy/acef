@@ -159,7 +159,11 @@ class HomeController extends Controller
 
     public function donate()
     {
-        return view('donate');
+        $projects = \App\Models\Project::where('is_active', true)->where('status', '!=', 'draft')->get(['id', 'title']);
+        $programmes = \App\Models\Program::where('status', 'published')->get(['id', 'title']);
+        $settings = \App\Models\Setting::getGroup('general');
+        
+        return view('donate', compact('projects', 'programmes', 'settings'));
     }
 
     public function getInvolved()
@@ -182,28 +186,39 @@ class HomeController extends Controller
 
     public function gallery()
     {
+        // Fetch Folders with their Media Items
+        $folders = \App\Models\MediaFolder::with(['mediaItems', 'project', 'programme'])
+            ->has('mediaItems')
+            ->get();
+
+        // Legacy/Featured Gallery Items
         $galleryItems = \App\Models\GalleryItem::where('is_active', true)
-            ->with('project.programme') // Optimize loading
+            ->with('project.programme')
             ->orderBy('sort_order')
             ->latest()
             ->get();
 
-        // Extract unique filter values
+        // Unique filter values from both folders and gallery items
         $categories = $galleryItems->pluck('category')->unique()->values()->filter();
-        $activity_types = $galleryItems->pluck('activity_type')->unique()->values()->filter();
-        $locations = $galleryItems->pluck('location')->unique()->values()->filter();
         
-        // Get programmes that have gallery items
-        $programmes = \App\Models\Program::whereHas('projects.galleryItems')->get();
+        // Projects and Programs that have gallery content
+        $projects = \App\Models\Project::whereHas('galleryItems')
+            ->orWhereHas('mediaFolders')
+            ->get();
 
-        // Try to find a featured project with a video for the "Featured Video" section
+        $programmes = \App\Models\Program::whereHas('projects.galleryItems')
+            ->orWhereHas('mediaFolders')
+            ->orWhereHas('projects.mediaFolders')
+            ->get();
+
+        // Featured Video from projects
         $featuredVideo = \App\Models\Project::where('is_active', true)
             ->whereNotNull('video_url')
             ->where('video_url', '!=', '')
             ->latest()
             ->first();
 
-        return view('gallery', compact('galleryItems', 'categories', 'activity_types', 'locations', 'programmes', 'featuredVideo'));
+        return view('gallery', compact('folders', 'galleryItems', 'categories', 'programmes', 'projects', 'featuredVideo'));
     }
 
     public function team()

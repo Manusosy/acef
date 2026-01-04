@@ -44,9 +44,16 @@
                     @endif
 
                     <div class="absolute top-4 right-4 flex flex-col gap-2">
-                        @if($partner->show_on_homepage)
-                            <span class="px-3 py-1 bg-emerald-500 text-white text-[8px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-emerald-500/20">Homepage</span>
-                        @endif
+                        <form x-data method="POST" action="{{ route('admin.partners.update', $partner) }}" class="inline">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="name" value="{{ $partner->name }}">
+                            <input type="hidden" name="category" value="{{ $partner->category }}">
+                            <input type="hidden" name="show_on_homepage" value="{{ $partner->show_on_homepage ? 0 : 1 }}">
+                            <button type="submit" class="px-3 py-1 {{ $partner->show_on_homepage ? 'bg-emerald-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-400' }} text-[8px] font-black uppercase tracking-widest rounded-full shadow-lg transition-all hover:scale-110">
+                                {{ $partner->show_on_homepage ? 'Featured' : 'Feature' }}
+                            </button>
+                        </form>
                         <span class="px-3 py-1 {{ $partner->is_active ? 'bg-white/90 text-emerald-600' : 'bg-red-50 text-red-600' }} text-[8px] font-black uppercase tracking-widest rounded-full shadow-sm">{{ $partner->is_active ? 'Active' : 'Inactive' }}</span>
                     </div>
                 </div>

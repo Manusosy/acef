@@ -416,22 +416,30 @@
 
         <!-- Partners Section -->
         @if($partners->count() > 0)
-        <section class="py-20 bg-white overflow-hidden">
+        <section class="py-24 bg-white dark:bg-gray-900 overflow-hidden relative border-t border-gray-50 dark:border-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-                <p class="text-center text-gray-400 font-bold uppercase tracking-[0.3em] text-xs">
+                <p class="text-center text-gray-400 dark:text-gray-500 font-black uppercase tracking-[0.4em] text-[11px]">
                     {{ __('pages.home.partners_title') }}
                 </p>
-                <div class="relative">
+                
+                <div class="relative group">
+                    <!-- Edge Mask Gradients -->
+                    <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white dark:from-gray-900 to-transparent z-10 pointer-events-none"></div>
+                    <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white dark:from-gray-900 to-transparent z-10 pointer-events-none"></div>
+
                     <!-- Partners Carousel -->
-                    <div class="flex overflow-hidden relative group">
-                        <div class="flex animate-scroll hover:[animation-play-state:paused] gap-12 items-center">
-                            @php $partnerList = $partners->concat($partners); @endphp
+                    <div class="flex overflow-hidden">
+                        <div class="flex animate-scroll hover:[animation-play-state:paused] gap-16 items-center py-4">
+                            @php $partnerList = $partners->concat($partners)->concat($partners); @endphp
                             @foreach($partnerList as $partner)
-                                <div class="flex-shrink-0 w-40 md:w-56 h-20 grayscale opacity-40 hover:opacity-100 transition-all hover:grayscale-0 flex items-center justify-center">
+                                <div class="flex-shrink-0 w-56 md:w-80 h-32 grayscale opacity-30 dark:opacity-40 hover:opacity-100 transition-all duration-700 hover:grayscale-0 flex items-center justify-center p-4">
                                     @if($partner->logo)
-                                        <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->name }}" class="max-h-12 w-auto object-contain transition-transform hover:scale-110" title="{{ $partner->name }}">
+                                        <img src="{{ Storage::url($partner->logo) }}" 
+                                             alt="{{ $partner->name }}" 
+                                             class="max-h-full max-w-full object-contain transition-transform hover:scale-110 duration-500" 
+                                             title="{{ $partner->name }}">
                                     @else
-                                        <span class="text-2xl font-black text-acef-dark tracking-tighter">{{ strtoupper($partner->name) }}</span>
+                                        <span class="text-2xl font-black text-acef-dark dark:text-white/20 tracking-tighter opacity-50 group-hover:opacity-100 transition-opacity">{{ strtoupper($partner->name) }}</span>
                                     @endif
                                 </div>
                             @endforeach
@@ -447,7 +455,7 @@
                 100% { transform: translateX(calc(-50% - 1.5rem)); }
             }
             .animate-scroll {
-                animation: scroll 40s linear infinite;
+                animation: scroll 60s linear infinite;
                 display: flex;
                 width: max-content;
             }

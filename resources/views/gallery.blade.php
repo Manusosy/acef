@@ -30,24 +30,31 @@
     @include('components.header')
 
     <main class="pt-40 pb-24" x-data="{
-        items: {{ json_encode($galleryItems) }},
+        folders: {{ json_encode($folders) }},
+        galleryItems: {{ json_encode($galleryItems) }},
+        selectedAlbum: null,
         filters: {
             programme: '',
-            category: '',
-            type: '',
-            country: ''
+            project: '',
+            category: ''
+        },
+        get filteredFolders() {
+            return this.folders.filter(f => {
+                const matchesProg = this.filters.programme === '' || (f.programme_id == this.filters.programme);
+                const matchesProj = this.filters.project === '' || (f.project_id == this.filters.project);
+                return matchesProg && matchesProj;
+            });
         },
         get filteredItems() {
-            return this.items.filter(item => {
+            return this.galleryItems.filter(item => {
                 const matchesProg = this.filters.programme === '' || (item.project && item.project.programme_id == this.filters.programme);
+                const matchesProj = this.filters.project === '' || item.project_id == this.filters.project;
                 const matchesCat = this.filters.category === '' || item.category === this.filters.category;
-                const matchesType = this.filters.type === '' || item.activity_type === this.filters.type;
-                const matchesCountry = this.filters.country === '' || item.location === this.filters.country;
-                return matchesProg && matchesCat && matchesType && matchesCountry;
+                return matchesProg && matchesProj && matchesCat;
             });
         },
         resetFilters() {
-            this.filters = { programme: '', category: '', type: '', country: '' };
+            this.filters = { programme: '', project: '', category: '' };
         }
     }">
         <!-- Gallery Hero -->
@@ -64,65 +71,125 @@
         </section>
 
         <!-- Filter Bar -->
-        <section class="bg-gray-50/50 border-y border-gray-100 py-6 sticky top-[95px] z-[40]">
+        <section class="bg-gray-50 dark:bg-[#111827]/80 border-y border-gray-100 dark:border-white/5 py-8 backdrop-blur-md">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
                     <div class="flex flex-wrap items-center gap-4">
-                        <div
-                            class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-widest text-gray-300 mr-2">
+                        <div class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-widest text-gray-300 mr-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z">
-                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
                             </svg>
                             <span>{{ __('pages.gallery.filters.label') }}</span>
                         </div>
 
-                        <!-- Filter Pill Groups -->
                         <div class="flex items-center space-x-3">
-                            <select x-model="filters.programme"
-                                class="bg-white border-none rounded-xl px-6 py-3 text-xs font-bold text-acef-dark shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 transition-all outline-none">
-                                <option value="">{{ __('pages.gallery.filters.programme') }}</option>
+                            <select x-model="filters.programme" class="bg-white dark:bg-white/5 border-none dark:border dark:border-white/10 rounded-xl px-6 py-3 text-xs font-bold text-acef-dark dark:text-white shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 dark:ring-offset-gray-900 transition-all outline-none">
+                                <option value="">All Programmes</option>
                                 @foreach($programmes as $prog)
                                     <option value="{{ $prog->id }}">{{ $prog->title }}</option>
                                 @endforeach
                             </select>
-                            <select x-model="filters.category"
-                                class="bg-white border-none rounded-xl px-6 py-3 text-xs font-bold text-acef-dark shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 transition-all outline-none">
-                                <option value="">{{ __('pages.gallery.filters.category') }} (All)</option>
-                                @foreach($categories as $cat)
-                                    <option value="{{ $cat }}">{{ $cat }}</option>
+                            <select x-model="filters.project" class="bg-white dark:bg-white/5 border-none dark:border dark:border-white/10 rounded-xl px-6 py-3 text-xs font-bold text-acef-dark dark:text-white shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 dark:ring-offset-gray-900 transition-all outline-none">
+                                <option value="">All Projects</option>
+                                @foreach($projects as $proj)
+                                    <option value="{{ $proj->id }}">{{ $proj->title }}</option>
                                 @endforeach
                             </select>
-                            <select x-model="filters.type"
-                                class="bg-white border-none rounded-xl px-6 py-3 text-xs font-bold text-acef-dark shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 transition-all outline-none">
-                                <option value="">{{ __('pages.gallery.filters.activity_type') }}</option>
-                                @foreach($activity_types as $type)
-                                    <option value="{{ $type }}">{{ $type }}</option>
-                                @endforeach
-                            </select>
-                            <select x-model="filters.country"
-                                class="bg-white border-none rounded-xl px-6 py-3 text-xs font-bold text-acef-dark shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 transition-all outline-none">
-                                <option value="">{{ __('pages.gallery.filters.country') }}</option>
-                                @foreach($locations as $loc)
-                                    <option value="{{ $loc }}">{{ $loc }}</option>
-                                @endforeach
-                            </select>
-                            <button @click="resetFilters()"
-                                class="text-[10px] font-black uppercase text-gray-300 hover:text-acef-dark transition-colors border-b-2 border-transparent hover:border-acef-green pb-0.5">{{ __('pages.gallery.filters.reset') }}</button>
+                            <button @click="resetFilters()" class="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 hover:text-acef-dark dark:hover:text-acef-green transition-colors border-b-2 border-transparent hover:border-acef-green pb-0.5">{{ __('pages.gallery.filters.reset') }}</button>
                         </div>
-                    </div>
-
-                    <div class="flex items-center space-x-8">
-                        <span
-                            class="text-[10px] font-bold text-gray-300 uppercase tracking-widest whitespace-nowrap"><span x-text="filteredItems.length"></span> Results</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Media Gallery Grid -->
+        <!-- Media Gallery -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <!-- Albums Section -->
+            <div x-show="filteredFolders.length > 0" class="mb-24">
+                <h2 class="text-3xl font-black text-acef-dark mb-10 tracking-tight">Galleries by Project</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <template x-for="folder in filteredFolders" :key="folder.id">
+                        <div @click="selectedAlbum = folder" class="group cursor-pointer">
+                            <div class="relative aspect-[4/3] rounded-3xl overflow-hidden mb-6 bg-gray-100 dark:bg-white/5">
+                                <template x-if="folder.media_items.length > 0">
+                                    <img :src="'/storage/' + folder.media_items[0].path" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                </template>
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                                <div class="absolute bottom-6 left-6 text-white">
+                                    <span class="text-[10px] font-black uppercase tracking-widest bg-emerald-500/90 px-3 py-1 rounded-full mb-2 inline-block" x-text="folder.media_items.length + ' Photos'"></span>
+                                    <h3 class="text-xl font-bold" x-text="folder.name"></h3>
+                                </div>
+                            </div>
+                            <div class="px-2">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <template x-if="folder.project">
+                                        <span class="text-[9px] font-black text-acef-green uppercase tracking-widest" x-text="folder.project.title"></span>
+                                    </template>
+                                    <template x-if="folder.programme">
+                                        <span class="text-[9px] font-black text-blue-500 uppercase tracking-widest" x-text="folder.programme.title"></span>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Individual Highlights / Gallery Items -->
+            <div x-show="filteredItems.length > 0">
+                <h2 class="text-3xl font-black text-acef-dark mb-10 tracking-tight">Featured Highlights</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <template x-for="item in filteredItems" :key="item.id">
+                        <div class="group flex flex-col space-y-4">
+                            <div class="relative aspect-square rounded-[32px] overflow-hidden bg-gray-100 dark:bg-white/5 border border-gray-50 dark:border-white/5">
+                                <img :src="'/storage/' + item.image" :alt="item.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            </div>
+                            <div class="px-2">
+                                <h3 class="text-sm font-bold text-acef-dark leading-tight" x-text="item.title"></h3>
+                                <p class="text-[10px] text-gray-400 mt-1 uppercase font-black" x-text="item.location"></p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div x-show="filteredFolders.length === 0 && filteredItems.length === 0" class="py-20 text-center text-gray-400 italic">
+                No items found matching your filters.
+            </div>
+        </section>
+
+        <!-- Album Modal -->
+        <div x-show="selectedAlbum" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div @click="selectedAlbum = null" class="absolute inset-0 bg-black/95 backdrop-blur-xl"></div>
+            <div class="bg-white dark:bg-gray-900 rounded-[40px] w-full max-w-6xl max-h-[90vh] overflow-hidden relative shadow-2xl flex flex-col">
+                <div class="p-8 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-black text-acef-dark dark:text-white" x-text="selectedAlbum?.name"></h2>
+                        <div class="flex items-center gap-3 mt-1">
+                            <template x-if="selectedAlbum?.project">
+                                <span class="text-[10px] font-black text-acef-green uppercase tracking-widest" x-text="selectedAlbum.project.title"></span>
+                            </template>
+                        </div>
+                    </div>
+                    <button @click="selectedAlbum = null" class="p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-2xl transition-all">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-12">
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <template x-for="item in selectedAlbum?.media_items" :key="item.id">
+                            <div class="aspect-square rounded-2xl overflow-hidden bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
+                                <img :src="'/storage/' + item.path" class="w-full h-full object-cover">
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- YouTube Channel Section -->
+        <section class="py-24 bg-acef-dark relative overflow-hidden">
              <!-- Featured Video Section -->
              @if(isset($featuredVideo) && $featuredVideo->video_url)
              <div class="mb-20">
@@ -155,7 +222,7 @@
                 <template x-for="item in filteredItems" :key="item.id">
                     <div class="group flex flex-col space-y-6 cursor-pointer">
                         <div
-                            class="relative aspect-[4/5] rounded-[40px] overflow-hidden bg-gray-100 shadow-sm border border-gray-50">
+                            class="relative aspect-[4/5] rounded-[40px] overflow-hidden bg-gray-100 dark:bg-white/5 shadow-sm border border-gray-50 dark:border-white/5">
                             <img :src="'/storage/' + item.image" :alt="item.title"
                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
 

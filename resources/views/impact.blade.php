@@ -287,7 +287,7 @@
                             <img src="{{ $proj->image ? Storage::url($proj->image) : asset('default-project.jpg') }}" alt="{{ $proj->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute top-6 left-6">
                                 <span
-                                    class="bg-acef-green text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider shadow-lg border border-white/20">
+                                    class="bg-acef-green dark:bg-emerald-500 text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider shadow-lg border border-white/20 shadow-acef-green/20">
                                     {{ $proj->category }}
                                 </span>
                             </div>

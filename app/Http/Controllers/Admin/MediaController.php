@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\MediaFolder;
 use App\Models\MediaItem;
+use App\Models\Program;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ class MediaController extends Controller
     {
         $query = MediaItem::with('uploader');
 
-        if ($request->filled('folder_id')) {
+        if ($request->filled('folder_id') && !$request->boolean('ignore_folder')) {
             $query->where('folder_id', $request->folder_id);
         }
 
@@ -28,19 +29,31 @@ class MediaController extends Controller
             });
         }
 
-        $media = $query->recent()->paginate(24);
-        $folders = MediaFolder::orderBy('name')->get();
+        if ($request->boolean('ignore_folder')) {
+            $mediaItems = $query->recent()->get();
+        } else {
+            $media = $query->recent()->paginate(24);
+            $mediaItems = $media->items();
+        }
+
+        $totalCount = MediaItem::count();
+        $folders = MediaFolder::with(['project', 'programme'])->orderBy('name')->get();
+        $projects = Project::orderBy('title')->get(['id', 'title']);
+        $programs = Program::orderBy('title')->get(['id', 'title']);
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
-                'items' => $media->items(),
+                'items' => $mediaItems,
                 'folders' => $folders,
-                'html' => view('admin.media.partials.grid', compact('media'))->render(),
-                'hasMore' => $media->hasMorePages(),
+                'projects' => $projects,
+                'programs' => $programs,
+                'totalCount' => $totalCount,
+                'hasMore' => isset($media) ? $media->hasMorePages() : false,
             ]);
         }
 
-        return view('admin.media.index', compact('media', 'folders'));
+        $media = isset($media) ? $media : MediaItem::recent()->paginate(24);
+        return view('admin.media.index', compact('media', 'folders', 'projects', 'programs', 'totalCount'));
     }
 
     public function store(Request $request)
@@ -78,6 +91,7 @@ class MediaController extends Controller
             'size' => $file->getSize(),
             'hash' => $hash,
             'alt_text' => $request->alt_text,
+            'folder_id' => $request->folder_id,
             'uploaded_by' => auth()->id(),
         ]);
 
@@ -137,14 +151,33 @@ class MediaController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:media_folders,name',
+            'project_id' => 'nullable|exists:projects,id',
+            'programme_id' => 'nullable|exists:programs,id',
         ]);
 
         $folder = MediaFolder::create($validated);
 
         return response()->json([
             'success' => true,
-            'folder' => $folder,
+            'folder' => $folder->load(['project', 'programme']),
             'message' => 'Folder created successfully.',
+        ]);
+    }
+
+    public function updateFolder(Request $request, MediaFolder $folder)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:media_folders,name,' . $folder->id,
+            'project_id' => 'nullable|exists:projects,id',
+            'programme_id' => 'nullable|exists:programs,id',
+        ]);
+
+        $folder->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'folder' => $folder->load(['project', 'programme']),
+            'message' => 'Folder updated successfully.',
         ]);
     }
 
@@ -158,6 +191,52 @@ class MediaController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Folder deleted successfully.',
+        ]);
+    }
+
+    public function bulkUpdate(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'exists:media_items,id',
+            'folder_id' => 'nullable|exists:media_folders,id',
+            'action' => 'required|string|in:move,delete,remove'
+        ]);
+
+        if ($validated['action'] === 'remove') {
+            MediaItem::whereIn('id', $validated['ids'])->update([
+                'folder_id' => null
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Media removed from folder successfully.'
+            ]);
+        }
+
+        if ($validated['action'] === 'delete') {
+            $items = MediaItem::whereIn('id', $validated['ids'])->get();
+            $deletedCount = 0;
+            foreach ($items as $item) {
+                if ($item->getUsageCount() === 0) {
+                    Storage::disk($item->disk)->delete($item->path);
+                    $item->delete();
+                    $deletedCount++;
+                }
+            }
+            return response()->json([
+                'success' => true,
+                'message' => "Successfully deleted $deletedCount items. Items in use were skipped."
+            ]);
+        }
+
+        MediaItem::whereIn('id', $validated['ids'])->update([
+            'folder_id' => $validated['folder_id']
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Media moved successfully.'
         ]);
     }
 }

@@ -55,4 +55,9 @@ class Program extends Model
     {
         return $this->hasMany(Project::class, 'programme_id');
     }
+
+    public function mediaFolders()
+    {
+        return $this->hasMany(MediaFolder::class, 'programme_id');
+    }
 }

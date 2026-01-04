@@ -79,8 +79,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Media Library
         Route::resource('media', \App\Http\Controllers\Admin\MediaController::class)->except(['create', 'edit']);
         Route::post('/media/folders', [\App\Http\Controllers\Admin\MediaController::class, 'storeFolder'])->name('media.folders.store');
+        Route::put('/media/folders/{folder}', [\App\Http\Controllers\Admin\MediaController::class, 'updateFolder'])->name('media.folders.update');
         Route::delete('/media/folders/{folder}', [\App\Http\Controllers\Admin\MediaController::class, 'destroyFolder'])->name('media.folders.destroy');
-        Route::get('/media/picker', [\App\Http\Controllers\Admin\MediaController::class, 'picker'])->name('media.picker');
+        Route::post('/media/bulk', [\App\Http\Controllers\Admin\MediaController::class, 'bulkUpdate'])->name('media.bulk');
         
         // Pages CMS
         Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);

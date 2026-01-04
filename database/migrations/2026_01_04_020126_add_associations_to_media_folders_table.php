@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Column added manually via Raw SQL due to SQLite driver issues in this environment
+        // Columns added manually via Raw SQL due to SQLite driver issues in this environment
     }
 
     /**
@@ -19,8 +19,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('accreditations', function (Blueprint $table) {
-            $table->dropColumn('image');
+        Schema::table('media_folders', function (Blueprint $table) {
+            $table->dropForeign(['project_id']);
+            $table->dropForeign(['programme_id']);
+            $table->dropColumn(['project_id', 'programme_id']);
         });
     }
 };
