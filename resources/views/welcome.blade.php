@@ -247,22 +247,22 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    @foreach(__('pages.home.projects') as $project)
+                    @foreach($featuredProjects as $project)
                         <div class="group cursor-pointer">
                             <div class="relative rounded-lg overflow-hidden aspect-[4/5] mb-6 shadow-lg">
-                                <img src="{{ $project['image'] }}" alt="{{ $project['title'] }}"
+                                <img src="{{ $project->image ? Storage::url($project->image) : asset('default-project.jpg') }}" alt="{{ $project->title }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute top-6 left-6">
                                     <span
-                                        class="bg-acef-green text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">{{ $project['category'] }}</span>
+                                        class="bg-acef-green text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">{{ $project->category }}</span>
                                 </div>
                             </div>
                             <h3
                                 class="text-2xl font-bold text-acef-dark group-hover:text-acef-green transition-colors mb-2">
-                                {{ $project['title'] }}
+                                {{ $project->title }}
                             </h3>
-                            <p class="text-gray-500 text-sm line-clamp-2 italic mb-4">{{ $project['desc'] }}</p>
-                            <a href="{{ route('projects') }}"
+                            <p class="text-gray-500 text-sm line-clamp-2 italic mb-4">{{Str::limit($project->description, 100)}}</p>
+                            <a href="{{ route('projects.show', $project) }}"
                                 class="font-bold text-acef-dark group-hover:text-acef-green transition-colors flex items-center">
                                 {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -379,34 +379,26 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    @php
-                        $news_items = __('pages.home.news_articles');
-                        $news_images = [
-                            '/project_mangroves_1766827746442.png',
-                            '/hero_marine_ecosystem_1766827540454.png',
-                            '/project_tree_planting_1766827726209.png'
-                        ];
-                    @endphp
-                    @foreach($news_items as $index => $news)
+                    @foreach($latestNews as $news)
                         <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all group">
                             <div class="relative aspect-video overflow-hidden">
-                                <img src="{{ $news_images[$index] }}" alt="{{ $news['category'] }}"
+                                <img src="{{ $news->image ? Storage::url($news->image) : asset('default-news.jpg') }}" alt="{{ $news->title }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute bottom-4 left-4">
                                     <span
-                                        class="bg-white/90 backdrop-blur-md text-acef-dark px-3 py-1 rounded-full text-[10px] font-bold uppercase">{{ $news['category'] }}</span>
+                                        class="bg-acef-green text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-lg">{{ $news->category->name ?? 'News' }}</span>
                                 </div>
                             </div>
                             <div class="p-8 space-y-4">
                                 <span
-                                    class="text-gray-400 text-xs font-semibold uppercase tracking-wider">{{ $news['date'] }}</span>
+                                    class="text-gray-400 text-xs font-semibold uppercase tracking-wider">{{ $news->published_at ? $news->published_at->format('M d, Y') : 'Draft' }}</span>
                                 <h3
                                     class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors leading-tight">
-                                    {{ $news['title'] }}
+                                    {{ $news->title }}
                                 </h3>
-                                <p class="text-gray-500 text-sm italic">{{ $news['desc'] }}</p>
+                                <p class="text-gray-500 text-sm italic">{{ Str::limit($news->excerpt, 100) }}</p>
                                 <div class="pt-2 border-t border-gray-100">
-                                    <a href="{{ route('news') }}"
+                                    <a href="{{ route('news.show', $news) }}"
                                         class="text-acef-dark font-bold text-sm flex items-center group-hover:text-acef-green transition-colors">
                                         {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none"
                                             stroke="currentColor" viewBox="0 0 24 24">
@@ -423,32 +415,43 @@
         </section>
 
         <!-- Partners Section -->
-        @php
-            $homepagePartners = \App\Models\Partner::where('is_active', true)
-                ->where('show_on_homepage', true)
-                ->orderBy('sort_order')
-                ->get();
-        @endphp
-        @if($homepagePartners->count() > 0)
+        @if($partners->count() > 0)
         <section class="py-20 bg-white overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <p class="text-center text-gray-400 font-bold uppercase tracking-[0.3em] text-xs">
                     {{ __('pages.home.partners_title') }}
                 </p>
                 <div class="relative">
-                    <!-- Simple Logo Cloud -->
-                    <div class="flex flex-wrap justify-center items-center gap-12 grayscale opacity-40 hover:opacity-100 transition-opacity">
-                        @foreach($homepagePartners as $partner)
-                            @if($partner->logo)
-                                <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->name }}" class="h-12 w-auto object-contain transition-transform hover:scale-110" title="{{ $partner->name }}">
-                            @else
-                                <span class="text-2xl font-black text-acef-dark tracking-tighter">{{ strtoupper($partner->name) }}</span>
-                            @endif
-                        @endforeach
+                    <!-- Partners Carousel -->
+                    <div class="flex overflow-hidden relative group">
+                        <div class="flex animate-scroll hover:[animation-play-state:paused] gap-12 items-center">
+                            @php $partnerList = $partners->concat($partners); @endphp
+                            @foreach($partnerList as $partner)
+                                <div class="flex-shrink-0 w-40 md:w-56 h-20 grayscale opacity-40 hover:opacity-100 transition-all hover:grayscale-0 flex items-center justify-center">
+                                    @if($partner->logo)
+                                        <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->name }}" class="max-h-12 w-auto object-contain transition-transform hover:scale-110" title="{{ $partner->name }}">
+                                    @else
+                                        <span class="text-2xl font-black text-acef-dark tracking-tighter">{{ strtoupper($partner->name) }}</span>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <style>
+            @keyframes scroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(calc(-50% - 1.5rem)); }
+            }
+            .animate-scroll {
+                animation: scroll 40s linear infinite;
+                display: flex;
+                width: max-content;
+            }
+        </style>
         @endif
     </main>
     @include('components.footer')

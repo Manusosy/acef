@@ -42,6 +42,21 @@ class Project extends Model
         'voices' => 'array',
     ];
 
+    public const CATEGORIES = [
+        'Marine and Coastal Conservation',
+        'Waste Management',
+        'Climate Action',
+        'Sustainable Agriculture',
+        'Cultural Heritage Promotion',
+        'Terrestrial Reforestation',
+        'Wetland Protection',
+        'Wildlife Conservation',
+        'Ocean Literacy',
+        'Green Skills',
+        'Water Management',
+        'Climate Smart Agriculture',
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -64,6 +79,16 @@ class Project extends Model
             return 0;
         }
         return min(100, round(($this->raised_amount / $this->goal_amount) * 100));
+    }
+
+    public function getCountryNamesAttribute()
+    {
+        $allCountries = config('acef.countries', []);
+        $selected = (array) ($this->country ?? []);
+        
+        return array_map(function($idx) use ($allCountries) {
+            return $allCountries[$idx] ?? $idx;
+        }, $selected);
     }
 
     public function scopeActive($query)

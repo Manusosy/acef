@@ -280,28 +280,33 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                @foreach(__('pages.impact.project_list') as $proj)
+                @foreach($impactProjects as $proj)
                     <div
                         class="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-50 dark:border-gray-700">
                         <div class="relative aspect-[4/3] overflow-hidden">
-                            <img src="{{ $proj['image'] }}" alt="{{ $proj['title'] }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="{{ $proj->image ? Storage::url($proj->image) : asset('default-project.jpg') }}" alt="{{ $proj->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute top-6 left-6">
                                 <span
-                                    class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-acef-dark dark:text-white border border-white/20">
-                                    {{ $proj['category'] }}
+                                    class="bg-acef-green text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider shadow-lg border border-white/20">
+                                    {{ $proj->category }}
                                 </span>
                             </div>
                         </div>
                         <div class="p-8 space-y-4">
                             <div class="flex items-center text-acef-green text-[10px] font-bold uppercase tracking-widest">
-                                <span>{{ $proj['date'] }}</span>
+                                <span>{{ $proj->created_at->format('M Y') }}</span>
                                 <span class="mx-2 text-gray-300 dark:text-gray-600">•</span>
+                                @php
+                                    $isFunded = $proj->goal_amount > 0 && $proj->raised_amount >= $proj->goal_amount;
+                                    $statusLabel = $isFunded ? 'Funded' : 'Active';
+                                    $statusClass = $isFunded ? 'text-blue-500' : 'text-emerald-500';
+                                @endphp
                                 <span
-                                    class="{{ $proj['status'] === 'Funded' ? 'text-blue-500' : '' }}">{{ $proj['status'] }}</span>
+                                    class="{{ $statusClass }}">{{ $statusLabel }}</span>
                             </div>
-                            <h3 class="text-2xl font-black text-acef-dark dark:text-white leading-tight group-hover:text-acef-green transition-colors">{{ $proj['title'] }}</h3>
-                            <p class="text-gray-400 dark:text-gray-500 text-sm line-clamp-3 font-light leading-relaxed">{{ $proj['desc'] }}</p>
-                            <a href="{{ route('projects') }}"
+                            <h3 class="text-2xl font-black text-acef-dark dark:text-white leading-tight group-hover:text-acef-green transition-colors">{{ $proj->title }}</h3>
+                            <p class="text-gray-400 dark:text-gray-500 text-sm line-clamp-3 font-light leading-relaxed">{{ Str::limit($proj->description, 100) }}</p>
+                            <a href="{{ route('projects.show', $proj) }}"
                                 class="w-full py-4 border-2 border-gray-100 dark:border-gray-700 rounded-xl font-black text-xs hover:border-acef-dark dark:hover:border-acef-green dark:hover:text-acef-green transition-all block text-center uppercase tracking-widest">{{ __('buttons.read_more') }}</a>
                         </div>
                     </div>

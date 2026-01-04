@@ -52,8 +52,12 @@ class SettingsController extends Controller
                 }
                 $validated[$field] = $path;
             } else {
-                // Remove from validated if no new file is uploaded to avoid overwriting with null
-                unset($validated[$field]);
+                // If the field is present in the request (even as null/empty), it means we want to clear it
+                if ($request->has($field)) {
+                    $validated[$field] = null;
+                } else {
+                    unset($validated[$field]);
+                }
             }
         }
 

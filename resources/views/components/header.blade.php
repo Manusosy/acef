@@ -9,7 +9,7 @@
 <div x-data="layoutData" x-cloak>
     <header
         class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
-        :class="scrolled ? 'bg-acef-dark/90 backdrop-blur-md shadow-lg py-3' : (isHome ? 'bg-transparent py-5' : 'bg-acef-dark py-4')"
+        :class="scrolled ? 'bg-acef-dark/95 backdrop-blur-md shadow-lg py-3' : (isHome ? 'bg-gradient-to-b from-black/80 to-transparent py-5' : 'bg-acef-dark/90 backdrop-blur-sm py-4')"
         id="main-header" translate="no">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">

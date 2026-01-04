@@ -25,6 +25,7 @@ class AccreditationController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'acronym' => 'required|string|max:10',
+            'image' => 'nullable|string',
         ]);
 
         Accreditation::create($validated);
@@ -43,6 +44,7 @@ class AccreditationController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'acronym' => 'required|string|max:10',
+            'image' => 'nullable|string',
         ]);
 
         $accreditation->update($validated);

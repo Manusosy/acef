@@ -80,7 +80,7 @@
                         <th class="p-6">Region</th>
                         <th class="p-6">Status</th>
                         <th class="p-6">Progress</th>
-                        <th class="p-6">Team</th>
+                        <th class="p-6">Partners</th>
                         <th class="p-6 text-right">Actions</th>
                     </tr>
                 </thead>
@@ -108,7 +108,10 @@
                             </div>
                         </td>
                         <td class="p-6">
-                            <span class="text-gray-700 font-medium text-sm">{{ $project->location ?? $project->country }}</span>
+                            @php
+                                $countryCount = is_array($project->country) ? count($project->country) : (empty($project->country) ? 0 : 1);
+                            @endphp
+                            <span class="text-gray-700 font-medium text-sm">{{ $countryCount }} {{ Str::plural('Country', $countryCount) }}</span>
                         </td>
                         <td class="p-6">
                              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold capitalize
@@ -131,10 +134,25 @@
                         </td>
                        <td class="p-6">
                             <div class="flex -space-x-3">
-                                <!-- Mock Team -->
-                                <div class="w-8 h-8 rounded-full border-2 border-white bg-orange-100 flex items-center justify-center text-xs font-bold text-orange-600">JD</div>
-                                <div class="w-8 h-8 rounded-full border-2 border-white bg-purple-100 flex items-center justify-center text-xs font-bold text-purple-600">SM</div>
-                                <div class="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">+3</div>
+                                @foreach($project->partners->take(3) as $partner)
+                                    <div class="w-8 h-8 rounded-full border-2 border-white bg-white overflow-hidden shadow-sm" title="{{ $partner->name }}">
+                                        @if($partner->logo)
+                                            <img src="{{ Storage::url($partner->logo) }}" alt="" class="w-full h-full object-contain p-1">
+                                        @else
+                                            <div class="w-full h-full flex items-center justify-center text-[10px] font-black text-emerald-500">
+                                                {{ substr($partner->name, 0, 1) }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                                @if($project->partners->count() > 3)
+                                    <div class="w-8 h-8 rounded-full border-2 border-white bg-gray-50 flex items-center justify-center text-[10px] font-black text-gray-500 shadow-sm">
+                                        +{{ $project->partners->count() - 3 }}
+                                    </div>
+                                @endif
+                                @if($project->partners->isEmpty())
+                                    <span class="text-xs text-gray-400 italic font-medium">None</span>
+                                @endif
                             </div>
                         </td>
                         <td class="p-6 text-right">

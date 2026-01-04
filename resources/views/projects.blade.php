@@ -116,9 +116,13 @@
                             $percent = $goal > 0 ? round(($raised / $goal) * 100) : 0;
                             // Ensure the percent shown doesn't exceed 100 for the progress bar width
                             $barWidth = min($percent, 100);
+                            
+                            // Prepare data for Alpine filtering
+                            $projectData = $project->toArray();
+                            $projectData['country'] = $project->country_names; 
                         @endphp
-                        <div x-show="checkVisible({{ json_encode($project) }})" x-transition
-                            class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all group border border-gray-100 dark:border-gray-800">
+                        <a href="{{ route('projects.show', $project->slug) }}" x-show="checkVisible({{ json_encode($projectData) }})" x-transition
+                            class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all group border border-gray-100 dark:border-gray-800 flex flex-col">
                             <div class="relative aspect-[4/3] overflow-hidden">
                                 @if($project->image)
                                     <img src="{{ Str::startsWith($project->image, 'http') ? $project->image : Storage::url($project->image) }}" alt="{{ $project->title }}"
@@ -149,7 +153,7 @@
                                 @endif
                             </div>
 
-                            <div class="p-10 space-y-6">
+                            <div class="p-10 space-y-6 flex-1 flex flex-col">
                                 <div class="space-y-2">
                                     <div
                                         class="flex items-center text-acef-green text-[10px] font-bold uppercase tracking-widest">
@@ -158,7 +162,11 @@
                                                 d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                                                 clip-rule="evenodd"></path>
                                         </svg>
-                                        {{ is_array($project->country) ? implode(', ', $project->country) : $project->country }}
+                                        @php
+                                            $count = count($project->country_names);
+                                            $locationDisplay = $count > 1 ? $count . ' Countries' : ($project->country_names[0] ?? 'Global');
+                                        @endphp
+                                        {{ $locationDisplay }}
                                     </div>
                                     <h3
                                         class="text-2xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors">
@@ -177,23 +185,23 @@
                                     </div>
                                 </div>
 
-                                <div class="flex justify-between items-center pt-2">
+                                <div class="flex justify-between items-center pt-2 mt-auto">
                                     <span
                                         class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider 
                                         {{ $project->status === 'ongoing' ? 'bg-acef-green/10 text-acef-green' : ($project->status === 'completed' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600') }}">
                                         {{ ucfirst($project->status) }}
                                     </span>
-                                    <a href="{{ route('projects') }}"
-                                        class="text-acef-dark font-black text-xs flex items-center hover:text-acef-green transition-colors">
+                                    <div
+                                        class="text-acef-dark font-black text-xs flex items-center group-hover:text-acef-green transition-colors">
                                         {{ $project->status === 'completed' ? 'View Impact' : 'View Project' }}
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                                         </svg>
-                                    </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
 

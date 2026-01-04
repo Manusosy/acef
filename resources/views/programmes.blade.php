@@ -123,6 +123,10 @@
                                         <div class="text-acef-green dark:text-acef-green/80 text-[10px] font-bold uppercase tracking-widest">
                                             {{ $program->meta_val ?: 'Active Initiative' }}
                                         </div>
+                                        <span class="text-gray-300 dark:text-gray-600">•</span>
+                                        <div class="text-gray-400 dark:text-gray-500 text-[10px] font-bold uppercase tracking-widest">
+                                            {{ $program->projects_count }} {{ Str::plural('Project', $program->projects_count) }}
+                                        </div>
                                     </div>
                                     <h3
                                         class="text-2xl font-black text-acef-dark dark:text-white leading-tight group-hover:text-acef-green transition-colors">

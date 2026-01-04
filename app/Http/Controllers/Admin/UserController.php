@@ -112,9 +112,21 @@ class UserController extends Controller
                 ->with('error', 'You cannot delete your own account.');
         }
 
+        // Reassign articles to the next available admin
+        $nextAdmin = User::whereHas('role', function ($q) {
+            $q->whereIn('slug', ['admin', 'administrator']);
+        })->where('id', '!=', $user->id)->first();
+
+        if ($nextAdmin) {
+            \App\Models\Article::where('author_id', $user->id)->update(['author_id' => $nextAdmin->id]);
+        } else {
+            // If no other admin, author_id becomes null (Article model handles fallback to 'ACEF Editorial')
+            \App\Models\Article::where('author_id', $user->id)->update(['author_id' => null]);
+        }
+
         $user->delete();
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User deleted successfully.');
+            ->with('success', 'User deleted successfully. Their articles have been reassigned.');
     }
 }

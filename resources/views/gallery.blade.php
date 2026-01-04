@@ -29,7 +29,27 @@
 <body class="antialiased font-sans bg-white overflow-x-hidden">
     @include('components.header')
 
-    <main class="pt-40 pb-24">
+    <main class="pt-40 pb-24" x-data="{
+        items: {{ json_encode($galleryItems) }},
+        filters: {
+            programme: '',
+            category: '',
+            type: '',
+            country: ''
+        },
+        get filteredItems() {
+            return this.items.filter(item => {
+                const matchesProg = this.filters.programme === '' || (item.project && item.project.programme_id == this.filters.programme);
+                const matchesCat = this.filters.category === '' || item.category === this.filters.category;
+                const matchesType = this.filters.type === '' || item.activity_type === this.filters.type;
+                const matchesCountry = this.filters.country === '' || item.location === this.filters.country;
+                return matchesProg && matchesCat && matchesType && matchesCountry;
+            });
+        },
+        resetFilters() {
+            this.filters = { programme: '', category: '', type: '', country: '' };
+        }
+    }">
         <!-- Gallery Hero -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
             <div class="flex flex-col md:flex-row justify-between items-end gap-8">
@@ -40,15 +60,6 @@
                         {{ __('pages.gallery.hero_desc') }}
                     </p>
                 </div>
-                <button
-                    class="bg-white text-acef-dark border border-gray-100 shadow-sm px-8 py-4 rounded-2xl font-black text-sm flex items-center space-x-3 hover:bg-acef-dark hover:text-white transition-all">
-                    <svg class="w-5 h-5 text-acef-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2-2z">
-                        </path>
-                    </svg>
-                    <span>{{ __('pages.gallery.submit_report_btn') }}</span>
-                </button>
             </div>
         </section>
 
@@ -69,60 +80,42 @@
 
                         <!-- Filter Pill Groups -->
                         <div class="flex items-center space-x-3">
-                            <select
+                            <select x-model="filters.programme"
                                 class="bg-white border-none rounded-xl px-6 py-3 text-xs font-bold text-acef-dark shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 transition-all outline-none">
-                                <option>{{ __('pages.gallery.filters.programme') }}</option>
-                                <option>{{ __('pages.filters.categories.reforestation') }}</option>
-                                <option>{{ __('pages.filters.categories.water_security') }}</option>
-                                <option>{{ __('pages.filters.categories.clean_energy') }}</option>
+                                <option value="">{{ __('pages.gallery.filters.programme') }}</option>
+                                @foreach($programmes as $prog)
+                                    <option value="{{ $prog->id }}">{{ $prog->title }}</option>
+                                @endforeach
                             </select>
-                            <select
+                            <select x-model="filters.category"
                                 class="bg-white border-none rounded-xl px-6 py-3 text-xs font-bold text-acef-dark shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 transition-all outline-none">
-                                <option>{{ __('pages.gallery.filters.activity_type') }}</option>
-                                <option>{{ __('pages.filters.activity_types.field_activity') }}</option>
-                                <option>{{ __('pages.filters.activity_types.community_workshop') }}</option>
-                                <option>{{ __('pages.filters.activity_types.drone_survey') }}</option>
+                                <option value="">{{ __('pages.gallery.filters.category') }} (All)</option>
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat }}">{{ $cat }}</option>
+                                @endforeach
                             </select>
-                            <select
+                            <select x-model="filters.type"
                                 class="bg-white border-none rounded-xl px-6 py-3 text-xs font-bold text-acef-dark shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 transition-all outline-none">
-                                <option>{{ __('pages.gallery.filters.country') }}</option>
-                                <option>{{ __('pages.filters.countries.senegal') }}</option>
-                                <option>{{ __('pages.filters.countries.rwanda') }}</option>
-                                <option>{{ __('pages.filters.countries.nigeria') }}</option>
-                                <option>{{ __('pages.filters.countries.mozambique') }}</option>
+                                <option value="">{{ __('pages.gallery.filters.activity_type') }}</option>
+                                @foreach($activity_types as $type)
+                                    <option value="{{ $type }}">{{ $type }}</option>
+                                @endforeach
                             </select>
-                            <div
-                                class="bg-acef-green/10 text-acef-green px-4 py-3 rounded-xl flex items-center space-x-2">
-                                <span class="text-xs font-black">Year: 2023</span>
-                                <button class="hover:text-acef-dark transition-colors"><svg class="w-3 h-3" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg></button>
-                            </div>
-                            <button
+                            <select x-model="filters.country"
+                                class="bg-white border-none rounded-xl px-6 py-3 text-xs font-bold text-acef-dark shadow-sm focus:ring-2 focus:ring-acef-green ring-offset-2 transition-all outline-none">
+                                <option value="">{{ __('pages.gallery.filters.country') }}</option>
+                                @foreach($locations as $loc)
+                                    <option value="{{ $loc }}">{{ $loc }}</option>
+                                @endforeach
+                            </select>
+                            <button @click="resetFilters()"
                                 class="text-[10px] font-black uppercase text-gray-300 hover:text-acef-dark transition-colors border-b-2 border-transparent hover:border-acef-green pb-0.5">{{ __('pages.gallery.filters.reset') }}</button>
                         </div>
                     </div>
 
                     <div class="flex items-center space-x-8">
                         <span
-                            class="text-[10px] font-bold text-gray-300 uppercase tracking-widest whitespace-nowrap">{!! __('pages.gallery.showing_results') !!}</span>
-                        <div class="flex items-center bg-white rounded-xl shadow-sm p-1">
-                            <button class="p-2 bg-acef-dark text-white rounded-lg shadow-lg">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
-                                    </path>
-                                </svg>
-                            </button>
-                            <button class="p-2 text-gray-300 hover:text-acef-dark transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16"></path>
-                                </svg>
-                            </button>
-                        </div>
+                            class="text-[10px] font-bold text-gray-300 uppercase tracking-widest whitespace-nowrap"><span x-text="filteredItems.length"></span> Results</span>
                     </div>
                 </div>
             </div>
@@ -130,56 +123,47 @@
 
         <!-- Media Gallery Grid -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
-                @php
-                    $items = __('pages.gallery.items');
-                    $media_data = [
-                        ['duration' => '2:14', 'image' => '/project_tree_planting_1766827726209.png', 'is_video' => true],
-                        ['duration' => null, 'image' => '/uploaded_image_1766827444492.png', 'is_video' => false],
-                        ['duration' => null, 'image' => '/project_solar_panels_1766827705821.png', 'is_video' => false],
-                        ['duration' => '4:30', 'image' => '/project_mangroves_1766827746442.png', 'is_video' => true],
-                        ['duration' => null, 'image' => '/uploaded_image_1766828557603.png', 'is_video' => false],
-                        ['duration' => null, 'image' => '/map_africa_impact_1766827796711.png', 'is_video' => false]
-                    ];
-                @endphp
+             <!-- Featured Video Section -->
+             @if(isset($featuredVideo) && $featuredVideo->video_url)
+             <div class="mb-20">
+                 <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-video group max-w-4xl mx-auto">
+                     @php
+                         $videoUrl = $featuredVideo->video_url;
+                         $embedUrl = $videoUrl;
+                         if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $videoUrl, $matches)) {
+                             $videoId = $matches[1];
+                             $embedUrl = "https://www.youtube.com/embed/{$videoId}?autoplay=0&rel=0&modestbranding=1";
+                         }
+                     @endphp
+                     <iframe 
+                         class="w-full h-full object-cover"
+                         src="{{ $embedUrl }}" 
+                         title="{{ $featuredVideo->title }}" 
+                         frameborder="0" 
+                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                         allowfullscreen>
+                     </iframe>
+                     <div class="absolute bottom-8 left-8 text-white pointer-events-none bg-black/50 p-4 rounded-xl backdrop-blur-sm">
+                         <span class="bg-acef-green px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 inline-block text-acef-dark">Featured Video</span>
+                         <h3 class="text-2xl font-bold">{{ $featuredVideo->title }}</h3>
+                     </div>
+                 </div>
+             </div>
+             @endif
 
-                @foreach($items as $index => $item)
-                    @php
-                        $media = $media_data[$index] ?? ['duration' => null, 'image' => '', 'is_video' => false];
-                    @endphp
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+                <template x-for="item in filteredItems" :key="item.id">
                     <div class="group flex flex-col space-y-6 cursor-pointer">
                         <div
                             class="relative aspect-[4/5] rounded-[40px] overflow-hidden bg-gray-100 shadow-sm border border-gray-50">
-                            <img src="{{ $media['image'] }}" alt="{{ $item['title'] }}"
+                            <img :src="'/storage/' + item.image" :alt="item.title"
                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
 
                             <!-- Badges -->
                             <div class="absolute top-6 left-6 flex space-x-2">
                                 <span
-                                    class="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest text-acef-dark">{{ $item['category'] }}</span>
+                                    class="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest text-acef-dark" x-text="item.category"></span>
                             </div>
-
-                            @if($media['is_video'])
-                                <div class="absolute top-6 right-6">
-                                    <div
-                                        class="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl text-[9px] font-black text-white flex items-center space-x-2">
-                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M7 6.75V17.25L17.5 12L7 6.75Z"></path>
-                                        </svg>
-                                        <span>{{ $media['duration'] }}</span>
-                                    </div>
-                                </div>
-                                <!-- Centered Play Button -->
-                                <div
-                                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <div
-                                        class="w-16 h-16 bg-acef-green text-acef-dark rounded-full flex items-center justify-center shadow-2xl scale-75 group-hover:scale-100 transition-transform">
-                                        <svg class="w-8 h-8 translate-x-1" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M7 6.75V17.25L17.5 12L7 6.75Z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            @endif
 
                             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                         </div>
@@ -187,10 +171,10 @@
                         <div class="space-y-4 px-2">
                             <div class="space-y-1">
                                 <span
-                                    class="text-acef-green font-bold text-[10px] uppercase tracking-widest">{{ $item['type'] }}</span>
+                                    class="text-acef-green font-bold text-[10px] uppercase tracking-widest" x-text="item.activity_type"></span>
                                 <h3
-                                    class="text-xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors">
-                                    {{ $item['title'] }}</h3>
+                                    class="text-xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors" x-text="item.title">
+                                    </h3>
                             </div>
                             <div
                                 class="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-gray-300">
@@ -203,30 +187,64 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
-                                    <span>{{ $item['location'] }}</span>
+                                    <span x-text="item.location || 'Unknown'"></span>
                                 </div>
-                                {{-- Year is static for now, can be added to translation if needed --}}
-                                <span>2023</span>
                             </div>
                         </div>
                     </div>
-                @endforeach
+                </template>
+                
+                <div x-show="filteredItems.length === 0" class="col-span-full text-center py-20 text-gray-400">
+                    <p class="text-xl font-light italic">No gallery items found matching your filters.</p>
+                    <button @click="resetFilters()" class="text-acef-green font-bold mt-4 hover:underline">Clear Filters</button>
+                </div>
             </div>
 
             <!-- Footer / Load More -->
-            <div class="pt-24 flex flex-col items-center space-y-10">
-                <button
-                    class="bg-white border-2 border-gray-100 text-acef-dark font-black px-12 py-5 rounded-2xl hover:border-acef-green hover:bg-acef-green/5 transition-all text-sm flex items-center space-x-3 group">
-                    <span>{{ __('pages.gallery.load_more') }}</span>
-                    <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
+            <div class="pt-24 flex flex-col items-center space-y-10" x-show="filteredItems.length > 0">
                 <p
                     class="text-[10px] font-bold text-gray-300 uppercase tracking-widest leading-loose italic max-w-sm text-center">
                     {!! __('pages.gallery.note', ['programmes_url' => route('programmes'), 'projects_url' => route('projects')]) !!}
                 </p>
+            </div>
+        </section>
+
+        <!-- YouTube Channel Section -->
+        <section class="py-24 bg-acef-dark relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+                    <div class="space-y-4">
+                        <p class="text-acef-green font-bold tracking-widest uppercase text-sm">Media Hub</p>
+                        <h2 class="text-5xl font-black text-white tracking-tighter">YouTube Channel</h2>
+                        <p class="text-white/60 font-light italic">Watch our latest stories of impact from the field.</p>
+                    </div>
+                    <a href="https://youtube.com/@acefngo" target="_blank" class="bg-red-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-red-700 transition-all flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        Subscribe to Channel
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @php
+                        $youtubeVideos = [
+                            ['id' => 'M_Fx1EhJcA4', 'title' => 'The Great Green Wall'],
+                            ['id' => 'dQw4w9WgXcQ', 'title' => 'Community Impact Story'],
+                            ['id' => 'aqz-KE-bpKQ', 'title' => 'Ocean Conservation']
+                        ];
+                    @endphp
+                    @foreach($youtubeVideos as $video)
+                        <div class="group relative rounded-2xl overflow-hidden aspect-video border border-white/10 bg-black/40 shadow-2xl">
+                            <iframe 
+                                class="w-full h-full"
+                                src="https://www.youtube.com/embed/{{ $video['id'] }}?rel=0&modestbranding=1" 
+                                title="{{ $video['title'] }}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </section>
     </main>

@@ -16,13 +16,25 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 
-<body class="antialiased font-sans bg-white dark:bg-gray-950 transition-colors duration-300">
-    @include('components.header')
+<body class="antialiased font-sans bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
+@include('components.header')
 
-    <!-- Hero Section -->
-    <div class="relative h-[500px] md:h-[600px] flex items-end justify-center overflow-hidden">
+    @php
+        $videoEmbedUrl = null;
+        if($project->video_url) {
+            if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $project->video_url, $match)) {
+                $videoEmbedUrl = "https://www.youtube.com/embed/" . $match[1] . "?autoplay=1";
+            } elseif (preg_match('/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/', $project->video_url, $match)) {
+                $videoEmbedUrl = "https://player.vimeo.com/video/" . $match[1] . "?autoplay=1";
+            }
+        }
+    @endphp
+
+    <!-- High-Impact Hero Section -->
+    <div class="relative min-h-[500px] md:min-h-[600px] flex items-end justify-center overflow-hidden">
         <div class="absolute inset-0">
             @if($project->image)
                 <img src="{{ Str::startsWith($project->image, 'http') ? $project->image : Storage::url($project->image) }}" alt="{{ $project->title }}" class="w-full h-full object-cover">
@@ -32,9 +44,9 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
         </div>
         
-        <div class="relative max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-16 z-10">
+        <div class="relative max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-16 z-10 text-center md:text-left">
             <!-- Breadcrumb -->
-            <nav class="flex text-sm text-gray-300 mb-6">
+            <nav class="flex text-sm text-gray-300 mb-6 justify-center md:justify-start">
                 <a href="{{ route('home') }}" class="hover:text-white transition-colors">Home</a>
                 <span class="mx-2">/</span>
                 <a href="{{ route('projects') }}" class="hover:text-white transition-colors">Projects</a>
@@ -42,213 +54,340 @@
                 <span class="text-white truncate">{{ $project->title }}</span>
             </nav>
 
-            <div class="flex flex-wrap items-center gap-3 mb-4">
-                <span class="inline-block py-1 px-3 rounded-lg bg-acef-green text-acef-dark font-bold tracking-wide uppercase text-xs">
-                    {{ ucfirst($project->status) }} Project
+            <!-- Project Meta Tags -->
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
+                <span class="inline-flex items-center py-1 px-3 rounded-full bg-acef-green text-white font-bold tracking-wide uppercase text-[10px]">
+                    {{ ucfirst($project->status) }}
                 </span>
-                @if($project->programme)
-                <a href="{{ route('programmes.show', $project->programme) }}" class="inline-block py-1 px-3 rounded-lg bg-white/10 backdrop-blur-md text-white border border-white/20 text-xs font-bold uppercase tracking-wider hover:bg-white/20 transition-all">
-                    {{ $project->programme->title }}
+                <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 text-[10px] font-bold uppercase">
+                    <svg class="w-3 h-3 text-acef-green" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                    @php
+                        $count = count($project->country_names);
+                        $locationDisplay = $count > 1 ? $count . ' Countries' : ($project->country_names[0] ?? 'Global');
+                    @endphp
+                    {{ $locationDisplay }}
+                </span>
+            </div>
+            
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight leading-tight max-w-4xl drop-shadow-xl">
+                {{ $project->title }}
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-200 max-w-2xl mb-10 leading-relaxed font-light">
+                {{ Str::limit(strip_tags($project->description), 180) }}
+            </p>
+
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                <a href="{{ route('donate') }}" class="px-8 py-3 bg-white hover:bg-gray-100 text-gray-900 font-bold rounded-lg transition-all shadow-sm flex items-center gap-3">
+                    Support this Project
                 </a>
+                @if($project->video_url)
+                <button @click="document.getElementById('project-action').scrollIntoView({behavior: 'smooth'})" class="px-8 py-3 border border-white text-white hover:bg-white hover:text-gray-900 font-bold rounded-lg transition-all flex items-center gap-3">
+                    Watch Video
+                </button>
                 @endif
             </div>
-            
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight leading-tight max-w-4xl">{{ $project->title }}</h1>
-            
-            <div class="flex flex-wrap items-center gap-6">
-                 <div class="flex items-center text-white/80 font-medium">
-                    <svg class="w-5 h-5 mr-2 text-acef-green" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
-                    {{ is_array($project->country) ? implode(', ', $project->country) : $project->country }}
-                 </div>
-                 <div class="flex items-center text-white/80 font-medium">
-                    <svg class="w-5 h-5 mr-2 text-acef-green" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
-                    {{ $project->category }}
-                 </div>
+        </div>
+    </div>
+
+    <!-- Horizontal Stats Bar -->
+    <div class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 relative z-20 shadow-sm py-6 overflow-x-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between min-w-[600px] md:min-w-0 divide-x divide-gray-100 dark:divide-gray-700">
+                <div class="flex items-center gap-4 flex-1">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Active Program</span>
+                        <span class="block text-xl font-black text-gray-900 dark:text-white">{{ $project->programme->title ?? 'General Initiative' }}</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 flex-1 pl-8">
+                    <div class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Implementation</span>
+                        <span class="block text-xl font-black text-gray-900 dark:text-white">{{ $project->start_date?->format('Y') ?? '2024' }}</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 flex-1 pl-8">
+                    <div class="w-12 h-12 rounded-lg bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Budget</span>
+                        <span class="block text-xl font-black text-gray-900 dark:text-white">${{ number_format($project->goal_amount) }}</span>
+                    </div>
+                </div>
+
+                @if($project->partners->count() > 0)
+                <div class="flex items-center gap-4 flex-1 pl-8">
+                    <div class="flex -space-x-3 overflow-hidden">
+                        @foreach($project->partners->take(3) as $partner)
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-gray-50 dark:border-gray-800 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
+                                @if($partner->logo)
+                                    <img src="{{ Storage::url($partner->logo) }}" class="w-full h-full object-contain p-1.5" title="{{ $partner->name }}">
+                                @else
+                                    <span class="text-[10px] font-black text-emerald-600 uppercase">{{ substr($partner->name, 0, 1) }}</span>
+                                @endif
+                            </div>
+                        @endforeach
+                        @if($project->partners->count() > 3)
+                            <div class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-emerald-500 text-white flex items-center justify-center text-[8px] font-black shadow-sm">
+                                +{{ $project->partners->count() - 3 }}
+                            </div>
+                        @endif
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Project Partners</span>
+                        <span class="block text-xl font-black text-gray-900 dark:text-white">
+                            {{ $project->partners->count() . ' Partners' }}
+                        </span>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>
 
-    <!-- Stats & Progress Bar -->
-    <div class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 relative z-20 shadow-sm">
+    <!-- Main Content Section -->
+    <div class="py-20 md:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-8 py-8">
-                <div class="w-full md:w-1/2 space-y-4">
-                    <div class="flex justify-between items-end mb-2">
-                        <div>
-                            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Fundraising Progress</span>
-                            <div class="text-3xl font-black text-gray-900 dark:text-white">${{ number_format($project->raised_amount) }} <span class="text-lg text-gray-400 font-normal">/ ${{ number_format($project->goal_amount) }}</span></div>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-2xl font-black text-acef-green">{{ $project->progress_percent }}%</span>
-                        </div>
-                    </div>
-                    <div class="h-3 w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-acef-green rounded-full transition-all duration-1000 shadow-lg shadow-emerald-500/20" style="width: {{ $project->progress_percent }}%"></div>
-                    </div>
-                </div>
-                <div class="w-full md:w-auto flex gap-4">
-                    <a href="{{ route('donate') }}" class="px-8 py-4 bg-acef-green hover:bg-emerald-500 text-acef-dark font-black rounded-lg transition-all transform hover:-translate-y-1 shadow-xl shadow-emerald-500/20 flex items-center gap-2">
-                        Support this Project
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
                 
-                <!-- Left Column (Content) -->
-                <div class="lg:col-span-8 space-y-12">
+                <!-- Left: Description & Project in Action -->
+                <div class="lg:col-span-8 space-y-24">
                     
-                    <!-- Description -->
-                    <section class="bg-white dark:bg-gray-800 rounded-lg p-10 border border-gray-100 dark:border-gray-700 shadow-sm">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8 border-l-4 border-acef-green pl-4">Project Description</h2>
-                        <div class="prose prose-lg dark:prose-invert prose-emerald max-w-none leading-relaxed">
+                    <!-- About the Project -->
+                    <section class="bg-white dark:bg-gray-800 p-8 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">About the Project</h2>
+                        <div class="prose prose-lg dark:prose-invert prose-emerald max-w-none leading-relaxed text-gray-600 dark:text-gray-400 font-normal whitespace-pre-wrap">
                             {!! $project->description !!}
                         </div>
                     </section>
 
-                    <!-- Gallery Section -->
-                    @if(is_array($project->gallery) && count($project->gallery) > 0)
-                    <section>
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Project Gallery</h2>
-                        <!-- Swiper -->
-                        <div class="swiper projectGallery rounded-lg overflow-hidden shadow-2xl bg-black">
-                            <div class="swiper-wrapper">
-                                @foreach($project->gallery as $image)
-                                <div class="swiper-slide aspect-video relative">
-                                    <img src="{{ Str::startsWith($image, 'http') ? $image : Storage::url($image) }}" class="w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
-                                        <p class="text-white font-medium italic opacity-80">Documentation from the field</p>
+                    <!-- Project in Action (Video) -->
+                    @if($project->video_url)
+                    <section id="project-action" x-data="{ playing: false }">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Project in Action</h2>
+                        <div class="relative aspect-video rounded-lg overflow-hidden bg-black shadow-lg">
+                            <template x-if="!playing">
+                                <div class="w-full h-full relative group cursor-pointer" @click="playing = true">
+                                    @if($project->image)
+                                        <img src="{{ Str::startsWith($project->image, 'http') ? $project->image : Storage::url($project->image) }}" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
+                                    @endif
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="w-20 h-20 bg-acef-green text-acef-dark rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform cursor-pointer z-10">
+                                            <svg class="w-8 h-8 translate-x-1" fill="currentColor" viewBox="0 0 20 20"><path d="M4.516 7.548c0-.923.651-1.191 1.391-.838l8.051 3.843c.74.353.74.921 0 1.274l-8.051 3.843c-.74.353-1.391.085-1.391-.838V7.548z"></path></svg>
+                                        </div>
+                                    </div>
+                                    <div class="absolute bottom-6 left-6">
+                                        <span class="bg-acef-green px-3 py-1 rounded-md text-[10px] font-bold uppercase text-white mb-2 inline-block">Project Video</span>
+                                        <h3 class="text-xl font-bold text-white">{{ $project->title }}</h3>
                                     </div>
                                 </div>
-                                @endforeach
-                            </div>
-                            <div class="swiper-pagination"></div>
-                            <div class="swiper-button-next text-white hover:text-acef-green"></div>
-                            <div class="swiper-button-prev text-white hover:text-acef-green"></div>
+                            </template>
+                            <template x-if="playing">
+                                <iframe class="w-full h-full" src="{{ $videoEmbedUrl }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </template>
                         </div>
                     </section>
                     @endif
 
-                    <!-- Testimonials Slider (Voices of the people) -->
-                    <section class="bg-acef-dark p-12 rounded-lg relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-8 opacity-10">
-                            <svg class="w-32 h-32 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.896 14.321 15.925 14.932 15.087C15.541 14.249 16.291 13.674 17.182 13.363C17.766 14.032 18.526 14.368 19.462 14.368C20.443 14.368 21.282 14.032 21.981 13.363C22.68 12.671 23.03 11.833 23.03 10.849C23.03 9.842 22.68 9.004 21.981 8.335C21.282 7.643 20.443 7.297 19.462 7.297C17.653 7.297 16.208 7.915 15.127 9.151C14.045 10.387 13.522 12.569 13.559 15.698L13.5 21L14.017 21ZM5.517 21L5.517 18C5.517 16.896 5.821 15.925 6.432 15.087C7.041 14.249 7.791 13.674 8.682 13.363C9.266 14.032 10.026 14.368 10.962 14.368C11.943 14.368 12.782 14.032 13.481 13.363C14.18 12.671 14.53 11.833 14.53 10.849C14.53 9.842 14.18 9.004 13.481 8.335C12.782 7.643 11.943 7.297 10.962 7.297C9.153 7.297 7.708 7.915 6.627 9.151C5.545 10.387 5.022 12.569 5.059 15.698L5 21L5.517 21Z"/></svg>
+                    <!-- Project Gallery -->
+                    @if(is_array($project->gallery) && count($project->gallery) > 0)
+                    <section>
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Project Gallery</h2>
+                             <p class="text-xs font-bold text-acef-green uppercase tracking-widest">{{ count($project->gallery) }} Photos</p>
                         </div>
-                        <h2 class="text-2xl font-bold text-white mb-8 border-l-4 border-acef-green pl-4 uppercase tracking-widest text-sm">Voices of the people</h2>
-                        
-                        <div class="swiper testimonialSlider">
-                            <div class="swiper-wrapper">
-                                @forelse($project->voices ?? [] as $voice)
-                                <div class="swiper-slide">
-                                    <p class="text-xl md:text-2xl text-white/90 italic leading-relaxed mb-8">"{{ $voice['quote'] ?? '' }}"</p>
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 bg-acef-green/20 rounded-full flex items-center justify-center text-acef-green font-bold">
-                                            {{ substr($voice['name'] ?? 'C', 0, 1) }}
-                                        </div>
-                                        <div>
-                                            <div class="text-white font-bold">{{ $voice['name'] ?? 'Community Member' }}</div>
-                                            <div class="text-acef-green text-xs font-bold uppercase tracking-widest">{{ $voice['role'] ?? 'Beneficiary' }}</div>
-                                        </div>
-                                    </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @foreach(array_slice($project->gallery, 0, 6) as $index => $img)
+                            <div class="relative group overflow-hidden rounded-lg aspect-[4/3] shadow-sm cursor-pointer {{ $index === 0 ? 'md:col-span-2 md:row-span-2 aspect-auto' : '' }}">
+                                <img src="{{ Str::startsWith($img, 'http') ? $img : Storage::url($img) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
                                 </div>
-                                @empty
-                                <div class="swiper-slide pb-12">
-                                    <p class="text-xl text-white/50 italic">Impact stories are being gathered from the field.</p>
-                                </div>
-                                @endforelse
-                            </div>
-                        </div>
-                    </section>
-                </div>
-
-                <!-- Right Column (Sidebar) -->
-                <div class="lg:col-span-4 space-y-8">
-                    
-                    <!-- Objectives -->
-                    @if(is_array($project->objectives) && count($project->objectives) > 0)
-                    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
-                        <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-6">Key Objectives</h3>
-                        <div class="space-y-6">
-                            @foreach($project->objectives as $objective)
-                            <div class="flex gap-4 group">
-                                <div class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-acef-green flex-shrink-0 group-hover:scale-110 transition-transform">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
-                                </div>
-                                <p class="text-sm font-medium text-gray-600 dark:text-gray-300 leading-snug">{{ $objective }}</p>
                             </div>
                             @endforeach
                         </div>
-                    </div>
+                    </section>
                     @endif
 
-                    <!-- Supporting Organizations -->
-                    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
-                        <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-6">Supporting Organizations</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            @forelse($project->partners as $partner)
-                            <div class="aspect-square bg-gray-50 dark:bg-gray-900 rounded-lg p-4 flex items-center justify-center group hover:bg-white dark:hover:bg-gray-800 transition-all border border-gray-100 dark:border-gray-700">
-                                <img src="{{ $partner->logo ? Storage::url($partner->logo) : '/placeholder.png' }}" alt="{{ $partner->name }}" class="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transition-all">
+                    <!-- Voices from the Field -->
+                    @if(is_array($project->voices) && count($project->voices) > 0)
+                    <section>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Voices from the Field</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            @foreach($project->voices as $voice)
+                            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm relative text-left">
+                                <div class="flex gap-1 text-acef-green mb-4 opacity-50">
+                                     @for($i=0; $i<5; $i++) <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg> @endfor
+                                </div>
+                                <p class="text-lg text-gray-700 dark:text-gray-300 font-medium italic mb-6 leading-relaxed">"{{ $voice['quote'] ?? '' }}"</p>
+                                <div class="flex items-center gap-4 pt-6 border-t border-gray-50 dark:border-gray-700 font-sans">
+                                    <div class="w-10 h-10 rounded-full bg-acef-green flex items-center justify-center font-bold text-white text-lg">
+                                        {{ substr($voice['name'] ?? 'V', 0, 1) }}
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 dark:text-white">{{ $voice['name'] ?? 'Beneficiary' }}</h4>
+                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ $voice['role'] ?? 'Participant' }}</p>
+                                    </div>
+                                </div>
                             </div>
-                            @empty
-                            <div class="col-span-2 py-4 text-center">
-                                <p class="text-xs text-gray-400 italic">Official partners being finalised.</p>
-                            </div>
-                            @endforelse
+                            @endforeach
                         </div>
-                    </div>
+                    </section>
+                    @endif
+                </div>
 
-                    <!-- Share -->
-                    <div class="bg-emerald-950 p-8 rounded-lg overflow-hidden relative">
-                         <div class="relative z-10 space-y-4">
-                             <h4 class="text-white font-black uppercase tracking-widest text-xs">Share this story</h4>
-                             <p class="text-white/60 text-xs font-light tracking-wide italic leading-relaxed">Multiply our impact by sharing this initiative with your network.</p>
-                             <div class="flex gap-3">
-                                <button class="w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></button>
-                                <button class="w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></button>
-                                <button class="w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></button>
-                             </div>
-                         </div>
-                         <div class="absolute -bottom-4 -right-4 opacity-10">
-                            <svg class="w-32 h-32 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-                         </div>
-                    </div>
+                <!-- Right: Funding Status & Key Objectives -->
+                <div class="lg:col-span-4 space-y-8">
+                    
+                    <!-- Funding Status Card -->
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
+                        <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-50 dark:border-gray-700 pb-3">Funding Progress</h3>
+                        <div class="flex items-baseline gap-2 mb-4">
+                            <span class="text-3xl font-black text-gray-900 dark:text-white">${{ number_format($project->raised_amount) }}</span>
+                            <span class="text-gray-400 font-medium text-sm">of ${{ number_format($project->goal_amount) }}</span>
+                        </div>
 
+                        <div class="h-2 w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden mb-8">
+                            <div class="h-full bg-acef-green rounded-full shadow-sm" style="width: {{ $project->progress_percent }}%"></div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="text-left">
+                                <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Target Area</span>
+                                <span class="block text-sm font-bold text-gray-900 dark:text-white">{{ $project->location ?? 'Regional' }}</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Duration</span>
+                                <span class="block text-sm font-bold text-gray-900 dark:text-white">
+                                    @if($project->end_date)
+                                        {{ $project->start_date->diffInMonths($project->end_date) }} Months
+                                    @else
+                                        Ongoing
+                                    @endif
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 text-center">
+                            <a href="{{ route('donate') }}" class="block w-full py-4 bg-acef-green hover:bg-emerald-600 text-white text-center font-bold rounded-lg transition-all shadow-sm uppercase tracking-widest text-xs">
+                                Donate Now
+                            </a>
+                            <button class="w-full py-4 bg-transparent border border-gray-100 dark:border-gray-700 text-gray-500 dark:text-gray-400 font-bold rounded-lg hover:text-gray-900 dark:hover:text-white transition-all text-xs uppercase tracking-widest">
+                                Share Project
+                            </button>
+                        </div>
+
+                        @if(is_array($project->objectives) && count(array_filter($project->objectives)) > 0)
+                        <div class="mt-10 pt-10 border-t border-gray-50 dark:border-gray-700 text-left">
+                            <div class="flex items-center gap-2 mb-6">
+                                <div class="w-1.5 h-6 bg-acef-green rounded-full"></div>
+                                <h3 class="text-[10px] font-black text-gray-400 dark:text-white tracking-widest uppercase">Key Objectives</h3>
+                            </div>
+                            <ul class="space-y-4">
+                                @foreach(array_filter($project->objectives) as $objective)
+                                <li class="flex gap-3 group">
+                                    <div class="w-5 h-5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </div>
+                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-400 leading-tight">{{ $objective }}</p>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+
+                        <!-- Partners List Inside Sidebar -->
+                        @if($project->partners->isNotEmpty())
+                        <div class="mt-10 pt-10 border-t border-gray-50 dark:border-gray-700 text-left">
+                            <div class="flex items-center gap-2 mb-6">
+                                <div class="w-1.5 h-6 bg-blue-500 rounded-full"></div>
+                                <h3 class="text-[10px] font-black text-gray-400 dark:text-white tracking-widest uppercase">Supporting Partners</h3>
+                            </div>
+                            <div class="space-y-4">
+                                @foreach($project->partners as $partner)
+                                    <div class="flex items-center gap-4 group cursor-default">
+                                        <div class="w-10 h-10 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-100 dark:border-gray-600 flex items-center justify-center p-1.5 flex-shrink-0 group-hover:border-emerald-500 transition-colors">
+                                            @if($partner->logo)
+                                                <img src="{{ Storage::url($partner->logo) }}" class="w-full h-full object-contain">
+                                            @else
+                                                <span class="text-xs font-black text-gray-400 uppercase tracking-tighter">{{ substr($partner->name, 0, 2) }}</span>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-black text-gray-900 dark:text-white leading-tight group-hover:text-emerald-500 transition-colors">{{ $partner->name }}</h4>
+                                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Project Partner</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Similar Projects -->
+    @php
+        $similarProjects = \App\Models\Project::where('category', $project->category)
+            ->where('id', '!=', $project->id)
+            ->where('status', '!=', 'draft')
+            ->take(3)
+            ->get();
+    @endphp
+
+    @if($similarProjects->isNotEmpty())
+    <div class="py-20 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-12 text-left">
+                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Similar Projects</h2>
+                 <div class="flex gap-2">
+                    <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-acef-dark hover:border-acef-dark transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-acef-dark hover:border-acef-dark transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                 </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                @foreach($similarProjects as $similar)
+                <a href="{{ route('projects.show', $similar->slug) }}" class="group block bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all">
+                    <div class="aspect-[16/10] overflow-hidden">
+                        @if($similar->image)
+                            <img src="{{ Storage::url($similar->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        @endif
+                    </div>
+                    <div class="p-6">
+                         <span class="text-[10px] font-bold text-acef-green uppercase tracking-widest mb-2 block">{{ $similar->category }}</span>
+                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 group-hover:text-acef-green transition-colors leading-tight">{{ $similar->title }}</h3>
+                         <div class="flex items-center gap-2 mb-6 text-left">
+                            <svg class="w-3.5 h-3.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                            <span class="text-xs font-bold text-gray-400">{{ $similar->location }}</span>
+                         </div>
+                         <div class="h-1.5 w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                             <div class="h-full bg-acef-green" style="width: {{ $similar->progress_percent }}%"></div>
+                         </div>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endif
+
     @include('components.footer')
-
-    <script>
-        const swiper = new Swiper('.projectGallery', {
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
-
-        const testimonialSwiper = new Swiper('.testimonialSlider', {
-            loop: true,
-            autoplay: {
-                delay: 8000,
-            },
-        });
-    </script>
 </body>
+
 </html>

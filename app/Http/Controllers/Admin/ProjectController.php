@@ -58,6 +58,11 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
+
+        // Convert Year to Date if needed
+        if ($request->filled('start_date') && preg_match('/^\d{4}$/', $request->start_date)) {
+            $request->merge(['start_date' => $request->start_date . '-01-01']);
+        }
         
         $rules = [
             'title' => 'required|string|max:255',
@@ -70,18 +75,34 @@ class ProjectController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
+            'programme_id' => 'nullable|exists:programs,id',
+            'location' => 'nullable|string|max:255',
         ];
 
         if ($user->isAdmin()) {
             $rules['country'] = 'required|array';
-            $rules['status'] = 'required|in:ongoing,completed,starting';
+            $rules['status'] = 'required|in:ongoing,completed,starting,draft';
         }
+
+        $rules['objectives'] = 'nullable|array';
+        $rules['voices'] = 'nullable|array';
+        $rules['gallery'] = 'nullable|array';
+        $rules['video_url'] = 'nullable|url|max:255';
 
         $validated = $request->validate($rules);
 
         $validated['slug'] = Str::slug($validated['title']);
         $validated['is_featured'] = $request->boolean('is_featured');
-        $validated['is_active'] = $request->boolean('is_active', true);
+        
+        // Handle Draft vs Publish
+        if ($request->has('save_draft')) {
+            $validated['status'] = 'draft';
+            $validated['is_active'] = false;
+        } else {
+            // Default to starting/ongoing if publishing
+            $validated['status'] = $validated['status'] ?? 'starting';
+            $validated['is_active'] = true;
+        }
 
         // Enforce coordinator restrictions
         if ($user->isCoordinator()) {
@@ -94,6 +115,11 @@ class ProjectController extends Controller
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('projects', 'public');
+        } elseif ($request->filled('media_id')) {
+            $mediaItem = \App\Models\MediaItem::find($request->media_id);
+            if ($mediaItem) {
+                $validated['image'] = $mediaItem->path;
+            }
         }
 
         $project = Project::create($validated);
@@ -122,6 +148,11 @@ class ProjectController extends Controller
     {
         $user = auth()->user();
 
+        // Convert Year to Date if needed
+        if ($request->filled('start_date') && preg_match('/^\d{4}$/', $request->start_date)) {
+            $request->merge(['start_date' => $request->start_date . '-01-01']);
+        }
+
         // Scope check for coordinator
         if ($user->isCoordinator() && !in_array($user->country, (array)$project->country)) {
             abort(403);
@@ -138,23 +169,47 @@ class ProjectController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
+            'programme_id' => 'nullable|exists:programs,id',
         ];
 
         if ($user->isAdmin()) {
             $rules['country'] = 'required|array';
-            $rules['status'] = 'required|in:ongoing,completed,starting';
+            $rules['status'] = 'required|in:ongoing,completed,starting,draft';
         }
+
+        $rules['objectives'] = 'nullable|array';
+        $rules['voices'] = 'nullable|array';
+        $rules['gallery'] = 'nullable|array';
+        $rules['video_url'] = 'nullable|url|max:255';
 
         $validated = $request->validate($rules);
 
+        // Handle Draft vs Publish from button clicks
+        if ($request->has('save_draft')) {
+            $validated['status'] = 'draft';
+            $validated['is_active'] = false;
+        } elseif ($request->has('publish')) {
+             // If publishing, default to 'ongoing' if not set, or keep selected status
+            $validated['status'] = $validated['status'] === 'draft' ? 'ongoing' : $validated['status'];
+            $validated['is_active'] = true;
+        }
+
         $validated['is_featured'] = $request->boolean('is_featured');
-        $validated['is_active'] = $request->boolean('is_active');
+        // fallback active check if not set by button logic
+        if (!isset($validated['is_active'])) {
+             $validated['is_active'] = $request->boolean('is_active');
+        }
 
         if ($request->hasFile('image')) {
-            if ($project->image) {
+            if ($project->image && !Str::startsWith($project->image, 'media/')) {
                 Storage::disk('public')->delete($project->image);
             }
             $validated['image'] = $request->file('image')->store('projects', 'public');
+        } elseif ($request->filled('media_id')) {
+            $mediaItem = \App\Models\MediaItem::find($request->media_id);
+            if ($mediaItem) {
+                $validated['image'] = $mediaItem->path;
+            }
         }
 
         $project->update($validated);
@@ -164,11 +219,6 @@ class ProjectController extends Controller
             $project->partners()->sync($request->partners);
         } else {
              $project->partners()->detach();
-        }
-
-        // Sync Partners if provided
-        if ($request->has('partners')) {
-            $project->partners()->sync($request->partners);
         }
 
         return redirect()->route('admin.projects.index')

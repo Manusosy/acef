@@ -59,11 +59,18 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
         $user = $request->user();
+
+        // Reassign articles to the next available admin
+        $nextAdmin = \App\Models\User::whereHas('role', function ($q) {
+            $q->whereIn('slug', ['admin', 'administrator']);
+        })->where('id', '!=', $user->id)->first();
+
+        if ($nextAdmin) {
+            \App\Models\Article::where('author_id', $user->id)->update(['author_id' => $nextAdmin->id]);
+        } else {
+            \App\Models\Article::where('author_id', $user->id)->update(['author_id' => null]);
+        }
 
         Auth::logout();
 

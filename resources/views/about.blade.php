@@ -206,28 +206,34 @@
                     {{ __('pages.about.journey_heading') }}</h2>
 
                 <div class="relative">
-                    <!-- Vertical line -->
-                    <div class="absolute left-1/2 -translate-x-1/2 h-full w-0.5 bg-acef-gray"></div>
+                    <!-- Vertical line with progress -->
+                    <div class="absolute left-1/2 -translate-x-1/2 h-full w-1 bg-gray-100 rounded-full overflow-hidden">
+                        <div id="journey-progress" class="w-full bg-acef-green origin-top h-0 transition-all duration-300"></div>
+                    </div>
 
                     <div class="space-y-24">
                         @foreach(__('pages.about.journey') as $index => $step)
-                            <div class="relative flex items-center justify-between">
+                            <div class="relative flex items-center justify-between" x-data="{ shown: false }" x-intersect.threshold.0.3="shown = true">
                                 @if($loop->odd)
-                                    <div class="w-5/12 text-right pr-12">
+                                    <div class="w-5/12 text-right pr-12 transition-all duration-1000 ease-out transform"
+                                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'">
                                         <span class="text-acef-green font-black text-xl mb-2 block">{{ $step['year'] }}</span>
                                         <h4 class="text-xl font-bold text-acef-dark mb-2">{{ $step['title'] }}</h4>
                                         <p class="text-gray-500 text-sm">{{ $step['desc'] }}</p>
                                     </div>
                                     <div
-                                        class="absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-acef-green border-4 border-white shadow-lg z-10">
+                                        class="absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-acef-green border-4 border-white shadow-lg z-10 transition-all duration-700 delay-300"
+                                        :class="shown ? 'scale-100 opacity-100' : 'scale-0 opacity-0'">
                                     </div>
                                     <div class="w-5/12"></div>
                                 @else
                                     <div class="w-5/12"></div>
                                     <div
-                                        class="absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-acef-green border-4 border-white shadow-lg z-10">
+                                        class="absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-acef-green border-4 border-white shadow-lg z-10 transition-all duration-700 delay-300"
+                                        :class="shown ? 'scale-100 opacity-100' : 'scale-0 opacity-0'">
                                     </div>
-                                    <div class="w-5/12 pl-12">
+                                    <div class="w-5/12 pl-12 transition-all duration-1000 ease-out transform"
+                                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'">
                                         <span class="text-acef-green font-black text-xl mb-2 block">{{ $step['year'] }}</span>
                                         <h4 class="text-xl font-bold text-acef-dark mb-2">{{ $step['title'] }}</h4>
                                         <p class="text-gray-500 text-sm">{{ $step['desc'] }}</p>
@@ -249,27 +255,35 @@
                             {{ __('pages.about.team_heading') }}</h2>
                         <p class="text-gray-500 font-light italic">{{ __('pages.about.team_subheading') }}</p>
                     </div>
+                    <a href="{{ route('team') }}" class="text-acef-green font-bold flex items-center group">
+                        {{ __('buttons.view_all_team') }} <svg
+                            class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-                    @php
-                        $team_images = [
-                            '/mission_vision_africa_1766827653058.png',
-                            '/project_solar_panels_1766827705821.png',
-                            '/project_tree_planting_1766827726209.png',
-                            '/project_mangroves_1766827746442.png'
-                        ];
-                    @endphp
-                    @foreach(__('pages.about.team') as $key => $member)
+                    @foreach($leadership as $member)
                         <div class="group">
                             <div
-                                class="relative rounded-2xl overflow-hidden mb-6 aspect-square grayscale group-hover:grayscale-0 transition-all duration-500 shadow-xl">
-                                <img src="{{ $team_images[$key] ?? '/mission_vision_africa_1766827653058.png' }}"
-                                    alt="{{ $member['name'] }}"
-                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                class="relative rounded-2xl overflow-hidden mb-6 aspect-square grayscale group-hover:grayscale-0 transition-all duration-500 shadow-xl bg-gray-100">
+                                @if($member->image)
+                                    <img src="{{ Storage::url($member->image) }}"
+                                        alt="{{ $member->name }}"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-gray-300">
+                                        <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                    </div>
+                                @endif
                             </div>
-                            <h4 class="text-xl font-bold text-acef-dark">{{ $member['name'] }}</h4>
-                            <p class="text-acef-green font-medium text-sm">{{ $member['role'] }}</p>
+                            <h4 class="text-xl font-bold text-acef-dark">{{ $member->name }}</h4>
+                            <p class="text-acef-green font-medium text-sm">{{ $member->role }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -278,6 +292,30 @@
     </main>
 
     @include('components.footer')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const journeySection = document.querySelector('.relative.flex.items-center.justify-between').closest('section');
+            const progressLine = document.getElementById('journey-progress');
+            
+            if (journeySection && progressLine) {
+                const updateProgress = () => {
+                    const rect = journeySection.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    
+                    if (rect.top < windowHeight && rect.bottom > 0) {
+                        const totalHeight = rect.height;
+                        const visibleTop = Math.max(0, -rect.top + windowHeight / 2);
+                        const progress = Math.min(100, Math.max(0, (visibleTop / totalHeight) * 100));
+                        progressLine.style.height = `${progress}%`;
+                    }
+                };
+
+                window.addEventListener('scroll', updateProgress);
+                updateProgress();
+            }
+        });
+    </script>
 </body>
 
 </html>

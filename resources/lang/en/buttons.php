@@ -11,4 +11,5 @@ return [
     'search_placeholder' => 'Search for programmes, projects, resources...',
     'close' => 'Close',
     'donate_now' => 'Donate Now',
+    'view_all_team' => 'View All Team Members',
 ];

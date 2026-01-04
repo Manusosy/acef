@@ -33,22 +33,12 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class, 'ends_with:acef-ngo.org'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role_id' => ['required', 'exists:roles,id'],
+        ], [
+            'email.ends_with' => 'Registration is restricted to official organization emails (@acef-ngo.org).',
         ]);
-
-        // Security check for Country Coordinator role
-        if ($request->role_id) {
-            $role = \App\Models\Role::find($request->role_id);
-            if ($role && ($role->slug === 'country_coordinator' || $role->slug === 'country-admin')) {
-                if (!str_ends_with($request->email, '@acef-ngo.org')) {
-                    throw \Illuminate\Validation\ValidationException::withMessages([
-                        'email' => 'Country Coordinators must use an official @acef-ngo.org email address.',
-                    ]);
-                }
-            }
-        }
 
         $user = User::create([
             'name' => $request->name,

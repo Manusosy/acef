@@ -61,6 +61,10 @@
                                         Open Media Library
                                     </div>
                                 </div>
+                                <button type="button" x-show="preview" @click.stop="preview = ''; path = ''; $refs.input.value = ''" 
+                                        class="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg shadow-sm hover:bg-red-600 transition-colors z-20" title="Remove Image">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
                             </div>
                         </div>
                         <input type="hidden" name="{{ $field }}" x-ref="input" value="{{ $settings[$field] ?? '' }}">
@@ -188,6 +192,10 @@
                                         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Select PDF</span>
                                     </div>
                                 </template>
+                                <button type="button" x-show="path" @click.stop="preview = ''; path = ''; $refs.input.value = ''" 
+                                        class="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg shadow-sm hover:bg-red-600 transition-colors z-20" title="Remove Document">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
                             </div>
                         </div>
                         <input type="hidden" name="{{ $field }}" x-ref="input" value="{{ $settings[$field] ?? '' }}">

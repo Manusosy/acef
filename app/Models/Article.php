@@ -47,7 +47,14 @@ class Article extends Model
 
     public function author()
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(User::class, 'author_id')->withDefault([
+            'name' => 'ACEF Editorial'
+        ]);
+    }
+
+    public function getAuthorNameAttribute()
+    {
+        return $this->author->name;
     }
 
     public function scopePublished($query)

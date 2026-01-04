@@ -8,17 +8,50 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        $featuredProjects = \App\Models\Project::where('is_active', true)
+            ->where('status', '!=', 'draft')
+            ->where('is_featured', true)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        if ($featuredProjects->isEmpty()) {
+            $featuredProjects = \App\Models\Project::where('is_active', true)
+                ->where('status', '!=', 'draft')
+                ->latest()
+                ->take(3)
+                ->get();
+        }
+
+        $latestNews = \App\Models\Article::with(['category', 'author'])
+            ->published()
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+
+        $partners = \App\Models\Partner::where('is_active', true)
+            ->where('show_on_homepage', true)
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('welcome', compact('featuredProjects', 'latestNews', 'partners'));
     }
 
     public function about()
     {
-        return view('about');
+        $leadership = \App\Models\TeamMember::where('is_active', true)
+            ->where('team_type', 'leadership')
+            ->orderBy('sort_order')
+            ->take(4)
+            ->get();
+        return view('about', compact('leadership'));
     }
 
     public function programmes()
     {
-        $programmes = \App\Models\Program::where('status', 'published')->get();
+        $programmes = \App\Models\Program::where('status', 'published')
+            ->withCount('projects')
+            ->get();
         $countries = config('acef.countries');
         return view('programmes', compact('programmes', 'countries'));
     }
@@ -48,14 +81,21 @@ class HomeController extends Controller
     public function projects()
     {
         $projects = \App\Models\Project::where('is_active', true)->where('status', '!=', 'draft')->get();
-        $countries = config('acef.countries');
+        $countries = $projects->flatMap(fn($p) => $p->country_names)->unique()->filter()->sort();
         return view('projects', compact('projects', 'countries'));
     }
 
     public function impact()
     {
         $settings = \App\Models\Setting::getGroup('general');
-        return view('impact', compact('settings'));
+        
+        $impactProjects = \App\Models\Project::where('is_active', true)
+            ->where('status', '!=', 'draft')
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('impact', compact('settings', 'impactProjects'));
     }
 
     public function resources()
@@ -142,7 +182,28 @@ class HomeController extends Controller
 
     public function gallery()
     {
-        return view('gallery');
+        $galleryItems = \App\Models\GalleryItem::where('is_active', true)
+            ->with('project.programme') // Optimize loading
+            ->orderBy('sort_order')
+            ->latest()
+            ->get();
+
+        // Extract unique filter values
+        $categories = $galleryItems->pluck('category')->unique()->values()->filter();
+        $activity_types = $galleryItems->pluck('activity_type')->unique()->values()->filter();
+        $locations = $galleryItems->pluck('location')->unique()->values()->filter();
+        
+        // Get programmes that have gallery items
+        $programmes = \App\Models\Program::whereHas('projects.galleryItems')->get();
+
+        // Try to find a featured project with a video for the "Featured Video" section
+        $featuredVideo = \App\Models\Project::where('is_active', true)
+            ->whereNotNull('video_url')
+            ->where('video_url', '!=', '')
+            ->latest()
+            ->first();
+
+        return view('gallery', compact('galleryItems', 'categories', 'activity_types', 'locations', 'programmes', 'featuredVideo'));
     }
 
     public function team()
