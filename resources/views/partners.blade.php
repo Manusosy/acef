@@ -13,19 +13,23 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        @php
+            $partnersPage = \App\Models\Page::where('slug', 'partners')->first();
+            $heroSlides = $partnersPage ? $partnersPage->activeHeroSlides()->with('media')->get() : collect();
+        @endphp
     </head>
     <body class="antialiased font-sans bg-white overflow-x-hidden">
         @include('components.header')
 
-        <!-- Partners Hero -->
-        <section class="pt-40 pb-24 bg-white text-center">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-                <h1 class="text-6xl md:text-8xl font-black text-acef-dark tracking-tighter leading-none">{{ __('pages.partners.hero_title') }}</h1>
-                <p class="text-gray-400 text-lg md:text-xl font-light italic leading-relaxed max-w-3xl mx-auto">
-                    {{ __('pages.partners.hero_desc') }}
-                </p>
-            </div>
-        </section>
+        <x-hero 
+            :page="$partnersPage"
+            :slides="$heroSlides"
+            breadcrumb="{{ __('navigation.partners') }}"
+            title="{{ __('pages.partners.hero_title') }}"
+            subtitle="{{ __('pages.partners.hero_desc') }}"
+            image-url="/mission_vision_africa_1766827653058.png"
+        />
 
         <main class="pb-24" x-data="{ 
             selectedPartner: null,
@@ -51,8 +55,8 @@
                 @if($strategicPartners->count() > 0 || $institutionalPartners->count() > 0)
                 <section class="space-y-16">
                     <div class="text-center space-y-4">
-                        <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">{{ __('pages.partners.strategic_title') }}</p>
-                        <h2 class="text-4xl font-black text-acef-dark tracking-tight leading-tight">{{ __('pages.partners.institutional_backing') }}</h2>
+                        <p class="text-acef-green font-bold text-xs uppercase tracking-widest">{{ __('pages.partners.strategic_title') }}</p>
+                        <h2 class="text-4xl font-bold text-acef-dark tracking-tight leading-tight">{{ __('pages.partners.institutional_backing') }}</h2>
                     </div>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 px-4 md:px-12">
                         @foreach($strategicPartners->concat($institutionalPartners) as $partner)
@@ -60,7 +64,7 @@
                             @if($partner->logo)
                                 <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->name }}" class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform">
                             @else
-                                <span class="text-gray-300 font-black text-xl group-hover:text-acef-dark transition-colors">{{ $partner->name }}</span>
+                                <span class="text-gray-300 font-bold text-xl group-hover:text-acef-dark transition-colors">{{ $partner->name }}</span>
                             @endif
                         </div>
                         @endforeach
@@ -72,8 +76,8 @@
                 @if($implementationPartners->count() > 0)
                 <section class="space-y-16 py-24 bg-gray-50/50 rounded-[60px] border border-gray-100">
                     <div class="text-center space-y-4">
-                        <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">{{ __('pages.partners.ground_operations') }}</p>
-                        <h2 class="text-4xl font-black text-acef-dark tracking-tight leading-tight">{{ __('pages.partners.regional_implementation') }}</h2>
+                        <p class="text-acef-green font-bold text-xs uppercase tracking-widest">{{ __('pages.partners.ground_operations') }}</p>
+                        <h2 class="text-4xl font-bold text-acef-dark tracking-tight leading-tight">{{ __('pages.partners.regional_implementation') }}</h2>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12">
                         @foreach($implementationPartners as $partner)
@@ -82,7 +86,7 @@
                                 @if($partner->logo)
                                     <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->name }}" class="h-full w-auto object-contain">
                                 @else
-                                    <h4 class="text-xl font-black text-acef-dark tracking-tight">{{ $partner['name'] }}</h4>
+                                    <h4 class="text-xl font-bold text-acef-dark tracking-tight">{{ $partner['name'] }}</h4>
                                 @endif
                             </div>
                             <p class="text-sm font-light text-gray-400 italic leading-relaxed line-clamp-3">{{ $partner['description'] }}</p>
@@ -95,12 +99,12 @@
                 <!-- Call to Partnership -->
                 <section class="flex flex-col md:flex-row items-center justify-between gap-12 p-12 md:p-20 bg-acef-green rounded-[50px]">
                     <div class="space-y-6 max-w-xl">
-                        <h2 class="text-4xl md:text-5xl font-black text-acef-dark tracking-tighter leading-tight">{{ __('pages.partners.cta.title') }}</h2>
+                        <h2 class="text-4xl md:text-5xl font-bold text-acef-dark tracking-tighter leading-tight">{{ __('pages.partners.cta.title') }}</h2>
                         <p class="text-acef-dark font-light italic leading-relaxed">
                             {{ __('pages.partners.cta.desc') }}
                         </p>
                     </div>
-                    <a href="{{ route('contact') }}" class="bg-acef-dark text-white font-black px-12 py-5 rounded-2xl hover:bg-white hover:text-acef-dark transition-all shadow-xl shadow-black/10">
+                    <a href="{{ route('contact') }}" class="bg-acef-dark text-white font-bold px-12 py-5 rounded-2xl hover:bg-white hover:text-acef-dark transition-all shadow-xl shadow-black/10">
                         {{ __('pages.partners.cta.btn') }}
                     </a>
                 </section>
@@ -128,21 +132,21 @@
                                     </div>
                                 </template>
                                 <div>
-                                    <p class="text-emerald-500 font-black text-[10px] uppercase tracking-[0.2em] mb-1" x-text="selectedPartner?.category"></p>
-                                    <h2 class="text-3xl md:text-4xl font-black text-acef-dark dark:text-white tracking-tighter" x-text="selectedPartner?.name"></h2>
+                                    <p class="text-emerald-500 font-bold text-xs uppercase tracking-[0.2em] mb-1" x-text="selectedPartner?.category"></p>
+                                    <h2 class="text-3xl md:text-4xl font-bold text-acef-dark dark:text-white tracking-tighter" x-text="selectedPartner?.name"></h2>
                                 </div>
                             </div>
 
                             <!-- Description -->
-                            <div class="space-y-4">
-                                <h4 class="text-[10px] font-black text-gray-400 uppercase tracking-widest">About the Partnership</h4>
+                             <div class="space-y-4">
+                                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest">About the Partnership</h4>
                                 <p class="text-lg text-gray-600 dark:text-gray-400 font-light leading-relaxed italic" x-text="selectedPartner?.description || 'No detailed information available.'"></p>
                             </div>
 
                             <!-- CTA -->
                             <div class="pt-8 border-t border-gray-100 dark:border-gray-800">
                                 <template x-if="selectedPartner?.website">
-                                    <a :href="selectedPartner.website" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-acef-dark dark:bg-emerald-600 text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-xl shadow-emerald-500/20">
+                                    <a :href="selectedPartner.website" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-acef-dark dark:bg-emerald-600 text-white rounded-2xl font-bold uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-xl shadow-emerald-500/20">
                                         Visit Website
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                                     </a>

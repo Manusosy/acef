@@ -14,49 +14,38 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @php
+        $newsPage = \App\Models\Page::where('slug', 'news')->first();
+        $heroSlides = $newsPage ? $newsPage->activeHeroSlides()->with('media')->get() : collect();
+    @endphp
 </head>
 
 <body class="antialiased font-sans bg-white overflow-x-hidden">
     @include('components.header')
 
-    <!-- Featured News Hero -->
-    <section class="pt-32 pb-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            @if($featuredArticle)
-            <div
-                class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row group hover:shadow-3xl transition-all duration-500">
-                <div class="lg:w-1/2 relative min-h-[400px] overflow-hidden">
-                    <img src="{{ $featuredArticle->image ? Storage::url($featuredArticle->image) : asset('img/placeholders/default-news.jpg') }}" alt="{{ $featuredArticle->title }}"
-                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent lg:bg-none"></div>
-                </div>
-                <div class="lg:w-1/2 p-12 md:p-20 flex flex-col justify-center space-y-8 relative">
-                    <div class="flex items-center gap-3">
-                         <span
-                            class="bg-acef-green/10 text-acef-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest w-fit">{{ $featuredArticle->category?->name ?? __('pages.news.featured.label') }}</span>
-                         <span class="text-gray-400 text-xs font-medium">{{ $featuredArticle->formatted_date }}</span>
-                    </div>
-
-                    <h1 class="text-4xl md:text-5xl font-black text-acef-dark dark:text-white leading-tight tracking-tighter">
-                        {{ $featuredArticle->title }}
-                    </h1>
-                    <p class="text-gray-500 dark:text-gray-400 font-light leading-relaxed italic line-clamp-3">
-                        {{ $featuredArticle->excerpt }}
-                    </p>
-                    <a href="{{ route('news.show', $featuredArticle->slug) }}"
-                        class="bg-acef-green text-acef-dark font-black px-8 py-4 rounded-xl flex items-center space-x-3 hover:bg-acef-dark hover:text-white transition-all w-fit group shadow-lg shadow-acef-green/20">
-                        <span>{{ __('pages.news.featured.btn') }}</span>
-                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            @endif
-        </div>
-    </section>
+    <x-hero 
+        :page="$newsPage"
+        :slides="$heroSlides"
+        breadcrumb="{{ __('pages.news.browse.title') }}"
+        title="{!! __('pages.news.browse.title') !!}"
+        subtitle="{{ __('pages.news.browse.desc') }}"
+        image-url="{{ $featuredArticle && $featuredArticle->image ? Storage::url($featuredArticle->image) : '/hero_marine_ecosystem_1766827540454.png' }}"
+    >
+        @if($featuredArticle)
+            <x-slot name="actions">
+                <a href="{{ route('news.show', $featuredArticle->slug) }}"
+                    class="bg-acef-green text-acef-dark font-bold px-8 py-4 rounded-xl flex items-center space-x-3 hover:bg-white transition-all w-fit shadow-xl group shadow-acef-green/20">
+                    <span>{{ __('pages.news.featured.btn') }}</span>
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+            </x-slot>
+        @endif
+    </x-hero>
 
     <main>
         <!-- Browse Insights -->
@@ -66,9 +55,9 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="flex flex-col lg:flex-row justify-between items-end gap-8 border-b border-gray-200 dark:border-gray-800 pb-8">
                     <div class="space-y-4">
-                        <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
+                        <h2 class="text-5xl font-bold text-acef-dark dark:text-white tracking-tighter">
                             {{ __('pages.news.browse.title') }}</h2>
-                        <p class="text-gray-400 font-light italic">{{ __('pages.news.browse.desc') }}</p>
+                        <p class="text-gray-400 font-light italic text-lg">{{ __('pages.news.browse.desc') }}</p>
                     </div>
                     <div class="w-full lg:w-auto flex flex-col sm:flex-row gap-4">
                         <!-- Search & Filter Bar -->
@@ -163,7 +152,7 @@
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute top-4 left-4" :class="view === 'grid' ? 'top-6 left-6' : ''">
                                     <span
-                                        class="bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-acef-dark shadow-sm">
+                                        class="bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-semibold uppercase tracking-wider text-acef-dark shadow-sm">
                                         {{ $article->category?->name ?? 'Uncategorized' }}
                                     </span>
                                 </div>
@@ -173,12 +162,12 @@
                             <div class="space-y-4 flex-1 flex flex-col justify-between"
                                  :class="view === 'grid' ? 'p-8' : 'p-6 md:p-8 w-full md:w-2/3'">
                                 <div class="space-y-3">
-                                    <div class="flex items-center text-gray-400 dark:text-gray-500 text-[10px] font-bold uppercase tracking-widest">
+                                    <div class="flex items-center text-gray-400 dark:text-gray-500 text-xs font-semibold uppercase tracking-widest">
                                         <span>{{ $article->author->name ?? 'ACEF Team' }}</span>
                                         <span class="mx-2">•</span>
                                         <span>{{ $article->formatted_date }}</span>
                                     </div>
-                                    <h3 class="font-black text-acef-dark dark:text-white leading-tight group-hover:text-acef-green transition-colors"
+                                    <h3 class="font-bold text-acef-dark dark:text-white leading-tight group-hover:text-acef-green transition-colors"
                                         :class="view === 'grid' ? 'text-2xl' : 'text-xl md:text-2xl'">
                                         {{ $article->title }}
                                     </h3>
@@ -189,7 +178,7 @@
                                 </div>
                                 <div class="pt-4 border-t border-gray-50 dark:border-gray-700 flex justify-start">
                                     <a href="{{ route('news.show', $article->slug) }}"
-                                        class="text-acef-green font-black text-xs flex items-center group-hover:translate-x-1 transition-transform">
+                                        class="text-acef-green font-bold text-xs flex items-center group-hover:translate-x-1 transition-transform">
                                         Read Article
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -217,9 +206,9 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="flex justify-between items-end">
                     <div class="space-y-4">
-                        <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">
+                        <p class="text-acef-green font-bold text-xs uppercase tracking-widest">
                             {{ __('pages.news.research_section.label') }}</p>
-                        <h2 class="text-5xl font-black text-white tracking-tighter">
+                        <h2 class="text-5xl font-bold text-white tracking-tighter">
                             {{ __('pages.news.research_section.title') }}</h2>
                     </div>
                     <a href="{{ route('resources') }}"
@@ -241,14 +230,14 @@
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-orange-500/80 to-transparent flex flex-col justify-end p-8">
                                 <span
-                                    class="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-lg w-fit mb-4 uppercase">{{ __('pages.news.research_section.featured_report.type') }}</span>
-                                <h4 class="text-2xl font-black text-white leading-tight">
+                                    class="bg-white/20 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-lg w-fit mb-4 uppercase">{{ __('pages.news.research_section.featured_report.type') }}</span>
+                                <h4 class="text-2xl font-bold text-white leading-tight">
                                     {{ __('pages.news.research_section.featured_report.title') }}</h4>
                             </div>
                         </div>
                     </div>
                     <div class="lg:w-2/3 space-y-8">
-                        <h3 class="text-3xl md:text-4xl font-black text-white leading-tight">
+                        <h3 class="text-3xl md:text-4xl font-bold text-white leading-tight">
                             {{ __('pages.news.research_section.featured_report.full_title') }}</h3>
                         <p class="text-white/60 font-light leading-relaxed">
                             {{ __('pages.news.research_section.featured_report.desc') }}
@@ -287,7 +276,7 @@
                         </div>
                         <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
                             <button
-                                class="w-full sm:w-auto bg-acef-green text-acef-dark font-black px-6 py-3.5 rounded-xl flex items-center justify-center space-x-3 hover:bg-white transition-all text-sm">
+                                class="w-full sm:w-auto bg-acef-green text-acef-dark font-bold px-6 py-3.5 rounded-xl flex items-center justify-center space-x-3 hover:bg-white transition-all text-sm">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
@@ -317,7 +306,7 @@
                             </path>
                         </svg>
                     </div>
-                    <h2 class="text-4xl md:text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
+                    <h2 class="text-4xl md:text-5xl font-bold text-acef-dark dark:text-white tracking-tighter">
                         {{ __('pages.news.subscribe.title') }}</h2>
                     <p class="text-gray-400 dark:text-gray-400 font-light max-w-lg leading-relaxed italic">
                         {{ __('pages.news.subscribe.desc') }}
@@ -326,7 +315,7 @@
                         <input type="email" placeholder="{{ __('pages.news.subscribe.email_placeholder') }}"
                             class="flex-1 px-8 py-5 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl focus:border-acef-green dark:focus:border-acef-green transition-all outline-none text-gray-900 dark:text-white placeholder-gray-400">
                         <button
-                            class="bg-acef-green text-acef-dark font-black px-12 py-5 rounded-2xl hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
+                            class="bg-acef-green text-acef-dark font-bold px-12 py-5 rounded-2xl hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
                             {{ __('pages.news.subscribe.btn') }}
                         </button>
                     </form>

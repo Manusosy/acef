@@ -13,33 +13,24 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @php
+        $programmesPage = \App\Models\Page::where('slug', 'programmes')->first();
+        $heroSlides = $programmesPage ? $programmesPage->activeHeroSlides()->with('media')->get() : collect();
+    @endphp
 </head>
 
 <body class="antialiased font-sans bg-white dark:bg-gray-950 overflow-x-hidden transition-colors duration-300">
     @include('components.header')
 
-    <!-- Programmes Hero -->
-    <section class="relative h-[60vh] min-h-[500px] flex items-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1542601906990-24bd0827f72f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Programmes" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-acef-dark via-acef-dark/40 to-transparent dark:from-gray-950 dark:via-gray-950/60"></div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-20">
-            <div class="max-w-3xl space-y-6">
-                <span
-                    class="bg-acef-green/20 backdrop-blur-md text-acef-green px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-acef-green/30">
-                    {{ __('pages.programmes_title') ?? 'Our Impact' }}
-                </span>
-                <h1 class="text-5xl md:text-7xl font-black text-white leading-tight tracking-tighter">
-                    {!! __('pages.programmes.hero_title') !!}
-                </h1>
-                <p class="text-lg md:text-xl text-white/70 font-light leading-relaxed max-w-2xl italic">
-                    {{ __('pages.programmes.hero_desc') }}
-                </p>
-            </div>
-        </div>
-    </section>
+    <x-hero 
+        :page="$programmesPage"
+        :slides="$heroSlides"
+        breadcrumb="{{ __('pages.programmes_title') ?? 'Our Impact' }}"
+        title="{!! __('pages.programmes.hero_title') !!}"
+        subtitle="{{ __('pages.programmes.hero_desc') }}"
+        image-url="https://images.unsplash.com/photo-1542601906990-24bd0827f72f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+    />
 
     <main class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300" x-data="{
         category: '',
@@ -110,7 +101,7 @@
                                 
                                 <div class="absolute top-6 left-6">
                                     <span
-                                        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md text-acef-dark dark:text-acef-green px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm border border-gray-100 dark:border-gray-700">
+                                        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md text-acef-dark dark:text-acef-green px-4 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider shadow-sm border border-gray-100 dark:border-gray-700">
                                         {{ $program->category ?: 'General' }}
                                     </span>
                                 </div>
@@ -119,16 +110,16 @@
                             <div class="p-10 space-y-6">
                                 <div class="space-y-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="text-acef-green dark:text-acef-green/80 text-[10px] font-bold uppercase tracking-widest">
+                                        <div class="text-acef-green dark:text-acef-green/80 text-xs font-semibold uppercase tracking-widest">
                                             {{ $program->meta_val ?: 'Active Initiative' }}
                                         </div>
                                         <span class="text-gray-300 dark:text-gray-600">•</span>
-                                        <div class="text-gray-400 dark:text-gray-500 text-[10px] font-bold uppercase tracking-widest">
+                                        <div class="text-gray-400 dark:text-gray-500 text-xs font-semibold uppercase tracking-widest">
                                             {{ $program->projects_count }} {{ Str::plural('Project', $program->projects_count) }}
                                         </div>
                                     </div>
                                     <h3
-                                        class="text-2xl font-black text-acef-dark dark:text-white leading-tight group-hover:text-acef-green transition-colors">
+                                        class="text-2xl font-bold text-acef-dark dark:text-white leading-tight group-hover:text-acef-green transition-colors">
                                         <a href="{{ route('programmes.show', $program) }}">
                                             {{ $program->title }}
                                         </a>
@@ -139,11 +130,11 @@
                                 </div>
 
                                 <div class="flex justify-between items-center pt-6 border-t border-gray-50 dark:border-gray-700">
-                                    <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">
                                         ACEF Programme
                                     </span>
                                     <a href="{{ route('programmes.show', $program) }}"
-                                        class="text-acef-dark dark:text-white font-black text-base flex items-center hover:text-acef-green transition-colors group/link">
+                                        class="text-acef-dark dark:text-white font-bold text-base flex items-center hover:text-acef-green transition-colors group/link">
                                         Learn More
                                         <svg class="w-4 h-4 ml-1 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -74,10 +74,13 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         // Prevent deleting core pages
-        $coreSlugs = ['home', 'about', 'contact', 'programmes', 'projects'];
+        $coreSlugs = [
+            'home', 'about', 'contact', 'programmes', 'projects', 
+            'impact', 'news', 'gallery', 'get-involved', 'team', 'partners'
+        ];
         if (in_array($page->slug, $coreSlugs)) {
             return redirect()->route('admin.pages.index')
-                ->with('error', 'Cannot delete core pages.');
+                ->with('error', 'Cannot delete mission-critical core pages.');
         }
 
         $page->delete();

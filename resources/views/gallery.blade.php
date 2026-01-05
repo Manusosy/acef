@@ -14,6 +14,11 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @php
+        $galleryPage = \App\Models\Page::where('slug', 'gallery')->first();
+        $heroSlides = $galleryPage ? $galleryPage->activeHeroSlides()->with('media')->get() : collect();
+    @endphp
     <style>
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
@@ -86,25 +91,21 @@
             this.filters = { programme: '', project: '', category: '' };
         }
     }">
-        <!-- Gallery Hero -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-            <div class="flex flex-col md:flex-row justify-between items-end gap-8">
-                <div class="space-y-6 max-w-2xl">
-                    <h1 class="text-6xl md:text-7xl font-black text-acef-dark tracking-tighter leading-none">
-                        {{ __('pages.gallery.hero_title') }}</h1>
-                    <p class="text-gray-400 text-lg font-light italic leading-relaxed">
-                        {{ __('pages.gallery.hero_desc') }}
-                    </p>
-                </div>
-            </div>
-        </section>
+        <x-hero 
+            :page="$galleryPage"
+            :slides="$heroSlides"
+            breadcrumb="{{ __('navigation.gallery') }}"
+            title="{{ __('pages.gallery.hero_title') }}"
+            subtitle="{{ __('pages.gallery.hero_desc') }}"
+            image-url="/mission_vision_africa_1766827653058.png"
+        />
 
         <!-- Filter Bar -->
         <section class="bg-gray-50 dark:bg-[#111827]/80 border-y border-gray-100 dark:border-white/5 py-8 backdrop-blur-md">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
                     <div class="flex flex-wrap items-center gap-4">
-                        <div class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-widest text-gray-300 mr-2">
+                        <div class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-gray-400 mr-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
                             </svg>
@@ -124,7 +125,7 @@
                                     <option value="{{ $proj->id }}">{{ $proj->title }}</option>
                                 @endforeach
                             </select>
-                            <button @click="resetFilters()" class="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 hover:text-acef-dark dark:hover:text-acef-green transition-colors border-b-2 border-transparent hover:border-acef-green pb-0.5">{{ __('pages.gallery.filters.reset') }}</button>
+                            <button @click="resetFilters()" class="text-xs font-bold uppercase text-gray-400 dark:text-gray-500 hover:text-acef-dark dark:hover:text-acef-green transition-colors border-b-2 border-transparent hover:border-acef-green pb-0.5">{{ __('pages.gallery.filters.reset') }}</button>
                         </div>
                     </div>
                 </div>
@@ -135,7 +136,7 @@
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <!-- Albums Section -->
             <div x-show="filteredFolders.length > 0" class="mb-24">
-                <h2 class="text-3xl font-black text-acef-dark mb-10 tracking-tight">Galleries by Project</h2>
+                <h2 class="text-3xl font-bold text-acef-dark mb-10 tracking-tight">Galleries by Project</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <template x-for="folder in filteredFolders" :key="folder.id">
                         <div @click="selectedAlbum = folder" class="group cursor-pointer">
@@ -145,17 +146,17 @@
                                 </template>
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity"></div>
                                 <div class="absolute bottom-6 left-6 text-white">
-                                    <span class="text-[10px] font-black uppercase tracking-widest bg-emerald-500/90 px-3 py-1 rounded-full mb-2 inline-block" x-text="folder.media_items.length + ' Photos'"></span>
+                                    <span class="text-xs font-bold uppercase tracking-widest bg-emerald-500/90 px-3 py-1 rounded-full mb-2 inline-block" x-text="folder.media_items.length + ' Photos'"></span>
                                     <h3 class="text-xl font-bold" x-text="folder.name"></h3>
                                 </div>
                             </div>
                             <div class="px-2">
                                 <div class="flex items-center gap-2 mb-1">
                                     <template x-if="folder.project">
-                                        <span class="text-[9px] font-black text-acef-green uppercase tracking-widest" x-text="folder.project.title"></span>
+                                        <span class="text-xs font-bold text-acef-green uppercase tracking-widest" x-text="folder.project.title"></span>
                                     </template>
                                     <template x-if="folder.programme">
-                                        <span class="text-[9px] font-black text-blue-500 uppercase tracking-widest" x-text="folder.programme.title"></span>
+                                        <span class="text-xs font-bold text-blue-500 uppercase tracking-widest" x-text="folder.programme.title"></span>
                                     </template>
                                 </div>
                             </div>
@@ -166,7 +167,7 @@
 
             <!-- Individual Highlights / Gallery Items -->
             <div x-show="filteredItems.length > 0">
-                <h2 class="text-3xl font-black text-acef-dark mb-10 tracking-tight">Featured Highlights</h2>
+                <h2 class="text-3xl font-bold text-acef-dark mb-10 tracking-tight">Featured Highlights</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
                     <template x-for="item in filteredItems" :key="item.id">
                         <div class="group flex flex-col space-y-4">
@@ -176,7 +177,7 @@
                             </div>
                             <div class="px-2">
                                 <h3 class="text-sm font-bold text-acef-dark leading-tight" x-text="item.title"></h3>
-                                <p class="text-[10px] text-gray-400 mt-1 uppercase font-black" x-text="item.location"></p>
+                                <p class="text-xs text-gray-400 mt-1 uppercase font-bold" x-text="item.location"></p>
                             </div>
                         </div>
                     </template>
@@ -191,10 +192,10 @@
             <div class="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden relative shadow-2xl flex flex-col">
                 <div class="p-8 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
                     <div>
-                        <h2 class="text-2xl font-black text-acef-dark dark:text-white" x-text="selectedAlbum?.name"></h2>
+                        <h2 class="text-2xl font-bold text-acef-dark dark:text-white" x-text="selectedAlbum?.name"></h2>
                         <div class="flex items-center gap-3 mt-1">
                             <template x-if="selectedAlbum?.project">
-                                <span class="text-[10px] font-black text-acef-green uppercase tracking-widest" x-text="selectedAlbum.project.title"></span>
+                                <span class="text-xs font-bold text-acef-green uppercase tracking-widest" x-text="selectedAlbum.project.title"></span>
                             </template>
                         </div>
                     </div>
@@ -220,7 +221,7 @@
                 <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
                     <div class="space-y-4">
                         <p class="text-acef-green font-bold tracking-widest uppercase text-sm">Media Hub</p>
-                        <h2 class="text-5xl font-black text-white tracking-tighter">Voices of Impact: Our YouTube Channel</h2>
+                        <h2 class="text-5xl font-bold text-white tracking-tighter">Voices of Impact: Our YouTube Channel</h2>
                         <p class="text-white/60 font-light italic">Watch our latest stories of impact from the field. Your support allows us to document these milestones and share the radical transparency of our work in the field. Join us in our journey towards a sustainable future.</p>
                     </div>
                     <a :href="'https://youtube.com/channel/' + (youtubeSettings.youtube_channel_id || '')" target="_blank" class="bg-red-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-red-700 transition-all flex items-center gap-3">
@@ -264,7 +265,7 @@
                             </div>
                             <div class="px-2">
                                 <h3 class="text-white font-bold text-lg leading-tight mb-2 group-hover:text-acef-green transition-colors line-clamp-2" x-text="video.title"></h3>
-                                <p class="text-[10px] font-black uppercase tracking-widest text-gray-400" x-text="'Published ' + video.publishedAt"></p>
+                                <p class="text-xs font-bold uppercase tracking-widest text-gray-400" x-text="'Published ' + video.publishedAt"></p>
                             </div>
                         </div>
                     </template>

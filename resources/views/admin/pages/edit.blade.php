@@ -1,5 +1,15 @@
 <x-app-dashboard-layout>
-    <x-slot name="header">Edit Page: {{ $page->title }}</x-slot>
+    @php
+        $isCore = in_array($page->slug, ['home', 'about', 'contact', 'programmes', 'projects', 'impact', 'news', 'gallery', 'get-involved', 'team', 'partners']);
+    @endphp
+    <x-slot name="header">
+        <div class="flex items-center gap-2">
+            Edit Page: {{ $page->title }}
+            @if($isCore)
+                <span class="px-2 py-0.5 rounded text-[10px] bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 font-bold uppercase tracking-wider">Core Mission Page</span>
+            @endif
+        </div>
+    </x-slot>
     <x-slot name="title">Edit Page</x-slot>
 
     <div class="max-w-4xl">

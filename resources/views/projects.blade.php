@@ -13,33 +13,24 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @php
+        $projectsPage = \App\Models\Page::where('slug', 'projects')->first();
+        $heroSlides = $projectsPage ? $projectsPage->activeHeroSlides()->with('media')->get() : collect();
+    @endphp
 </head>
 
 <body class="antialiased font-sans bg-white overflow-x-hidden">
     @include('components.header')
 
-    <!-- Projects Hero -->
-    <section class="relative h-[60vh] min-h-[500px] flex items-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="/hero_marine_ecosystem_1766827540454.png" alt="Projects" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-acef-dark via-acef-dark/40 to-transparent"></div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-20">
-            <div class="max-w-3xl space-y-6">
-                <span
-                    class="bg-acef-green/20 backdrop-blur-md text-acef-green px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-acef-green/30">
-                    {{ __('pages.projects_page.badge') }}
-                </span>
-                <h1 class="text-5xl md:text-7xl font-black text-white leading-tight tracking-tighter">
-                    {!! __('pages.projects_page.hero_title') !!}
-                </h1>
-                <p class="text-lg md:text-xl text-white/70 font-light leading-relaxed max-w-2xl italic">
-                    {{ __('pages.projects_page.hero_subtitle') }}
-                </p>
-            </div>
-        </div>
-    </section>
+    <x-hero 
+        :page="$projectsPage"
+        :slides="$heroSlides"
+        breadcrumb="{{ __('pages.projects_page.badge') }}"
+        title="{!! __('pages.projects_page.hero_title') !!}"
+        subtitle="{{ __('pages.projects_page.hero_subtitle') }}"
+        image-url="/hero_marine_ecosystem_1766827540454.png"
+    />
 
     <main class="bg-gray-50 min-h-screen" x-data="{
         category: '',
@@ -133,14 +124,14 @@
                                 @endif
                                 <div class="absolute top-6 left-6">
                                     <span
-                                        class="bg-white/90 backdrop-blur-md text-acef-dark px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                                        class="bg-white/90 backdrop-blur-md text-acef-dark px-4 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider shadow-sm">
                                         {{ $project->category }}
                                     </span>
                                 </div>
                                 @if($percent >= 100)
                                     <div class="absolute top-6 right-6">
                                         <span
-                                            class="bg-acef-green text-acef-dark px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center">
+                                            class="bg-acef-green text-acef-dark px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center">
                                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd"
                                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
@@ -155,7 +146,7 @@
                             <div class="p-10 space-y-6 flex-1 flex flex-col">
                                 <div class="space-y-2">
                                     <div
-                                        class="flex items-center text-acef-green text-[10px] font-bold uppercase tracking-widest">
+                                        class="flex items-center text-acef-green text-xs font-semibold uppercase tracking-widest">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
@@ -168,7 +159,7 @@
                                         {{ $locationDisplay }}
                                     </div>
                                     <h3
-                                        class="text-2xl font-black text-acef-dark leading-tight group-hover:text-acef-green transition-colors">
+                                        class="text-2xl font-bold text-acef-dark leading-tight group-hover:text-acef-green transition-colors">
                                         {{ $project->title }}
                                     </h3>
                                 </div>
@@ -186,12 +177,12 @@
 
                                 <div class="flex justify-between items-center pt-2 mt-auto">
                                     <span
-                                        class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider 
+                                        class="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider 
                                         {{ $project->status === 'ongoing' ? 'bg-acef-green/10 text-acef-green' : ($project->status === 'completed' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600') }}">
                                         {{ ucfirst($project->status) }}
                                     </span>
                                     <div
-                                        class="text-acef-dark font-black text-base flex items-center group-hover:text-acef-green transition-colors">
+                                        class="text-acef-dark font-bold text-base flex items-center group-hover:text-acef-green transition-colors">
                                         {{ $project->status === 'completed' ? 'View Impact' : 'View Project' }}
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -206,7 +197,7 @@
 
                 <div class="flex justify-center pt-12">
                     <button
-                        class="bg-white border-2 border-gray-100 text-acef-dark font-black px-12 py-4 rounded-2xl hover:bg-acef-dark hover:text-white hover:border-acef-dark transition-all flex items-center space-x-2">
+                        class="bg-white border-2 border-gray-100 text-acef-dark font-bold px-12 py-4 rounded-2xl hover:bg-acef-dark hover:text-white hover:border-acef-dark transition-all flex items-center space-x-2">
                         <span>{{ __('pages.projects_page.load_more') }}</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">

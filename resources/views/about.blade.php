@@ -13,31 +13,24 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @php
+        $aboutPage = \App\Models\Page::where('slug', 'about')->first();
+        $heroSlides = $aboutPage ? $aboutPage->activeHeroSlides()->with('media')->get() : collect();
+    @endphp
 </head>
 
 <body class="antialiased font-sans bg-white overflow-x-hidden">
     @include('components.header')
 
-    <!-- About Hero Section -->
-    <section class="relative h-[60vh] min-h-[500px] flex items-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="/mission_vision_africa_1766827653058.png" alt="About ACEF" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-r from-acef-dark/90 via-acef-dark/60 to-transparent"></div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-20">
-            <div class="max-w-3xl text-white space-y-6">
-                <p class="text-acef-green font-bold tracking-widest uppercase text-sm">{{ __('navigation.about') }} ACEF
-                </p>
-                <h1 class="text-5xl md:text-7xl font-black leading-tight tracking-tighter">
-                    {!! __('pages.about.hero_title') !!}
-                </h1>
-                <p class="text-lg md:text-xl font-light text-white/80 leading-relaxed max-w-2xl italic">
-                    {{ __('pages.about.hero_subtitle') }}
-                </p>
-            </div>
-        </div>
-    </section>
+    <x-hero 
+        :page="$aboutPage"
+        :slides="$heroSlides"
+        breadcrumb="{{ __('navigation.about') }} ACEF"
+        title="{!! __('pages.about.hero_title') !!}"
+        subtitle="{{ __('pages.about.hero_subtitle') }}"
+        image-url="/mission_vision_africa_1766827653058.png"
+    />
 
     <main>
         <!-- Who We Are Section -->

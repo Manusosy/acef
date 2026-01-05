@@ -14,34 +14,23 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @php
+        $contactPage = \App\Models\Page::where('slug', 'contact')->first();
+        $heroSlides = $contactPage ? $contactPage->activeHeroSlides()->with('media')->get() : collect();
+    @endphp
 </head>
 
 <body class="antialiased font-sans bg-white dark:bg-gray-900 overflow-x-hidden">
     @include('components.header')
 
-    <!-- Contact Hero -->
-    <section class="pt-40 pb-24 bg-white dark:bg-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div
-                class="relative rounded-[50px] overflow-hidden min-h-[400px] flex items-center justify-center text-center p-12 md:p-20">
-                <!-- Background with Gradient/Image -->
-                <div class="absolute inset-0 z-0">
-                    <img src="/hero_marine_ecosystem_1766827540454.png" alt="Contact Hero"
-                        class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-r from-acef-dark/95 via-acef-dark/70 to-acef-dark/40">
-                    </div>
-                </div>
-
-                <div class="relative z-10 max-w-3xl space-y-8">
-                    <h1 class="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none">
-                        {{ __('pages.contact.hero_title') }}</h1>
-                    <p class="text-white/60 text-lg md:text-xl font-light italic leading-relaxed">
-                        {{ __('pages.contact.hero_desc') }}
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <x-hero 
+        :page="$contactPage"
+        :slides="$heroSlides"
+        title="{{ __('pages.contact.hero_title') }}"
+        subtitle="{{ __('pages.contact.hero_desc') }}"
+        image-url="/hero_marine_ecosystem_1766827540454.png"
+    />
 
     <main class="pb-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,7 +38,7 @@
                 <!-- Contact Form -->
                 <div class="lg:w-3/5 space-y-12">
                     <div class="space-y-4">
-                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
+                        <h2 class="text-5xl font-bold text-acef-dark tracking-tighter">
                             {{ __('pages.contact.form_title') }}</h2>
                         <p class="text-gray-400 dark:text-gray-500 font-light italic">{{ __('pages.contact.form_subtitle') }}</p>
                     </div>
@@ -57,7 +46,7 @@
                     <form class="space-y-8" action="mailto:info@acef-ngo.org" method="POST" enctype="text/plain">
                         <div class="space-y-4">
                             <label
-                                class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.topic_label') }}</label>
+                                class="text-sm font-semibold uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.topic_label') }}</label>
                             <select name="topic" required
                                 class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl text-gray-500 dark:text-white focus:ring-2 focus:ring-acef-green transition-all outline-none">
                                 <option value="" disabled selected>{{ __('pages.contact.form.topic_placeholder') }}</option>
@@ -70,13 +59,13 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="space-y-4">
                                 <label
-                                    class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.name_label') }}</label>
+                                    class="text-sm font-semibold uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.name_label') }}</label>
                                 <input type="text" name="name" placeholder="{{ __('pages.contact.form.name_placeholder') }}" required
                                     class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none dark:text-white">
                             </div>
                             <div class="space-y-4">
                                 <label
-                                    class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.email_label') }}</label>
+                                    class="text-sm font-semibold uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.email_label') }}</label>
                                 <input type="email" name="email" placeholder="{{ __('pages.contact.form.email_placeholder') }}" required
                                     class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none dark:text-white">
                             </div>
@@ -84,20 +73,20 @@
 
                         <div class="space-y-4">
                             <label
-                                class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.org_label') }}</label>
+                                class="text-sm font-semibold uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.org_label') }}</label>
                             <input type="text" name="organization" placeholder="{{ __('pages.contact.form.org_placeholder') }}"
                                 class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none dark:text-white">
                         </div>
 
                         <div class="space-y-4">
                             <label
-                                class="text-xs font-black uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.message_label') }}</label>
+                                class="text-sm font-semibold uppercase tracking-widest text-acef-dark">{{ __('pages.contact.form.message_label') }}</label>
                             <textarea name="message" rows="6" placeholder="{{ __('pages.contact.form.message_placeholder') }}" required
                                 class="w-full px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-acef-green transition-all outline-none dark:text-white"></textarea>
                         </div>
 
                         <button
-                            class="bg-acef-green text-acef-dark font-black px-12 py-5 rounded-2xl hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
+                            class="bg-acef-green text-acef-dark font-bold px-12 py-5 rounded-2xl hover:bg-acef-dark hover:text-white transition-all shadow-xl shadow-acef-green/20">
                             {{ __('pages.contact.form.submit_btn') }}
                         </button>
                         <p class="text-[10px] text-gray-300 font-bold uppercase tracking-widest">
@@ -158,7 +147,7 @@
 
                     <!-- Connect on Social -->
                     <div class="bg-acef-green/5 border border-acef-green/10 rounded-[40px] p-10 space-y-6">
-                        <h3 class="text-2xl font-black text-acef-dark dark:text-white tracking-tighter">
+                        <h3 class="text-2xl font-bold text-acef-dark dark:text-white tracking-tighter">
                             {{ __('pages.contact.social_title') }}</h3>
                         <p class="text-gray-400 dark:text-gray-500 text-sm font-light italic">{{ __('pages.contact.social_desc') }}</p>
                         <div class="flex items-center space-x-4">
@@ -211,10 +200,10 @@
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
                             </div>
                             <div class="space-y-2">
-                                <h3 class="text-2xl font-black text-white tracking-tighter">Download Business Card</h3>
+                                <h3 class="text-2xl font-bold text-white tracking-tighter">Download Business Card</h3>
                                 <p class="text-white/40 text-xs font-light italic leading-relaxed">Get our official contact details directly to your device for offline access.</p>
                             </div>
-                            <a href="{{ Storage::url($admin->business_card) }}" download class="inline-flex items-center space-x-3 bg-acef-green text-acef-dark font-black px-8 py-4 rounded-xl hover:bg-white hover:scale-105 transition-all shadow-lg active:scale-95 group/btn">
+                            <a href="{{ Storage::url($admin->business_card) }}" download class="inline-flex items-center space-x-3 bg-acef-green text-acef-dark font-bold px-8 py-4 rounded-xl hover:bg-white hover:scale-105 transition-all shadow-lg active:scale-95 group/btn">
                                 <span>Download Card</span>
                                 <svg class="w-5 h-5 group-hover/btn:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             </a>

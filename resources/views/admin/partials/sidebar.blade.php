@@ -14,7 +14,7 @@
                 ['label' => 'Projects', 'route' => 'admin.projects.index'],
                 ['label' => 'Programmes', 'route' => 'admin.programmes.index'],
                 ['label' => 'Articles', 'route' => 'admin.articles.index'],
-                ['label' => 'Pages', 'route' => 'admin.pages.index'],
+                ['label' => 'Site Structure', 'route' => 'admin.pages.index'],
                 ['label' => 'Media Library', 'route' => 'admin.media.index'],
                 ['label' => 'Gallery', 'route' => 'admin.gallery.index'],
             ]

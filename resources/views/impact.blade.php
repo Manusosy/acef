@@ -14,52 +14,42 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @php
+        $impactPage = \App\Models\Page::where('slug', 'impact')->first();
+        $heroSlides = $impactPage ? $impactPage->activeHeroSlides()->with('media')->get() : collect();
+    @endphp
 </head>
 
 <body class="antialiased font-sans bg-white overflow-x-hidden">
     @include('components.header')
 
-    <!-- Impact Hero -->
-    <section class="relative h-[60vh] min-h-[500px] flex items-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="/hero_marine_ecosystem_1766827540454.png" alt="Impact" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-acef-dark via-acef-dark/40 to-transparent"></div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-20">
-            <div class="max-w-4xl mx-auto text-center space-y-8">
-                <div class="inline-flex items-center space-x-2 bg-acef-green/20 backdrop-blur-md text-acef-green px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-acef-green/30 hover:bg-acef-green/30 transition-all cursor-default">
-                    <span>🛡️</span>
-                    <span>{{ __('pages.impact.transparency_badge') }}</span>
-                </div>
-
-                <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none">
-                    {!! __('pages.impact.hero_title') !!}
-                </h1>
-                <p class="text-xl text-white/80 max-w-2xl mx-auto font-light leading-relaxed italic">
-                    {{ __('pages.impact.hero_desc') }}
-                </p>
-
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8 pb-12">
-                    <a href="{{ isset($settings['annual_report']) ? Storage::url($settings['annual_report']) : '#' }}"
-                        {{ isset($settings['annual_report']) ? 'download' : '' }}
-                        class="bg-acef-green text-acef-dark font-black px-8 py-4 rounded-2xl flex items-center space-x-3 hover:bg-white transition-all shadow-xl group transform hover:scale-105">
-                        <span>{{ __('pages.impact.download_report') }}</span>
-                        <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
-                    </a>
-                    <a href="{{ isset($settings['methodology_doc']) ? Storage::url($settings['methodology_doc']) : '#' }}"
-                        {{ isset($settings['methodology_doc']) ? 'target="_blank"' : '' }}
-                        class="text-white font-black px-8 py-4 rounded-2xl border-2 border-white/30 hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm">
-                        {{ __('pages.impact.view_methodology') }}
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <x-hero 
+        :page="$impactPage"
+        :slides="$heroSlides"
+        breadcrumb="🛡️ {{ __('pages.impact.transparency_badge') }}"
+        title="{!! __('pages.impact.hero_title') !!}"
+        subtitle="{{ __('pages.impact.hero_desc') }}"
+        image-url="/hero_marine_ecosystem_1766827540454.png"
+    >
+        <x-slot name="actions">
+            <a href="{{ isset($settings['annual_report']) ? Storage::url($settings['annual_report']) : '#' }}"
+                {{ isset($settings['annual_report']) ? 'download' : '' }}
+                class="bg-acef-green text-acef-dark font-bold px-8 py-4 rounded-2xl flex items-center space-x-3 hover:bg-white transition-all shadow-xl group transform hover:scale-105">
+                <span>{{ __('pages.impact.download_report') }}</span>
+                <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+            </a>
+            <a href="{{ isset($settings['methodology_doc']) ? Storage::url($settings['methodology_doc']) : '#' }}"
+                {{ isset($settings['methodology_doc']) ? 'target="_blank"' : '' }}
+                class="text-white font-bold px-8 py-4 rounded-2xl border-2 border-white/30 hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm">
+                {{ __('pages.impact.view_methodology') }}
+            </a>
+        </x-slot>
+    </x-hero>
 
     <!-- Key Stats -->
     <section class="pt-24 pb-24 bg-white dark:bg-gray-900 transition-colors">
@@ -112,8 +102,8 @@
                                 </svg>
                             @endif
                         </div>
-                        <h3 class="text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest text-[10px]">{{ $stat['label'] }}</h3>
-                        <span class="text-4xl font-black text-acef-dark dark:text-white" x-text="stats[{{ $index }}].current.toLocaleString() + stats[{{ $index }}].suffix">0</span>
+                        <h3 class="text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest text-xs">{{ $stat['label'] }}</h3>
+                        <span class="text-4xl font-bold text-acef-dark dark:text-white" x-text="stats[{{ $index }}].current.toLocaleString() + stats[{{ $index }}].suffix">0</span>
                     </div>
                 @endforeach
             </div>
@@ -127,7 +117,7 @@
                 <!-- Map Area -->
                 <div class="lg:col-span-8">
                     <div class="space-y-8 text-left mb-8">
-                        <h2 class="text-4xl md:text-5xl font-black text-acef-dark dark:text-white tracking-tighter">{{ __('pages.impact.map_title') }}</h2>
+                        <h2 class="text-4xl md:text-5xl font-bold text-acef-dark dark:text-white tracking-tighter">{{ __('pages.impact.map_title') }}</h2>
                         <p class="text-gray-500 dark:text-gray-400 font-light italic text-lg">{{ __('pages.impact.map_desc') }}</p>
                     </div>
                     
@@ -141,7 +131,7 @@
                     <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 md:p-10 border border-gray-100 dark:border-gray-700 h-full">
                         <div class="flex items-center space-x-3 mb-6">
                             <span class="w-2 h-8 bg-acef-green rounded-full"></span>
-                            <h3 class="text-2xl font-black text-acef-dark dark:text-white tracking-tight">Active Nations</h3>
+                            <h3 class="text-2xl font-bold text-acef-dark dark:text-white tracking-tight">Active Nations</h3>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-y-4 gap-x-2">
@@ -258,13 +248,13 @@
     <section class="py-24 bg-white dark:bg-gray-900 transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             <div class="flex flex-wrap items-end justify-between gap-8">
-                <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">{{ __('pages.impact.projects_title') }}
+                <h2 class="text-5xl font-bold text-acef-dark dark:text-white tracking-tighter">{{ __('pages.impact.projects_title') }}
                 </h2>
                 <div class="flex flex-wrap items-center gap-4">
-                    <select class="bg-gray-50 dark:bg-gray-800 border-none rounded-xl py-3 px-6 text-sm font-bold text-gray-400 dark:text-gray-500 focus:ring-2 focus:ring-acef-green outline-none">
+                    <select class="bg-gray-50 dark:bg-gray-800 border-none rounded-xl py-3 px-6 text-sm font-semibold text-gray-400 dark:text-gray-500 focus:ring-2 focus:ring-acef-green outline-none">
                         <option>{{ __('pages.projects_page.filter_category') }}</option>
                     </select>
-                    <select class="bg-gray-50 dark:bg-gray-800 border-none rounded-xl py-3 px-6 text-sm font-bold text-gray-400 dark:text-gray-500 focus:ring-2 focus:ring-acef-green outline-none">
+                    <select class="bg-gray-50 dark:bg-gray-800 border-none rounded-xl py-3 px-6 text-sm font-semibold text-gray-400 dark:text-gray-500 focus:ring-2 focus:ring-acef-green outline-none">
                         <option>{{ __('pages.projects_page.filter_country') }}</option>
                     </select>
                     <div class="relative">
@@ -287,13 +277,13 @@
                             <img src="{{ $proj->image ? Storage::url($proj->image) : asset('default-project.jpg') }}" alt="{{ $proj->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute top-6 left-6">
                                 <span
-                                    class="bg-acef-green dark:bg-emerald-500 text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider shadow-lg border border-white/20 shadow-acef-green/20">
+                                    class="bg-acef-green dark:bg-emerald-500 text-white px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider shadow-lg border border-white/20 shadow-acef-green/20">
                                     {{ $proj->category }}
                                 </span>
                             </div>
                         </div>
                         <div class="p-8 space-y-4">
-                            <div class="flex items-center text-acef-green text-[10px] font-bold uppercase tracking-widest">
+                            <div class="flex items-center text-acef-green text-xs font-semibold uppercase tracking-widest">
                                 <span>{{ $proj->created_at->format('M Y') }}</span>
                                 <span class="mx-2 text-gray-300 dark:text-gray-600">•</span>
                                 @php
@@ -315,7 +305,7 @@
 
             <div class="flex justify-center pt-8">
                 <button
-                    class="flex items-center space-x-2 text-acef-dark dark:text-white font-black text-sm hover:text-acef-green transition-colors group">
+                    class="flex items-center space-x-2 text-acef-dark dark:text-white font-bold text-sm hover:text-acef-green transition-colors group">
                     <span>{{ __('pages.impact.projects_load_more') }}</span>
                     <svg class="w-4 h-4 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -335,7 +325,7 @@
         </div>
 
         <div class="max-w-4xl mx-auto px-4 text-center space-y-12 relative z-10">
-            <h2 class="text-5xl md:text-7xl font-black tracking-tighter leading-tight">
+            <h2 class="text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
                 {!! __('pages.impact.cta_title') !!}
             </h2>
             <p class="text-white/60 text-lg md:text-xl font-light italic leading-relaxed">
@@ -343,11 +333,11 @@
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
                 <a href="{{ route('get-involved') }}"
-                    class="w-full sm:w-auto bg-acef-green text-acef-dark font-black px-12 py-5 rounded-2xl hover:bg-white transition-all transform hover:scale-105 shadow-2xl">
+                    class="w-full sm:w-auto bg-acef-green text-acef-dark font-bold px-12 py-5 rounded-2xl hover:bg-white transition-all transform hover:scale-105 shadow-2xl">
                     {{ __('pages.impact.partner_btn') }}
                 </a>
                 <a href="{{ route('donate') }}"
-                    class="w-full sm:w-auto bg-white/5 border-2 border-white/10 text-white font-black px-12 py-5 rounded-2xl hover:bg-white/10 transition-all">
+                    class="w-full sm:w-auto bg-white/5 border-2 border-white/10 text-white font-bold px-12 py-5 rounded-2xl hover:bg-white/10 transition-all">
                     {{ __('pages.impact.donate_btn') }}
                 </a>
             </div>

@@ -3,6 +3,9 @@
     $siteName = $generalSettings['site_name'] ?? 'ACEF';
     $siteTagline = $generalSettings['site_tagline'] ?? null;
     $siteFavicon = $generalSettings['site_favicon'] ?? null;
+    
+    $homePage = \App\Models\Page::where('slug', 'home')->first();
+    $heroSlides = $homePage ? $homePage->activeHeroSlides()->with('media')->get() : collect();
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no" class="scroll-smooth">
@@ -32,47 +35,27 @@
 <body class="antialiased font-sans bg-white overflow-x-hidden">
     @include('components.header')
 
-    <!-- Hero Section -->
-    <section class="relative h-screen min-h-[700px] flex items-center overflow-hidden">
-        <!-- Background Image -->
-        <div class="absolute inset-0 z-0">
-            <img src="/hero_marine_ecosystem_1766827540454.png" alt="African Marine Ecosystem"
-                class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-r from-acef-dark/80 via-acef-dark/40 to-transparent"></div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-32 pb-20 md:pt-48 md:pb-32">
-            <div class="space-y-6 animate-fade-in-up">
-                <span
-                    class="inline-block py-2 px-6 rounded-full bg-acef-green/20 text-acef-green font-bold text-sm tracking-wider uppercase">{!! __('pages.home.founded') !!}</span>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tighter max-w-4xl">
-                    {!! __('pages.home.hero_title') !!}
-                </h1>
-            </div>
-            <p
-                class="text-lg md:text-xl font-light text-white/90 leading-relaxed max-w-2xl mt-6 animate-fade-in-up delay-100 italic">
-                {!! __('pages.home.hero_subtitle') !!}
-            </p>
-            <div
-                class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4 animate-fade-in-up delay-200">
-                <a href="{{ route('get-involved') }}"
-                    class="bg-acef-green text-white px-10 py-5 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-acef-green/30 flex items-center justify-center">
-                    {{ __('buttons.get_involved') }}
-                </a>
-                <a href="{{ route('impact') }}"
-                    class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-xl font-bold text-lg hover:bg-white/20 transition-all flex items-center justify-center">
-                    {{ __('buttons.see_impact') }}
-                </a>
-            </div>
-        </div>
-
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white animate-bounce">
-            <svg class="w-6 h-6 text-acef-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-        </div>
-    </section>
+    <x-hero 
+        :page="$homePage"
+        :slides="$heroSlides"
+        :breadcrumb="__('pages.home.founded')"
+        title="{!! __('pages.home.hero_title') !!}"
+        subtitle="{!! __('pages.home.hero_subtitle') !!}"
+        height="h-screen"
+        min-height="min-h-[700px]"
+        image-url="/hero_marine_ecosystem_1766827540454.png"
+    >
+        <x-slot name="actions">
+            <a href="{{ route('get-involved') }}"
+                class="bg-acef-green text-white px-10 py-5 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-acef-green/30 flex items-center justify-center">
+                {{ __('buttons.get_involved') }}
+            </a>
+            <a href="{{ route('impact') }}"
+                class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-xl font-bold text-lg hover:bg-white/20 transition-all flex items-center justify-center">
+                {{ __('buttons.see_impact') }}
+            </a>
+        </x-slot>
+    </x-hero>
 
     <main>
         <!-- Who We Are Section -->
