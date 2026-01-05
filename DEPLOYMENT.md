@@ -1,135 +1,88 @@
 # Laravel Deployment Guide: cPanel Shared Hosting
 
-This guide provides a step-by-step approach for deploying the ACEF Laravel application to a cPanel shared hosting environment using SSH and Git.
-
-## Prerequisites
-- cPanel access with SSH Terminal or SSH access enabled.
-- A GitHub/GitLab repository for your code.
-- PHP 8.2+ enabled in cPanel (Select PHP Version).
+This guide provides a step-by-step approach for deploying the ACEF Laravel application to a cPanel shared hosting environment.
 
 ---
 
-## Step 1: Prepare SSH Access in cPanel
+## Method 1: SSH & Git Deployment (Recommended)
 
+### Step 1: Prepare SSH Access in cPanel
 1. Log in to **cPanel**.
-2. Find the **Security** section and click on **SSH Access**.
-3. Click **Manage SSH Keys**.
-4. Click **Generate a New Key**.
-   - **Key Name**: `id_rsa` (Keep this default name for simplest use. If you change it to `acef_key`, you will need extra steps later, so `id_rsa` is best for beginners).
-   - **Key Password**: (Optional but recommended - if you set one, you'll need to enter it whenever you use Git).
-   - **Key Type**: RSA
-   - **Key Size**: 4096
-5. Click **Generate Key**.
+2. Find **Security** > **SSH Access** > **Manage SSH Keys**.
+3. **Generate a New Key**:
+   - **Key Name**: `id_rsa`
+   - **Key Password**: (Recommended)
+4. **Authorize**: Go back to Manage Keys and click **Authorize** for the new key.
+5. **Add to GitHub**: View the **Public Key**, copy the `ssh-rsa` string, and add it to your GitHub account settings.
 
-### Authorize the Key
-1. Go back to **Manage SSH Keys**.
-2. Under "Public Keys", find your new key.
-3. Click **Manage** next to it.
-4. Click **Authorize** to allow this key to be used for server access.
-
-### Add Key to GitHub
-1. In cPanel, under **SSH Access** > **Manage SSH Keys**, find your key again.
-2. Click **View/Download** for the **Public Key**.
-3. Copy the entire string (starting with `ssh-rsa`).
-4. Go to **GitHub** > **Settings** > **SSH and GPG keys** > **New SSH key**.
-5. Paste your key and save it.
-
----
-
-## Step 2: Clone the Repository
-
-1. Open the **Terminal** in cPanel (under the Advanced section).
-2. Navigate to your home directory (usually `/home/yourusername`).
-3. Clone the repo into a folder that is **NOT** inside `public_html`:
+### Step 2: Clone the Repository
+1. Open cPanel **Terminal**.
+2. Clone into a folder *above* `public_html`:
    ```bash
    git clone git@github.com:yourusername/ACEF.git acef-app
    ```
-   *By placing the code outside `public_html`, you ensure that your sensitive files (like `.env`) are never accessible via a browser.*
 
----
+### Step 3: Configure Environment
+1. `cd ~/acef-app`
+2. `cp .env.example.production .env`
+3. Edit `.env` with your production URL and database credentials.
 
-## Step 3: Configure Environment
-
-1. Navigate into the app folder:
-   ```bash
-   cd acef-app
-   ```
-2. Copy the production environment file:
-   ```bash
-   cp .env.example.production .env
-   ```
-3. Edit the `.env` file (you can use cPanel File Manager or `vi .env` in terminal):
-   - Update `APP_URL` to your domain (e.g., `https://acef-ngo.org`).
-   - Update `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` (Create these in cPanel's **MySQL® Databases** first).
-   - Ensure `APP_ENV=production` and `APP_DEBUG=false`.
-4. Generate the application key:
-   ```bash
-   php artisan key:generate
-   ```
-
----
-
-## Step 4: Install Dependencies
-
-Run these commands in the terminal:
+### Step 4: Install & Setup
 ```bash
-# Install PHP dependencies
 composer install --no-dev --optimize-autoloader
-
-# Run Migrations (Careful: This will update your production database)
+php artisan key:generate
 php artisan migrate --force
-
-# Link storage
 php artisan storage:link
 ```
 
 ---
 
-## Step 5: Link the Public Directory
+## Method 2: Manual Upload + Subsequent Git Connection (Beginner Friendly)
 
-Since Laravel's entry point is in the `public` folder, you need to tell cPanel to serve files from there.
+If you prefer to upload files manually first, follow these phases.
 
-### Option A: Using a Symbolic Link (Recommended)
-If your main domain points to `public_html`:
-1. Rename or move your existing `public_html` (back it up first!):
+### Phase 1: Manual Upload
+1. **ZIP Locally**: Compress your project folder.
+   - **EXCLUDE**: `node_modules`, `vendor`, `.git`, `.env`.
+2. **Upload & Extract**: Use cPanel **File Manager** to upload the ZIP to `/home/yourusername/` and extract it as `acef-app`.
+3. **Setup .env**: Create `.env` inside `acef-app` using the production template.
+
+### Phase 2: Initial Setup
+Open the cPanel **Terminal** and run the **First Three Commands**:
+
+1. **Install Dependencies**:
    ```bash
-   mv ~/public_html ~/public_html_backup
+   cd ~/acef-app
+   composer install --no-dev --optimize-autoloader
    ```
-2. Create a link from the app's `public` folder to `public_html`:
+2. **Generate Key**:
    ```bash
-   ln -s ~/acef-app/public ~/public_html
+   php artisan key:generate
+   ```
+3. **Database Setup**:
+   ```bash
+   php artisan migrate --force
    ```
 
-### Option B: Using an `.htaccess` redirect
-If you cannot delete `public_html`, create an `.htaccess` file inside `public_html` with:
-```apache
-<IfModule mod_rewrite.c>
-   RewriteEngine On
-   RewriteRule ^(.*)$ acef-app/public/$1 [L]
-</IfModule>
-```
+### Phase 3: Connect to GitHub (Post-Deployment)
+To enable future updates via Git:
+1. `git init`
+2. `git remote add origin git@github.com:yourusername/ACEF.git`
+3. Follow Step 1 (SSH Keys) if not already done.
+4. `git fetch origin`
+5. `git reset --hard origin/main`
 
 ---
 
-## Step 6: Asset Compilation (Vite)
+## Final Step: Link the Public Directory
+Regardless of the method, you must point your domain to the `public` folder.
 
-On shared hosting, you usually don't have `npm`. It is best to compile your assets locally and push them to Git, or use a tool to upload the `public/build` folder.
-
-1. **Locally**: Run `npm run build`.
-2. **Commit**: Ensure the `public/build` folder is committed to your repository (check your `.gitignore`).
-3. **Pull**: On the server, run `git pull`.
+**Symbolic Link Method**:
+1. `mv ~/public_html ~/public_html_backup`
+2. `ln -s ~/acef-app/public ~/public_html`
 
 ---
-
-## Step 7: Optimization
-
-Run these to make the site faster in production:
-```bash
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-```
 
 ## Common cPanel Issues
-- **PHP Version**: If `php artisan` fails, try using the full path to the correct PHP version, e.g., `/usr/local/bin/php82 artisan`.
-- **Symlinks**: Some shared hosts disable symlinks. If Step 5 fails, contact support or use a more complex folder structure.
+- **PHP Version**: If `artisan` fails, use `/usr/local/bin/php8x artisan`.
+- **Symlinks**: If the host blocks symlinks, use an `.htaccess` redirect in `public_html`.
