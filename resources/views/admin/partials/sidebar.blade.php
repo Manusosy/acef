@@ -16,7 +16,7 @@
                 ['label' => 'Articles', 'route' => 'admin.articles.index'],
                 ['label' => 'Site Structure', 'route' => 'admin.pages.index'],
                 ['label' => 'Media Library', 'route' => 'admin.media.index'],
-                ['label' => 'Gallery', 'route' => 'admin.gallery.index'],
+
             ]
         ],
         [

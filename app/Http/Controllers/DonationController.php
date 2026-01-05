@@ -14,7 +14,19 @@ class DonationController extends Controller
     public function index()
     {
         $settings = Setting::getGroup('payments');
-        return view('donate', compact('settings'));
+        
+        // Ensure Donate page exists for Hero management
+        $page = \App\Models\Page::firstOrCreate(
+            ['slug' => 'donate'],
+            [
+                'title' => 'Donate', 
+                'template' => 'donate',
+                'has_hero' => true,
+                'hero_slider_enabled' => false
+            ]
+        );
+
+        return view('donate', compact('settings', 'page'));
     }
 
     public function processPaypal(Request $request)
