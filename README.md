@@ -80,14 +80,12 @@ The platform includes role-based dashboards for different user types. Use the fo
 ### Environment Setup
 For production, use `.env.example.production` as a template for your `.env` file. It contains pre-configured mail settings and production-ready defaults.
 
-### cPanel Shared Hosting Deployment
-Deployment to cPanel typically involves:
-1. Setting up SSH access in cPanel.
-2. Generating and adding an SSH key to your Git provider (GitHub/GitLab).
-3. Cloning the repository into a folder *above* `public_html`.
-4. Configuring a symbolic link or updating the web root to point to the `public` directory.
+### Complete Deployment Guide
+**First time deploying Laravel to cPanel?** Follow our complete step-by-step guide:
+📖 **[DEPLOYMENT-COMPLETE-GUIDE.md](DEPLOYMENT-COMPLETE-GUIDE.md)** - Beginner-friendly with screenshots and detailed instructions
 
-[Detailed Deployment Guide](DEPLOYMENT.md)
+For quick reference or advanced users:
+📄 [DEPLOYMENT.md](DEPLOYMENT.md) - Condensed deployment methods
 
 ## Contribution and Legal
 
