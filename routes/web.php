@@ -31,6 +31,10 @@ Route::get('/partners', [\App\Http\Controllers\HomeController::class, 'partners'
 Route::get('/accreditations', [\App\Http\Controllers\HomeController::class, 'accreditations'])->name('accreditations');
 Route::get('/cookies', [\App\Http\Controllers\HomeController::class, 'cookies'])->name('cookies');
 
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submitContact'])->name('contact.submit');
+Route::post('/get-involved', [\App\Http\Controllers\ContactController::class, 'submitInvolvement'])->name('get-involved.submit');
+
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         $user = auth()->user();

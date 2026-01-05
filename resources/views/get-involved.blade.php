@@ -94,6 +94,30 @@
                         </div>
 
                         <div class="p-12 md:p-16 space-y-10">
+                            @if(session('success'))
+                                <div class="p-6 bg-green-50 border border-green-100 rounded-3xl text-green-700 font-bold flex items-center gap-4">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if(session('error'))
+                                <div class="p-6 bg-red-50 border border-red-100 rounded-3xl text-red-700 font-bold flex items-center gap-4">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+
+                            @if($errors->any())
+                                <div class="p-6 bg-red-50 border border-red-100 rounded-3xl text-red-700 font-bold">
+                                    <ul class="list-disc list-inside">
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             
                             <!-- Volunteer Form -->
                             <div x-show="tab === 'volunteer'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-8">
@@ -101,7 +125,9 @@
                                     <h2 class="text-4xl font-bold text-acef-dark dark:text-white tracking-tighter">{{ __('pages.get_involved.volunteer_form.title') }}</h2>
                                     <p class="text-gray-400 font-light italic text-sm">{{ __('pages.get_involved.volunteer_form.subtitle') }}</p>
                                 </div>
-                            <form class="space-y-8" action="mailto:info@acef-ngo.org" method="POST" enctype="text/plain">
+                            <form class="space-y-8" action="{{ route('get-involved.submit') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="type" value="volunteer">
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div class="space-y-3">
                                             <label class="text-xs font-bold uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.volunteer_form.first_name') }}</label>
@@ -159,7 +185,9 @@
                                     <h2 class="text-4xl font-bold text-acef-dark dark:text-white tracking-tighter">{{ __('pages.get_involved.partner_form.title') }}</h2>
                                     <p class="text-gray-400 font-light italic text-sm">{{ __('pages.get_involved.partner_form.subtitle') }}</p>
                                 </div>
-                                <form class="space-y-8" action="mailto:partnerships@acef-ngo.org" method="POST" enctype="text/plain">
+                                <form class="space-y-8" action="{{ route('get-involved.submit') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="type" value="partner">
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div class="space-y-3">
                                             <label class="text-xs font-bold uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.partner_form.org_name') }}</label>
@@ -209,7 +237,9 @@
                                     <h2 class="text-4xl font-bold text-acef-dark dark:text-white tracking-tighter">{{ __('pages.get_involved.collaborate_form.title') }}</h2>
                                     <p class="text-gray-400 font-light italic text-sm">{{ __('pages.get_involved.collaborate_form.subtitle') }}</p>
                                 </div>
-                                <form class="space-y-8" action="mailto:info@acef-ngo.org" method="POST" enctype="text/plain">
+                                <form class="space-y-8" action="{{ route('get-involved.submit') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="type" value="collaborate">
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div class="space-y-3">
                                             <label class="text-xs font-bold uppercase text-acef-dark dark:text-gray-300 tracking-widest">{{ __('pages.get_involved.collaborate_form.name') }}</label>

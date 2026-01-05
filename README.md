@@ -24,6 +24,8 @@ The application is structured into several key functional areas:
 - **Knowledge Hub**: Accessible research papers, strategic plans, and policy briefs.
 - **Insights (Blog)**: Educational content on conservation, renewable energy, and community resilience.
 - **Governance**: Sections for Leadership, Partners, and UN Accreditations.
+- **Form Submissions**: Professional backend-driven contact and involvement forms (Volunteer, Partner, Collaborate) with email notifications.
+
 
 ## Strategic Framework
 The website integrates content from official documentation, including:
@@ -73,5 +75,20 @@ The platform includes role-based dashboards for different user types. Use the fo
 
 - **Features**: Country-specific project view, Article creation (Drafts), Media Library access.
 
+## Production Deployment
+
+### Environment Setup
+For production, use `.env.example.production` as a template for your `.env` file. It contains pre-configured mail settings and production-ready defaults.
+
+### cPanel Shared Hosting Deployment
+Deployment to cPanel typically involves:
+1. Setting up SSH access in cPanel.
+2. Generating and adding an SSH key to your Git provider (GitHub/GitLab).
+3. Cloning the repository into a folder *above* `public_html`.
+4. Configuring a symbolic link or updating the web root to point to the `public` directory.
+
+[Detailed Deployment Guide](DEPLOYMENT.md)
+
 ## Contribution and Legal
+
 This project is maintained by the ACEF Technical Team. For information regarding data protection and terms of use, refer to the Privacy Policy and Terms of Service pages within the application.
