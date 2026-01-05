@@ -165,7 +165,7 @@
             <!-- Left Navigation (Folders) -->
             <div class="w-64 bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 flex flex-col">
                 <div class="p-6 border-b border-gray-50 dark:border-gray-700 flex items-center justify-between">
-                    <h2 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Gallery Folders</h2>
+                    <h2 class="text-base font-medium text-gray-900 dark:text-white">Gallery Folders</h2>
                     <button @click="showFolderModal = true" class="p-1.5 hover:bg-emerald-50 text-emerald-600 rounded-lg transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                     </button>

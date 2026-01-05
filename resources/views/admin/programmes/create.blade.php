@@ -9,8 +9,11 @@
                 <a href="{{ route('admin.programmes.index') }}" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg">
                     Cancel
                 </a>
-                <button type="submit" form="program-form" class="px-4 py-2 bg-acef-green hover:bg-emerald-600 text-white font-medium rounded-lg shadow-sm">
-                    Publish Program
+                <button type="submit" form="program-form" name="action" value="draft" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg">
+                    Save
+                </button>
+                <button type="submit" form="program-form" name="action" value="publish" class="px-4 py-2 bg-acef-green hover:bg-emerald-600 text-white font-medium rounded-lg shadow-sm">
+                    {{ auth()->user()->isAdmin() ? 'Publish Program' : 'Submit for Review' }}
                 </button>
             </div>
         </div>

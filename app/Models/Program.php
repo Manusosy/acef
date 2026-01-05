@@ -60,4 +60,15 @@ class Program extends Model
     {
         return $this->hasMany(MediaFolder::class, 'programme_id');
     }
+
+    public function getStatusBadgeAttribute()
+    {
+        return match($this->status) {
+            'published' => 'bg-emerald-100 text-emerald-700',
+            'pending' => 'bg-amber-100 text-amber-700',
+            'draft' => 'bg-gray-100 text-gray-700',
+            'archived' => 'bg-red-100 text-red-700',
+            default => 'bg-gray-100 text-gray-700',
+        };
+    }
 }

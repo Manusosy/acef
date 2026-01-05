@@ -8,10 +8,10 @@
             </div>
             <div class="flex gap-3">
                 <button type="submit" form="article-form" name="action" value="draft" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg">
-                    Save Draft
+                    Save
                 </button>
                 <button type="submit" form="article-form" name="action" value="publish" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-sm">
-                    Publish Article
+                    {{ auth()->user()->isAdmin() ? 'Publish Article' : 'Submit for Review' }}
                 </button>
             </div>
         </div>
@@ -50,7 +50,7 @@
                     <div class="space-y-4">
                         <div class="flex items-center justify-between text-sm">
                             <span class="text-gray-500 dark:text-gray-400">Status:</span>
-                            <span class="font-medium text-gray-900 dark:text-white">Draft</span>
+                            <span class="font-medium text-gray-900 dark:text-white">{{ ucfirst($article->status ?? 'Draft') }}</span>
                         </div>
                         <div class="flex items-center justify-between text-sm">
                             <span class="text-gray-500 dark:text-gray-400">Visibility:</span>

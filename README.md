@@ -64,15 +64,13 @@ The platform includes role-based dashboards for different user types. Use the fo
 
 ### 1. Admin Portal
 - **Login URL**: [http://127.0.0.1:9090/login](http://127.0.0.1:9090/login)
-- **Email**: `developer@acef-ngo.org`
-- **Password**: `password`
+
 - **Features**: Full system access, User Management, Content Management (Articles, Projects), Payment Settings, Donation Tracking.
 
 ### 2. Country Coordinator Portal
 - **Login URL**: [http://127.0.0.1:9090/login](http://127.0.0.1:9090/login) (Auto-redirects to Coordinator Dashboard)
 - **Registration URL**: [http://127.0.0.1:9090/register](http://127.0.0.1:9090/register) (Select "Country Coordinator" role)
-- **Test Email**: `coordinator@acef-ngo.org`
-- **Password**: `password`
+
 - **Features**: Country-specific project view, Article creation (Drafts), Media Library access.
 
 ## Contribution and Legal

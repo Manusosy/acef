@@ -15,10 +15,7 @@ class ArticleController extends Controller
         $user = auth()->user();
         $query = Article::with(['author', 'category']);
 
-        // Scope to country if Coordinator
-        if ($user->isCoordinator()) {
-            $query->where('country', $user->country);
-        }
+        // Articles are visible to everyone (Admins and Coordinators)
 
         // Search
         if ($request->filled('search')) {
@@ -36,21 +33,12 @@ class ArticleController extends Controller
         $articles = $query->latest()->paginate(10);
 
         // Stats for cards
-        if ($user->isAdmin()) {
-            $stats = [
-                'published' => Article::where('status', 'published')->count(),
-                'drafts' => Article::where('status', 'draft')->count(),
-                'pending' => Article::where('status', 'pending')->count(),
-                'total' => Article::count(),
-            ];
-        } else {
-            $stats = [
-                'published' => Article::where('country', $user->country)->where('status', 'published')->count(),
-                'drafts' => Article::where('country', $user->country)->where('status', 'draft')->count(),
-                'pending' => Article::where('country', $user->country)->where('status', 'pending')->count(),
-                'total' => Article::where('country', $user->country)->count(),
-            ];
-        }
+        $stats = [
+            'published' => Article::where('status', 'published')->count(),
+            'drafts' => Article::where('status', 'draft')->count(),
+            'pending' => Article::where('status', 'pending')->count(),
+            'total' => Article::count(),
+        ];
 
         return view('admin.articles.index', compact('articles', 'stats'));
     }
@@ -66,10 +54,12 @@ class ArticleController extends Controller
     {
         $user = auth()->user();
         
+        $isDraft = $request->action === 'draft';
+
         $rules = [
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'content' => 'required|string',
+            'category_id' => ($isDraft ? 'nullable' : 'required') . '|exists:categories,id',
+            'content' => ($isDraft ? 'nullable' : 'required') . '|string',
             'excerpt' => 'nullable|string',
             'image' => 'nullable',
             'read_time' => 'nullable|integer|min:1',
@@ -78,7 +68,7 @@ class ArticleController extends Controller
         ];
 
         if ($user->isAdmin()) {
-            $rules['status'] = 'required|in:draft,published,pending';
+            $rules['status'] = ($isDraft ? 'nullable' : 'required') . '|in:draft,published,pending';
             $rules['country'] = 'nullable|string';
         }
 
@@ -91,7 +81,7 @@ class ArticleController extends Controller
         
         // Enforce coordinator restrictions
         if ($user->isCoordinator()) {
-            $article->status = 'draft';
+            $article->status = $request->action === 'publish' ? 'pending' : 'draft';
             $article->country = $user->country;
         }
 
@@ -132,15 +122,14 @@ class ArticleController extends Controller
     {
         $user = auth()->user();
 
-        // Scope check for coordinator
-        if ($user->isCoordinator() && $article->country !== $user->country) {
-            abort(403);
-        }
+        // Articles are visible to everyone
+
+        $isDraft = $request->action === 'draft';
 
         $rules = [
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'content' => 'required|string',
+            'category_id' => ($isDraft ? 'nullable' : 'required') . '|exists:categories,id',
+            'content' => ($isDraft ? 'nullable' : 'required') . '|string',
             'excerpt' => 'nullable|string',
             'image' => 'nullable',
             'read_time' => 'nullable|integer|min:1',
@@ -149,7 +138,7 @@ class ArticleController extends Controller
         ];
 
         if ($user->isAdmin()) {
-            $rules['status'] = 'required|in:draft,published,pending';
+            $rules['status'] = ($isDraft ? 'nullable' : 'required') . '|in:draft,published,pending';
             $rules['country'] = 'nullable|string';
         }
 
@@ -160,7 +149,7 @@ class ArticleController extends Controller
 
         // Enforce coordinator restrictions
         if ($user->isCoordinator()) {
-            $article->status = 'draft';
+            $article->status = $request->action === 'publish' ? 'pending' : 'draft';
         }
 
         if ($request->hasFile('image')) {
@@ -190,8 +179,8 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
-        $user = auth()->user();
-        if ($user->isCoordinator() && $article->country !== $user->country) {
+        // Articles can be deleted by admins or the author (optional: user said 'anyone logged in... can see', but usually only admin/author can delete)
+        if ($user->isCoordinator() && $article->author_id !== $user->id) {
             abort(403);
         }
 

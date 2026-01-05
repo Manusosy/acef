@@ -64,10 +64,12 @@ class ProjectController extends Controller
             $request->merge(['start_date' => $request->start_date . '-01-01']);
         }
         
+        $isDraft = $request->has('save_draft');
+
         $rules = [
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category' => 'required|string|max:100',
+            'description' => ($isDraft ? 'nullable' : 'required') . '|string',
+            'category' => ($isDraft ? 'nullable' : 'required') . '|string|max:100',
             'goal_amount' => 'nullable|numeric|min:0',
             'raised_amount' => 'nullable|numeric|min:0',
             'start_date' => 'nullable|date',
@@ -80,8 +82,8 @@ class ProjectController extends Controller
         ];
 
         if ($user->isAdmin()) {
-            $rules['country'] = 'required|array';
-            $rules['status'] = 'required|in:ongoing,completed,starting,draft';
+            $rules['country'] = ($isDraft ? 'nullable' : 'required') . '|array';
+            $rules['status'] = ($isDraft ? 'nullable' : 'required') . '|in:ongoing,completed,starting,draft';
         }
 
         $rules['objectives'] = 'nullable|array';
@@ -107,10 +109,7 @@ class ProjectController extends Controller
         // Enforce coordinator restrictions
         if ($user->isCoordinator()) {
             $validated['country'] = [$user->country];
-            $validated['status'] = 'starting'; // Default status for coordinator-added projects? Or 'pending' if it existed.
-            // Since there is no 'pending' in Project status ENUM/Validate, let's stick to 'starting'.
-            // Actually, maybe projects should also have a 'published/draft' status?
-            // Checking migrations/Project schema... wait, the controller suggests: ongoing,completed,starting.
+            $validated['status'] = $request->has('save_draft') ? 'draft' : 'pending';
         }
 
         if ($request->hasFile('image')) {
@@ -158,10 +157,12 @@ class ProjectController extends Controller
             abort(403);
         }
 
+        $isDraft = $request->has('save_draft');
+
         $rules = [
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category' => 'required|string|max:100',
+            'description' => ($isDraft ? 'nullable' : 'required') . '|string',
+            'category' => ($isDraft ? 'nullable' : 'required') . '|string|max:100',
             'goal_amount' => 'nullable|numeric|min:0',
             'raised_amount' => 'nullable|numeric|min:0',
             'start_date' => 'nullable|date',
@@ -173,8 +174,8 @@ class ProjectController extends Controller
         ];
 
         if ($user->isAdmin()) {
-            $rules['country'] = 'required|array';
-            $rules['status'] = 'required|in:ongoing,completed,starting,draft';
+            $rules['country'] = ($isDraft ? 'nullable' : 'required') . '|array';
+            $rules['status'] = ($isDraft ? 'nullable' : 'required') . '|in:ongoing,completed,starting,draft';
         }
 
         $rules['objectives'] = 'nullable|array';
@@ -189,9 +190,14 @@ class ProjectController extends Controller
             $validated['status'] = 'draft';
             $validated['is_active'] = false;
         } elseif ($request->has('publish')) {
-             // If publishing, default to 'ongoing' if not set, or keep selected status
-            $validated['status'] = $validated['status'] === 'draft' ? 'ongoing' : $validated['status'];
-            $validated['is_active'] = true;
+            // If publishing, default to 'ongoing' if not set, or keep selected status
+            if ($user->isAdmin()) {
+                $validated['status'] = $validated['status'] === 'draft' ? 'ongoing' : $validated['status'];
+                $validated['is_active'] = true;
+            } else {
+                $validated['status'] = 'pending';
+                $validated['is_active'] = false;
+            }
         }
 
         $validated['is_featured'] = $request->boolean('is_featured');

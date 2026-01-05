@@ -69,18 +69,36 @@ class SettingsController extends Controller
 
     public function payments()
     {
-        $settings = Setting::getGroup('payments');
-        return view('admin.settings.payments', compact('settings'));
+        return redirect()->route('admin.settings.apis');
     }
 
     public function updatePayments(Request $request)
     {
+        return redirect()->route('admin.settings.apis');
+    }
+
+    public function apis()
+    {
+        $settings = Setting::getGroup('apis');
+        return view('admin.settings.apis', compact('settings'));
+    }
+
+    public function updateApis(Request $request)
+    {
         $validated = $request->validate([
+            // YouTube
+            'youtube_api_key' => 'nullable|string|max:255',
+            'youtube_channel_id' => 'nullable|string|max:255',
+            
+            // Google Translate
+            'google_translate_api_key' => 'nullable|string|max:255',
+            'google_translate_enabled' => 'nullable|boolean',
+
             // PayPal
             'paypal_enabled' => 'nullable|boolean',
-            'paypal_mode' => 'nullable|in:sandbox,live',
             'paypal_client_id' => 'nullable|string|max:255',
             'paypal_client_secret' => 'nullable|string|max:255',
+            'paypal_mode' => 'nullable|in:sandbox,live',
 
             // M-Pesa
             'mpesa_enabled' => 'nullable|boolean',
@@ -105,45 +123,15 @@ class SettingsController extends Controller
         ]);
 
         // Convert checkboxes
+        $validated['google_translate_enabled'] = $request->boolean('google_translate_enabled');
         $validated['paypal_enabled'] = $request->boolean('paypal_enabled');
         $validated['mpesa_enabled'] = $request->boolean('mpesa_enabled');
         $validated['gofundme_enabled'] = $request->boolean('gofundme_enabled');
         $validated['bank_enabled'] = $request->boolean('bank_enabled');
 
-        Setting::setMany($validated, 'payments');
-
-        return redirect()->route('admin.settings.payments')
-            ->with('success', 'Payment settings updated successfully.');
-    }
-
-    public function apis()
-    {
-        $settings = Setting::getGroup('apis');
-        return view('admin.settings.apis', compact('settings'));
-    }
-
-    public function updateApis(Request $request)
-    {
-        $validated = $request->validate([
-            // YouTube
-            'youtube_api_key' => 'nullable|string|max:255',
-            'youtube_channel_id' => 'nullable|string|max:255',
-            
-            // Google Translate
-            'google_translate_api_key' => 'nullable|string|max:255',
-            'google_translate_enabled' => 'nullable|boolean',
-
-            // PayPal (moved here for centralization as per QA)
-            'paypal_client_id' => 'nullable|string|max:255',
-            'paypal_client_secret' => 'nullable|string|max:255',
-            'paypal_mode' => 'nullable|in:sandbox,live',
-        ]);
-
-        $validated['google_translate_enabled'] = $request->boolean('google_translate_enabled');
-
         Setting::setMany($validated, 'apis');
 
         return redirect()->route('admin.settings.apis')
-            ->with('success', 'API settings updated successfully.');
+            ->with('success', 'Configuration updated successfully.');
     }
 }

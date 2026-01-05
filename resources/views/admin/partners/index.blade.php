@@ -4,8 +4,8 @@
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Partners</h1>
             <p class="text-sm text-gray-500 dark:text-gray-400">Manage strategic, institutional, and implementation partners</p>
         </div>
-        <a href="{{ route('admin.partners.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-acef-dark dark:bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-emerald-500/10">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+        <a href="{{ route('admin.partners.create') }}" class="inline-flex items-center gap-2 px-6 py-2.5 bg-acef-green hover:bg-emerald-600 text-white text-sm font-medium rounded-xl transition-all shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             Add New Partner
         </a>
     </div>
@@ -25,7 +25,7 @@
                     <option value="implementation" {{ request('category') === 'implementation' ? 'selected' : '' }}>Implementation</option>
                 </select>
             </div>
-            <button type="submit" class="px-6 py-2 bg-gray-900 dark:bg-gray-700 text-white text-[10px] font-black uppercase tracking-widest rounded-xl">Filter</button>
+            <button type="submit" class="px-6 py-2 bg-gray-900 dark:bg-gray-700 text-white text-xs font-semibold uppercase tracking-wider rounded-xl hover:bg-gray-800 transition-colors">Filter</button>
         </form>
     </div>
 
@@ -50,21 +50,21 @@
                             <input type="hidden" name="name" value="{{ $partner->name }}">
                             <input type="hidden" name="category" value="{{ $partner->category }}">
                             <input type="hidden" name="show_on_homepage" value="{{ $partner->show_on_homepage ? 0 : 1 }}">
-                            <button type="submit" class="px-3 py-1 {{ $partner->show_on_homepage ? 'bg-emerald-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-400' }} text-[8px] font-black uppercase tracking-widest rounded-full shadow-lg transition-all hover:scale-110">
+                            <button type="submit" class="px-3 py-1 {{ $partner->show_on_homepage ? 'bg-emerald-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-400' }} text-[9px] font-bold uppercase tracking-wider rounded-full shadow-sm transition-all hover:scale-105">
                                 {{ $partner->show_on_homepage ? 'Featured' : 'Feature' }}
                             </button>
                         </form>
-                        <span class="px-3 py-1 {{ $partner->is_active ? 'bg-white/90 text-emerald-600' : 'bg-red-50 text-red-600' }} text-[8px] font-black uppercase tracking-widest rounded-full shadow-sm">{{ $partner->is_active ? 'Active' : 'Inactive' }}</span>
+                        <span class="px-3 py-1 {{ $partner->is_active ? 'bg-white/90 text-emerald-600' : 'bg-red-50 text-red-600' }} text-[9px] font-bold uppercase tracking-wider rounded-full shadow-sm">{{ $partner->is_active ? 'Active' : 'Inactive' }}</span>
                     </div>
                 </div>
 
                 <div class="p-8 space-y-4">
                     <div>
-                        <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-1">{{ $partner->category }}</p>
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-emerald-600 transition-colors">{{ $partner->name }}</h3>
+                        <p class="text-xs font-semibold text-emerald-500 uppercase tracking-wider mb-1">{{ $partner->category }}</p>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white leading-tight group-hover:text-emerald-600 transition-colors">{{ $partner->name }}</h3>
                     </div>
                     
-                    <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 italic font-medium leading-relaxed">
+                    <p class="text-base text-gray-500 dark:text-gray-400 line-clamp-2 italic font-medium leading-relaxed">
                         {{ $partner->description ?: 'No description provided.' }}
                     </p>
 

@@ -7,7 +7,7 @@
 }
 
 /* Hide Google Translate Banner */
-.goog-te-banner-frame.skiptranslate, 
+.goog-te-banner-frame.skiptranslate,
 .goog-te-gadget-icon,
 .goog-te-gadget-simple img,
 .goog-te-menu-value span {
@@ -16,6 +16,126 @@
 
 body {
     top: 0 !important;
+    font-family: 'Source Sans 3', sans-serif !important;
+    font-size: 18px !important;
+    line-height: 29px !important;
+    color: rgb(50, 44, 42);
+    /* Default body color */
+    @apply text-acef-body;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Crimson Pro', serif !important;
+}
+
+/* Dashboard Typography Enhancements */
+/* Set sensible defaults without forcing everything */
+
+/* Dashboard Headings - Proper Hierarchy */
+.dashboard-content h1 {
+    font-size: 2.25rem;
+    /* 36px */
+    font-weight: 800;
+    color: rgb(17, 24, 39);
+    margin-bottom: 1rem;
+}
+
+.dashboard-content h2 {
+    font-size: 1.875rem;
+    /* 30px */
+    font-weight: 700;
+    color: rgb(17, 24, 39);
+    margin-bottom: 0.75rem;
+}
+
+.dashboard-content h3 {
+    font-size: 1.5rem;
+    /* 24px */
+    font-weight: 700;
+    color: rgb(17, 24, 39);
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-content h4 {
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 700;
+    color: rgb(17, 24, 39);
+}
+
+.dashboard-content h5,
+.dashboard-content h6 {
+    font-size: 1.125rem;
+    /* 18px */
+    font-weight: 700;
+    color: rgb(17, 24, 39);
+}
+
+.dark .dashboard-content h1,
+.dark .dashboard-content h2,
+.dark .dashboard-content h3,
+.dark .dashboard-content h4,
+.dark .dashboard-content h5,
+.dark .dashboard-content h6 {
+    color: rgb(249, 250, 251);
+}
+
+/* Base paragraph and div text - only if no size class */
+.dashboard-content p:not([class*="text-"]),
+.dashboard-content div:not([class*="text-"]):not([class*="flex"]):not([class*="grid"]) {
+    font-size: 1rem;
+    /* 16px */
+    line-height: 1.6;
+    color: rgb(31, 41, 55);
+}
+
+.dark .dashboard-content p:not([class*="text-"]),
+.dark .dashboard-content div:not([class*="text-"]):not([class*="flex"]):not([class*="grid"]) {
+    color: rgb(229, 231, 235);
+}
+
+/* Table content - respect existing classes */
+.dashboard-content table {
+    font-size: 0.9375rem;
+    /* 15px base for tables */
+}
+
+.dashboard-content th {
+    font-weight: 600;
+    color: rgb(107, 114, 128);
+}
+
+.dark .dashboard-content th {
+    color: rgb(156, 163, 175);
+}
+
+.dashboard-content td {
+    color: rgb(31, 41, 55);
+}
+
+.dark .dashboard-content td {
+    color: rgb(229, 231, 235);
+}
+
+/* Form labels - slightly larger */
+.dashboard-content label:not([class*="text-"]) {
+    font-size: 0.9375rem;
+    /* 15px */
+    font-weight: 600;
+    color: rgb(31, 41, 55);
+}
+
+.dark .dashboard-content label:not([class*="text-"]) {
+    color: rgb(229, 231, 235);
 }
 
 #google_translate_element {

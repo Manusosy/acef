@@ -48,14 +48,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class);
         Route::resource('programmes', \App\Http\Controllers\Admin\ProgrammeController::class);
         Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
+        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+        Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+        Route::resource('gallery', \App\Http\Controllers\Admin\GalleryController::class);
+        Route::resource('media', \App\Http\Controllers\Admin\MediaController::class)->except(['create', 'edit']);
+        Route::post('/media/folders', [\App\Http\Controllers\Admin\MediaController::class, 'storeFolder'])->name('media.folders.store');
+        Route::put('/media/folders/{folder}', [\App\Http\Controllers\Admin\MediaController::class, 'updateFolder'])->name('media.folders.update');
+        Route::delete('/media/folders/{folder}', [\App\Http\Controllers\Admin\MediaController::class, 'destroyFolder'])->name('media.folders.destroy');
+        Route::post('/media/bulk', [\App\Http\Controllers\Admin\MediaController::class, 'bulkUpdate'])->name('media.bulk');
     });
 
     // Admin-Only Routes
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         
-        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
-        Route::resource('gallery', \App\Http\Controllers\Admin\GalleryController::class);
+        // Categories moved to shared
+        // Gallery and Media moved to shared
         
         // Organization
         Route::resource('team', \App\Http\Controllers\Admin\TeamMemberController::class);
@@ -78,15 +86,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/donations', [\App\Http\Controllers\Admin\DonationController::class, 'index'])->name('donations.index');
         Route::get('/donations/{donation}', [\App\Http\Controllers\Admin\DonationController::class, 'show'])->name('donations.show');
 
-        // Media Library
-        Route::resource('media', \App\Http\Controllers\Admin\MediaController::class)->except(['create', 'edit']);
-        Route::post('/media/folders', [\App\Http\Controllers\Admin\MediaController::class, 'storeFolder'])->name('media.folders.store');
-        Route::put('/media/folders/{folder}', [\App\Http\Controllers\Admin\MediaController::class, 'updateFolder'])->name('media.folders.update');
-        Route::delete('/media/folders/{folder}', [\App\Http\Controllers\Admin\MediaController::class, 'destroyFolder'])->name('media.folders.destroy');
-        Route::post('/media/bulk', [\App\Http\Controllers\Admin\MediaController::class, 'bulkUpdate'])->name('media.bulk');
+        // Media Library moved to shared
         
         // Pages CMS
-        Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+        // Pages CMS moved to shared
         
         // Hero Sections
         Route::get('/heroes/{page}', [\App\Http\Controllers\Admin\HeroController::class, 'edit'])->name('heroes.edit');

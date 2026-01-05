@@ -104,7 +104,7 @@
                             <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-acef-green focus:ring-acef-green dark:bg-gray-800">
                         </td>
                         <td class="px-6 py-4">
-                            <div class="font-medium text-gray-900 dark:text-white">{{ $article->title }}</div>
+                            <div class="text-base font-medium text-gray-900 dark:text-white">{{ $article->title }}</div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center">
@@ -112,20 +112,20 @@
                                     {{ substr($article->author->name ?? 'A', 0, 1) }}
                                 </span>
                                 <div>
-                                    <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $article->author->name ?? 'Unknown' }}</div>
+                                    <div class="text-base font-medium text-gray-900 dark:text-white">{{ $article->author->name ?? 'Unknown' }}</div>
                                     <div class="text-xs text-gray-500 dark:text-gray-400">{{ $article->author->role->name ?? 'User' }}</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-gray-600 dark:text-gray-400">{{ $article->category->name ?? 'Uncategorized' }}</span>
+                            <span class="text-base text-gray-600 dark:text-gray-400">{{ $article->category->name ?? 'Uncategorized' }}</span>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="font-medium text-gray-900 dark:text-white">{{ $article->status === 'published' ? 'Published' : ucfirst($article->status) }}</div>
+                            <div class="text-base font-medium text-gray-900 dark:text-white">{{ $article->status === 'published' ? 'Published' : ucfirst($article->status) }}</div>
                             <div class="text-xs text-gray-500 dark:text-gray-400">{{ $article->formatted_date }}</div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="px-3 py-1 rounded-full text-xs font-medium {{ $article->status_badge }}">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $article->status_badge }}">
                                 {{ ucfirst($article->status) }}
                             </span>
                         </td>

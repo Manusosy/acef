@@ -10,7 +10,6 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -192,7 +191,7 @@
                                         {{ ucfirst($project->status) }}
                                     </span>
                                     <div
-                                        class="text-acef-dark font-black text-xs flex items-center group-hover:text-acef-green transition-colors">
+                                        class="text-acef-dark font-black text-base flex items-center group-hover:text-acef-green transition-colors">
                                         {{ $project->status === 'completed' ? 'View Impact' : 'View Project' }}
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

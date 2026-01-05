@@ -27,7 +27,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Media Picker Modal -->
@@ -136,11 +136,10 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                     <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
                         <a href="{{ route('admin.articles.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.articles.index') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Articles</a>
                         <a href="{{ route('admin.articles.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.articles.create') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
-                        @if(Auth::user()->isAdmin())
                         <a href="{{ route('admin.categories.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.categories.*') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Categories</a>
-                        @endif
                     </div>
                 </div>
+
 
                 <!-- Programs -->
                 <div x-data="{ open: {{ request()->routeIs('admin.programmes.*') ? 'true' : 'false' }} }">
@@ -187,6 +186,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                 </div>
 
                 @if(Auth::user()->isAdmin())
+
                     <!-- Media Library -->
                     <a href="{{ route('admin.media.index') }}" 
                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.media.*') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
@@ -196,6 +196,39 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                         </svg>
                         <span x-show="!sidebarCollapsed" x-transition class="font-medium">Media Library</span>
                         <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Media Library</div>
+                    </a>
+
+                    <!-- Pages -->
+                    <div x-data="{ open: {{ request()->routeIs('admin.pages.*') ? 'true' : 'false' }} }">
+                        <button @click="if (!sidebarCollapsed) open = !open" 
+                                class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group hover:bg-white/5 {{ request()->routeIs('admin.pages.*') ? 'bg-white/5' : '' }}"
+                                :class="sidebarCollapsed ? 'justify-center' : ''">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.pages.*') ? 'text-white' : 'text-gray-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                                <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Pages CMS</span>
+                            </div>
+                            <svg x-show="!sidebarCollapsed" class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                            <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Pages</div>
+                        </button>
+                        <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
+                            <a href="{{ route('admin.pages.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.pages.index') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Pages</a>
+                            <a href="{{ route('admin.pages.create') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.pages.create') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Add New</a>
+                        </div>
+                    </div>
+
+                    <!-- Gallery -->
+                    <a href="{{ route('admin.gallery.index') }}" 
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative {{ request()->routeIs('admin.gallery.*') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                       :class="sidebarCollapsed ? 'justify-center' : ''">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span x-show="!sidebarCollapsed" x-transition class="font-medium text-gray-300 group-hover:text-white">Gallery</span>
+                        <div x-show="sidebarCollapsed" class="tooltip absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap pointer-events-none z-50">Gallery</div>
                     </a>
 
                     <!-- Resources -->
@@ -283,7 +316,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                     <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
                         @if(Auth::user()->isAdmin())
                         <a href="{{ route('admin.settings.general') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.settings.general') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Site Settings</a>
-                        <a href="{{ route('admin.settings.apis') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.settings.apis') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">API Settings</a>
+                        <a href="{{ route('admin.settings.apis') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.settings.apis') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">API & Gateways</a>
                         @endif
                         <a href="{{ route('profile.edit') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('profile.edit') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Admin Account</a>
                     </div>
@@ -439,7 +472,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
             </header>
 
             <!-- Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900 p-8">
+            <main class="dashboard-content flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900 p-8">
                 <!-- Session Status -->
                 <x-auth-session-status class="mb-6 px-4 py-3 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300" :status="session('status')" />
                 

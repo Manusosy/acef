@@ -21,7 +21,6 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -208,11 +207,11 @@
                                 <h3 class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors">
                                     {{ $prog['title'] }}
                                 </h3>
-                                <p class="text-gray-500 text-sm leading-relaxed">{{ $prog['desc'] }}</p>
+                                <p class="text-gray-500 leading-relaxed">{{ $prog['desc'] }}</p>
                             </div>
                             <div class="pt-6">
                                 <a href="{{ route('programmes') }}"
-                                    class="text-acef-green font-bold flex items-center text-sm group-hover:translate-x-1 transition-transform">
+                                    class="text-acef-green font-bold flex items-center text-base group-hover:translate-x-1 transition-transform">
                                     {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none"
                                         stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -261,7 +260,7 @@
                                 class="text-2xl font-bold text-acef-dark group-hover:text-acef-green transition-colors mb-2">
                                 {{ $project->title }}
                             </h3>
-                            <p class="text-gray-500 text-sm line-clamp-2 italic mb-4">{{Str::limit($project->description, 100)}}</p>
+                            <p class="text-gray-500 line-clamp-2 italic mb-4">{{Str::limit($project->description, 100)}}</p>
                             <a href="{{ route('projects.show', $project) }}"
                                 class="font-bold text-acef-dark group-hover:text-acef-green transition-colors flex items-center">
                                 {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
@@ -396,10 +395,10 @@
                                     class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors leading-tight">
                                     {{ $news->title }}
                                 </h3>
-                                <p class="text-gray-500 text-sm italic">{{ Str::limit($news->excerpt, 100) }}</p>
+                                <p class="text-gray-500 italic">{{ Str::limit($news->excerpt, 100) }}</p>
                                 <div class="pt-2 border-t border-gray-100">
                                     <a href="{{ route('news.show', $news) }}"
-                                        class="text-acef-dark font-bold text-sm flex items-center group-hover:text-acef-green transition-colors">
+                                        class="text-acef-dark font-bold text-base flex items-center group-hover:text-acef-green transition-colors">
                                         {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none"
                                             stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

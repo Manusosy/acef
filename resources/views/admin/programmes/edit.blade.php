@@ -9,8 +9,11 @@
                 <a href="{{ route('admin.programmes.index') }}" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg">
                     Cancel
                 </a>
-                <button type="submit" form="program-form" class="px-4 py-2 bg-acef-green hover:bg-emerald-600 text-white font-medium rounded-lg shadow-sm">
-                    Update Program
+                <button type="submit" form="program-form" name="action" value="draft" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg">
+                    Save
+                </button>
+                <button type="submit" form="program-form" name="action" value="publish" class="px-4 py-2 bg-acef-green hover:bg-emerald-600 text-white font-medium rounded-lg shadow-sm">
+                    {{ auth()->user()->isAdmin() ? 'Update Program' : 'Submit for Review' }}
                 </button>
             </div>
         </div>
@@ -113,9 +116,15 @@
                         </select>
                     </div>
                     @else
-                        <div class="flex items-center gap-2 text-amber-600 bg-amber-50 dark:bg-amber-900/20 p-2 rounded-lg text-xs font-medium">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            Saves as Draft for Admin Review
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500 dark:text-gray-400">Current Status:</span>
+                                {{ $programme->status_badge }}
+                            </div>
+                            <div class="flex items-center gap-2 text-amber-600 bg-amber-50 dark:bg-amber-900/20 p-2 rounded-lg text-xs font-medium">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Submits for Admin Review
+                            </div>
                         </div>
                     @endif
                 </div>

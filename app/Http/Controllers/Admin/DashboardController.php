@@ -22,6 +22,9 @@ class DashboardController extends Controller
             'team_members' => TeamMember::count(),
             'partners' => Partner::count(),
             'users' => User::count(),
+            'pending_review' => Article::where('status', 'pending')->count() + 
+                                Project::where('status', 'pending')->count() + 
+                                Programme::where('status', 'pending')->count(),
         ];
 
         $recentProjects = Project::latest()->take(5)->get();

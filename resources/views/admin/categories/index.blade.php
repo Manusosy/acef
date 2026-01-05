@@ -46,14 +46,14 @@
                             @foreach($categories as $category)
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $category->name }}</div>
-                                    <div class="text-xs text-gray-500 line-clamp-1">{{ $category->description }}</div>
+                                    <div class="text-base font-medium text-gray-900 dark:text-white">{{ $category->name }}</div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{{ $category->description }}</div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{{ $category->slug }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">{{ $category->articles_count }}</span>
+                                <td class="px-6 py-4 text-base text-gray-500 dark:text-gray-400">{{ $category->slug }}</td>
+                                <td class="px-6 py-4 text-base text-gray-500 dark:text-gray-400">
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 rounded-full text-xs font-medium">{{ $category->articles_count }}</span>
                                 </td>
-                                <td class="px-6 py-4 text-right text-sm font-medium">
+                                <td class="px-6 py-4 text-right text-base font-medium">
                                     <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?');">
                                         @csrf
                                         @method('DELETE')

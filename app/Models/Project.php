@@ -120,4 +120,16 @@ class Project extends Model
     {
         return $this->hasMany(MediaFolder::class);
     }
+
+    public function getStatusBadgeAttribute()
+    {
+        return match($this->status) {
+            'ongoing' => 'bg-emerald-100 text-emerald-700',
+            'completed' => 'bg-blue-100 text-blue-700',
+            'starting' => 'bg-indigo-100 text-indigo-700',
+            'pending' => 'bg-amber-100 text-amber-700',
+            'draft' => 'bg-gray-100 text-gray-700',
+            default => 'bg-gray-100 text-gray-700',
+        };
+    }
 }

@@ -71,13 +71,13 @@
                             <div class="flex items-center">
                                 <img class="h-10 w-10 rounded-full object-cover border border-gray-100 dark:border-gray-600" src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=0D9488&color=fff" alt="{{ $user->name }}">
                                 <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $user->name }}</div>
+                                    <div class="text-base font-medium text-gray-900 dark:text-white">{{ $user->name }}</div>
                                     <div class="text-xs text-gray-500 dark:text-gray-400">{{ $user->email }}</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-sm text-gray-500 dark:text-gray-400 italic">
+                            <span class="text-base text-gray-500 dark:text-gray-400">
                                 {{ $user->country ?? 'N/A' }}
                             </span>
                         </td>
@@ -95,7 +95,7 @@
                                 {{ $user->is_active ? 'Active' : 'Offline' }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500 dark:text-gray-400">
                             {{ $user->last_login_at ? $user->last_login_at->diffForHumans() : 'Never' }}
                         </td>
                         <td class="px-6 py-4 text-right text-sm font-medium">

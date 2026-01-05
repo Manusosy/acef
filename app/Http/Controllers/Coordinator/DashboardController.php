@@ -19,7 +19,10 @@ class DashboardController extends Controller
             'articles' => Article::where('country', $country)->count(),
             'projects' => Project::whereJsonContains('country', $country)->count(),
             'programs' => Program::whereJsonContains('country', $country)->count(),
-            'pending_articles' => Article::where('country', $country)->where('status', 'draft')->count(),
+            'pending_review' => 
+                Article::where('country', $country)->where('status', 'pending')->count() +
+                Project::whereJsonContains('country', $country)->where('status', 'pending')->count() +
+                Program::whereJsonContains('country', $country)->where('status', 'pending')->count(),
         ];
 
         $recent_articles = Article::where('country', $country)

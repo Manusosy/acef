@@ -78,8 +78,8 @@ class Article extends Model
     {
         return match($this->status) {
             'published' => 'bg-emerald-100 text-emerald-700',
-            'draft' => 'bg-gray-100 text-gray-700',
             'pending' => 'bg-amber-100 text-amber-700',
+            'draft' => 'bg-gray-100 text-gray-700',
             default => 'bg-gray-100 text-gray-700',
         };
     }

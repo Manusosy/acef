@@ -30,14 +30,6 @@ class DonationController extends Controller
             'avg_donation' => Donation::where('status', 'completed')->avg('amount') ?? 0,
         ];
 
-        // Mock Gateways
-        $gateways = [
-            ['name' => 'Stripe', 'id' => 'stripe', 'connected' => true, 'desc' => 'Credit cards & International payments', 'key' => 'pk_test_********************'],
-            ['name' => 'M-Pesa', 'id' => 'mpesa', 'connected' => true, 'desc' => 'Mobile money payments', 'key' => '********************'],
-            ['name' => 'PayPal', 'id' => 'paypal', 'connected' => false, 'desc' => 'Global wallet payments'],
-            ['name' => 'GoFundMe', 'id' => 'gofundme', 'connected' => false, 'desc' => 'Crowdfunding sync'],
-        ];
-
         // Active Campaigns (Projects)
         $campaigns = \App\Models\Project::where('status', 'ongoing')
             ->where('goal_amount', '>', 0)
@@ -45,7 +37,7 @@ class DonationController extends Controller
             ->take(5)
             ->get();
 
-        return view('admin.donations.index', compact('donations', 'stats', 'gateways', 'campaigns'));
+        return view('admin.donations.index', compact('donations', 'stats', 'campaigns'));
     }
 
     public function show(Donation $donation)

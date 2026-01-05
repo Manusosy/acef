@@ -10,7 +10,6 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -117,7 +116,7 @@
                             </div>
                             <div class="space-y-2">
                                 <h4 class="text-xl font-bold text-acef-dark tracking-tight">{{ $v['title'] }}</h4>
-                                <p class="text-gray-500 text-sm font-light italic leading-relaxed">{{ $v['desc'] }}</p>
+                                <p class="text-gray-500 font-light italic leading-relaxed">{{ $v['desc'] }}</p>
                             </div>
                         </div>
                     @endforeach
@@ -190,7 +189,7 @@
                                     <h4
                                         class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors">
                                         {{ $obj['title'] }}</h4>
-                                    <p class="text-gray-500 text-sm font-light leading-relaxed">{{ $obj['desc'] }}</p>
+                                    <p class="text-gray-500 font-light leading-relaxed">{{ $obj['desc'] }}</p>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +218,7 @@
                                          :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'">
                                         <span class="text-acef-green font-black text-xl mb-2 block">{{ $step['year'] }}</span>
                                         <h4 class="text-xl font-bold text-acef-dark mb-2">{{ $step['title'] }}</h4>
-                                        <p class="text-gray-500 text-sm">{{ $step['desc'] }}</p>
+                                        <p class="text-gray-500">{{ $step['desc'] }}</p>
                                     </div>
                                     <div
                                         class="absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-acef-green border-4 border-white shadow-lg z-10 transition-all duration-700 delay-300"
@@ -236,7 +235,7 @@
                                          :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'">
                                         <span class="text-acef-green font-black text-xl mb-2 block">{{ $step['year'] }}</span>
                                         <h4 class="text-xl font-bold text-acef-dark mb-2">{{ $step['title'] }}</h4>
-                                        <p class="text-gray-500 text-sm">{{ $step['desc'] }}</p>
+                                        <p class="text-gray-500">{{ $step['desc'] }}</p>
                                     </div>
                                 @endif
                             </div>

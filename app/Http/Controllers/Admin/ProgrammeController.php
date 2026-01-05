@@ -33,10 +33,12 @@ class ProgrammeController extends Controller
     {
         $user = auth()->user();
 
+        $isDraft = $request->action === 'draft';
+
         $rules = [
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string',
-            'content' => 'required|string',
+            'content' => ($isDraft ? 'nullable' : 'required') . '|string',
             'image' => 'nullable',
             'hero_image' => 'nullable',
             'factsheet' => 'nullable',
@@ -52,7 +54,7 @@ class ProgrammeController extends Controller
         ];
 
         if ($user->isAdmin()) {
-            $rules['status'] = 'required|in:draft,published,archived';
+            $rules['status'] = ($isDraft ? 'nullable' : 'required') . '|in:draft,published,archived';
             $rules['country'] = 'nullable|array';
             $rules['partners'] = 'nullable|array';
             $rules['partners.*'] = 'exists:partners,id';
@@ -99,7 +101,7 @@ class ProgrammeController extends Controller
 
         // Enforce coordinator restrictions
         if ($user->isCoordinator()) {
-            $program->status = 'draft';
+            $program->status = $request->action === 'publish' ? 'pending' : 'draft';
             $program->country = [$user->country];
         }
 
@@ -122,10 +124,12 @@ class ProgrammeController extends Controller
             abort(403);
         }
 
+        $isDraft = $request->action === 'draft';
+
         $rules = [
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string',
-            'content' => 'required|string',
+            'content' => ($isDraft ? 'nullable' : 'required') . '|string',
             'image' => 'nullable',
             'hero_image' => 'nullable',
             'factsheet' => 'nullable',
@@ -138,13 +142,12 @@ class ProgrammeController extends Controller
             'stats' => 'nullable|array',
             'category' => 'nullable|string|max:255',
             'icon' => 'nullable|string|max:255',
-            'icon' => 'nullable|string|max:255',
             'partners' => 'nullable|array',
             'partners.*' => 'exists:partners,id',
         ];
 
         if ($user->isAdmin()) {
-            $rules['status'] = 'required|in:draft,published,archived';
+            $rules['status'] = ($isDraft ? 'nullable' : 'required') . '|in:draft,published,archived';
             $rules['country'] = 'nullable|array';
         }
 
@@ -183,6 +186,11 @@ class ProgrammeController extends Controller
         }
         if ($request->filled('focus_areas')) {
             $programme->focus_areas = json_decode($request->focus_areas, true);
+        }
+
+        // Enforce coordinator restrictions
+        if ($user->isCoordinator()) {
+            $programme->status = $request->action === 'publish' ? 'pending' : 'draft';
         }
 
         $programme->save();

@@ -10,7 +10,6 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -134,7 +133,7 @@
                                             {{ $program->title }}
                                         </a>
                                     </h3>
-                                    <p class="text-gray-500 dark:text-gray-400 text-sm font-light leading-relaxed line-clamp-3">
+                                    <p class="text-gray-500 dark:text-gray-400 font-light leading-relaxed line-clamp-3">
                                         {{ $program->excerpt }}
                                     </p>
                                 </div>
@@ -144,7 +143,7 @@
                                         ACEF Programme
                                     </span>
                                     <a href="{{ route('programmes.show', $program) }}"
-                                        class="text-acef-dark dark:text-white font-black text-xs flex items-center hover:text-acef-green transition-colors group/link">
+                                        class="text-acef-dark dark:text-white font-black text-base flex items-center hover:text-acef-green transition-colors group/link">
                                         Learn More
                                         <svg class="w-4 h-4 ml-1 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

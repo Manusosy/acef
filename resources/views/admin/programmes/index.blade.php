@@ -33,20 +33,20 @@
                                     </div>
                                 @endif
                                 <div>
-                                    <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $program->title }}</div>
+                                    <div class="text-base font-medium text-gray-900 dark:text-white">{{ $program->title }}</div>
                                     <div class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-xs">{{ $program->excerpt }}</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $program->status === 'published' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' }}">
+                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $program->status_badge }}">
                                 {{ ucfirst($program->status) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                        <td class=\"px-6 py-4 text-base text-gray-500 dark:text-gray-400\">
                             {{ $program->updated_at->diffForHumans() }}
                         </td>
-                        <td class="px-6 py-4 text-right text-sm font-medium">
+                        <td class="px-6 py-4 text-right text-base font-medium">
                             <a href="{{ route('admin.programmes.edit', $program) }}" class="text-emerald-600 hover:text-emerald-900 dark:hover:text-emerald-400 mr-3">Edit</a>
                             <form action="{{ route('admin.programmes.destroy', $program) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this program?');">
                                 @csrf

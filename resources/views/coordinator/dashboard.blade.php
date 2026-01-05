@@ -55,7 +55,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Pending Review</p>
-                    <h4 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['pending_articles'] }}</h4>
+                    <h4 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['pending_review'] }}</h4>
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Save as draft for review
+                                Submit for Admin Review
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>

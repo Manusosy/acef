@@ -3,8 +3,8 @@
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Projects</h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-1">Oversee, track, and manage all environmental initiatives and programs.</p>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Projects</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Oversee, track, and manage all environmental initiatives and programs.</p>
             </div>
             <a href="{{ route('admin.projects.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white font-bold rounded-xl hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-200">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,7 +20,7 @@
             <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex items-center justify-between">
                 <div>
                     <h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Active Projects</h4>
-                    <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ \App\Models\Project::where('status', 'ongoing')->count() }}</span>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ \App\Models\Project::where('status', 'ongoing')->count() }}</h3>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/></svg>
@@ -30,7 +30,7 @@
             <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
                 <div>
                     <h4 class="text-gray-500 text-sm font-medium mb-1">Pending Approval</h4>
-                    <span class="text-3xl font-bold text-gray-900">{{ \App\Models\Project::where('status', 'draft')->count() }}</span>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ \App\Models\Project::where('status', 'draft')->count() }}</h3>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
@@ -40,7 +40,7 @@
             <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
                 <div>
                     <h4 class="text-gray-500 text-sm font-medium mb-1">Completed</h4>
-                    <span class="text-3xl font-bold text-gray-900">{{ \App\Models\Project::where('status', 'completed')->count() }}</span>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ \App\Models\Project::where('status', 'completed')->count() }}</h3>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
@@ -72,7 +72,7 @@
             <!-- Table -->
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-50/30">
+                    <tr class="border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50/30">
                         <th class="p-6 w-12 text-center">
                             <input type="checkbox" class="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500 h-5 w-5">
                         </th>
@@ -102,8 +102,8 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-acef-green transition-colors">{{ $project->title }}</h3>
-                                    <p class="text-xs text-gray-400 font-medium">ID: PRJ-2024-{{ str_pad($project->id, 3, '0', STR_PAD_LEFT) }}</p>
+                                    <div class="text-base font-medium text-gray-900 dark:text-white">{{ $project->title }}</div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">ID: PRJ-2024-{{ str_pad($project->id, 3, '0', STR_PAD_LEFT) }}</p>
                                 </div>
                             </div>
                         </td>
@@ -111,12 +111,11 @@
                             @php
                                 $countryCount = is_array($project->country) ? count($project->country) : (empty($project->country) ? 0 : 1);
                             @endphp
-                            <span class="text-gray-700 font-medium text-sm">{{ $countryCount }} {{ Str::plural('Country', $countryCount) }}</span>
+                            <span class="text-gray-700 dark:text-gray-300 font-medium text-base">{{ $countryCount }} {{ Str::plural('Country', $countryCount) }}</span>
                         </td>
                         <td class="p-6">
-                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold capitalize
-                                {{ $project->status === 'ongoing' ? 'bg-emerald-100 text-emerald-700' : ($project->status === 'draft' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700') }}">
-                                {{ $project->status === 'ongoing' ? 'Active' : $project->status }}
+                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $project->status_badge }}">
+                                {{ ucfirst($project->status) }}
                             </span>
                         </td>
                         <td class="p-6">
