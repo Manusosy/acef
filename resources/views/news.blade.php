@@ -30,7 +30,7 @@
         breadcrumb="{{ __('pages.news.browse.title') }}"
         title="{!! __('pages.news.browse.title') !!}"
         subtitle="{{ __('pages.news.browse.desc') }}"
-        image-url="{{ $featuredArticle && $featuredArticle->image ? Storage::url($featuredArticle->image) : '/hero_marine_ecosystem_1766827540454.png' }}"
+        image-url="{{ $featuredArticle && $featuredArticle->image ? (str_starts_with($featuredArticle->image, 'http') ? $featuredArticle->image : Storage::url($featuredArticle->image)) : '/hero_marine_ecosystem_1766827540454.png' }}"
     >
         @if($featuredArticle)
             <x-slot name="actions">
@@ -47,8 +47,6 @@
         @endif
     </x-hero>
 
-    <main>
-        <!-- Browse Insights -->
     <main>
         <!-- Browse Insights -->
         <section class="py-24 bg-gray-50/50 dark:bg-gray-900 transition-colors" x-data="{ view: 'grid', categoryOpen: false }">
@@ -148,7 +146,7 @@
                             <!-- Image -->
                             <div class="relative overflow-hidden" 
                                  :class="view === 'grid' ? 'aspect-[16/10] w-full' : 'w-full md:w-1/3 h-64 md:h-full'">
-                                <img src="{{ $article->image ? Storage::url($article->image) : asset('img/placeholders/default-news.jpg') }}" alt="{{ $article->title }}"
+                                <img src="{{ $article->image ? (str_starts_with($article->image, 'http') ? $article->image : Storage::url($article->image)) : asset('img/placeholders/default-news.jpg') }}" alt="{{ $article->title }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute top-4 left-4" :class="view === 'grid' ? 'top-6 left-6' : ''">
                                     <span

@@ -46,7 +46,9 @@ class HomeController extends Controller
             $timelineYears = collect();
         }
 
-        return view('welcome', compact('featuredProjects', 'latestNews', 'partners', 'timelineYears'));
+        $accreditations = \App\Models\Accreditation::all();
+
+        return view('welcome', compact('featuredProjects', 'latestNews', 'partners', 'timelineYears', 'accreditations'));
     }
 
     public function about()

@@ -103,7 +103,7 @@
                         :class="activeYearId === {{ $year->id }} ? 'scale-110' : 'scale-90 opacity-100 hover:scale-100'"
                     >
                         <!-- Square Node -->
-                        <div class="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-all duration-300 rounded-2xl shadow-xl relative overflow-hidden"
+                        <div class="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-all duration-300 rounded-lg shadow-xl relative overflow-hidden"
                              :class="activeYearId === {{ $year->id }} 
                                  ? 'bg-acef-green text-white shadow-2xl ring-4 ring-white/20' 
                                  : 'bg-white dark:bg-white/10 text-acef-green dark:text-white shadow-md border-0'">                            
@@ -133,7 +133,7 @@
                     @if($year->achievements->count() > 0)
                         <div class="flex flex-col gap-12">
                             @foreach($year->achievements as $achievement)
-                                <div class="bg-[#f0fdf4] rounded-[2rem] overflow-hidden shadow-2xl shadow-[#134712]/10 border border-white/40 ring-1 ring-black/5 transform transition-all duration-500 hover:-translate-y-1">
+                                <div class="bg-[#f0fdf4] rounded-lg overflow-hidden shadow-2xl shadow-[#134712]/10 border border-white/40 ring-1 ring-black/5 transform transition-all duration-500 hover:-translate-y-1">
                                     <div class="flex flex-col md:flex-row">
                                         <!-- Visual Side -->
                                         <div class="md:w-5/12 relative min-h-[300px] md:min-h-full bg-gray-100">
@@ -157,7 +157,7 @@
                                                              x-transition:leave-start="opacity-100 transform scale-100"
                                                              x-transition:leave-end="opacity-0 transform scale-105"
                                                              class="absolute inset-0">
-                                                            <img src="{{ Storage::url($img) }}" class="w-full h-full object-cover">
+                                                            <img src="{{ str_starts_with($img, 'http') ? $img : Storage::url($img) }}" class="w-full h-full object-cover">
                                                         </div>
                                                     @endforeach
                                                     

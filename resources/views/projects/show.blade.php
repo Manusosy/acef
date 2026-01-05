@@ -130,7 +130,7 @@
                         @foreach($project->partners->take(3) as $partner)
                             <div class="w-10 h-10 rounded-full bg-white border-2 border-gray-50 dark:border-gray-800 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
                                 @if($partner->logo)
-                                    <img src="{{ Storage::url($partner->logo) }}" class="w-full h-full object-contain p-1.5" title="{{ $partner->name }}">
+                                    <img src="{{ Str::startsWith($partner->logo, 'http') ? $partner->logo : Storage::url($partner->logo) }}" class="w-full h-full object-contain p-1.5" title="{{ $partner->name }}">
                                 @else
                                     <span class="text-[10px] font-black text-emerald-600 uppercase">{{ substr($partner->name, 0, 1) }}</span>
                                 @endif
@@ -317,7 +317,7 @@
                                     <div class="flex items-center gap-4 group cursor-default">
                                         <div class="w-10 h-10 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-100 dark:border-gray-600 flex items-center justify-center p-1.5 flex-shrink-0 group-hover:border-emerald-500 transition-colors">
                                             @if($partner->logo)
-                                                <img src="{{ Storage::url($partner->logo) }}" class="w-full h-full object-contain">
+                                                <img src="{{ Str::startsWith($partner->logo, 'http') ? $partner->logo : Storage::url($partner->logo) }}" class="w-full h-full object-contain">
                                             @else
                                                 <span class="text-xs font-black text-gray-400 uppercase tracking-tighter">{{ substr($partner->name, 0, 2) }}</span>
                                             @endif
@@ -366,7 +366,7 @@
                 <a href="{{ route('projects.show', $similar->slug) }}" class="group block bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all">
                     <div class="aspect-[16/10] overflow-hidden">
                         @if($similar->image)
-                            <img src="{{ Storage::url($similar->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="{{ Str::startsWith($similar->image, 'http') ? $similar->image : Storage::url($similar->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         @endif
                     </div>
                     <div class="p-6">

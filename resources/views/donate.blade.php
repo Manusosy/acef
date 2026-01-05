@@ -23,7 +23,7 @@
         @include('components.header')
 
         <!-- Dynamic Hero Section -->
-        <x-hero :page="$page" height="h-[400px] sm:h-[500px]" />
+        <x-hero :page="$page" height="h-[400px] sm:h-[500px]" :centered="true" />
 
         <main class="min-h-screen relative" x-data="donationForm()">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 relative -mt-32 z-10 pb-24">
@@ -404,7 +404,7 @@
                                             <input type="tel" x-model="form.phone" placeholder="2547XXXXXXXX" class="w-full border-green-300 dark:border-green-800 rounded focus:ring-green-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                                         </div>
                                         <div class="flex items-end">
-                                            <button @click="processMpesa" :disabled="loading" class="bg-acef-green text-white font-bold py-2.5 px-6 rounded hover:bg-white hover:text-acef-dark transition w-full disabled:opacity-50 h-[42px] flex items-center justify-center uppercase tracking-widest text-xs">
+                                            <button @click="processMpesa" :disabled="loading" class="bg-acef-green text-white font-bold py-2.5 px-6 rounded hover:bg-white hover:text-[#0A260A] transition w-full disabled:opacity-50 h-[42px] flex items-center justify-center uppercase tracking-widest text-xs">
                                                 <span x-text="loading ? 'Processing...' : 'Donate Now'"></span>
                                             </button>
                                         </div>
@@ -463,17 +463,20 @@
                          </div>
                      </section>
                      
-                     <div class="mt-8 pt-8 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                         <div class="flex gap-4 opacity-50 grayscale transition hover:grayscale-0 hover:opacity-100 items-center">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/320px-M-PESA_LOGO-01.svg.png" class="h-5 object-contain" title="M-Pesa">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="h-5 object-contain" title="PayPal">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" class="h-5 object-contain" title="Visa">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" class="h-5 object-contain" title="Mastercard">
-                         </div>
-                         <div class="text-right">
-                             <p class="text-xs text-gray-400 font-bold">Secure SSL Encryption</p>
-                         </div>
-                     </div>
+                    <div class="mt-12 pt-10 border-t border-gray-100 dark:border-gray-700 flex flex-col items-center gap-8">
+                        <div class="flex flex-wrap justify-center gap-8 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/320px-M-PESA_LOGO-01.svg.png" class="h-5 md:h-6 object-contain" title="M-Pesa">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="h-5 md:h-6 object-contain" title="PayPal">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" class="h-5 md:h-6 object-contain" title="Visa">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" class="h-5 md:h-6 object-contain" title="Mastercard">
+                        </div>
+                        <div class="flex items-center justify-center gap-3">
+                            <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-[10px] md:text-xs text-gray-400 dark:text-gray-500 font-black uppercase tracking-[0.25em]">Secure SSL Encryption</span>
+                        </div>
+                    </div>
 
                 </div>
             </div>

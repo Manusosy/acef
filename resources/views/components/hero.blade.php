@@ -6,6 +6,7 @@
     'breadcrumb' => null,
     'height' => 'h-[60vh]',
     'minHeight' => 'min-h-[500px]',
+    'centered' => false,
 ])
 
 @php
@@ -53,8 +54,8 @@
         </div>
     @endif
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full {{ $hasSlider ? '' : 'pt-20' }}">
-        <div class="max-w-4xl space-y-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full {{ $hasSlider ? '' : 'pt-20' }} {{ $centered ? 'flex flex-col items-center text-center' : '' }}">
+        <div class="max-w-4xl space-y-6 {{ $centered ? 'mx-auto' : '' }}">
             @if($breadcrumb)
                 <span class="inline-block py-2 px-6 rounded-full bg-acef-green text-white font-bold text-sm tracking-wider uppercase opacity-100 shadow-lg">
                     {{ $breadcrumb }}

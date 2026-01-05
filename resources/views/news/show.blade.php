@@ -56,7 +56,7 @@
             <!-- Featured Image -->
             @if($article->image)
             <div class="max-w-5xl mx-auto mb-12">
-                <img src="{{ Storage::url($article->image) }}" alt="{{ $article->title }}" class="w-full h-[400px] md:h-[500px] object-cover rounded-lg shadow-lg">
+                <img src="{{ str_starts_with($article->image, 'http') ? $article->image : Storage::url($article->image) }}" alt="{{ $article->title }}" class="w-full h-[400px] md:h-[500px] object-cover rounded-lg shadow-lg">
             </div>
             @endif
 
@@ -134,7 +134,7 @@
                     <article class="group">
                         <a href="{{ route('news.show', $relatedArticle) }}" class="block overflow-hidden rounded-xl mb-4">
                             @if($relatedArticle->image)
-                                <img src="{{ Storage::url($relatedArticle->image) }}" alt="{{ $relatedArticle->title }}" class="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-500">
+                                <img src="{{ str_starts_with($relatedArticle->image, 'http') ? $relatedArticle->image : Storage::url($relatedArticle->image) }}" alt="{{ $relatedArticle->title }}" class="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-500">
                             @else
                                 <div class="w-full h-48 bg-gray-200 dark:bg-gray-700"></div>
                             @endif

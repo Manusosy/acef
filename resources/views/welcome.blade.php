@@ -114,6 +114,58 @@
         <!-- Global Engagements Timeline -->
         <x-timeline-section :years="$timelineYears" />
 
+        <!-- Accreditations Showcase -->
+        @if($accreditations->count() > 0)
+        <section class="py-16 md:py-24 bg-white dark:bg-gray-950 border-y border-gray-100 dark:border-gray-800 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="flex flex-col items-center text-center space-y-4 max-w-3xl mx-auto">
+                    <p class="text-acef-green dark:text-acef-light-green font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs">
+                        {{ __('pages.accreditations.hero_title') }}
+                    </p>
+                    <h2 class="text-4xl md:text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
+                        Building Credibility Through Excellence
+                    </h2>
+                    <p class="text-gray-500 dark:text-gray-400 font-light italic text-sm md:text-base">
+                        Our work is recognized and accredited by leading international organizations, ensuring global standards of environmental stewardship.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-10 items-center justify-items-center">
+                    @foreach($accreditations as $acc)
+                        <div class="group relative flex flex-col items-center space-y-3">
+                            <div class="w-24 h-24 md:w-32 md:h-32 bg-gray-50 dark:bg-gray-900/50 rounded-2xl flex items-center justify-center p-4 border border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-500 hover:shadow-xl hover:border-acef-green dark:hover:border-acef-green transform hover:-translate-y-1 overflow-hidden">
+                                @if($acc->image)
+                                    <img src="{{ str_starts_with($acc->image, 'http') ? $acc->image : Storage::url($acc->image) }}" alt="{{ $acc->acronym }}" 
+                                         class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+                                @else
+                                    <span class="text-xl md:text-2xl font-black text-acef-dark/20 dark:text-white/10 group-hover:text-acef-green transition-colors uppercase tracking-widest">
+                                        {{ $acc->acronym }}
+                                    </span>
+                                @endif
+                                
+                                <!-- Decorative Accent -->
+                                <div class="absolute bottom-0 right-0 w-8 h-8 bg-acef-green/5 group-hover:bg-acef-green/10 rounded-tl-full transition-colors duration-500"></div>
+                            </div>
+                            <span class="text-[10px] md:text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest text-center group-hover:text-acef-dark dark:group-hover:text-white transition-colors duration-300">
+                                {{ $acc->acronym }}
+                            </span>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="flex justify-center pt-8">
+                    <a href="{{ route('accreditations') }}" 
+                       class="inline-flex items-center space-x-2 text-acef-green dark:text-acef-light-green font-bold text-sm uppercase tracking-widest group border-b-2 border-transparent hover:border-acef-green dark:hover:border-acef-light-green transition-all pb-1">
+                        <span>Explore full accreditations</span>
+                        <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+        @endif
+
         <!-- Featured Projects Section -->
         <section class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -271,7 +323,7 @@
                     @foreach($latestNews as $news)
                         <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all group">
                             <div class="relative aspect-video overflow-hidden">
-                                <img src="{{ $news->image ? Storage::url($news->image) : asset('default-news.jpg') }}" alt="{{ $news->title }}"
+                                <img src="{{ $news->image ? (str_starts_with($news->image, 'http') ? $news->image : Storage::url($news->image)) : asset('default-news.jpg') }}" alt="{{ $news->title }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute bottom-4 left-4">
                                     <span

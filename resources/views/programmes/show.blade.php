@@ -172,7 +172,7 @@
                         <div class="grid grid-cols-2 gap-4">
                             @forelse($programme->partners as $partner)
                             <div class="aspect-square bg-gray-50 dark:bg-gray-900 rounded-lg p-4 flex items-center justify-center group hover:bg-white dark:hover:bg-gray-800 transition-all border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md">
-                                <img src="{{ $partner->logo ? Storage::url($partner->logo) : '/placeholder.png' }}" alt="{{ $partner->name }}" class="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transition-all">
+                                <img src="{{ $partner->logo ? (Str::startsWith($partner->logo, 'http') ? $partner->logo : Storage::url($partner->logo)) : '/placeholder.png' }}" alt="{{ $partner->name }}" class="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transition-all">
                             </div>
                             @empty
                             <div class="col-span-2 py-4 text-center">

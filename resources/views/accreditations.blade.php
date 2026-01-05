@@ -40,7 +40,7 @@
                         class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 space-y-6 border border-gray-100 dark:border-gray-700 hover:border-acef-green dark:hover:border-acef-green transition-all group flex flex-col justify-between shadow-sm hover:shadow-xl">
                         <div class="w-16 h-16 bg-white dark:bg-gray-700 rounded-xl shadow-sm flex items-center justify-center text-acef-green text-xs font-black group-hover:bg-acef-green group-hover:text-white transition-colors overflow-hidden p-2">
                             @if($acc->image)
-                                <img src="{{ Storage::url($acc->image) }}" alt="{{ $acc->acronym }}" class="w-full h-full object-contain">
+                                <img src="{{ str_starts_with($acc->image, 'http') ? $acc->image : Storage::url($acc->image) }}" alt="{{ $acc->acronym }}" class="w-full h-full object-contain">
                             @else
                                 {{ $acc->acronym }}
                             @endif
