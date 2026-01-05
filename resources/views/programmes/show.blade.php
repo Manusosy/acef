@@ -52,7 +52,7 @@
                         Download Factsheet
                     </a>
                 @endif
-                <a href="#donate" class="px-6 py-3 border border-white text-white hover:bg-white hover:text-gray-900 font-bold rounded-lg transition-colors">
+                <a href="#donate" class="px-6 py-3 bg-acef-gold text-acef-dark hover:bg-white hover:text-acef-dark font-bold rounded-lg transition-all shadow-xl">
                     Support Programme
                 </a>
             </div>
@@ -205,12 +205,11 @@
                                  <div class="text-xs text-gray-500">Target</div>
                              </div>
                          </div>
-                         <a href="{{ route('donate') }}" id="donate" class="group relative block w-full py-5 bg-acef-green text-acef-dark font-black rounded-lg text-center overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98]">
-                             <span class="relative z-10 flex items-center justify-center gap-2 uppercase tracking-widest text-sm">
+                         <a href="{{ route('donate') }}" id="donate" class="group relative block w-full py-5 bg-acef-gold text-acef-dark font-black rounded-lg text-center overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg">
+                             <span class="relative z-10 flex items-center justify-center gap-2 uppercase tracking-widest text-sm group-hover:text-acef-dark">
                                 Donate to this Program
-                                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                              </span>
-                             <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                             <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
                          </a>
                     </div>
                     @endif

@@ -59,7 +59,7 @@
 
     <main>
         <!-- Who We Are Section -->
-        <section class="py-24 bg-white relative">
+        <section class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300 relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row items-center gap-16">
                     <div class="lg:w-1/2 relative">
@@ -74,27 +74,27 @@
                     </div>
                     <div class="lg:w-1/2 space-y-8">
                         <div class="space-y-4">
-                            <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
+                            <p class="text-acef-green dark:text-acef-light-green font-bold tracking-widest uppercase text-sm">
                                 {{ __('pages.home.who_we_are_title') }}
                             </p>
-                            <h2 class="text-5xl font-black text-acef-dark tracking-tighter leading-tight">
+                            <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter leading-tight">
                                 {!! __('pages.home.who_we_are_heading') !!}
                             </h2>
                         </div>
-                        <p class="text-xl text-gray-600 leading-relaxed font-light">
-                            {!! __('pages.home.who_we_are_text') !!}
-                        </p>
+                        <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed font-light">
+                             {!! __('pages.home.who_we_are_text') !!}
+                        </div>
                         <p class="text-gray-500 leading-relaxed font-light italic">
                             {!! __('pages.home.who_we_are_subtext') !!}
                         </p>
                         <div class="pt-4 grid grid-cols-2 gap-8">
                             <div class="flex flex-col">
-                                <span class="text-4xl font-black text-acef-dark">14+</span>
+                                <span class="text-4xl font-black text-acef-dark dark:text-white">14+</span>
                                 <span
                                     class="text-xs text-gray-400 font-bold uppercase tracking-widest">{{ __('pages.home.countries') }}</span>
                             </div>
                             <div class="flex flex-col">
-                                <span class="text-4xl font-black text-acef-dark">2,000+</span>
+                                <span class="text-4xl font-black text-acef-dark dark:text-white">2,000+</span>
                                 <span
                                     class="text-xs text-gray-400 font-bold uppercase tracking-widest">{{ __('pages.home.members') }}</span>
                             </div>
@@ -110,119 +110,22 @@
             </div>
         </section>
 
-        <!-- Programmes Section -->
-        <section class="py-24 bg-acef-gray">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-                <h2 class="text-5xl font-black text-acef-dark tracking-tighter">{{ __('pages.home.programmes_title') }}
-                </h2>
-                <p class="text-gray-500 max-w-2xl mx-auto font-light italic">
-                    {{ __('pages.home.programmes_subtitle') }}
-                </p>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-16">
-                    @foreach(__('pages.home.programmes') as $prog)
-                        <div
-                            class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all group text-left border border-black/5 flex flex-col justify-between">
-                            <div class="space-y-4">
-                                <div
-                                    class="w-14 h-14 rounded-2xl bg-{{ $prog['icon'] }}-50 flex items-center justify-center group-hover:bg-acef-green group-hover:text-white transition-colors duration-500 text-{{ $prog['icon'] }}-500">
-                                    @php
-                                        $icon = $prog['icon'];
-                                    @endphp
-                                    @if($icon == 'blue')
-                                        <!-- Atlantic Coast (Shield/Waves) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                                        </svg>
-                                    @elseif($icon == 'green')
-                                        <!-- Marine Ecosystems (Globe/Water) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                    @elseif($icon == 'indigo')
-                                        <!-- Research (Beaker) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                                        </svg>
-                                    @elseif($icon == 'amber')
-                                        <!-- Climate (Sun/Cloud) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                        </svg>
-                                    @elseif($icon == 'emerald')
-                                        <!-- Biodiversity (Leaf) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                                        </svg>
-                                    @elseif($icon == 'sky')
-                                        <!-- Pollution (Water Drop) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                                        </svg>
-                                    @elseif($icon == 'lime')
-                                        <!-- Agro-forestry (Tree) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                                        </svg>
-                                    @elseif($icon == 'cyan')
-                                        <!-- Eco-Tourism (Camera/Map) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8M3 21h18M5 21v-8a2 2 0 012-2h14a2 2 0 012 2v8M9 7h6m0 0v2m0-2h4a1 1 0 011 1v1m-7 4h12l-3-6H5l-3 6h7"></path>
-                                        </svg>
-                                    @elseif($icon == 'rose')
-                                        <!-- Health (Heart) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                        </svg>
-                                    @elseif($icon == 'violet')
-                                        <!-- Leaders (Users) -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                        </svg>
-                                    @else
-                                        <!-- Fallback -->
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M12 21l-8-9 8-9 8 9-8 9z"></path>
-                                        </svg>
-                                    @endif
-                                </div>
-                                <h3 class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors">
-                                    {{ $prog['title'] }}
-                                </h3>
-                                <p class="text-gray-500 leading-relaxed">{{ $prog['desc'] }}</p>
-                            </div>
-                            <div class="pt-6">
-                                <a href="{{ route('programmes') }}"
-                                    class="text-acef-green font-bold flex items-center text-base group-hover:translate-x-1 transition-transform">
-                                    {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
 
         <!-- Global Engagements Timeline -->
         <x-timeline-section :years="$timelineYears" />
 
         <!-- Featured Projects Section -->
-        <section class="py-24 bg-white">
+        <section class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="flex justify-between items-end">
                     <div class="space-y-4">
-                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
+                        <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
                             {{ __('pages.home.featured_projects_title') }}
                         </h2>
                         <p class="text-gray-500 font-light italic">{{ __('pages.home.featured_projects_subtitle') }}
                         </p>
                     </div>
-                    <a href="{{ route('projects') }}" class="text-acef-green font-bold flex items-center group">
+                    <a href="{{ route('projects') }}" class="text-acef-green dark:text-acef-light-green font-bold flex items-center group transition-colors">
                         {{ __('buttons.view_all_projects') }} <svg
                             class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -244,12 +147,12 @@
                                 </div>
                             </div>
                             <h3
-                                class="text-2xl font-bold text-acef-dark group-hover:text-acef-green transition-colors mb-2">
+                                class="text-2xl font-bold text-acef-dark dark:text-white group-hover:text-acef-green transition-colors mb-2">
                                 {{ $project->title }}
                             </h3>
                             <p class="text-gray-500 line-clamp-2 italic mb-4">{{Str::limit($project->description, 100)}}</p>
                             <a href="{{ route('projects.show', $project) }}"
-                                class="font-bold text-acef-dark group-hover:text-acef-green transition-colors flex items-center">
+                                class="font-bold text-acef-dark dark:text-white group-hover:text-acef-green transition-colors flex items-center">
                                 {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -292,9 +195,9 @@
                 }" x-intersect.once="startCount()">
                     <template x-for="stat in stats">
                         <div class="space-y-2 group cursor-default p-4">
-                            <span class="text-4xl md:text-6xl font-black text-acef-green block transform group-hover:scale-110 transition-transform duration-500" x-text="stat.current.toLocaleString() + stat.suffix">0</span>
+                            <span class="text-4xl md:text-6xl font-black text-acef-green dark:text-acef-light-green block transform group-hover:scale-110 transition-transform duration-500" x-text="stat.current.toLocaleString() + stat.suffix">0</span>
                             <span
-                                class="text-acef-dark uppercase tracking-widest text-[10px] md:text-xs font-bold group-hover:text-acef-green transition-colors" x-text="stat.label"></span>
+                                class="text-acef-dark dark:text-white uppercase tracking-widest text-[10px] md:text-xs font-bold group-hover:text-acef-green transition-colors" x-text="stat.label"></span>
                         </div>
                     </template>
                 </div>
@@ -330,7 +233,7 @@
         <section class="py-24 bg-acef-dark relative overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center space-y-12">
                 <div class="text-center space-y-4 max-w-2xl">
-                    <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
+                    <p class="text-acef-light-green font-bold tracking-widest uppercase text-sm">
                         {{ __('pages.home.map_section.label') }}</p>
                     <h2 class="text-5xl font-black text-white tracking-tighter">
                         {{ __('pages.home.map_section.title') }}
@@ -349,12 +252,12 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="flex justify-between items-end">
                     <div class="space-y-4">
-                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
+                        <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
                             {{ __('pages.home.news_title') }}
                         </h2>
                         <p class="text-gray-500 font-light italic">{{ __('pages.home.news_subtitle') }}</p>
                     </div>
-                    <a href="{{ route('news') }}" class="text-acef-green font-bold flex items-center group">
+                    <a href="{{ route('news') }}" class="text-acef-green dark:text-acef-light-green font-bold flex items-center group transition-colors">
                         {{ __('buttons.visit_blog') }} <svg
                             class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -379,13 +282,13 @@
                                 <span
                                     class="text-gray-400 text-xs font-semibold uppercase tracking-wider">{{ $news->published_at ? $news->published_at->format('M d, Y') : 'Draft' }}</span>
                                 <h3
-                                    class="text-xl font-bold text-acef-dark group-hover:text-acef-green transition-colors leading-tight">
+                                    class="text-xl font-bold text-acef-dark dark:text-white group-hover:text-acef-green transition-colors leading-tight">
                                     {{ $news->title }}
                                 </h3>
                                 <p class="text-gray-500 italic">{{ Str::limit($news->excerpt, 100) }}</p>
                                 <div class="pt-2 border-t border-gray-100">
                                     <a href="{{ route('news.show', $news) }}"
-                                        class="text-acef-dark font-bold text-base flex items-center group-hover:text-acef-green transition-colors">
+                                        class="text-acef-dark dark:text-white font-bold text-base flex items-center group-hover:text-acef-green transition-colors">
                                         {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none"
                                             stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -507,12 +410,12 @@
                             const isActive = activeCountries.includes(countryName);
 
                             return {
-                                fillColor: isActive ? '#00e573' : '#1f2937', 
+                                fillColor: isActive ? '#134712' : '#374151', 
                                 weight: 1,
                                 opacity: 1,
-                                color: '#111827',
+                                color: '#4b5563',
                                 dashArray: '',
-                                fillOpacity: isActive ? 0.9 : 0.4
+                                fillOpacity: isActive ? 1.0 : 0.8
                             };
                         },
                         onEachFeature: function(feature, layer) {

@@ -273,7 +273,7 @@
                                 <input type="text" value="50" class="w-full pl-10 pr-6 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl font-bold text-acef-dark dark:text-white outline-none focus:ring-2 focus:ring-acef-green">
                             </div>
 
-                            <a href="{{ route('donate') }}" class="block w-full py-5 bg-acef-dark dark:bg-gray-900 text-white font-bold rounded-2xl hover:bg-acef-green hover:text-acef-dark transition-all text-center">
+                            <a href="{{ route('donate') }}" class="block w-full py-5 bg-acef-gold text-acef-dark font-bold rounded-2xl hover:bg-white hover:text-acef-dark transition-all text-center shadow-lg">
                                 {{ __('pages.get_involved.quick_donate.btn') }}
                             </a>
                         </div>

@@ -36,7 +36,7 @@
                 <img src="{{ $slide->media ? $slide->media->url : $slide->image_url }}" 
                      alt="{{ $slide->title ?? $page?->title }}" 
                      class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-r from-acef-dark/90 via-acef-dark/50 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
             </div>
         @endforeach
     @else
@@ -49,14 +49,14 @@
                      alt="{{ $title ?? 'ACEF' }}" 
                      class="w-full h-full object-cover">
             @endif
-            <div class="absolute inset-0 bg-gradient-to-r from-acef-dark/80 via-acef-dark/40 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
         </div>
     @endif
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full {{ $hasSlider ? '' : 'pt-20' }}">
         <div class="max-w-4xl space-y-6">
             @if($breadcrumb)
-                <span class="inline-block py-2 px-6 rounded-full bg-acef-green/20 text-acef-green font-bold text-sm tracking-wider uppercase">
+                <span class="inline-block py-2 px-6 rounded-full bg-acef-green text-white font-bold text-sm tracking-wider uppercase opacity-100 shadow-lg">
                     {{ $breadcrumb }}
                 </span>
             @endif
@@ -66,7 +66,7 @@
             </h1>
 
             @if($subtitle)
-                <p class="text-lg md:text-xl font-light text-white/90 leading-relaxed max-w-2xl animate-fade-in-up delay-100 italic">
+                <p class="text-lg md:text-xl font-medium text-white leading-relaxed max-w-2xl animate-fade-in-up delay-100 italic drop-shadow-md">
                     {!! $subtitle !!}
                 </p>
             @endif

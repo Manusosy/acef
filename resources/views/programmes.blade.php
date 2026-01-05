@@ -110,7 +110,7 @@
                             <div class="p-10 space-y-6">
                                 <div class="space-y-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="text-acef-green dark:text-acef-green/80 text-xs font-semibold uppercase tracking-widest">
+                                        <div class="text-acef-green dark:text-acef-light-green text-xs font-semibold uppercase tracking-widest">
                                             {{ $program->meta_val ?: 'Active Initiative' }}
                                         </div>
                                         <span class="text-gray-300 dark:text-gray-600">•</span>

@@ -1,7 +1,7 @@
 @props(['years'])
 
 @if($years->count() > 0)
-<section class="py-24 bg-[#8dba8e] relative overflow-hidden font-sans select-none" id="timeline-section">
+<section class="py-24 bg-acef-light-green relative overflow-hidden font-sans select-none" id="timeline-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" 
          x-data="{ 
             activeYearId: {{ $years->last()->id }},
@@ -65,10 +65,10 @@
         
         <!-- Header -->
         <div class="text-center mb-20">
-            <h2 class="text-3xl md:text-5xl font-black text-[#1a2e1a] mb-4 tracking-tight drop-shadow-sm">
+            <h2 class="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight drop-shadow-sm">
                 Key Engagements & Achievements
             </h2>
-            <p class="text-lg text-[#2d4a2d] font-medium max-w-2xl mx-auto opacity-90">
+            <p class="text-lg text-white/90 font-medium max-w-2xl mx-auto">
                 Discover our achievements and milestones throughout the years
             </p>
         </div>
@@ -79,12 +79,7 @@
             <!-- Fixed Central Pointer Removed -->
 
             <!-- Navigation Controls (Desktop) -->
-            <button @click="$refs.navContainer.scrollBy({left: -300, behavior: 'smooth'})" class="hidden md:flex absolute left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 items-center justify-center rounded-full bg-[#134712]/10 hover:bg-[#134712]/20 text-white backdrop-blur-sm transition-all focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            </button>
-            <button @click="$refs.navContainer.scrollBy({left: 300, behavior: 'smooth'})" class="hidden md:flex absolute right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 items-center justify-center rounded-full bg-[#134712]/10 hover:bg-[#134712]/20 text-white backdrop-blur-sm transition-all focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </button>
+
 
             <!-- The Track (Dotted Background) -->
             <div class="absolute top-1/2 left-0 right-0 h-0 border-t-[3px] border-dotted border-white/60 dark:border-gray-500/50 -translate-y-1/2 z-0"></div>
@@ -108,14 +103,13 @@
                         :class="activeYearId === {{ $year->id }} ? 'scale-110' : 'scale-90 opacity-100 hover:scale-100'"
                     >
                         <!-- Square Node -->
-                        <div class="w-20 h-20 md:w-28 md:h-28 flex items-center justify-center transition-all duration-300 rounded-2xl shadow-xl relative overflow-hidden"
+                        <div class="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-all duration-300 rounded-2xl shadow-xl relative overflow-hidden"
                              :class="activeYearId === {{ $year->id }} 
-                                ? 'bg-[#134712] text-white shadow-2xl ring-4 ring-white/20' 
-                                : 'bg-white dark:bg-white/10 text-[#134712] dark:text-white shadow-md border-0'">
-                            
+                                 ? 'bg-acef-green text-white shadow-2xl ring-4 ring-white/20' 
+                                 : 'bg-white dark:bg-white/10 text-acef-green dark:text-white shadow-md border-0'">                            
                             <!-- Year Label (Inside) -->
-                            <span class="font-black text-xl md:text-3xl tracking-tighter"
-                                  :class="activeYearId === {{ $year->id }} ? 'text-white' : 'text-[#134712] dark:text-white'">
+                            <span class="font-black text-lg md:text-xl tracking-tighter"
+                                  :class="activeYearId === {{ $year->id }} ? 'text-white' : 'text-acef-green dark:text-white'">
                                 {{ $year->year }}
                             </span>
                         </div>
@@ -139,17 +133,29 @@
                     @if($year->achievements->count() > 0)
                         <div class="flex flex-col gap-12">
                             @foreach($year->achievements as $achievement)
-                                <div class="bg-[#f0fdf4] rounded-[2rem] overflow-hidden shadow-2xl shadow-[#1a2e1a]/10 border border-white/40 ring-1 ring-black/5 transform transition-all duration-500 hover:-translate-y-1">
+                                <div class="bg-[#f0fdf4] rounded-[2rem] overflow-hidden shadow-2xl shadow-[#134712]/10 border border-white/40 ring-1 ring-black/5 transform transition-all duration-500 hover:-translate-y-1">
                                     <div class="flex flex-col md:flex-row">
                                         <!-- Visual Side -->
                                         <div class="md:w-5/12 relative min-h-[300px] md:min-h-full bg-gray-100">
                                             @if(!empty($achievement->images))
-                                                <div class="absolute inset-0" x-data="{ currentSlide: 0, total: {{ count($achievement->images) }} }">
+                                                <div class="absolute inset-0" x-data="{ 
+                                                        currentSlide: 0, 
+                                                        total: {{ count($achievement->images) }},
+                                                        next() { this.currentSlide = (this.currentSlide + 1) % this.total },
+                                                        init() { 
+                                                            if (this.total > 1) {
+                                                                setInterval(() => this.next(), 5000);
+                                                            }
+                                                        }
+                                                    }">
                                                     @foreach($achievement->images as $index => $img)
                                                         <div x-show="currentSlide === {{ $index }}" 
-                                                             x-transition:enter="transition ease-out duration-700"
-                                                             x-transition:enter-start="opacity-0 scale-110"
-                                                             x-transition:enter-end="opacity-100 scale-100"
+                                                             x-transition:enter="transition ease-in-out duration-[3000ms]"
+                                                             x-transition:enter-start="opacity-0 transform scale-105"
+                                                             x-transition:enter-end="opacity-100 transform scale-100"
+                                                             x-transition:leave="transition ease-in-out duration-[3000ms]"
+                                                             x-transition:leave-start="opacity-100 transform scale-100"
+                                                             x-transition:leave-end="opacity-0 transform scale-105"
                                                              class="absolute inset-0">
                                                             <img src="{{ Storage::url($img) }}" class="w-full h-full object-cover">
                                                         </div>
@@ -174,7 +180,7 @@
 
                                             @if($achievement->location)
                                                 <div class="absolute top-4 left-4">
-                                                    <span class="px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-lg text-xs font-bold uppercase tracking-wider text-[#1a2e1a] shadow-sm flex items-center gap-1">
+                                                    <span class="px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-lg text-xs font-bold uppercase tracking-wider text-[#134712] shadow-sm flex items-center gap-1">
                                                         <span class="text-sm">📍</span> {{ $achievement->location }}
                                                     </span>
                                                 </div>
@@ -183,9 +189,9 @@
 
                                         <!-- Content Side -->
                                         <div class="flex-1 p-8 md:p-12 flex flex-col justify-center relative bg-gradient-to-br from-white to-[#f0fdf4]">
-                                            <div class="absolute top-0 left-12 w-[2px] h-8 bg-gradient-to-b from-[#1a2e1a] to-transparent opacity-20 md:hidden"></div>
+                                            <div class="absolute top-0 left-12 w-[2px] h-8 bg-gradient-to-b from-[#134712] to-transparent opacity-20 md:hidden"></div>
 
-                                            <h3 class="text-3xl font-black text-[#1a2e1a] mb-6 leading-tight tracking-tight">
+                                            <h3 class="text-3xl font-black text-[#134712] mb-6 leading-tight tracking-tight">
                                                 {{ $achievement->title }}
                                             </h3>
                                             <div class="prose prose-lg text-[#374151] leading-relaxed">

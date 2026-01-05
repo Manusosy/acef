@@ -78,7 +78,7 @@
             </p>
 
             <div class="flex flex-wrap items-center justify-center md:justify-start gap-4">
-                <a href="{{ route('donate') }}" class="px-8 py-3 bg-white hover:bg-gray-100 text-gray-900 font-bold rounded-lg transition-all shadow-sm flex items-center gap-3">
+                <a href="{{ route('donate') }}" class="px-8 py-3 bg-acef-gold hover:bg-white hover:text-acef-dark text-acef-dark font-bold rounded-lg transition-all shadow-xl flex items-center gap-3">
                     Support this Project
                 </a>
                 @if($project->video_url)
@@ -278,7 +278,7 @@
                         </div>
 
                         <div class="space-y-4 text-center">
-                            <a href="{{ route('donate') }}" class="block w-full py-4 bg-acef-green hover:bg-emerald-600 text-white text-center font-bold rounded-lg transition-all shadow-sm uppercase tracking-widest text-xs">
+                            <a href="{{ route('donate') }}" class="block w-full py-4 bg-acef-gold hover:bg-white hover:text-acef-dark text-acef-dark text-center font-bold rounded-lg transition-all shadow-sm uppercase tracking-widest text-xs">
                                 Donate Now
                             </a>
                             <button class="w-full py-4 bg-transparent border border-gray-100 dark:border-gray-700 text-gray-500 dark:text-gray-400 font-bold rounded-lg hover:text-gray-900 dark:hover:text-white transition-all text-xs uppercase tracking-widest">

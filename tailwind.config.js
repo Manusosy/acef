@@ -22,8 +22,10 @@ export default {
                 base: ['18px', { lineHeight: '29px' }],
             },
             colors: {
-                'acef-green': '#28D160',
-                'acef-dark': '#011F0B',
+                'acef-green': '#134712', // Deep Green (Primary)
+                'acef-gold': '#f1cd40',  // Gold (Accent)
+                'acef-dark': '#0A260A',  // Darker Green (Contrast/Hover)
+                'acef-light-green': '#8dba8e', // Lighter Green (Timeline Bg)
                 'acef-gray': '#F9FAFB',
                 'acef-body': 'rgb(50, 44, 42)',
             }

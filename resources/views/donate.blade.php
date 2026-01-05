@@ -38,7 +38,7 @@
                         <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-lg mb-4">
                             Your donation directly supports ACEF's mission to mobilize and empower African youth. We are bridging the gap on hunger and poverty by driving innovative, youth-led solutions in climate action, environmental protection, and sustainable resource conservation.
                         </p>
-                        <p class="text-acef-green font-bold text-lg italic">
+                        <p class="text-acef-green dark:text-acef-light-green font-bold text-lg italic">
                             Together, we can build a resilient Africa—where empowered youth lead the way to a sustainable future.
                         </p>
                     </div>
@@ -70,7 +70,7 @@
                         <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-6">
                             <template x-for="amt in [25, 50, 100, 250, 500]" :key="amt">
                                 <button @click="setAmount(amt)"
-                                        :class="(amount === amt && !customAmount) ? 'bg-acef-green text-white border-acef-green shadow-md ring-2 ring-emerald-500/50' : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-acef-green hover:text-acef-green'"
+                                        :class="(amount === amt && !customAmount) ? 'bg-acef-green text-white border-acef-green shadow-md ring-2 ring-acef-green/50' : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-acef-green hover:text-acef-green'"
                                         class="py-3 px-2 border rounded font-bold transition-all text-center">
                                     $<span x-text="amt"></span>
                                 </button>
@@ -357,7 +357,7 @@
                          <div class="flex border-b border-gray-200 dark:border-gray-700 mb-8 overflow-x-auto scrollbar-hide">
                              <template x-for="m in methods" :key="m.id">
                                  <button @click="method = m.id"
-                                         :class="method === m.id ? 'border-acef-green text-acef-green font-bold bg-emerald-50/50 dark:bg-emerald-900/10' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'"
+                                         :class="method === m.id ? 'bg-acef-green text-white font-bold' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-acef-green dark:hover:text-acef-green'"
                                          class="px-6 py-4 border-b-2 text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-all flex-1"
                                          x-text="m.label"></button>
                              </template>
@@ -393,7 +393,7 @@
                                          </div>
                                          <div class="flex justify-between items-center text-sm mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
                                              <span class="text-gray-500 dark:text-gray-400">Approx. in KES:</span>
-                                             <span class="font-bold text-acef-green text-lg" x-text="'KES ' + (Math.ceil(finalAmount * 129)).toLocaleString()"></span>
+                                             <span class="font-bold text-acef-gold text-lg" x-text="'KES ' + (Math.ceil(finalAmount * 129)).toLocaleString()"></span>
                                          </div>
                                          <p class="text-[10px] text-gray-400 mt-2 italic">*Exchange rate estimated at 129 KES/USD. Actual charges may vary.</p>
                                      </div>
@@ -404,7 +404,7 @@
                                             <input type="tel" x-model="form.phone" placeholder="2547XXXXXXXX" class="w-full border-green-300 dark:border-green-800 rounded focus:ring-green-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                                         </div>
                                         <div class="flex items-end">
-                                            <button @click="processMpesa" :disabled="loading" class="bg-green-600 text-white font-bold py-2.5 px-6 rounded hover:bg-green-700 transition w-full disabled:opacity-50 h-[42px] flex items-center justify-center">
+                                            <button @click="processMpesa" :disabled="loading" class="bg-acef-green text-white font-bold py-2.5 px-6 rounded hover:bg-white hover:text-acef-dark transition w-full disabled:opacity-50 h-[42px] flex items-center justify-center uppercase tracking-widest text-xs">
                                                 <span x-text="loading ? 'Processing...' : 'Donate Now'"></span>
                                             </button>
                                         </div>

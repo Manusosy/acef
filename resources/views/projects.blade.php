@@ -131,7 +131,7 @@
                                 @if($percent >= 100)
                                     <div class="absolute top-6 right-6">
                                         <span
-                                            class="bg-acef-green text-acef-dark px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center">
+                                            class="bg-acef-green text-white px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center">
                                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd"
                                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
@@ -146,7 +146,7 @@
                             <div class="p-10 space-y-6 flex-1 flex flex-col">
                                 <div class="space-y-2">
                                     <div
-                                        class="flex items-center text-acef-green text-xs font-semibold uppercase tracking-widest">
+                                        <div class="flex items-center text-acef-green dark:text-acef-light-green text-xs font-semibold uppercase tracking-widest">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"

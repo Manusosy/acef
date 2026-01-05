@@ -35,7 +35,7 @@
         <x-slot name="actions">
             <a href="{{ isset($settings['annual_report']) ? Storage::url($settings['annual_report']) : '#' }}"
                 {{ isset($settings['annual_report']) ? 'download' : '' }}
-                class="bg-acef-green text-acef-dark font-bold px-8 py-4 rounded-2xl flex items-center space-x-3 hover:bg-white transition-all shadow-xl group transform hover:scale-105">
+                class="bg-acef-green text-white font-bold px-8 py-4 rounded-2xl flex items-center space-x-3 hover:bg-white hover:text-acef-dark transition-all shadow-xl group transform hover:scale-105">
                 <span>{{ __('pages.impact.download_report') }}</span>
                 <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none"
                     stroke="currentColor" viewBox="0 0 24 24">
@@ -202,7 +202,7 @@
                             const isActive = activeCountries.includes(countryName);
 
                             return {
-                                fillColor: isActive ? '#00e573' : '#1f2937', // acef-green vs gray-800
+                                fillColor: isActive ? '#134712' : '#1f2937', // acef-green vs gray-800
                                 weight: 1,
                                 opacity: 1,
                                 color: '#111827', // Dark border
@@ -283,7 +283,7 @@
                             </div>
                         </div>
                         <div class="p-8 space-y-4">
-                            <div class="flex items-center text-acef-green text-xs font-semibold uppercase tracking-widest">
+                            <div class="flex items-center text-acef-green dark:text-acef-light-green text-xs font-semibold uppercase tracking-widest">
                                 <span>{{ $proj->created_at->format('M Y') }}</span>
                                 <span class="mx-2 text-gray-300 dark:text-gray-600">•</span>
                                 @php
@@ -333,11 +333,11 @@
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
                 <a href="{{ route('get-involved') }}"
-                    class="w-full sm:w-auto bg-acef-green text-acef-dark font-bold px-12 py-5 rounded-2xl hover:bg-white transition-all transform hover:scale-105 shadow-2xl">
+                    class="w-full sm:w-auto bg-acef-green text-white font-bold px-12 py-5 rounded-2xl hover:bg-white hover:text-acef-dark transition-all transform hover:scale-105 shadow-2xl">
                     {{ __('pages.impact.partner_btn') }}
                 </a>
                 <a href="{{ route('donate') }}"
-                    class="w-full sm:w-auto bg-white/5 border-2 border-white/10 text-white font-bold px-12 py-5 rounded-2xl hover:bg-white/10 transition-all">
+                    class="w-full sm:w-auto bg-acef-gold text-acef-dark font-bold px-12 py-5 rounded-2xl hover:bg-white hover:text-acef-dark transition-all transform hover:scale-105 shadow-2xl">
                     {{ __('pages.impact.donate_btn') }}
                 </a>
             </div>

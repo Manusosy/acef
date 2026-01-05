@@ -1,18 +1,20 @@
 @php
     $generalSettings = \App\Models\Setting::getGroup('general');
+    $apiSettings = \App\Models\Setting::getGroup('apis');
     $siteName = $generalSettings['site_name'] ?? 'ACEF';
     $siteLogo = $generalSettings['site_logo'] ?? null;
     $siteLogoDark = $generalSettings['site_logo_dark'] ?? null;
     $siteTagline = $generalSettings['site_tagline'] ?? null;
+    $googleTranslateEnabled = $apiSettings['google_translate_enabled'] ?? false;
 @endphp
 
 <div x-data="layoutData" x-cloak>
     <header
         class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
-        :class="scrolled ? 'bg-acef-dark/95 backdrop-blur-md shadow-lg py-3' : (isHome ? 'bg-gradient-to-b from-black/80 to-transparent py-5' : 'bg-acef-dark/90 backdrop-blur-sm py-4')"
+        :class="scrolled ? 'bg-acef-dark/95 backdrop-blur-md shadow-lg py-2' : (isHome ? 'bg-gradient-to-b from-black/80 to-transparent py-4' : 'bg-acef-dark/90 backdrop-blur-sm py-3')"
         id="main-header" translate="no">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
+            <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="/" class="flex flex-col lg:flex-row lg:items-center group">
@@ -43,16 +45,16 @@
                 <!-- Desktop Navigation -->
                 <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-white">
                     <a href="{{ route('home') }}"
-                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-green transition-colors">
+                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-light-green transition-colors">
                         {{ __('navigation.home') }}
-                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-green transition-all duration-300 group-hover:w-full"></span>
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-light-green transition-all duration-300 group-hover:w-full"></span>
                     </a>
 
                     <!-- About Dropdown -->
                     <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                        <button class="relative py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-green transition-colors flex items-center gap-1">
+                        <button class="relative py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-light-green transition-colors flex items-center gap-1">
                             {{ __('navigation.about') }}
-                            <svg class="w-3 h-3 text-acef-green transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-3 h-3 text-acef-light-green transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
@@ -69,7 +71,7 @@
                             <div class="bg-white dark:bg-acef-dark border border-gray-100 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
                                 <div class="px-1 py-1">
                                     <a href="{{ route('about') }}" class="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                                        <div class="w-8 h-8 rounded-lg bg-acef-green/10 flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-acef-dark transition-colors">
+                                        <div class="w-8 h-8 rounded-lg bg-acef-light-green/10 flex items-center justify-center text-acef-light-green group-hover:bg-acef-light-green group-hover:text-acef-dark transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         </div>
                                         <div>
@@ -77,7 +79,7 @@
                                         </div>
                                     </a>
                                     <a href="{{ route('team') }}" class="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                                        <div class="w-8 h-8 rounded-lg bg-acef-green/10 flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-acef-dark transition-colors">
+                                        <div class="w-8 h-8 rounded-lg bg-acef-gold/10 flex items-center justify-center text-acef-gold group-hover:bg-acef-gold group-hover:text-acef-dark transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197"></path></svg>
                                         </div>
                                         <div>
@@ -85,7 +87,7 @@
                                         </div>
                                     </a>
                                     <a href="{{ route('partners') }}" class="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                                        <div class="w-8 h-8 rounded-lg bg-acef-green/10 flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-acef-dark transition-colors">
+                                        <div class="w-8 h-8 rounded-lg bg-acef-gold/10 flex items-center justify-center text-acef-gold group-hover:bg-acef-gold group-hover:text-acef-dark transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                                         </div>
                                         <div>
@@ -93,7 +95,7 @@
                                         </div>
                                     </a>
                                     <a href="{{ route('accreditations') }}" class="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                                        <div class="w-8 h-8 rounded-lg bg-acef-green/10 flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-acef-dark transition-colors">
+                                        <div class="w-8 h-8 rounded-lg bg-acef-gold/10 flex items-center justify-center text-acef-gold group-hover:bg-acef-gold group-hover:text-acef-dark transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         </div>
                                         <div>
@@ -106,34 +108,34 @@
                     </div>
 
                     <a href="{{ route('programmes') }}"
-                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-green transition-colors">
+                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-gold transition-colors">
                         {{ __('navigation.programmes') }}
-                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-green transition-all duration-300 group-hover:w-full"></span>
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-light-green transition-all duration-300 group-hover:w-full"></span>
                     </a>
                     
                     <a href="{{ route('projects') }}"
-                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-green transition-colors">
+                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-gold transition-colors">
                         {{ __('navigation.projects') }}
-                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-green transition-all duration-300 group-hover:w-full"></span>
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-light-green transition-all duration-300 group-hover:w-full"></span>
                     </a>
 
                     <a href="{{ route('impact') }}"
-                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-green transition-colors">
+                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-gold transition-colors">
                         {{ __('navigation.impact') }}
-                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-green transition-all duration-300 group-hover:w-full"></span>
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-light-green transition-all duration-300 group-hover:w-full"></span>
                     </a>
 
                     <a href="{{ route('get-involved') }}"
-                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-green transition-colors">
+                        class="relative group py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-gold transition-colors">
                         {{ __('navigation.get_involved') }}
-                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-green transition-all duration-300 group-hover:w-full"></span>
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-acef-light-green transition-all duration-300 group-hover:w-full"></span>
                     </a>
 
                      <!-- Resources Dropdown -->
                      <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                        <button class="relative py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-green transition-colors flex items-center gap-1">
+                        <button class="relative py-2 text-sm font-serif font-bold uppercase tracking-wider text-white hover:text-acef-gold transition-colors flex items-center gap-1">
                             {{ __('navigation.resources') }}
-                            <svg class="w-3 h-3 text-acef-green transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-3 h-3 text-acef-gold transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
@@ -150,7 +152,7 @@
                             <div class="bg-white dark:bg-acef-dark border border-gray-100 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
                                 <div class="px-1 py-1">
                                     <a href="{{ route('resources') }}" class="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                                        <div class="w-8 h-8 rounded-lg bg-acef-green/10 flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-acef-dark transition-colors">
+                                        <div class="w-8 h-8 rounded-lg bg-acef-light-green/10 flex items-center justify-center text-acef-light-green group-hover:bg-acef-light-green group-hover:text-acef-dark transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                                         </div>
                                         <div>
@@ -158,7 +160,7 @@
                                         </div>
                                     </a>
                                     <a href="{{ route('news') }}" class="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                                        <div class="w-8 h-8 rounded-lg bg-acef-green/10 flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-acef-dark transition-colors">
+                                        <div class="w-8 h-8 rounded-lg bg-acef-light-green/10 flex items-center justify-center text-acef-light-green group-hover:bg-acef-light-green group-hover:text-acef-dark transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
                                         </div>
                                         <div>
@@ -166,7 +168,7 @@
                                         </div>
                                     </a>
                                      <a href="{{ route('gallery') }}" class="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                                        <div class="w-8 h-8 rounded-lg bg-acef-green/10 flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-acef-dark transition-colors">
+                                        <div class="w-8 h-8 rounded-lg bg-acef-light-green/10 flex items-center justify-center text-acef-light-green group-hover:bg-acef-light-green group-hover:text-acef-dark transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                         </div>
                                         <div>
@@ -182,29 +184,43 @@
                 <!-- Actions -->
                 <div class="flex items-center gap-4">
                      <!-- Desktop Actions -->
-                    <div class="hidden lg:flex items-center gap-2">
+                    <div class="hidden lg:flex items-center gap-1 xl:gap-2">
+                        @if($googleTranslateEnabled)
+                            <!-- Google Translate Widget -->
+                            <div class="relative flex items-center h-10 px-2 group">
+                                <div id="google_translate_element" class="opacity-0 absolute inset-0 z-10 w-full h-full cursor-pointer"></div>
+                                <div class="flex items-center gap-2 text-white/70 group-hover:text-white transition-colors pointer-events-none">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 9.97 9.273 13.911 6 17" />
+                                    </svg>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest hidden xl:block">Translate</span>
+                                </div>
+                            </div>
+                        @endif
+
                         <!-- Dark Mode Toggle -->
                         <button @click="toggleDarkMode()"
-                            class="w-10 h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all"
+                            class="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all"
                             :title="darkMode ? '{{ __('pages.layout.header.theme_switch_light') }}' : '{{ __('pages.layout.header.theme_switch_dark') }}'">
-                            <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            <svg x-show="darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                            <svg x-show="!darkMode" class="w-4 h-4 xl:w-5 xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            <svg x-show="darkMode" class="w-4 h-4 xl:w-5 xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                         </button>
 
                         <!-- Search Button -->
-                         <button @click="searchOpen = true" class="w-10 h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                         <button @click="searchOpen = true" class="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                            <svg class="w-4 h-4 xl:w-5 xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </button>
 
                         <!-- User Account Dropdown -->
                         <div class="relative" x-data="{ userMenuOpen: false }" @click.away="userMenuOpen = false">
                             @auth
                                 <button @click="userMenuOpen = !userMenuOpen" 
-                                    class="w-10 h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                                    <svg class="w-4 h-4 xl:w-5 xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                     </svg>
                                 </button>
+
 
                                 <!-- Dropdown Menu -->
                                 <div x-show="userMenuOpen" 
@@ -286,7 +302,7 @@
 
                         <!-- Donate Button -->
                         <a href="{{ route('donate') }}"
-                            class="ml-2 bg-acef-green text-acef-dark px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white transition-all shadow-lg hover:shadow-acef-green/50 transform hover:-translate-y-0.5">
+                            class="ml-2 xl:ml-4 bg-acef-gold text-acef-dark px-4 xl:px-6 py-2.5 rounded-xl font-black text-[10px] xl:text-xs uppercase tracking-widest hover:bg-white hover:text-acef-dark transition-all shadow-lg hover:shadow-acef-gold/50 transform hover:-translate-y-0.5">
                             {{ __('buttons.donate') }}
                         </a>
                     </div>
@@ -347,10 +363,10 @@
                             <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="expanded" x-collapse class="pl-4 space-y-1">
-                            <a href="{{ route('about') }}" class="block px-4 py-2 text-white/60 hover:text-acef-green text-sm font-medium">{{ __('navigation.who_we_are') }}</a>
-                            <a href="{{ route('team') }}" class="block px-4 py-2 text-white/60 hover:text-acef-green text-sm font-medium">{{ __('navigation.our_team') }}</a>
-                            <a href="{{ route('partners') }}" class="block px-4 py-2 text-white/60 hover:text-acef-green text-sm font-medium">{{ __('navigation.our_partners') }}</a>
-                            <a href="{{ route('accreditations') }}" class="block px-4 py-2 text-white/60 hover:text-acef-green text-sm font-medium">{{ __('navigation.accreditations') }}</a>
+                            <a href="{{ route('about') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.who_we_are') }}</a>
+                            <a href="{{ route('team') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.our_team') }}</a>
+                            <a href="{{ route('partners') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.our_partners') }}</a>
+                            <a href="{{ route('accreditations') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.accreditations') }}</a>
                         </div>
                     </div>
 
@@ -364,9 +380,9 @@
                             <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="expanded" x-collapse class="pl-4 space-y-1">
-                            <a href="{{ route('resources') }}" class="block px-4 py-2 text-white/60 hover:text-acef-green text-sm font-medium">{{ __('navigation.knowledge_hub') }}</a>
-                            <a href="{{ route('news') }}" class="block px-4 py-2 text-white/60 hover:text-acef-green text-sm font-medium">{{ __('navigation.news_insights') }}</a>
-                            <a href="{{ route('gallery') }}" class="block px-4 py-2 text-white/60 hover:text-acef-green text-sm font-medium">{{ __('navigation.media_gallery') }}</a>
+                            <a href="{{ route('resources') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.knowledge_hub') }}</a>
+                            <a href="{{ route('news') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.news_insights') }}</a>
+                            <a href="{{ route('gallery') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.media_gallery') }}</a>
                         </div>
                     </div>
 
@@ -384,7 +400,7 @@
                         </button>
                     </div>
 
-                    <a href="{{ route('donate') }}" class="block w-full py-4 bg-acef-green text-acef-dark font-black text-center text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-colors shadow-lg">
+                    <a href="{{ route('donate') }}" class="block w-full py-4 bg-acef-gold text-acef-dark font-black text-center text-sm uppercase tracking-widest rounded-xl hover:bg-white hover:text-acef-dark transition-colors shadow-lg">
                         {{ __('buttons.donate') }}
                     </a>
                 </div>
@@ -406,7 +422,7 @@
             <div class="relative">
                 <form action="{{ route('search') }}" method="GET">
                     <input type="text" name="q" 
-                           class="w-full bg-transparent border-b-2 border-white/20 px-8 py-6 text-3xl md:text-5xl font-black text-white focus:outline-none focus:border-acef-green placeholder-white/20 transition-colors"
+                           class="w-full bg-transparent border-b-2 border-white/20 px-8 py-6 text-3xl md:text-5xl font-black text-white focus:outline-none focus:border-acef-light-green placeholder-white/20 transition-colors"
                            placeholder="{{ __('pages.layout.header.search_placeholder') }}"
                            x-ref="searchInput"
                            @keydown.escape.window="searchOpen = false">
@@ -459,7 +475,22 @@
             }
         }));
     });
+
+    @if($googleTranslateEnabled)
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'fr,sw,es,de,pt,ar,zh-CN',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    @endif
 </script>
+
+@if($googleTranslateEnabled)
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+@endif
 
 
 <style>
