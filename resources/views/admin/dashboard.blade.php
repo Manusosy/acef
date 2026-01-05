@@ -28,13 +28,21 @@
         </div>
 
         <!-- Articles -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-5 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-5 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow relative">
             <div class="flex items-center justify-between mb-3">
                 <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
                     <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                     </svg>
                 </div>
+                @if($stats['pending_review'] > 0)
+                    <div class="flex items-center gap-1.5 px-2 py-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800 rounded-full group cursor-help transition-all hover:bg-amber-100" title="{{ $stats['pending_review'] }} items pending review">
+                        <span class="flex h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+                        <svg class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                @endif
             </div>
             <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">{{ $stats['articles'] }}</p>
             <p class="text-base font-medium text-gray-600 dark:text-gray-400">Articles</p>
@@ -53,21 +61,6 @@
             <p class="text-base font-medium text-gray-600 dark:text-gray-400">Users</p>
         </div>
 
-        <!-- Pending Review -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-5 border border-amber-200 dark:border-amber-900 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between mb-3">
-                <div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </div>
-                @if($stats['pending_review'] > 0)
-                    <span class="flex h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
-                @endif
-            </div>
-            <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">{{ $stats['pending_review'] }}</p>
-            <p class="text-base font-medium text-amber-600 dark:text-amber-400">Pending Review</p>
-        </div>
     </div>
 
     <!-- Quick Actions -->
