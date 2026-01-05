@@ -34,7 +34,19 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return view('welcome', compact('featuredProjects', 'latestNews', 'partners'));
+        try {
+            $timelineYears = \App\Models\TimelineYear::where('is_visible', true)
+                ->with(['achievements' => function($q) {
+                    $q->where('is_visible', true)->orderBy('order', 'asc');
+                }])
+                ->orderBy('year', 'asc')
+                ->get();
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Timeline load failed: ' . $e->getMessage());
+            $timelineYears = collect();
+        }
+
+        return view('welcome', compact('featuredProjects', 'latestNews', 'partners', 'timelineYears'));
     }
 
     public function about()

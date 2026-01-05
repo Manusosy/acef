@@ -98,6 +98,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/heroes/slides/{slide}', [\App\Http\Controllers\Admin\HeroController::class, 'updateSlide'])->name('heroes.slides.update');
         Route::delete('/heroes/slides/{slide}', [\App\Http\Controllers\Admin\HeroController::class, 'destroySlide'])->name('heroes.slides.destroy');
         Route::post('/heroes/{page}/reorder', [\App\Http\Controllers\Admin\HeroController::class, 'reorderSlides'])->name('heroes.slides.reorder');
+        
+        // Timeline
+        Route::resource('timeline-years', \App\Http\Controllers\Admin\TimelineYearController::class);
+        Route::resource('timeline-achievements', \App\Http\Controllers\Admin\TimelineAchievementController::class);
     });
 
     // Coordinator Routes

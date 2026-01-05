@@ -207,6 +207,10 @@
                 </div>
             </div>
         </section>
+
+        <!-- Global Engagements Timeline -->
+        <x-timeline-section :years="$timelineYears" />
+
         <!-- Featured Projects Section -->
         <section class="py-24 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
