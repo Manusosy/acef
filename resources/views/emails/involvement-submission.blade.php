@@ -74,7 +74,7 @@
         
         <div class="field">
             <div class="label">Message:</div>
-            <div style="white-space: pre-wrap;">{{ $data['message'] }}</div>
+            <div style="white-space: pre-wrap;">{{ $data['message'] ?? 'N/A' }}</div>
         </div>
 
         <div class="footer">
