@@ -69,6 +69,10 @@ class ContactController extends Controller
             Mail::to(config('mail.from.address'))
                 ->send(new InvolvementSubmission($validated));
 
+            // Send Acknowledgement to User
+            Mail::to($validated['email'])
+                ->send(new \App\Mail\InvolvementAcknowledgement($validated));
+
             return back()->with('success', 'Your application has been submitted successfully. We will get back to you soon.');
         } catch (\Exception $e) {
             \Log::error('Involvement form submission failed: ' . $e->getMessage());
