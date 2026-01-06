@@ -11,7 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Column added manually via Raw SQL due to SQLite driver issues in this environment
+        Schema::table('accreditations', function (Blueprint $table) {
+            if (!Schema::hasColumn('accreditations', 'image')) {
+                $table->string('image')->nullable();
+            }
+        });
     }
 
     /**

@@ -6,17 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        // Columns added manually via Raw SQL due to SQLite driver issues in this environment
+        Schema::table('media_folders', function (Blueprint $table) {
+            if (!Schema::hasColumn('media_folders', 'project_id')) {
+                $table->foreignId('project_id')->nullable()->constrained('projects')->nullOnDelete();
+            }
+            if (!Schema::hasColumn('media_folders', 'programme_id')) {
+                $table->foreignId('programme_id')->nullable()->constrained('programs')->nullOnDelete();
+            }
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('media_folders', function (Blueprint $table) {

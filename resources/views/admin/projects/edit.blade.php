@@ -456,6 +456,7 @@
                                 <span class="text-sm font-bold text-gray-700">Feature this project</span>
                             </label>
                         </div>
+                        @else
                          <div class="space-y-4">
                             <div class="flex items-center justify-between text-sm">
                                 <span class="text-gray-500">Current Status:</span>
@@ -467,6 +468,7 @@
                             </div>
                             <input type="hidden" name="status" value="{{ $project->status }}">
                          </div>
+                        @endif
                      </div>
                 </div>
             </div>
