@@ -3,12 +3,12 @@
 <head>
     <style>
         body { font-family: 'Outfit', sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; padding: 40px; border: 1px solid #134712; border-radius: 20px; text-align: center; }
+        .container { max-width: 600px; margin: 0 auto; padding: 40px; border: 1px solid #0b3d32; border-radius: 20px; text-align: center; }
         .logo { margin-bottom: 30px; }
         .logo img { height: 60px; }
-        .heading { font-size: 24px; color: #134712; font-weight: bold; margin-bottom: 20px; }
+        .heading { font-size: 24px; color: #0b3d32; font-weight: bold; margin-bottom: 20px; }
         .text { margin-bottom: 30px; color: #555; }
-        .button { display: inline-block; padding: 12px 30px; background-color: #134712; color: #ffffff; text-decoration: none; border-radius: 50px; font-weight: bold; }
+        .button { display: inline-block; padding: 12px 30px; background-color: #0b3d32; color: #ffffff; text-decoration: none; border-radius: 50px; font-weight: bold; }
         .footer { margin-top: 40px; font-size: 12px; color: #999; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
 </head>

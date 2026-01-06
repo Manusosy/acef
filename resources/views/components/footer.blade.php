@@ -106,22 +106,22 @@
                 <p class="text-white/60 mb-6 font-light italic">{{ __('pages.layout.footer.newsletter_desc') }}</p>
                 <form class="space-y-3">
                     <input type="email" placeholder="{{ __('pages.layout.footer.newsletter_placeholder') }}"
-                        class="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-acef-light-green transition-colors text-white placeholder:text-white/20">
+                        class="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-acef-gold transition-colors text-white placeholder:text-white/20">
                     <button
-                        class="w-full bg-acef-light-green py-3 rounded-full font-bold hover:bg-white hover:text-acef-dark transition-all shadow-lg">{{ __('pages.layout.footer.subscribe_btn') }}</button>
+                        class="w-full bg-acef-gold py-3 rounded-full font-bold text-acef-dark hover:bg-white hover:text-acef-dark transition-all shadow-lg">{{ __('pages.layout.footer.subscribe_btn') }}</button>
                 </form>
             </div>
         </div>
 
-        <div class="pt-10 flex flex-col md:flex-row justify-between items-center text-white/40 text-sm font-light">
-            <p>{{ __('pages.layout.footer.copyright', ['year' => '2025']) }}</p>
+        <div class="pt-10 flex flex-col md:flex-row justify-between items-center text-white/80 text-sm font-light">
+            <p>{{ __('pages.layout.footer.copyright', ['year' => date('Y')]) }}</p>
             <div class="flex space-x-6 mt-4 md:mt-0 font-medium">
                 <a href="{{ route('privacy') }}"
-                    class="hover:text-white transition-colors">{{ __('pages.layout.footer.privacy') }}</a>
+                    class="hover:text-acef-gold transition-colors">{{ __('pages.layout.footer.privacy') }}</a>
                 <a href="{{ route('terms') }}"
-                    class="hover:text-white transition-colors">{{ __('pages.layout.footer.terms') }}</a>
+                    class="hover:text-acef-gold transition-colors">{{ __('pages.layout.footer.terms') }}</a>
                 <a href="{{ route('cookies') }}"
-                    class="hover:text-white transition-colors">{{ __('pages.layout.footer.cookies') }}</a>
+                    class="hover:text-acef-gold transition-colors">{{ __('pages.layout.footer.cookies') }}</a>
             </div>
         </div>
     </div>

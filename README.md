@@ -87,6 +87,16 @@ For production, use `.env.example.production` as a template for your `.env` file
 For quick reference or advanced users:
 📄 [DEPLOYMENT.md](DEPLOYMENT.md) - Condensed deployment methods
 
+
+## cPanel Deployment
+
+Terminal Commands
+cd ~/acef-app
+git fetch --all
+git reset --hard origin/main
+rm -f ~/public_html/hot
+cp -r ~/acef-app/public/build ~/public_html/
+
 ## Contribution and Legal
 
 This project is maintained by the ACEF Technical Team. For information regarding data protection and terms of use, refer to the Privacy Policy and Terms of Service pages within the application.
