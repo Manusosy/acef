@@ -58,12 +58,10 @@
                             });
                         }
                     }" x-intersect.once="startCount()">
-                        <template x-for="stat in stats">
                             <div class="text-center space-y-1">
-                                <span class="text-4xl font-bold text-acef-green" x-text="stat.current.toLocaleString() + stat.suffix">0</span>
+                                <span class="text-4xl font-bold text-white" x-text="stat.current.toLocaleString() + stat.suffix">0</span>
                                 <p class="text-xs font-bold text-white/40 uppercase tracking-widest" x-text="stat.label"></p>
                             </div>
-                        </template>
                     </div>
                 </div>
             </div>

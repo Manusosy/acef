@@ -76,7 +76,7 @@ class ContactController extends Controller
             return back()->with('success', 'Your application has been submitted successfully. We will get back to you soon.');
         } catch (\Exception $e) {
             \Log::error('Involvement form submission failed: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Something went wrong. Please try again later.');
+            return back()->withInput()->with('error', 'Error: ' . $e->getMessage());
         }
     }
 }
