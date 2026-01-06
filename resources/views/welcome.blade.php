@@ -202,7 +202,7 @@
                                 class="text-2xl font-bold text-acef-dark dark:text-white group-hover:text-acef-green transition-colors mb-2">
                                 {{ $project->title }}
                             </h3>
-                            <p class="text-gray-500 line-clamp-2 italic mb-4">{{Str::limit($project->description, 100)}}</p>
+                            <p class="text-gray-500 line-clamp-2 italic mb-4">{{ Str::limit(strip_tags($project->description), 100) }}</p>
                             <a href="{{ route('projects.show', $project) }}"
                                 class="font-bold text-acef-dark dark:text-white group-hover:text-acef-green transition-colors flex items-center">
                                 {{ __('buttons.read_more') }} <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"

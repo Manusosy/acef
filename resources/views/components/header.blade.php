@@ -312,7 +312,7 @@
 
                         <!-- Donate Button -->
                         <a href="{{ route('donate') }}"
-                            class="ml-2 xl:ml-4 bg-acef-gold text-[#0A260A] px-4 xl:px-6 py-2.5 rounded-xl font-black text-[10px] xl:text-xs uppercase tracking-widest hover:bg-white hover:text-acef-green transition-all shadow-lg hover:shadow-acef-gold/50 transform hover:-translate-y-0.5">
+                            class="ml-2 xl:ml-4 bg-acef-gold text-[#0A260A] px-4 xl:px-6 py-2.5 rounded-xl font-black text-[10px] xl:text-xs uppercase tracking-widest hover:bg-white hover:text-acef-green transition-all shadow-lg transform hover:-translate-y-0.5">
                             {{ __('buttons.donate') }}
                         </a>
                     </div>
