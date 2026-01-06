@@ -32,7 +32,7 @@
         image-url="/hero_marine_ecosystem_1766827540454.png"
     />
 
-    <main class="pb-24">
+    <main class="pb-24 pt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row gap-20">
                 <!-- Contact Form -->

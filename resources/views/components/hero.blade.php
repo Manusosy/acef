@@ -57,9 +57,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full {{ $hasSlider ? '' : 'pt-20' }} {{ $centered ? 'flex flex-col items-center text-center' : '' }}">
         <div class="max-w-4xl space-y-6 {{ $centered ? 'mx-auto' : '' }}">
             @if($breadcrumb)
-                <span class="inline-block py-2 px-6 rounded-full bg-acef-green text-white font-bold text-sm tracking-wider uppercase opacity-100 shadow-lg">
+                <p class="text-acef-green font-bold tracking-widest uppercase text-sm mb-2">
                     {{ $breadcrumb }}
-                </span>
+                </p>
             @endif
 
             <h1 class="text-4xl md:text-7xl font-black text-white leading-tight tracking-tighter animate-fade-in-up">

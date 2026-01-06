@@ -136,7 +136,7 @@
                             <div class="w-24 h-24 md:w-32 md:h-32 bg-gray-50 dark:bg-gray-900/50 rounded-2xl flex items-center justify-center p-4 border border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-500 hover:shadow-xl hover:border-acef-green dark:hover:border-acef-green transform hover:-translate-y-1 overflow-hidden">
                                 @if($acc->image)
                                     <img src="{{ str_starts_with($acc->image, 'http') ? $acc->image : Storage::url($acc->image) }}" alt="{{ $acc->acronym }}" 
-                                         class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+                                         class="max-h-full max-w-full object-contain transition-all duration-700 group-hover:scale-110">
                                 @else
                                     <span class="text-xl md:text-2xl font-black text-acef-dark/20 dark:text-white/10 group-hover:text-acef-green transition-colors uppercase tracking-widest">
                                         {{ $acc->acronym }}
@@ -373,7 +373,7 @@
                         <div class="flex animate-scroll hover:[animation-play-state:paused] gap-16 items-center py-4">
                             @php $partnerList = $partners->concat($partners)->concat($partners); @endphp
                             @foreach($partnerList as $partner)
-                                <div class="flex-shrink-0 w-56 md:w-80 h-32 grayscale opacity-30 dark:opacity-40 hover:opacity-100 transition-all duration-700 hover:grayscale-0 flex items-center justify-center p-4">
+                                <div class="flex-shrink-0 w-56 md:w-80 h-32 transition-all duration-700 flex items-center justify-center p-4">
                                     @if($partner->logo)
                                         <img src="{{ Storage::url($partner->logo) }}" 
                                              alt="{{ $partner->name }}" 

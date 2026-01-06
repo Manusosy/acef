@@ -31,6 +31,7 @@
         title="{!! __('pages.impact.hero_title') !!}"
         subtitle="{{ __('pages.impact.hero_desc') }}"
         image-url="/hero_marine_ecosystem_1766827540454.png"
+        height="min-h-screen md:h-[60vh]"
     >
         <x-slot name="actions">
             <a href="{{ isset($settings['annual_report']) ? Storage::url($settings['annual_report']) : '#' }}"

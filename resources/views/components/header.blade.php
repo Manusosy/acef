@@ -92,7 +92,7 @@
                     <!-- Our Work Mega Menu -->
                     <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
                         <button class="relative px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] text-white hover:text-acef-light-green transition-all flex items-center gap-1">
-                            OUR WORK
+                            {{ __('navigation.our_work') }}
                             <svg class="w-3 h-3 text-acef-light-green transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -379,7 +379,7 @@
 
                 <!-- Nav -->
                 <nav class="space-y-1">
-                    <a href="{{ route('home') }}" class="block px-4 py-3 text-white font-bold hover:bg-white/5 rounded-xl transition-colors">{{ __('navigation.home') }}</a>
+                    <a href="{{ route('home') }}" @click="mobileMenuOpen = false" class="block px-4 py-3 text-white font-bold hover:bg-white/5 rounded-xl transition-colors">{{ __('navigation.home') }}</a>
                     
                     <div x-data="{ expanded: false }" class="space-y-1">
                         <button @click="expanded = !expanded" class="w-full flex justify-between items-center px-4 py-3 text-white font-bold hover:bg-white/5 rounded-xl transition-colors">
@@ -387,22 +387,22 @@
                             <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="expanded" x-collapse class="pl-4 space-y-1">
-                            <a href="{{ route('about') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.who_we_are') }}</a>
-                            <a href="{{ route('team') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.our_team') }}</a>
-                            <a href="{{ route('partners') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.our_partners') }}</a>
-                            <a href="{{ route('accreditations') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.accreditations') }}</a>
+                            <a href="{{ route('about') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.who_we_are') }}</a>
+                            <a href="{{ route('team') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.our_team') }}</a>
+                            <a href="{{ route('partners') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.our_partners') }}</a>
+                            <a href="{{ route('accreditations') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.accreditations') }}</a>
                         </div>
                     </div>
 
                     <div x-data="{ expanded: false }" class="space-y-1">
                         <button @click="expanded = !expanded" class="w-full flex justify-between items-center px-4 py-3 text-white font-bold hover:bg-white/5 rounded-xl transition-colors">
-                            <span>OUR WORK</span>
+                            <span>{{ __('navigation.our_work') }}</span>
                             <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="expanded" x-collapse class="pl-4 space-y-1">
-                            <a href="{{ route('programmes') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.programmes') }}</a>
-                            <a href="{{ route('projects') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.projects') }}</a>
-                            <a href="{{ route('impact') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.impact') }}</a>
+                            <a href="{{ route('programmes') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.programmes') }}</a>
+                            <a href="{{ route('projects') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.projects') }}</a>
+                            <a href="{{ route('impact') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.impact') }}</a>
                         </div>
                     </div>
                     
@@ -412,14 +412,14 @@
                             <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="expanded" x-collapse class="pl-4 space-y-1">
-                            <a href="{{ route('resources') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.knowledge_hub') }}</a>
-                            <a href="{{ route('news') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.news_insights') }}</a>
-                            <a href="{{ route('gallery') }}" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.media_gallery') }}</a>
+                            <a href="{{ route('resources') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.knowledge_hub') }}</a>
+                            <a href="{{ route('news') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.news_insights') }}</a>
+                            <a href="{{ route('gallery') }}" @click="mobileMenuOpen = false" class="block px-4 py-2 text-white/60 hover:text-acef-light-green text-sm font-medium">{{ __('navigation.media_gallery') }}</a>
                         </div>
                     </div>
 
-                    <a href="{{ route('get-involved') }}" class="block px-4 py-3 text-white font-bold hover:bg-white/5 rounded-xl transition-colors">{{ __('navigation.get_involved') }}</a>
-                    <a href="{{ route('contact') }}" class="block px-4 py-3 text-white font-bold hover:bg-white/5 rounded-xl transition-colors">{{ __('navigation.contact') }}</a>
+                    <a href="{{ route('get-involved') }}" @click="mobileMenuOpen = false" class="block px-4 py-3 text-white font-bold hover:bg-white/5 rounded-xl transition-colors">{{ __('navigation.get_involved') }}</a>
+                    <a href="{{ route('contact') }}" @click="mobileMenuOpen = false" class="block px-4 py-3 text-white font-bold hover:bg-white/5 rounded-xl transition-colors">{{ __('navigation.contact') }}</a>
                 </nav>
 
                 <!-- Actions -->
