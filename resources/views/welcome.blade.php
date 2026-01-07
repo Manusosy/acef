@@ -61,7 +61,7 @@
         <!-- Who We Are Section -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true" 
                  class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300 relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col lg:flex-row items-center gap-16">
                     <div class="lg:w-1/2 relative">
                         <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
@@ -119,7 +119,7 @@
         @if($accreditations->count() > 0)
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-16 md:py-24 bg-white dark:bg-gray-950 border-y border-gray-100 dark:border-gray-800 transition-colors duration-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col items-center text-center space-y-4 max-w-3xl mx-auto">
                     <p class="text-acef-green dark:text-acef-light-green font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs">
                         {{ __('pages.accreditations.hero_title') }}

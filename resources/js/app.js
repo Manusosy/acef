@@ -10,4 +10,9 @@ Alpine.plugin(collapse);
 window.Alpine = Alpine;
 window.Sortable = Sortable;
 
+// Mark JS as enabled for safer animations
+document.addEventListener('DOMContentLoaded', () => {
+    document.documentElement.classList.add('js-enabled');
+});
+
 Alpine.start();

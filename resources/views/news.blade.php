@@ -51,7 +51,7 @@
         <!-- Browse Insights -->
         <section x-data="{ shown: false, view: 'grid', categoryOpen: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-gray-50/50 dark:bg-gray-900 transition-colors">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col lg:flex-row justify-between items-end gap-8 border-b border-gray-200 dark:border-gray-800 pb-8">
                     <div class="space-y-4">
                         <h2 class="text-5xl font-bold text-acef-dark dark:text-white tracking-tighter">

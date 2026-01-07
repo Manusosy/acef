@@ -55,7 +55,7 @@
                 @if($strategicPartners->count() > 0 || $institutionalPartners->count() > 0)
                 <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                          class="space-y-16">
-                    <div class="text-center space-y-4 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+                    <div class="text-center space-y-4" :class="{ 'animate-fade-in-up': shown }">
                         <p class="text-acef-green font-bold text-xs uppercase tracking-widest">{{ __('pages.partners.strategic_title') }}</p>
                         <h2 class="text-4xl font-bold text-acef-dark tracking-tight leading-tight">{{ __('pages.partners.institutional_backing') }}</h2>
                     </div>
@@ -77,7 +77,7 @@
                 @if($implementationPartners->count() > 0)
                 <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                          class="space-y-16 py-24 bg-gray-50/50 rounded-[60px] border border-gray-100">
-                    <div class="text-center space-y-4 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+                    <div class="text-center space-y-4" :class="{ 'animate-fade-in-up': shown }">
                         <p class="text-acef-green font-bold text-xs uppercase tracking-widest">{{ __('pages.partners.ground_operations') }}</p>
                         <h2 class="text-4xl font-bold text-acef-dark tracking-tight leading-tight">{{ __('pages.partners.regional_implementation') }}</h2>
                     </div>

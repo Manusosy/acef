@@ -59,7 +59,7 @@
             <!-- Legal Standings -->
             <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                      class="bg-acef-green/5 border border-acef-green/10 rounded-2xl p-12 md:p-20 space-y-12">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8" :class="{ 'animate-fade-in-up': shown }">
                     <div class="space-y-4 max-w-xl">
                         <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">
                             {{ __('pages.accreditations.legal.framework') }}</p>
@@ -82,7 +82,7 @@
             <!-- Transparency Seal -->
             <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true" 
                      class="flex flex-col items-center text-center space-y-10 max-w-4xl mx-auto py-12">
-                <div class="opacity-0 flex flex-col items-center" :class="{ 'animate-fade-in-up': shown }">
+                <div class="flex flex-col items-center" :class="{ 'animate-fade-in-up': shown }">
                     <div
                         class="w-24 h-24 bg-white dark:bg-gray-800 rounded-full shadow-2xl flex items-center justify-center text-acef-green scale-150 mb-10 border border-gray-50 dark:border-gray-700">
                         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">

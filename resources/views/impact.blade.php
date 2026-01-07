@@ -55,7 +55,7 @@
     <!-- Key Stats -->
     <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
              class="pt-24 pb-24 bg-white dark:bg-gray-900 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6" x-data="{
                 stats: [
                     @foreach(__('pages.home.stats') as $stat)

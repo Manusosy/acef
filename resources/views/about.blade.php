@@ -36,7 +36,7 @@
         <!-- Who We Are Section -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true" 
                  class="py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col lg:flex-row gap-16 items-start">
                     <div class="lg:w-1/3">
                         <h2 class="text-5xl font-black text-acef-dark tracking-tighter sticky top-32">
