@@ -99,9 +99,11 @@
                 @endif
 
                 <!-- Call to Partnership -->
+                <!-- Call to Partnership -->
                 <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
-                         class="flex flex-col md:flex-row items-center justify-between gap-12 p-12 md:p-20 bg-acef-deep-green rounded-[50px]">
-                    <div class="space-y-6 max-w-xl" :class="{ 'animate-fade-in-up': shown }">
+                         style="background-color: #235046;"
+                         class="flex flex-col md:flex-row items-center justify-between gap-12 p-12 md:p-20 rounded-[50px] bg-acef-deep-green">
+                    <div class="space-y-6 max-w-xl animate-fade-in-up">
                         <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-tight">{{ __('pages.partners.cta.title') }}</h2>
                         <p class="text-white/80 font-light italic leading-relaxed">
                             {{ __('pages.partners.cta.desc') }}
