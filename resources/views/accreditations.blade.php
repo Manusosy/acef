@@ -31,11 +31,11 @@
     </section>
 
     <main class="pb-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pt-16 md:pt-24">
 
             <!-- Main Accreditations -->
             <div x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
-                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" :class="{ 'animate-fade-in-up': shown }">
                 @foreach($accreditations as $acc)
                     <div
                         class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 space-y-6 border border-gray-100 dark:border-gray-700 hover:border-acef-green dark:hover:border-acef-green transition-all group flex flex-col justify-between shadow-sm hover:shadow-xl">

@@ -34,7 +34,7 @@
     />
 
     <main class="pb-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pt-16 md:pt-24">
 
             <!-- Leadership Section -->
             <section class="space-y-12">

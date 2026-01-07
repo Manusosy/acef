@@ -34,7 +34,7 @@
 <body class="antialiased font-sans bg-white overflow-x-hidden">
     @include('components.header')
 
-    <main class="pt-40 pb-24" x-data="{
+    <main class="pt-0 pb-24" x-data="{
         folders: {{ json_encode($folders) }},
         galleryItems: {{ json_encode($galleryItems) }},
         youtubeSettings: {{ json_encode($youtubeSettings) }},

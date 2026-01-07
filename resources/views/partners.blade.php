@@ -49,7 +49,7 @@
                 $implementationPartners = $partners->where('category', 'implementation');
             @endphp
 
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pt-16 md:pt-24">
                 
                 <!-- Strategic & Institutional Partners -->
                 @if($strategicPartners->count() > 0 || $institutionalPartners->count() > 0)
@@ -100,10 +100,10 @@
 
                 <!-- Call to Partnership -->
                 <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
-                         class="flex flex-col md:flex-row items-center justify-between gap-12 p-12 md:p-20 bg-acef-green rounded-[50px]">
-                    <div class="space-y-6 max-w-xl opacity-0" :class="{ 'animate-fade-in-up': shown }">
-                        <h2 class="text-4xl md:text-5xl font-bold text-acef-dark tracking-tighter leading-tight">{{ __('pages.partners.cta.title') }}</h2>
-                        <p class="text-acef-dark font-light italic leading-relaxed">
+                         class="flex flex-col md:flex-row items-center justify-between gap-12 p-12 md:p-20 bg-[#235046] rounded-[50px]">
+                    <div class="space-y-6 max-w-xl" :class="{ 'animate-fade-in-up': shown }">
+                        <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-tight">{{ __('pages.partners.cta.title') }}</h2>
+                        <p class="text-white/80 font-light italic leading-relaxed">
                             {{ __('pages.partners.cta.desc') }}
                         </p>
                     </div>
