@@ -1,7 +1,7 @@
 @props(['years'])
 
 @if($years->count() > 0)
-<section class="py-24 bg-acef-light-green relative overflow-hidden font-sans select-none" id="timeline-section">
+<section class="py-16 md:py-20 bg-acef-light-green relative overflow-hidden font-sans select-none" id="timeline-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" 
          x-data="{ 
             activeYearId: {{ $years->last()->id }},
@@ -90,7 +90,7 @@
                 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
             </style>
             
-            <div class="relative flex items-center overflow-x-auto pb-20 pt-16 px-[50vw] scrollbar-hide snap-x snap-mandatory gap-32 md:gap-48"
+            <div class="relative flex items-center overflow-x-auto pb-12 pt-12 px-[50vw] scrollbar-hide snap-x snap-mandatory gap-32 md:gap-48"
                  x-ref="navContainer"
                  @scroll="handleScroll()">
                  
@@ -119,7 +119,7 @@
         </div>
 
         <!-- Achievements Content Area -->
-        <div class="relative min-h-[500px] max-w-5xl mx-auto px-4 mt-6">
+        <div class="relative min-h-[300px] max-w-5xl mx-auto px-4 mt-6">
             @foreach($years as $year)
                 <div x-show="activeYearId === {{ $year->id }}" 
                      x-transition:enter="transition ease-out duration-700"

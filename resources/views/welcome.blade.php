@@ -171,7 +171,7 @@
         <!-- Featured Projects Section -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
                     <div class="space-y-4 text-left">
                         <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
@@ -262,7 +262,7 @@
         <!-- Featured Video Section -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-16 md:py-24 bg-acef-gray relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="max-w-5xl mx-auto">
                     <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-video group">
                         <!-- Video: The Great Green Wall (User Provided) -->
@@ -288,7 +288,7 @@
         <!-- Map Section -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-gray-50 dark:bg-acef-dark transition-colors duration-300 relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center space-y-12" :class="{ 'animate-fade-in-up': shown }">
                 <div class="text-center space-y-4 max-w-2xl">
                     <p class="text-acef-green dark:text-acef-light-green font-bold tracking-widest uppercase text-sm">
                         {{ __('pages.home.map_section.label') }}</p>
@@ -307,7 +307,7 @@
         <!-- News & Insights -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-acef-gray">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
                     <div class="space-y-4 text-left">
                         <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
@@ -365,7 +365,7 @@
         @if($partners->count() > 0)
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-white dark:bg-gray-900 overflow-hidden relative border-t border-gray-50 dark:border-gray-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12" :class="{ 'animate-fade-in-up': shown }">
                 <p class="text-center text-gray-400 dark:text-gray-500 font-black uppercase tracking-[0.4em] text-[11px]">
                     {{ __('pages.home.partners_title') }}
                 </p>

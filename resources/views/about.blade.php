@@ -90,7 +90,7 @@
         <!-- Core Values -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-acef-gray/50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="text-center space-y-4 mb-20">
                     <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
                         {{ __('pages.about.values_title') }}</p>
@@ -122,7 +122,7 @@
         <!-- Founder Section -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-acef-dark relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col md:flex-row items-center gap-16">
                     <div class="md:w-1/3 flex justify-center">
                         <div class="relative">
@@ -171,7 +171,7 @@
         <!-- Strategic Objectives -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="text-center mb-16 space-y-4">
                     <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
                         {{ __('pages.about.strategic_focus') }}</p>
@@ -203,7 +203,7 @@
         <!-- Journey Timeline -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <h2 class="text-center text-4xl font-black text-acef-dark mb-20 tracking-tighter">
                     {{ __('pages.about.journey_heading') }}</h2>
 
@@ -251,7 +251,7 @@
         <!-- Team Section -->
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-acef-gray">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
                     <div class="space-y-4 text-left">
                         <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
