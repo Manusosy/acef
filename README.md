@@ -56,7 +56,7 @@ To set up the project locally:
    ```
 6. Start the development server:
    ```bash
-    
+   php -c php.ini -S 127.0.0.1:9090 -t public
    ```
 
 **Features**: Full system access, User Management, Content Management (Articles, Projects), Payment Settings, Donation Tracking.
