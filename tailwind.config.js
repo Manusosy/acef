@@ -25,6 +25,7 @@ export default {
                 'acef-green': '#13a759', // Bright Green (Primary/Action)
                 'acef-gold': '#f1cd40',  // Gold (Accent)
                 'acef-dark': '#0b3d32',  // Deep Forest Green (Backgrounds)
+                'acef-deep-green': '#235046', // Partners CTA Green
                 'acef-light-green': '#8dba8e', // Lighter Green (Timeline Bg)
                 'acef-gray': '#F9FAFB',
                 'acef-body': 'rgb(50, 44, 42)',

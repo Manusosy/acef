@@ -95,11 +95,15 @@ class MediaController extends Controller
             'uploaded_by' => auth()->id(),
         ]);
 
-        return response()->json([
-            'success' => true,
-            'media' => $media,
-            'message' => 'Image uploaded successfully.',
-        ]);
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'media' => $media,
+                'message' => 'Image uploaded successfully.',
+            ]);
+        }
+
+        return redirect()->back()->with('status', 'Image uploaded successfully.');
     }
 
     public function show(MediaItem $medium)

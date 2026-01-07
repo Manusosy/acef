@@ -5,6 +5,7 @@
     folders: [],
     activeFolder: null,
     loading: false,
+    uploading: false,
     selectedItems: [],
     multiple: false,
     search: '',
@@ -91,6 +92,7 @@
     },
     
     close() {
+        if(this.uploading) return; // Prevent closing while uploading
         this.open = false;
         this.selectedItems = [];
     },
@@ -141,7 +143,7 @@
                     </button>
                 </nav>
             </div>
-            <button @click="close()" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all group">
+            <button @click="close()" :disabled="uploading" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all group disabled:opacity-30">
                 <svg class="w-6 h-6 text-gray-400 dark:text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
@@ -173,16 +175,22 @@
             <!-- Content Area -->
             <div class="flex-1 overflow-y-auto p-6 md:p-10">
                 <!-- Upload Tab -->
-                <div x-show="tab === 'upload'" class="h-full flex flex-col items-center justify-center border-4 border-dashed border-gray-200 dark:border-gray-800 rounded-3xl p-12 text-center bg-white dark:bg-gray-900 transition-all hover:border-emerald-500/30">
+                <div x-show="tab === 'upload'" class="h-full flex flex-col items-center justify-center border-4 border-dashed border-gray-200 dark:border-gray-800 rounded-3xl p-12 text-center bg-white dark:bg-gray-900 transition-all" :class="uploading ? 'opacity-50 pointer-events-none' : 'hover:border-emerald-500/30'">
                     <div class="w-24 h-24 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl flex items-center justify-center text-emerald-500 mb-6 shadow-sm">
-                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                        <template x-if="!uploading">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                        </template>
+                        <template x-if="uploading">
+                            <svg class="w-12 h-12 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        </template>
                     </div>
-                    <h4 class="text-2xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Upload new assets</h4>
-                    <p class="text-gray-500 dark:text-gray-400 mb-8 max-w-xs font-medium">Drag and drop files here or click to browse from your computer.</p>
+                    <h4 class="text-2xl font-black text-gray-900 dark:text-white mb-2 tracking-tight" x-text="uploading ? 'Uploading asset...' : 'Upload new assets'"></h4>
+                    <p class="text-gray-500 dark:text-gray-400 mb-8 max-w-xs font-medium" x-text="uploading ? 'Please wait while we process your file.' : 'Drag and drop files here or click to browse from your computer.'"></p>
                     
-                    <input type="file" id="mediaPickerUpload" class="hidden" @change="
+                    <input type="file" id="mediaPickerUpload" class="hidden" :disabled="uploading" @change="
                         let file = $event.target.files[0];
                         if (file) {
+                            uploading = true;
                             let formData = new FormData();
                             formData.append('file', file);
                             formData.append('_token', '{{ csrf_token() }}');
@@ -204,11 +212,19 @@
                                 } else {
                                     alert(data.message);
                                 }
+                            })
+                            .catch(err => {
+                                console.error('Upload failed', err);
+                                alert('Upload failed. Please try again.');
+                            })
+                            .finally(() => {
+                                uploading = false;
+                                $event.target.value = '';
                             });
                         }
                     ">
-                    <button @click="document.getElementById('mediaPickerUpload').click()" class="px-10 py-4 bg-emerald-500 text-white font-black rounded-2xl hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-200 uppercase tracking-widest text-sm">
-                        Select Files
+                    <button @click="document.getElementById('mediaPickerUpload').click()" :disabled="uploading" class="px-10 py-4 bg-emerald-500 text-white font-black rounded-2xl hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-200 uppercase tracking-widest text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span x-text="uploading ? 'Processing...' : 'Select Files'"></span>
                     </button>
                 </div>
 

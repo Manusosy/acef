@@ -100,7 +100,7 @@
 
                 <!-- Call to Partnership -->
                 <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
-                         class="flex flex-col md:flex-row items-center justify-between gap-12 p-12 md:p-20 bg-[#235046] rounded-[50px]">
+                         class="flex flex-col md:flex-row items-center justify-between gap-12 p-12 md:p-20 bg-acef-deep-green rounded-[50px]">
                     <div class="space-y-6 max-w-xl" :class="{ 'animate-fade-in-up': shown }">
                         <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-tight">{{ __('pages.partners.cta.title') }}</h2>
                         <p class="text-white/80 font-light italic leading-relaxed">
