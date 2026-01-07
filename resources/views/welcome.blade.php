@@ -32,7 +32,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="antialiased font-sans bg-white overflow-x-hidden">
+<body class="antialiased font-sans bg-white dark:bg-gray-900 overflow-x-hidden transition-colors duration-500">
     @include('components.header')
 
     <x-hero 

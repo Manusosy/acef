@@ -59,11 +59,13 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
-        // Search for founder by flag (if migration succeeded) or by name (fallback as requested)
+        // Search for founder - robust fallback if migration hasn't run in production
         $founder = \App\Models\TeamMember::where('is_active', true)
             ->where(function($q) {
-                $q->where('is_founder', true)
-                  ->orWhere('name', 'like', '%Tambe Honourine Enow%');
+                if (\Illuminate\Support\Facades\Schema::hasColumn('team_members', 'is_founder')) {
+                    $q->where('is_founder', true);
+                }
+                $q->orWhere('name', 'like', '%Tambe Honourine Enow%');
             })
             ->first();
 
