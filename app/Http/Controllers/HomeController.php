@@ -58,7 +58,16 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->take(4)
             ->get();
-        return view('about', compact('leadership'));
+
+        // Search for founder by flag (if migration succeeded) or by name (fallback as requested)
+        $founder = \App\Models\TeamMember::where('is_active', true)
+            ->where(function($q) {
+                $q->where('is_founder', true)
+                  ->orWhere('name', 'like', '%Tambe Honourine Enow%');
+            })
+            ->first();
+
+        return view('about', compact('leadership', 'founder'));
     }
 
     public function programmes()

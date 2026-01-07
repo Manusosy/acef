@@ -53,8 +53,9 @@
     </x-hero>
 
     <!-- Key Stats -->
-    <section class="pt-24 pb-24 bg-white dark:bg-gray-900 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+             class="pt-24 pb-24 bg-white dark:bg-gray-900 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6" x-data="{
                 stats: [
                     @foreach(__('pages.home.stats') as $stat)
@@ -112,8 +113,9 @@
     </section>
 
     <!-- Interactive Map Section -->
-    <section class="py-24 bg-white dark:bg-gray-900 border-t border-gray-50 dark:border-gray-800 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+             class="py-24 bg-white dark:bg-gray-900 border-t border-gray-50 dark:border-gray-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <!-- Map Area -->
                 <div class="lg:col-span-8">
@@ -246,8 +248,9 @@
     </script>
 
     <!-- Final Projects Slider/Highlights -->
-    <section class="py-24 bg-white dark:bg-gray-900 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+             class="py-24 bg-white dark:bg-gray-900 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
             <div class="flex flex-wrap items-end justify-between gap-8">
                 <h2 class="text-5xl font-bold text-acef-dark dark:text-white tracking-tighter">{{ __('pages.impact.projects_title') }}
                 </h2>
@@ -318,14 +321,15 @@
     </section>
 
     <!-- Join Us CTA -->
-    <section class="py-24 bg-acef-dark text-white relative overflow-hidden">
+    <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+             class="py-24 bg-acef-dark text-white relative overflow-hidden">
         <!-- Background highlights -->
         <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-acef-green opacity-10 rounded-full blur-[150px]">
         </div>
         <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-acef-green opacity-5 rounded-full blur-[150px]">
         </div>
 
-        <div class="max-w-4xl mx-auto px-4 text-center space-y-12 relative z-10">
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-12 relative z-10 opacity-0" :class="{ 'animate-fade-in-up': shown }">
             <h2 class="text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
                 {!! __('pages.impact.cta_title') !!}
             </h2>

@@ -59,8 +59,9 @@
 
     <main>
         <!-- Who We Are Section -->
-        <section class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300 relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true" 
+                 class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col lg:flex-row items-center gap-16">
                     <div class="lg:w-1/2 relative">
                         <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
@@ -116,8 +117,9 @@
 
         <!-- Accreditations Showcase -->
         @if($accreditations->count() > 0)
-        <section class="py-16 md:py-24 bg-white dark:bg-gray-950 border-y border-gray-100 dark:border-gray-800 transition-colors duration-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-16 md:py-24 bg-white dark:bg-gray-950 border-y border-gray-100 dark:border-gray-800 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col items-center text-center space-y-4 max-w-3xl mx-auto">
                     <p class="text-acef-green dark:text-acef-light-green font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs">
                         {{ __('pages.accreditations.hero_title') }}
@@ -167,17 +169,18 @@
         @endif
 
         <!-- Featured Projects Section -->
-        <section class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-                <div class="flex justify-between items-end">
-                    <div class="space-y-4">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
+                    <div class="space-y-4 text-left">
                         <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
                             {{ __('pages.home.featured_projects_title') }}
                         </h2>
                         <p class="text-gray-500 font-light italic">{{ __('pages.home.featured_projects_subtitle') }}
                         </p>
                     </div>
-                    <a href="{{ route('projects') }}" class="text-acef-green dark:text-acef-light-green font-bold flex items-center group transition-colors">
+                    <a href="{{ route('projects') }}" class="text-acef-green dark:text-acef-light-green font-bold flex items-center group transition-colors sm:pb-2">
                         {{ __('buttons.view_all_projects') }} <svg
                             class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -257,8 +260,9 @@
         </section>
 
         <!-- Featured Video Section -->
-        <section class="py-16 md:py-24 bg-acef-gray relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-16 md:py-24 bg-acef-gray relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <div class="max-w-5xl mx-auto">
                     <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-video group">
                         <!-- Video: The Great Green Wall (User Provided) -->
@@ -282,34 +286,36 @@
             </div>
         </section>
         <!-- Map Section -->
-        <section class="py-24 bg-acef-dark relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center space-y-12">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-gray-50 dark:bg-acef-dark transition-colors duration-300 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <div class="text-center space-y-4 max-w-2xl">
-                    <p class="text-acef-light-green font-bold tracking-widest uppercase text-sm">
+                    <p class="text-acef-green dark:text-acef-light-green font-bold tracking-widest uppercase text-sm">
                         {{ __('pages.home.map_section.label') }}</p>
-                    <h2 class="text-5xl font-black text-white tracking-tighter">
+                    <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
                         {{ __('pages.home.map_section.title') }}
                     </h2>
-                    <p class="text-white/60 font-light italic">{{ __('pages.home.map_section.subtitle') }}</p>
+                    <p class="text-gray-600 dark:text-white/60 font-light italic">{{ __('pages.home.map_section.subtitle') }}</p>
                 </div>
 
                 <div class="relative w-full max-w-5xl h-[350px] md:h-[600px] mx-auto mt-10">
-                    <div id="africa-map" class="w-full h-full rounded-2xl shadow-2xl border border-white/10 bg-acef-dark z-10 relative"></div>
+                    <div id="africa-map" class="w-full h-full rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 bg-gray-200 dark:bg-acef-dark z-10 relative"></div>
                 </div>
             </div>
         </section>
 
         <!-- News & Insights -->
-        <section class="py-24 bg-acef-gray">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-                <div class="flex justify-between items-end">
-                    <div class="space-y-4">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-acef-gray">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
+                    <div class="space-y-4 text-left">
                         <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
                             {{ __('pages.home.news_title') }}
                         </h2>
                         <p class="text-gray-500 font-light italic">{{ __('pages.home.news_subtitle') }}</p>
                     </div>
-                    <a href="{{ route('news') }}" class="text-acef-green dark:text-acef-light-green font-bold flex items-center group transition-colors">
+                    <a href="{{ route('news') }}" class="text-acef-green dark:text-acef-light-green font-bold flex items-center group transition-colors sm:pb-2">
                         {{ __('buttons.visit_blog') }} <svg
                             class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -357,8 +363,9 @@
 
         <!-- Partners Section -->
         @if($partners->count() > 0)
-        <section class="py-24 bg-white dark:bg-gray-900 overflow-hidden relative border-t border-gray-50 dark:border-gray-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-white dark:bg-gray-900 overflow-hidden relative border-t border-gray-50 dark:border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <p class="text-center text-gray-400 dark:text-gray-500 font-black uppercase tracking-[0.4em] text-[11px]">
                     {{ __('pages.home.partners_title') }}
                 </p>
@@ -370,10 +377,10 @@
 
                     <!-- Partners Carousel -->
                     <div class="flex overflow-hidden">
-                        <div class="flex animate-scroll hover:[animation-play-state:paused] gap-16 items-center py-4">
+                        <div class="flex animate-scroll hover:[animation-play-state:paused] gap-8 md:gap-16 items-center py-4">
                             @php $partnerList = $partners->concat($partners)->concat($partners); @endphp
                             @foreach($partnerList as $partner)
-                                <div class="flex-shrink-0 w-56 md:w-80 h-32 transition-all duration-700 flex items-center justify-center p-4">
+                                <div class="flex-shrink-0 w-40 md:w-64 h-24 md:h-32 transition-all duration-700 flex items-center justify-center p-4">
                                     @if($partner->logo)
                                         <img src="{{ Storage::url($partner->logo) }}" 
                                              alt="{{ $partner->name }}" 
@@ -405,29 +412,52 @@
     </main>
     @include('components.footer')
 
+
     <style>
-        @keyframes fade-in-up {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Map Styles for Light/Dark Mode */
+        .map-country-active {
+            fill: #13a759 !important; /* acef-green */
+            fill-opacity: 0.9 !important;
+            stroke: #ffffff !important;
+            stroke-width: 1px !important;
+            transition: all 0.3s ease;
+        }
+        .dark .map-country-active {
+            fill: #13a759 !important; /* Vibrant acef-green for dark mode contrast */
+            stroke: #ffffff !important; /* White border as requested */
+        }
+        
+        .map-country-inactive {
+            fill: #d1d5db !important; /* gray-300 for light mode */
+            fill-opacity: 1 !important;
+            stroke: #ffffff !important;
+            stroke-width: 1px !important;
+            transition: all 0.3s ease;
+        }
+        .dark .map-country-inactive {
+            fill: #1f2937 !important; /* gray-800 for dark mode */
+            fill-opacity: 0.6 !important; /* Increased slightly for dark mode visibility */
+            stroke: #ffffff !important; /* White border as requested */
         }
 
-        .animate-fade-in-up {
-            animation: fade-in-up 1s ease-out forwards;
+        .map-country-active:hover {
+            fill-opacity: 1 !important;
+            stroke-width: 2px !important;
         }
-
-        .delay-100 {
-            animation-delay: 0.2s;
+        
+        /* Leaflet tooltip customization */
+        .leaflet-tooltip.custom-tooltip {
+            background-color: white;
+            color: #0b3d32;
+            border: none;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
         }
-
-        .delay-200 {
-            animation-delay: 0.4s;
+        .dark .leaflet-tooltip.custom-tooltip {
+            background-color: #1f2937;
+            color: white;
         }
     </style>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -462,12 +492,7 @@
                             const isActive = activeCountries.includes(countryName);
 
                             return {
-                                fillColor: isActive ? '#134712' : '#374151', 
-                                weight: 1,
-                                opacity: 1,
-                                color: '#4b5563',
-                                dashArray: '',
-                                fillOpacity: isActive ? 1.0 : 0.8
+                                className: isActive ? 'map-country-active' : 'map-country-inactive'
                             };
                         },
                         onEachFeature: function(feature, layer) {
@@ -475,26 +500,7 @@
                                 layer.bindTooltip(feature.properties.name, {
                                     permanent: false,
                                     direction: 'center',
-                                    className: 'bg-white text-acef-dark font-bold px-2 py-1 rounded shadow-lg border-0'
-                                });
-                                
-                                layer.on({
-                                    mouseover: function(e) {
-                                        var layer = e.target;
-                                        layer.setStyle({
-                                            fillOpacity: 1,
-                                            weight: 2,
-                                            color: '#fff'
-                                        });
-                                    },
-                                    mouseout: function(e) {
-                                        var layer = e.target;
-                                        layer.setStyle({
-                                            fillOpacity: 0.9,
-                                            weight: 1,
-                                            color: '#111827'
-                                        });
-                                    }
+                                    className: 'custom-tooltip'
                                 });
                             }
                         }

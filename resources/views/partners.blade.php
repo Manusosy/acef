@@ -53,8 +53,9 @@
                 
                 <!-- Strategic & Institutional Partners -->
                 @if($strategicPartners->count() > 0 || $institutionalPartners->count() > 0)
-                <section class="space-y-16">
-                    <div class="text-center space-y-4">
+                <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                         class="space-y-16">
+                    <div class="text-center space-y-4 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                         <p class="text-acef-green font-bold text-xs uppercase tracking-widest">{{ __('pages.partners.strategic_title') }}</p>
                         <h2 class="text-4xl font-bold text-acef-dark tracking-tight leading-tight">{{ __('pages.partners.institutional_backing') }}</h2>
                     </div>
@@ -74,8 +75,9 @@
 
                 <!-- Implementation Partners -->
                 @if($implementationPartners->count() > 0)
-                <section class="space-y-16 py-24 bg-gray-50/50 rounded-[60px] border border-gray-100">
-                    <div class="text-center space-y-4">
+                <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                         class="space-y-16 py-24 bg-gray-50/50 rounded-[60px] border border-gray-100">
+                    <div class="text-center space-y-4 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                         <p class="text-acef-green font-bold text-xs uppercase tracking-widest">{{ __('pages.partners.ground_operations') }}</p>
                         <h2 class="text-4xl font-bold text-acef-dark tracking-tight leading-tight">{{ __('pages.partners.regional_implementation') }}</h2>
                     </div>
@@ -97,8 +99,9 @@
                 @endif
 
                 <!-- Call to Partnership -->
-                <section class="flex flex-col md:flex-row items-center justify-between gap-12 p-12 md:p-20 bg-acef-green rounded-[50px]">
-                    <div class="space-y-6 max-w-xl">
+                <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                         class="flex flex-col md:flex-row items-center justify-between gap-12 p-12 md:p-20 bg-acef-green rounded-[50px]">
+                    <div class="space-y-6 max-w-xl opacity-0" :class="{ 'animate-fade-in-up': shown }">
                         <h2 class="text-4xl md:text-5xl font-bold text-acef-dark tracking-tighter leading-tight">{{ __('pages.partners.cta.title') }}</h2>
                         <p class="text-acef-dark font-light italic leading-relaxed">
                             {{ __('pages.partners.cta.desc') }}

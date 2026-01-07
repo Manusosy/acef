@@ -34,8 +34,9 @@
 
     <main>
         <!-- Who We Are Section -->
-        <section class="py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true" 
+                 class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col lg:flex-row gap-16 items-start">
                     <div class="lg:w-1/3">
                         <h2 class="text-5xl font-black text-acef-dark tracking-tighter sticky top-32">
@@ -87,8 +88,9 @@
         </section>
 
         <!-- Core Values -->
-        <section class="py-24 bg-acef-gray/50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-acef-gray/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <div class="text-center space-y-4 mb-20">
                     <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
                         {{ __('pages.about.values_title') }}</p>
@@ -118,14 +120,20 @@
         </section>
 
         <!-- Founder Section -->
-        <section class="py-24 bg-acef-dark relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-acef-dark relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col md:flex-row items-center gap-16">
                     <div class="md:w-1/3 flex justify-center">
                         <div class="relative">
-                            <div class="w-64 h-64 rounded-full overflow-hidden border-4 border-acef-green shadow-2xl">
-                                <img src="/mission_vision_africa_1766827653058.png" alt="Tambe Honourine Enow"
-                                    class="w-full h-full object-cover">
+                            <div class="w-64 h-64 rounded-full overflow-hidden border-4 border-acef-green shadow-2xl bg-gray-100">
+                                @if($founder && $founder->image)
+                                    <img src="{{ Storage::url($founder->image) }}" alt="{{ $founder->name }}"
+                                        class="w-full h-full object-cover">
+                                @else
+                                    <img src="/mission_vision_africa_1766827653058.png" alt="Founder Placeholder"
+                                        class="w-full h-full object-cover">
+                                @endif
                             </div>
                             <div
                                 class="absolute -bottom-2 -right-2 bg-acef-green w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
@@ -161,8 +169,9 @@
         </section>
 
         <!-- Strategic Objectives -->
-        <section class="py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <div class="text-center mb-16 space-y-4">
                     <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
                         {{ __('pages.about.strategic_focus') }}</p>
@@ -192,8 +201,9 @@
         </section>
 
         <!-- Journey Timeline -->
-        <section class="py-24 bg-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 <h2 class="text-center text-4xl font-black text-acef-dark mb-20 tracking-tighter">
                     {{ __('pages.about.journey_heading') }}</h2>
 
@@ -239,15 +249,16 @@
         </section>
 
         <!-- Team Section -->
-        <section class="py-24 bg-acef-gray">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-                <div class="flex justify-between items-end">
-                    <div class="space-y-4">
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-acef-gray">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 opacity-0" :class="{ 'animate-fade-in-up': shown }">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
+                    <div class="space-y-4 text-left">
                         <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
                             {{ __('pages.about.team_heading') }}</h2>
                         <p class="text-gray-500 font-light italic">{{ __('pages.about.team_subheading') }}</p>
                     </div>
-                    <a href="{{ route('team') }}" class="text-acef-green font-bold flex items-center group">
+                    <a href="{{ route('team') }}" class="text-acef-green font-bold flex items-center group sm:pb-2">
                         {{ __('buttons.view_all_team') }} <svg
                             class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">

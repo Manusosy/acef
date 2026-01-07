@@ -56,37 +56,17 @@ To set up the project locally:
    ```
 6. Start the development server:
    ```bash
-    php -c php.ini -S 127.0.0.1:9090 -t public
+    
    ```
 
+**Features**: Full system access, User Management, Content Management (Articles, Projects), Payment Settings, Donation Tracking.
 
-## Access & Testing
-
-The platform includes role-based dashboards for different user types. Use the following credentials to access the system:
-
-### 1. Admin Portal
-- **Login URL**: [http://127.0.0.1:9090/login](http://127.0.0.1:9090/login)
-
-- **Features**: Full system access, User Management, Content Management (Articles, Projects), Payment Settings, Donation Tracking.
-
-### 2. Country Coordinator Portal
-- **Login URL**: [http://127.0.0.1:9090/login](http://127.0.0.1:9090/login) (Auto-redirects to Coordinator Dashboard)
-- **Registration URL**: [http://127.0.0.1:9090/register](http://127.0.0.1:9090/register) (Select "Country Coordinator" role)
-
-- **Features**: Country-specific project view, Article creation (Drafts), Media Library access.
+**Features**: Country-specific project view, Article creation (Drafts), Media Library access.
 
 ## Production Deployment
 
 ### Environment Setup
 For production, use `.env.example.production` as a template for your `.env` file. It contains pre-configured mail settings and production-ready defaults.
-
-### Complete Deployment Guide
-**First time deploying Laravel to cPanel?** Follow our complete step-by-step guide:
-📖 **[DEPLOYMENT-COMPLETE-GUIDE.md](DEPLOYMENT-COMPLETE-GUIDE.md)** - Beginner-friendly with screenshots and detailed instructions
-
-For quick reference or advanced users:
-📄 [DEPLOYMENT.md](DEPLOYMENT.md) - Condensed deployment methods
-
 
 ## cPanel Deployment
 

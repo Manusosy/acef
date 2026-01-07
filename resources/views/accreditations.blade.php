@@ -34,7 +34,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
 
             <!-- Main Accreditations -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                 @foreach($accreditations as $acc)
                     <div
                         class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 space-y-6 border border-gray-100 dark:border-gray-700 hover:border-acef-green dark:hover:border-acef-green transition-all group flex flex-col justify-between shadow-sm hover:shadow-xl">
@@ -56,8 +57,9 @@
             </div>
 
             <!-- Legal Standings -->
-            <section class="bg-acef-green/5 border border-acef-green/10 rounded-2xl p-12 md:p-20 space-y-12">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+            <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                     class="bg-acef-green/5 border border-acef-green/10 rounded-2xl p-12 md:p-20 space-y-12">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8 opacity-0" :class="{ 'animate-fade-in-up': shown }">
                     <div class="space-y-4 max-w-xl">
                         <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">
                             {{ __('pages.accreditations.legal.framework') }}</p>
@@ -78,14 +80,17 @@
             </section>
 
             <!-- Transparency Seal -->
-            <section class="flex flex-col items-center text-center space-y-10 max-w-4xl mx-auto py-12">
-                <div
-                    class="w-24 h-24 bg-white dark:bg-gray-800 rounded-full shadow-2xl flex items-center justify-center text-acef-green scale-150 mb-10 border border-gray-50 dark:border-gray-700">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                        </path>
-                    </svg>
+            <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true" 
+                     class="flex flex-col items-center text-center space-y-10 max-w-4xl mx-auto py-12">
+                <div class="opacity-0 flex flex-col items-center" :class="{ 'animate-fade-in-up': shown }">
+                    <div
+                        class="w-24 h-24 bg-white dark:bg-gray-800 rounded-full shadow-2xl flex items-center justify-center text-acef-green scale-150 mb-10 border border-gray-50 dark:border-gray-700">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                            </path>
+                        </svg>
+                    </div>
                 </div>
                 <h2 class="text-4xl font-black text-acef-dark dark:text-white tracking-tighter">
                     {{ __('pages.accreditations.transparency.title') }}</h2>

@@ -4,7 +4,7 @@ return [
     'cookies' => [
         'title' => 'Cookies Policy',
         'desc' => 'This Cookie Policy explains what cookies are, how and why they are used on this website, and how you can manage your cookie preferences. This policy is designed to comply with the General Data Protection Regulation (GDPR), the ePrivacy Directive, and other applicable data protection laws.',
-        'last_updated' => 'Last Updated: December 29, 2024',
+        'last_updated' => 'Last Updated: January 07, 2026',
         'toc' => 'Table of Contents',
         'sections' => [
             'what_are_cookies' => '1. What Are Cookies?',
@@ -116,7 +116,7 @@ return [
     'privacy' => [
         'title' => 'Privacy Policy',
         'desc' => 'At the Africa Climate and Environment Foundation (ACEF), we value your privacy. This policy outlines how we collect, use, and protect your personal information when you engage with our platform, donate, or volunteer.',
-        'last_updated' => 'Last Updated: December 21, 2024',
+        'last_updated' => 'Last Updated: January 07, 2026',
         'toc' => 'Table of Contents',
         'sections' => [
             'collection' => '1. Data Collection',
@@ -198,7 +198,7 @@ return [
     'terms' => [
         'title' => 'Terms of Service',
         'desc' => 'Welcome to the Africa Climate and Environment Foundation (ACEF). As a youth-led Pan-African organization, we are committed to transparency, integrity, and the ethical use of our digital platforms to drive climate action.',
-        'last_updated' => 'Last Updated: December 21, 2024',
+        'last_updated' => 'Last Updated: January 07, 2026',
         'toc' => 'Table of Contents',
         'sections' => [
             'acceptance' => '1. Acceptance of Terms',

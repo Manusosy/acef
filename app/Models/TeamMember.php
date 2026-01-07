@@ -16,6 +16,7 @@ class TeamMember extends Model
         'twitter',
         'team_type',
         'sort_order',
+        'is_founder',
         'is_active'
     ];
 }
