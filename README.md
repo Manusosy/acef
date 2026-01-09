@@ -13,7 +13,7 @@ The Africa Climate and Environment Foundation (ACEF) website is a premium, youth
 - **Frontend**: Blade Templating Engine
 - **Styling**: Tailwind CSS
 - **Build Tool**: Vite
-- **Language**: PHP 8.2+
+- **Language**: PHP 8.3 (Production Compatible)
 
 ## Architecture and Pages
 The application is structured into several key functional areas:
