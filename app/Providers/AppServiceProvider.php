@@ -11,7 +11,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Suppress deprecation warnings locally on PHP 8.5+ to keep the UI clean
+        // These warnings are common in the vendor folder and won't appear on production (PHP 8.3)
+        if (PHP_VERSION_ID >= 80400) {
+            error_reporting(error_reporting() & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+        }
     }
 
     /**
