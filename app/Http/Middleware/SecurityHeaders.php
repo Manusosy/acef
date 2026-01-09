@@ -32,27 +32,31 @@ class SecurityHeaders
         // Permissions Policy (formerly Feature-Policy)
         $response->headers->set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
         
-        // Only set HSTS in production with HTTPS
-        if (app()->environment('production') && $request->secure()) {
-            $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-        }
-        
-        // Content Security Policy - Only enforce in production
-        // In development, CSP can block Vite dev server and make debugging difficult
-        if (app()->environment('production')) {
-            $csp = implode('; ', [
+        // Content Security Policy - Only enforce in real production without Vite dev server
+        // In local development, these headers block Vite, Alpine, and Tailwind, causing a broken appearance.
+        if (app()->environment('production') && !file_exists(public_path('hot'))) {
+            // Only set HSTS in production with HTTPS
+            if ($request->secure()) {
+                $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+            }
+
+            $scriptSrc = "'self' 'unsafe-inline' 'unsafe-eval' https://www.paypal.com https://www.paypalobjects.com https://translate.google.com https://translate.googleapis.com https://unpkg.com";
+            $styleSrc = "'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com https://unpkg.com";
+            $connectSrc = "'self' https://www.paypal.com https://translate.googleapis.com";
+            
+            $csp = implode('; ', array_filter([
                 "default-src 'self'",
-                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.paypal.com https://www.paypalobjects.com https://translate.google.com https://translate.googleapis.com https://unpkg.com",
-                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com https://unpkg.com",
+                "script-src $scriptSrc",
+                "style-src $styleSrc",
                 "font-src 'self' https://fonts.gstatic.com data:",
                 "img-src 'self' data: https: blob:",
-                "connect-src 'self' https://www.paypal.com https://translate.googleapis.com",
+                "connect-src $connectSrc",
                 "frame-src 'self' https://www.paypal.com https://www.sandbox.paypal.com https://www.youtube.com https://www.youtube-nocookie.com",
                 "object-src 'none'",
                 "base-uri 'self'",
                 "form-action 'self'",
                 "upgrade-insecure-requests"
-            ]);
+            ]));
             
             $response->headers->set('Content-Security-Policy', $csp);
         }
