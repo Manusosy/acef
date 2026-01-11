@@ -41,8 +41,8 @@
         :breadcrumb="__('pages.home.founded')"
         title="{!! __('pages.home.hero_title') !!}"
         subtitle="{!! __('pages.home.hero_subtitle') !!}"
-        height="h-[60vh] md:h-[75vh]"
-        min-height="min-h-[450px] md:min-h-[600px]"
+        height="h-[75vh] md:h-[60vh]"
+        min-height="min-h-[500px] md:min-h-[500px]"
         image-url="/hero_marine_ecosystem_1766827540454.png"
     >
         <x-slot name="actions">

@@ -424,6 +424,34 @@
 
                 <!-- Actions -->
                 <div class="space-y-3 pt-6 border-t border-white/10">
+                    <!-- Mobile Auth -->
+                    @auth
+                        <div class="px-4 pb-4 border-b border-white/10 mb-4">
+                            <div class="text-white/60 text-xs font-medium mb-2 uppercase tracking-widest">Account</div>
+                            <div class="text-white font-bold mb-4">{{ Auth::user()->name }}</div>
+                            <a href="{{ route('admin.dashboard') }}" class="flex items-center py-2 text-white font-bold hover:text-acef-green transition-colors">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                Dashboard
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="flex items-center w-full text-left py-2 text-red-400 font-bold hover:text-red-300 transition-colors">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                    Sign Out
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        <div class="grid grid-cols-2 gap-3 px-4 pb-6 border-b border-white/10 mb-4">
+                            <a href="{{ route('login') }}" class="flex justify-center items-center py-2.5 text-white font-bold hover:text-acef-green hover:bg-white/10 transition-colors bg-white/5 rounded-lg border border-white/10">
+                                Login
+                            </a>
+                            <a href="{{ route('register') }}" class="flex justify-center items-center py-2.5 text-acef-dark font-bold hover:bg-white/90 transition-colors bg-white rounded-lg">
+                                Register
+                            </a>
+                        </div>
+                    @endauth
+
                      <div class="flex items-center justify-between px-4 pb-4">
                         <span class="text-sm font-medium text-white/60">Theme</span>
                         <button @click="toggleDarkMode()" class="p-2 bg-white/5 rounded-lg text-white">

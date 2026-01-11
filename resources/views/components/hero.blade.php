@@ -54,7 +54,7 @@
         </div>
     @endif
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full {{ $hasSlider ? '' : 'pt-20' }} {{ $centered ? 'flex flex-col items-center text-center' : '' }}">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-32 {{ $centered ? 'flex flex-col items-center text-center' : '' }}">
         <div class="max-w-4xl space-y-6 {{ $centered ? 'mx-auto' : '' }}">
             @if($breadcrumb)
                 <p class="text-acef-green font-bold tracking-widest uppercase text-sm mb-2">
