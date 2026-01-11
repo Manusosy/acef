@@ -1,5 +1,10 @@
 <?php
 
+// Suppress deprecation warnings locally on PHP 8.5+ to keep the UI clean
+if (PHP_VERSION_ID >= 80400) {
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+}
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
