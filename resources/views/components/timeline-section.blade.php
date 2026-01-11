@@ -178,18 +178,22 @@
                                                 </div>
                                             @endif
 
-                                            @if($achievement->location)
-                                                <div class="absolute top-4 left-4">
-                                                    <span class="px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-lg text-xs font-bold uppercase tracking-wider text-[#134712] shadow-sm flex items-center gap-1">
-                                                        <span class="text-sm">📍</span> {{ $achievement->location }}
-                                                    </span>
-                                                </div>
-                                            @endif
+
                                         </div>
 
                                         <!-- Content Side -->
                                         <div class="flex-1 p-8 md:p-12 flex flex-col justify-center relative bg-gradient-to-br from-white to-[#f0fdf4]">
                                             <div class="absolute top-0 left-12 w-[2px] h-8 bg-gradient-to-b from-[#134712] to-transparent opacity-20 md:hidden"></div>
+
+                                            @if($achievement->location)
+                                                <div class="flex items-center gap-2 text-[#134712] opacity-70 mb-2">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    </svg>
+                                                    <span class="text-xs font-bold uppercase tracking-widest">{{ $achievement->location }}</span>
+                                                </div>
+                                            @endif
 
                                             <h3 class="text-3xl font-black text-[#134712] mb-6 leading-tight tracking-tight">
                                                 {{ $achievement->title }}
