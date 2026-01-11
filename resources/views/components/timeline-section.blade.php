@@ -133,10 +133,10 @@
                     @if($year->achievements->count() > 0)
                         <div class="flex flex-col gap-12">
                             @foreach($year->achievements as $achievement)
-                                <div class="bg-[#f0fdf4] rounded-lg overflow-hidden shadow-2xl shadow-[#134712]/10 border border-white/40 ring-1 ring-black/5 transform transition-all duration-500 hover:-translate-y-1">
-                                    <div class="flex flex-col md:flex-row">
+                                <div class="bg-[#f0fdf4] rounded-2xl overflow-hidden shadow-2xl shadow-[#134712]/10 border border-white/40 ring-1 ring-black/5 transform transition-all duration-500 hover:-translate-y-1">
+                                    <div class="flex flex-col md:flex-row min-h-[400px]">
                                         <!-- Visual Side -->
-                                        <div class="md:w-5/12 relative min-h-[300px] md:min-h-full bg-gray-100">
+                                        <div class="md:w-5/12 relative min-h-[350px] md:min-h-full bg-gray-100">
                                             @if(!empty($achievement->images))
                                                 <div class="absolute inset-0" x-data="{ 
                                                         currentSlide: 0, 
@@ -182,20 +182,20 @@
                                         </div>
 
                                         <!-- Content Side -->
-                                        <div class="flex-1 p-8 md:p-12 flex flex-col justify-center relative bg-gradient-to-br from-white to-[#f0fdf4]">
+                                        <div class="flex-1 pt-16 pb-12 px-10 md:p-16 flex flex-col justify-center relative bg-gradient-to-br from-white to-[#f0fdf4]">
                                             <div class="absolute top-0 left-12 w-[2px] h-8 bg-gradient-to-b from-[#134712] to-transparent opacity-20 md:hidden"></div>
 
                                             @if($achievement->location)
-                                                <div class="flex items-center gap-2 text-[#134712] opacity-70 mb-2">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <div class="absolute top-6 right-8 flex items-center gap-1.5 text-[#134712] opacity-60">
+                                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                                     </svg>
-                                                    <span class="text-xs font-bold uppercase tracking-widest">{{ $achievement->location }}</span>
+                                                    <span class="text-[10px] font-black uppercase tracking-[0.2em]">{{ $achievement->location }}</span>
                                                 </div>
                                             @endif
 
-                                            <h3 class="text-3xl font-black text-[#134712] mb-6 leading-tight tracking-tight">
+                                            <h3 class="text-3xl font-black text-[#134712] mb-6 leading-tight tracking-tight mt-4 md:mt-0">
                                                 {{ $achievement->title }}
                                             </h3>
                                             <div class="prose prose-lg text-[#374151] leading-relaxed">

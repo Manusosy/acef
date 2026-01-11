@@ -54,15 +54,15 @@
         </div>
     @endif
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-32 pb-20 {{ $centered ? 'flex flex-col items-center text-center' : '' }}">
-        <div class="max-w-4xl space-y-6 {{ $centered ? 'mx-auto' : '' }}">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-28 pb-20 {{ $centered ? 'flex flex-col items-center text-center' : '' }}">
+        <div class="max-w-4xl space-y-6 md:space-y-8 {{ $centered ? 'mx-auto' : '' }}">
             @if($breadcrumb)
                 <p class="text-acef-green font-bold tracking-widest uppercase text-sm mb-2">
                     {{ $breadcrumb }}
                 </p>
             @endif
 
-            <h1 class="text-4xl md:text-7xl font-black text-white leading-tight tracking-tighter animate-fade-in-up">
+            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter animate-fade-in-up">
                 {!! $title ?? ($page ? $page->title : '') !!}
             </h1>
 
