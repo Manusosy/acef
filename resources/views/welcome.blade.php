@@ -67,7 +67,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col lg:flex-row items-center gap-16">
                     <div class="w-full lg:w-1/2 relative flex justify-center lg:justify-start">
-                        <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl h-[280px] sm:h-[400px] lg:h-auto lg:aspect-[4/3] w-full max-w-2xl bg-gray-100 dark:bg-gray-800">
+                        <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl h-[280px] sm:h-[400px] lg:h-auto lg:aspect-[4/3] min-h-[300px] w-full max-w-2xl bg-gray-100 dark:bg-gray-800" style="aspect-ratio: 4/3;">
                             @if(isset($whoWeAreImages) && $whoWeAreImages->isNotEmpty())
                                 {{-- Carousel Mode --}}
                                 <div x-data="{ 
@@ -81,20 +81,21 @@
                                     
                                     @foreach($whoWeAreImages as $index => $image)
                                         <div x-show="active === {{ $index }}"
-                                             x-transition:enter="transition ease-in-out duration-[2000ms]"
-                                             x-transition:enter-start="opacity-0 -translate-y-full"
-                                             x-transition:enter-end="opacity-100 translate-y-0"
-                                             x-transition:leave="transition ease-in-out duration-[2000ms]"
-                                             x-transition:leave-start="opacity-100 translate-y-0"
-                                             x-transition:leave-end="opacity-0 translate-y-full"
+                                             x-transition:enter="transition ease-in-out duration-[1000ms]"
+                                             x-transition:enter-start="opacity-0"
+                                             x-transition:enter-end="opacity-100"
+                                             x-transition:leave="transition ease-in-out duration-[1000ms]"
+                                             x-transition:leave-start="opacity-100"
+                                             x-transition:leave-end="opacity-0"
                                              class="absolute inset-0 w-full h-full">
                                             @if($image->media)
                                                 <img src="{{ $image->media->url }}" alt="{{ $image->caption ?? 'ACEF Work' }}" 
                                                      class="w-full h-full object-cover"
-                                                     onerror="this.src='/mission_vision_africa_1766827653058.png'">
+                                                     onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000'">
                                             @else
-                                                <img src="/mission_vision_africa_1766827653058.png" alt="Who We Are"
-                                                     class="w-full h-full object-cover">
+                                                <img src="{{ asset('/mission_vision_africa_1766827653058.png') }}" alt="Who We Are"
+                                                     class="w-full h-full object-cover"
+                                                     onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000'">
                                             @endif
                                             
                                             {{-- Caption Overlay --}}
@@ -125,8 +126,9 @@
                                 </div>
                             @else
                                 {{-- Static Fallback --}}
-                                <img src="/mission_vision_africa_1766827653058.png" alt="Who We Are"
-                                    class="w-full h-full object-cover">
+                                <img src="{{ asset('/mission_vision_africa_1766827653058.png') }}" alt="Who We Are"
+                                    class="w-full h-full object-cover"
+                                    onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000'">
                             @endif
                         </div>
                         <div class="absolute -top-4 -left-4 w-24 h-24 border-2 border-acef-green rounded-xl -z-0 opacity-30">
