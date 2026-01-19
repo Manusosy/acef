@@ -140,10 +140,6 @@ class HomeController extends Controller
 
         $query = \App\Models\Article::with(['category', 'author'])->published();
 
-        if ($featuredArticle) {
-            $query->where('id', '!=', $featuredArticle->id);
-        }
-
         if ($search = request('search')) {
             $query->where(function($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")

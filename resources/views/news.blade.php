@@ -36,21 +36,8 @@
         breadcrumb="{{ __('pages.news.browse.title') }}"
         title="{!! __('pages.news.browse.title') !!}"
         subtitle="{{ __('pages.news.browse.desc') }}"
-        image-url="{{ $featuredArticle && $featuredArticle->image ? (str_starts_with($featuredArticle->image, 'http') ? $featuredArticle->image : Storage::url($featuredArticle->image)) : '/hero_marine_ecosystem_1766827540454.png' }}"
+        image-url="/hero_marine_ecosystem_1766827540454.png"
     >
-        @if($featuredArticle)
-            <x-slot name="actions">
-                <a href="{{ route('news.show', $featuredArticle->slug) }}"
-                    class="bg-acef-green text-acef-dark font-bold px-8 py-4 rounded-xl flex items-center space-x-3 hover:bg-white transition-all w-fit shadow-xl group shadow-acef-green/20">
-                    <span>{{ __('pages.news.featured.btn') }}</span>
-                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                    </svg>
-                </a>
-            </x-slot>
-        @endif
     </x-hero>
 
     <main>
