@@ -39,45 +39,22 @@
                 @foreach($accreditations as $acc)
                     <div
                         class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 space-y-6 border border-gray-100 dark:border-gray-700 hover:border-acef-green dark:hover:border-acef-green transition-all group flex flex-col justify-between shadow-sm hover:shadow-xl">
-                        <div class="w-16 h-16 bg-white dark:bg-gray-700 rounded-xl shadow-sm flex items-center justify-center text-acef-green text-xs font-black group-hover:bg-acef-green group-hover:text-white transition-colors overflow-hidden p-2">
+                        <div class="w-20 h-20 bg-white dark:bg-gray-700 rounded-xl shadow-sm flex items-center justify-center overflow-hidden p-3 transition-transform group-hover:scale-110">
                             @if($acc->image)
                                 <img src="{{ str_starts_with($acc->image, 'http') ? $acc->image : Storage::url($acc->image) }}" alt="{{ $acc->acronym }}" class="w-full h-full object-contain">
                             @else
-                                {{ $acc->acronym }}
+                                <span class="text-acef-green text-xs font-black">{{ $acc->acronym }}</span>
                             @endif
                         </div>
                         <div class="space-y-2">
                             <h3 class="text-lg font-black text-acef-dark dark:text-white tracking-tight">{{ $acc->title }}</h3>
-                            <p class="text-[12px] text-gray-600 dark:text-gray-400 font-light leading-relaxed">
+                            <p class="text-[14px] text-gray-600 dark:text-gray-400 font-light leading-relaxed">
                                 {{ $acc->description }}
                             </p>
                         </div>
                     </div>
                 @endforeach
             </div>
-
-            <!-- Legal Standings -->
-            <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
-                     class="bg-acef-green/5 border border-acef-green/10 rounded-2xl p-12 md:p-20 space-y-12">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-8" :class="{ 'animate-fade-in-up': shown }">
-                    <div class="space-y-4 max-w-xl">
-                        <p class="text-acef-green font-bold text-[10px] uppercase tracking-widest">
-                            {{ __('pages.accreditations.legal.framework') }}</p>
-                        <h2 class="text-4xl font-black text-acef-dark dark:text-white tracking-tight">
-                            {{ __('pages.accreditations.legal.title') }}</h2>
-                        <p class="text-gray-600 dark:text-gray-400 font-light italic leading-relaxed">
-                            {{ __('pages.accreditations.legal.desc') }}</p>
-                    </div>
-                    <div class="flex flex-wrap gap-4">
-                        <div
-                            class="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-black/5 dark:border-white/10 font-black text-acef-dark dark:text-white text-xs uppercase tracking-widest leading-loose">
-                            {{ __('pages.accreditations.legal.kenya') }}</div>
-                        <div
-                            class="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-black/5 dark:border-white/10 font-black text-acef-dark dark:text-white text-xs uppercase tracking-widest leading-loose">
-                            {{ __('pages.accreditations.legal.cameroon') }}</div>
-                    </div>
-                </div>
-            </section>
 
             <!-- Transparency Seal -->
             <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true" 

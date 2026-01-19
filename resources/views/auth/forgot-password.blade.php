@@ -16,10 +16,18 @@
     <div class="min-h-screen flex items-center justify-center p-6">
         <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
             <div class="p-8 text-center bg-acef-dark text-white">
+                @php
+                    $generalSettings = \App\Models\Setting::getGroup('general');
+                    $siteLogo = $generalSettings['site_logo'] ?? null;
+                @endphp
                 <div class="flex justify-center mb-4">
-                    <div class="w-12 h-12 bg-acef-green rounded-xl flex items-center justify-center text-acef-dark">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
-                    </div>
+                    @if($siteLogo)
+                        <img src="{{ Storage::url($siteLogo) }}" alt="ACEF Logo" class="h-16 w-auto">
+                    @else
+                        <div class="w-12 h-12 bg-acef-green rounded-xl flex items-center justify-center text-acef-dark">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                        </div>
+                    @endif
                 </div>
                 <h2 class="text-2xl font-bold">Forgot Password?</h2>
                 <p class="text-gray-400 text-sm mt-2">No problem. Just let us know your email address.</p>
@@ -49,7 +57,7 @@
                          <a href="{{ route('login') }}" class="text-sm font-medium text-gray-500 hover:text-gray-900">
                             ← Back to Login
                         </a>
-                        <button type="submit" class="bg-acef-green text-acef-dark font-bold px-6 py-3 rounded-xl hover:bg-green-400 hover:shadow-lg hover:shadow-green-400/20 transition-all transform hover:-translate-y-0.5">
+                        <button type="submit" class="bg-acef-dark text-white font-bold px-6 py-3 rounded-xl hover:bg-black hover:shadow-lg transition-all transform hover:-translate-y-0.5">
                             Email Reset Link
                         </button>
                     </div>

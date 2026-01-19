@@ -75,6 +75,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('accreditations', \App\Http\Controllers\Admin\AccreditationController::class);
         Route::resource('resources', \App\Http\Controllers\Admin\ResourceController::class);
         
+        // Who We Are Images
+        Route::get('/who-we-are-images', [\App\Http\Controllers\Admin\WhoWeAreImageController::class, 'index'])->name('who-we-are.index');
+        Route::post('/who-we-are-images', [\App\Http\Controllers\Admin\WhoWeAreImageController::class, 'store'])->name('who-we-are.store');
+        Route::put('/who-we-are-images/{image}', [\App\Http\Controllers\Admin\WhoWeAreImageController::class, 'update'])->name('who-we-are.update');
+        Route::delete('/who-we-are-images/{image}', [\App\Http\Controllers\Admin\WhoWeAreImageController::class, 'destroy'])->name('who-we-are.destroy');
+        Route::post('/who-we-are-images/reorder', [\App\Http\Controllers\Admin\WhoWeAreImageController::class, 'reorder'])->name('who-we-are.reorder');
+        
         // Users
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
         

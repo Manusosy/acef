@@ -48,7 +48,16 @@ class HomeController extends Controller
 
         $accreditations = \App\Models\Accreditation::all();
 
-        return view('welcome', compact('featuredProjects', 'latestNews', 'partners', 'timelineYears', 'accreditations'));
+        $whoWeAreImages = \App\Models\WhoWeAreImage::with('media')
+            ->active()
+            ->ordered()
+            ->get();
+
+        // Load hero slides for homepage
+        $homePage = \App\Models\Page::where('slug', 'home')->first();
+        $heroSlides = $homePage ? $homePage->activeHeroSlides()->with('media')->get() : collect();
+
+        return view('welcome', compact('featuredProjects', 'latestNews', 'partners', 'timelineYears', 'accreditations', 'whoWeAreImages', 'homePage', 'heroSlides'));
     }
 
     public function about()
@@ -59,17 +68,12 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
-        // Search for founder - robust fallback if migration hasn't run in production
-        $founder = \App\Models\TeamMember::where('is_active', true)
-            ->where(function($q) {
-                if (\Illuminate\Support\Facades\Schema::hasColumn('team_members', 'is_founder')) {
-                    $q->where('is_founder', true);
-                }
-                $q->orWhere('name', 'like', '%Tambe Honourine Enow%');
-            })
-            ->first();
+        $whoWeAreImages = \App\Models\WhoWeAreImage::with('media')
+            ->active()
+            ->ordered()
+            ->get();
 
-        return view('about', compact('leadership', 'founder'));
+        return view('about', compact('leadership', 'founder', 'whoWeAreImages'));
     }
 
     public function programmes()

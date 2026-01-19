@@ -18,7 +18,7 @@
 
 <body class="antialiased font-sans bg-white dark:bg-gray-950 transition-colors duration-300">
     @include('components.header')
-    <div class="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 lg:py-20">
+    <div class="bg-gray-50 dark:bg-gray-900 min-h-screen pt-24 lg:pt-28 pb-12 lg:pb-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <!-- Breadcrumb -->

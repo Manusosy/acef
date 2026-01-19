@@ -16,9 +16,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @php
+        $generalSettings = \App\Models\Setting::getGroup('general');
+        $siteFavicon = $generalSettings['site_favicon'] ?? null;
         $galleryPage = \App\Models\Page::where('slug', 'gallery')->first();
         $heroSlides = $galleryPage ? $galleryPage->activeHeroSlides()->with('media')->get() : collect();
     @endphp
+
+    @if($siteFavicon)
+        <link rel="icon" type="image/x-icon" href="{{ Storage::url($siteFavicon) }}">
+    @endif
     <style>
         .scrollbar-hide::-webkit-scrollbar {
             display: none;

@@ -136,7 +136,7 @@
                                 <div class="bg-[#f0fdf4] rounded-2xl overflow-hidden shadow-2xl shadow-[#134712]/10 border border-white/40 ring-1 ring-black/5 transform transition-all duration-500 hover:-translate-y-1">
                                     <div class="flex flex-col md:flex-row min-h-[400px]">
                                         <!-- Visual Side -->
-                                        <div class="md:w-5/12 relative min-h-[350px] md:min-h-full bg-gray-100">
+                                        <div class="w-full md:w-5/12 relative h-[300px] sm:h-[400px] md:h-auto bg-gray-100 overflow-hidden">
                                             @if(!empty($achievement->images))
                                                 <div class="absolute inset-0" x-data="{ 
                                                         currentSlide: 0, 

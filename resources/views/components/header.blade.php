@@ -11,7 +11,12 @@
 <div x-data="layoutData" x-cloak>
     <header
         class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
-        :class="scrolled ? 'bg-acef-dark/95 backdrop-blur-md shadow-lg py-2' : (isHome ? 'bg-gradient-to-b from-black/80 to-transparent py-4' : 'bg-acef-dark/90 backdrop-blur-sm py-3')"
+        :class="{
+            'bg-white/95 backdrop-blur-md shadow-md py-2': scrolled && !darkMode,
+            'bg-acef-dark/95 backdrop-blur-md shadow-lg py-2': scrolled && darkMode,
+            'bg-gradient-to-b from-black/80 to-transparent py-4': !scrolled && isHome,
+            'bg-acef-dark/90 backdrop-blur-sm py-3': !scrolled && !isHome
+        }"
         id="main-header" translate="no">
         <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
             <div class="flex justify-between items-center h-16">
@@ -21,13 +26,13 @@
                         <div class="flex items-center space-x-3">
                             @if($siteLogo)
                                 <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" 
-                                     x-show="!darkMode" class="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                                     x-show="!darkMode" class="h-12 md:h-18 w-auto object-contain transition-all duration-300 group-hover:scale-105">
                                 @if($siteLogoDark)
                                     <img src="{{ Storage::url($siteLogoDark) }}" alt="{{ $siteName }}" 
-                                         x-show="darkMode" class="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" style="display: none;">
+                                         x-show="darkMode" class="h-12 md:h-18 w-auto object-contain transition-all duration-300 group-hover:scale-105" style="display: none;">
                                 @else
                                     <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" 
-                                         x-show="darkMode" class="h-10 w-auto object-contain grayscale invert transition-transform duration-300 group-hover:scale-105" style="display: none;">
+                                         x-show="darkMode" class="h-12 md:h-18 w-auto object-contain grayscale invert transition-all duration-300 group-hover:scale-105" style="display: none;">
                                 @endif
                             @else
                                 <span class="text-acef-green font-black text-3xl tracking-tighter">{{ $siteName }}</span>
@@ -35,24 +40,27 @@
                         </div>
                         
                         @if($siteTagline)
-                            <div class="hidden xl:block border-l border-white/20 pl-4 ml-4">
-                                <p class="text-[9px] leading-tight text-white/50 font-bold uppercase tracking-[0.2em] max-w-[150px]">{{ $siteTagline }}</p>
+                            <div class="hidden xl:block border-l pl-4 ml-4 transition-colors duration-500"
+                                 :class="scrolled && !darkMode ? 'border-acef-dark/10' : 'border-white/20'">
+                                <p class="text-[9px] leading-tight font-bold uppercase tracking-[0.2em] max-w-[150px] transition-colors duration-500"
+                                   :class="scrolled && !darkMode ? 'text-acef-dark/50' : 'text-white/50'">{{ $siteTagline }}</p>
                             </div>
                         @endif
                     </a>
                 </div>
 
                 <!-- Desktop Navigation -->
-                <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-white">
+                <nav class="hidden lg:flex items-center gap-1 xl:gap-2 transition-colors duration-500"
+                     :class="scrolled && !darkMode ? 'text-acef-dark' : 'text-white'">
                     <a href="{{ route('home') }}"
-                        class="relative group px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] text-white hover:text-acef-light-green transition-all">
+                        class="relative group px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] hover:text-acef-light-green transition-all">
                         {{ __('navigation.home') }}
                         <span class="absolute bottom-0 left-3 right-3 h-0.5 bg-acef-light-green transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
                     </a>
 
                     <!-- Who We Are Dropdown -->
                     <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                        <button class="relative px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] text-white hover:text-acef-light-green transition-all flex items-center gap-1">
+                        <button class="relative px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] hover:text-acef-light-green transition-all flex items-center gap-1">
                             {{ __('navigation.about') }}
                             <svg class="w-3 h-3 text-acef-light-green transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
@@ -91,7 +99,7 @@
 
                     <!-- Our Work Mega Menu -->
                     <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                        <button class="relative px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] text-white hover:text-acef-light-green transition-all flex items-center gap-1">
+                        <button class="relative px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] hover:text-acef-light-green transition-all flex items-center gap-1">
                             {{ __('navigation.our_work') }}
                             <svg class="w-3 h-3 text-acef-light-green transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
@@ -149,14 +157,14 @@
                     </div>
 
                     <a href="{{ route('get-involved') }}"
-                        class="relative group px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] text-white hover:text-acef-light-green transition-all">
+                        class="relative group px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] hover:text-acef-light-green transition-all">
                         {{ __('navigation.get_involved') }}
                         <span class="absolute bottom-0 left-3 right-3 h-0.5 bg-acef-light-green transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
                     </a>
 
                     <!-- Resources Dropdown -->
                     <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                        <button class="relative px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] text-white hover:text-acef-light-green transition-all flex items-center gap-1">
+                        <button class="relative px-3 py-2 text-xs xl:text-sm font-serif font-black uppercase tracking-[0.15em] hover:text-acef-light-green transition-all flex items-center gap-1">
                             {{ __('navigation.resources') }}
                             <svg class="w-3 h-3 text-acef-light-green transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
@@ -199,7 +207,8 @@
                             <!-- Google Translate Widget -->
                             <div class="relative flex items-center h-10 px-2 group">
                                 <div id="google_translate_element" class="opacity-0 absolute inset-0 z-10 w-full h-full cursor-pointer"></div>
-                                <div class="flex items-center gap-2 text-white/70 group-hover:text-white transition-colors pointer-events-none">
+                                <div class="flex items-center gap-2 transition-colors pointer-events-none"
+                                     :class="scrolled && !darkMode ? 'text-acef-dark/70 group-hover:text-acef-dark' : 'text-white/70 group-hover:text-white'">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 9.97 9.273 13.911 6 17" />
                                     </svg>
@@ -210,14 +219,17 @@
 
                         <!-- Dark Mode Toggle -->
                         <button @click="toggleDarkMode()"
-                            class="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all"
+                            class="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center transition-all"
+                            :class="scrolled && !darkMode ? 'text-acef-dark/70 hover:text-acef-dark hover:bg-black/5' : 'text-white/70 hover:text-white hover:bg-white/10'"
                             :title="darkMode ? '{{ __('pages.layout.header.theme_switch_light') }}' : '{{ __('pages.layout.header.theme_switch_dark') }}'">
                             <svg x-show="!darkMode" class="w-4 h-4 xl:w-5 xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                             <svg x-show="darkMode" class="w-4 h-4 xl:w-5 xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                         </button>
-
+ 
                         <!-- Search Button -->
-                         <button @click="searchOpen = true" class="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                         <button @click="searchOpen = true" 
+                            class="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center transition-all"
+                            :class="scrolled && !darkMode ? 'text-acef-dark/70 hover:text-acef-dark hover:bg-black/5' : 'text-white/70 hover:text-white hover:bg-white/10'">
                             <svg class="w-4 h-4 xl:w-5 xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </button>
 
@@ -225,7 +237,8 @@
                         <div class="relative" x-data="{ userMenuOpen: false }" @click.away="userMenuOpen = false">
                             @auth
                                 <button @click="userMenuOpen = !userMenuOpen" 
-                                    class="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                                    class="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center transition-all"
+                                    :class="scrolled && !darkMode ? 'text-acef-dark/70 hover:text-acef-dark hover:bg-black/5' : 'text-white/70 hover:text-white hover:bg-white/10'">
                                     <svg class="w-4 h-4 xl:w-5 xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                     </svg>
@@ -273,7 +286,8 @@
                                 </div>
                             @else
                                 <button @click="userMenuOpen = !userMenuOpen" 
-                                    class="w-10 h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                                    class="w-10 h-10 rounded-full flex items-center justify-center transition-all"
+                                    :class="scrolled && !darkMode ? 'text-acef-dark/70 hover:text-acef-dark hover:bg-black/5' : 'text-white/70 hover:text-white hover:bg-white/10'">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                     </svg>
@@ -318,7 +332,8 @@
                     </div>
                     
                     <!-- Mobile Menu Button -->
-                    <button @click="mobileMenuOpen = true" class="lg:hidden text-white p-2">
+                    <button @click="mobileMenuOpen = true" class="lg:hidden p-2 transition-colors"
+                            :class="scrolled && !darkMode ? 'text-acef-dark' : 'text-white'">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                         </svg>
@@ -360,13 +375,13 @@
                     <div class="flex items-center space-x-3">
                         @if($siteLogo)
                             <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" 
-                                 x-show="!darkMode" class="h-10 w-auto object-contain">
+                                 x-show="!darkMode" class="h-12 w-auto object-contain">
                             @if($siteLogoDark)
                                 <img src="{{ Storage::url($siteLogoDark) }}" alt="{{ $siteName }}" 
-                                     x-show="darkMode" class="h-10 w-auto object-contain" style="display: none;">
+                                     x-show="darkMode" class="h-12 w-auto object-contain" style="display: none;">
                             @else
                                 <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" 
-                                     x-show="darkMode" class="h-10 w-auto object-contain grayscale invert" style="display: none;">
+                                     x-show="darkMode" class="h-12 w-auto object-contain grayscale invert" style="display: none;">
                             @endif
                         @else
                             <span class="text-acef-green font-black text-2xl tracking-tighter">{{ $siteName }}</span>

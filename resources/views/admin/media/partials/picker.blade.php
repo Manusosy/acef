@@ -1,4 +1,4 @@
-<div x-data="{ 
+<div @open-media-picker.window="openPicker($event.detail)" x-data="{ 
     open: false,
     tab: 'library',
     items: [],
@@ -12,13 +12,15 @@
     callback: null,
     
     init() {
-        window.openMediaPicker = (cb, options = {}) => {
-            this.callback = cb;
-            this.multiple = options.multiple || false;
-            this.selectedItems = []; // Reset selection
-            this.open = true;
-            this.fetchItems();
-        };
+        window.LiveMediaPicker = this;
+    },
+
+    openPicker(detail) {
+        this.callback = detail.callback;
+        this.multiple = detail.options.multiple || false;
+        this.selectedItems = []; 
+        this.open = true;
+        this.fetchItems();
     },
     
     async fetchItems() {
@@ -81,13 +83,24 @@
     },
 
     confirm() {
-        if (this.selectedItems.length > 0 && this.callback) {
-            if (this.multiple) {
-                this.callback(this.selectedItems);
-            } else {
-                this.callback(this.selectedItems[0]); // Return single object for backward compatibility
+        if (this.selectedItems.length > 0) {
+            let cb = this.callback;
+            
+            // Resolve string callback to window function
+            if (typeof cb === 'string') {
+                cb = window[cb];
             }
-            this.close();
+
+            if (typeof cb === 'function') {
+                if (this.multiple) {
+                    cb(this.selectedItems);
+                } else {
+                    cb(this.selectedItems[0]); // Return single object for backward compatibility
+                }
+                this.close();
+            } else {
+                console.error('Media Picker: Callback is not a function', this.callback);
+            }
         }
     },
     
@@ -350,3 +363,20 @@
         </div>
     </div>
 </div>
+<script>
+    // Global Media Picker Helper
+    if (!window.openMediaPicker) {
+        window.openMediaPicker = function(callback, options = {}) {
+            if (window.LiveMediaPicker) {
+                window.LiveMediaPicker.openPicker({ callback: callback, options: options });
+            } else {
+                console.error("Media Picker not ready");
+                // Fallback to event just in case
+                window.dispatchEvent(new CustomEvent('open-media-picker', { 
+                    detail: { callback: callback, options: options } 
+                }));
+            }
+        };
+        console.log('Media Picker Helper Loaded');
+    }
+</script>

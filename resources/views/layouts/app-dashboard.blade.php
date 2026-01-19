@@ -217,6 +217,7 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
                         <div x-show="open && !sidebarCollapsed" x-collapse class="pl-11 pr-2 space-y-1 mt-1">
                             <a href="{{ route('admin.pages.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.pages.index') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">All Pages</a>
                             <a href="{{ route('admin.timeline-years.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.timeline-years.*') || request()->routeIs('admin.timeline-achievements.*') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Timeline</a>
+                            <a href="{{ route('admin.who-we-are.index') }}" class="block px-3 py-1.5 text-sm rounded-md transition-colors {{ request()->routeIs('admin.who-we-are.*') ? 'text-white font-medium bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">Who We Are</a>
                         </div>
                     </div>
 
@@ -471,5 +472,6 @@ x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : '
             </main>
         </div>
     </div>
+    @stack('scripts')
 </body>
 </html>

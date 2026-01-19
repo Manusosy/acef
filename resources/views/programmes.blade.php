@@ -15,9 +15,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @php
+        $generalSettings = \App\Models\Setting::getGroup('general');
+        $siteFavicon = $generalSettings['site_favicon'] ?? null;
         $programmesPage = \App\Models\Page::where('slug', 'programmes')->first();
         $heroSlides = $programmesPage ? $programmesPage->activeHeroSlides()->with('media')->get() : collect();
     @endphp
+
+    @if($siteFavicon)
+        <link rel="icon" type="image/x-icon" href="{{ Storage::url($siteFavicon) }}">
+    @endif
 </head>
 
 <body class="antialiased font-sans bg-white dark:bg-gray-950 overflow-x-hidden transition-colors duration-300">

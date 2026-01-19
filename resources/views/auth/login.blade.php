@@ -19,16 +19,24 @@
             <!-- Background Image -->
             <div class="absolute inset-0 z-0">
                 <img src="/mission_vision_africa_1766827653058.png" alt="Landscape" class="w-full h-full object-cover opacity-40">
-                <div class="absolute inset-0 bg-gradient-to-t from-acef-dark via-acef-dark/20 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
             </div>
             
             <div class="relative z-10 w-full max-w-2xl px-12 text-white">
                 <div class="mb-12">
+                    @php
+                        $generalSettings = \App\Models\Setting::getGroup('general');
+                        $siteLogo = $generalSettings['site_logo'] ?? null;
+                    @endphp
                     <div class="flex items-center space-x-3 mb-8">
-                        <div class="w-12 h-12 bg-acef-green rounded-xl flex items-center justify-center text-acef-dark">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-                        </div>
-                        <span class="text-3xl font-bold tracking-tighter">ACEF</span>
+                        @if($siteLogo)
+                            <img src="{{ Storage::url($siteLogo) }}" alt="ACEF Logo" class="h-16 w-auto">
+                        @else
+                            <div class="w-12 h-12 bg-acef-green rounded-xl flex items-center justify-center text-acef-dark">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                            </div>
+                            <span class="text-3xl font-bold tracking-tighter">ACEF</span>
+                        @endif
                     </div>
                     <h1 class="text-6xl font-black leading-tight tracking-tight mb-6">Empowering Sustainable Growth Across Africa.</h1>
                     <p class="text-xl text-gray-300 font-light leading-relaxed">Join our mission to showcase impact and drive environmental change through our digital platform.</p>
@@ -87,7 +95,7 @@
                         @endif
                     </div>
 
-                    <button type="submit" class="w-full bg-acef-green text-acef-dark font-bold py-4 rounded-xl hover:bg-green-400 hover:shadow-lg hover:shadow-green-400/20 transition-all transform hover:-translate-y-0.5">
+                    <button type="submit" class="w-full bg-acef-dark text-white font-bold py-4 rounded-xl hover:bg-black hover:shadow-lg transition-all transform hover:-translate-y-0.5">
                         Sign In
                     </button>
                 </form>

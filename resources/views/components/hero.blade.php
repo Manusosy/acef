@@ -54,28 +54,74 @@
         </div>
     @endif
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-28 pb-20 {{ $centered ? 'flex flex-col items-center text-center' : '' }}">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-36 pb-20 {{ $centered ? 'flex flex-col items-center text-center' : '' }}">
         <div class="max-w-4xl space-y-6 md:space-y-8 {{ $centered ? 'mx-auto' : '' }}">
-            @if($breadcrumb)
-                <p class="text-acef-green font-bold tracking-widest uppercase text-sm mb-2">
-                    {{ $breadcrumb }}
-                </p>
-            @endif
+            @if($hasSlider)
+                {{-- Slider Mode: Show slide-specific content --}}
+                @foreach($slides as $index => $slide)
+                    <div x-show="active === {{ $index }}" 
+                         x-transition:enter="transition ease-in-out duration-1000"
+                         x-transition:enter-start="opacity-0 transform translate-y-4"
+                         x-transition:enter-end="opacity-100 transform translate-y-0">
+                        
+                        @if($breadcrumb)
+                            <p class="text-acef-green font-bold tracking-widest uppercase text-sm mb-2">
+                                {{ $breadcrumb }}
+                            </p>
+                        @endif
 
-            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter animate-fade-in-up">
-                {!! $title ?? ($page ? $page->title : '') !!}
-            </h1>
+                        <h1 class="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter animate-fade-in-up">
+                            {!! $slide->title ?: ($title ?? ($page ? $page->title : '')) !!}
+                        </h1>
 
-            @if($subtitle)
-                <p class="text-lg md:text-xl font-medium text-white leading-relaxed max-w-2xl animate-fade-in-up delay-100 italic drop-shadow-md">
-                    {!! $subtitle !!}
-                </p>
-            @endif
+                        @if($slide->subtitle || $subtitle)
+                            <p class="text-lg md:text-xl font-medium text-white leading-relaxed max-w-2xl animate-fade-in-up delay-100 italic drop-shadow-md">
+                                {!! $slide->subtitle ?: $subtitle !!}
+                            </p>
+                        @endif
 
-            @if(isset($actions))
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4 animate-fade-in-up delay-200">
-                    {{ $actions }}
-                </div>
+                        @if($slide->button_text && $slide->button_link)
+                            {{-- Slide-specific button --}}
+                            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4 animate-fade-in-up delay-200">
+                                <a href="{{ $slide->button_link }}"
+                                    class="bg-acef-green text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-acef-green/30 flex items-center justify-center group gap-2">
+                                    {{ $slide->button_text }}
+                                    <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        @elseif(isset($actions))
+                            {{-- Default actions from slot --}}
+                            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4 animate-fade-in-up delay-200">
+                                {{ $actions }}
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            @else
+                {{-- Static Mode: Show props content --}}
+                @if($breadcrumb)
+                    <p class="text-acef-green font-bold tracking-widest uppercase text-sm mb-2">
+                        {{ $breadcrumb }}
+                    </p>
+                @endif
+
+                <h1 class="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter animate-fade-in-up">
+                    {!! $title ?? ($page ? $page->title : '') !!}
+                </h1>
+
+                @if($subtitle)
+                    <p class="text-lg md:text-xl font-medium text-white leading-relaxed max-w-2xl animate-fade-in-up delay-100 italic drop-shadow-md">
+                        {!! $subtitle !!}
+                    </p>
+                @endif
+
+                @if(isset($actions))
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4 animate-fade-in-up delay-200">
+                        {{ $actions }}
+                    </div>
+                @endif
             @endif
         </div>
     </div>

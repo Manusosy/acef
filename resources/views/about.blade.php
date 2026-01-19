@@ -15,9 +15,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @php
+        $generalSettings = \App\Models\Setting::getGroup('general');
+        $siteFavicon = $generalSettings['site_favicon'] ?? null;
         $aboutPage = \App\Models\Page::where('slug', 'about')->first();
         $heroSlides = $aboutPage ? $aboutPage->activeHeroSlides()->with('media')->get() : collect();
     @endphp
+
+    @if($siteFavicon)
+        <link rel="icon" type="image/x-icon" href="{{ Storage::url($siteFavicon) }}">
+    @endif
 </head>
 
 <body class="antialiased font-sans bg-white dark:bg-gray-900 overflow-x-hidden transition-colors duration-500">
@@ -37,18 +43,62 @@
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true" 
                  class="py-24 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
-                <div class="flex flex-col lg:flex-row gap-16 items-start">
-                    <div class="lg:w-1/3">
-                        <h2 class="text-5xl font-black text-acef-dark tracking-tighter sticky top-32">
-                            {!! __('pages.about.who_we_are_title') !!}
-                            <div class="w-20 h-1.5 bg-acef-green mt-4 rounded-full"></div>
-                        </h2>
+                <div class="flex flex-col lg:flex-row gap-20 items-center">
+                    <div class="w-full lg:w-1/2 relative">
+                        <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl h-[280px] sm:h-[400px] lg:h-auto lg:aspect-[4/3] w-full max-w-xl mx-auto bg-gray-100">
+                            @if(isset($whoWeAreImages) && $whoWeAreImages->isNotEmpty())
+                                <div x-data="{ 
+                                    active: 0, 
+                                    count: {{ $whoWeAreImages->count() }},
+                                    timer: null,
+                                    next() { this.active = (this.active + 1) % this.count },
+                                    start() { this.timer = setInterval(() => this.next(), 8000) },
+                                    stop() { clearInterval(this.timer) }
+                                }" x-init="start()" @mouseenter="stop()" @mouseleave="start()" class="relative w-full h-full">
+                                    
+                                    @foreach($whoWeAreImages as $index => $image)
+                                        <div x-show="active === {{ $index }}"
+                                             x-transition:enter="transition ease-in-out duration-[2000ms]"
+                                             x-transition:enter-start="opacity-0 -translate-y-full"
+                                             x-transition:enter-end="opacity-100 translate-y-0"
+                                             x-transition:leave="transition ease-in-out duration-[2000ms]"
+                                             x-transition:leave-start="opacity-100 translate-y-0"
+                                             x-transition:leave-end="opacity-0 translate-y-full"
+                                             class="absolute inset-0 w-full h-full">
+                                            @if($image->media)
+                                                <img src="{{ $image->media->url }}" alt="{{ $image->caption ?? 'ACEF Work' }}" 
+                                                     class="w-full h-full object-cover">
+                                            @endif
+                                        </div>
+                                    @endforeach
+
+                                    {{-- Mini Indicators --}}
+                                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+                                        <template x-for="i in count" :key="i">
+                                            <div :class="active === i-1 ? 'bg-acef-green w-4' : 'bg-white/50 w-1'"
+                                                    class="h-1 rounded-full transition-all duration-300"></div>
+                                        </template>
+                                    </div>
+                                </div>
+                            @else
+                                <img src="/mission_vision_africa_1766827653058.png" alt="Who We Are"
+                                    class="w-full h-full object-cover">
+                            @endif
+                        </div>
+                        <!-- Decorative Accents -->
+                        <div class="absolute -top-4 -left-4 w-20 h-20 border-2 border-acef-green rounded-xl -z-0 opacity-20"></div>
                     </div>
-                    <div class="lg:w-2/3 space-y-8">
-                        <p class="text-2xl text-acef-dark font-medium leading-normal">
+                    <div class="lg:w-1/2 space-y-6">
+                        <div class="space-y-4">
+                            <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
+                                {!! __('pages.about.who_we_are_title') !!}
+                            </h2>
+                            <div class="w-16 h-1.5 bg-acef-green rounded-full"></div>
+                        </div>
+                        <p class="text-2xl text-acef-dark font-medium leading-relaxed">
                             {!! __('pages.about.who_we_are_text') !!}
                         </p>
-                        <p class="text-gray-600 leading-loose text-lg font-light">
+                        <p class="text-gray-600 leading-loose text-lg font-light italic">
                             {{ __('pages.about.who_we_are_subtext') }}
                         </p>
                     </div>
@@ -83,38 +133,6 @@
                         <h3 class="text-2xl font-bold text-acef-dark mb-4">{{ __('pages.about.vision_title') }}</h3>
                         <p class="text-gray-500 leading-relaxed font-light">{{ __('pages.about.vision_desc') }}</p>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Core Values -->
-        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
-                 class="py-24 bg-acef-gray/50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
-                <div class="text-center space-y-4 mb-20">
-                    <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
-                        {{ __('pages.about.values_title') }}</p>
-                    <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
-                        {{ __('pages.about.values_heading') }}</h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @foreach(__('pages.about.values') as $v)
-                        <div
-                            class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all group flex flex-col items-center text-center space-y-6">
-                            <div
-                                class="w-16 h-16 bg-acef-green/5 rounded-2xl flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-white transition-all duration-500">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="{{ $v['icon'] }}"></path>
-                                </svg>
-                            </div>
-                            <div class="space-y-2">
-                                <h4 class="text-xl font-bold text-acef-dark tracking-tight">{{ $v['title'] }}</h4>
-                                <p class="text-gray-500 font-light italic leading-relaxed">{{ $v['desc'] }}</p>
-                            </div>
-                        </div>
-                    @endforeach
                 </div>
             </div>
         </section>
@@ -164,6 +182,38 @@
                             <p class="text-acef-green text-sm italic">{{ __('pages.about.founder_role') }}</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Values -->
+        <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
+                 class="py-24 bg-acef-gray/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
+                <div class="text-center space-y-4 mb-20">
+                    <p class="text-acef-green font-bold tracking-widest uppercase text-sm">
+                        {{ __('pages.about.values_title') }}</p>
+                    <h2 class="text-5xl font-black text-acef-dark tracking-tighter">
+                        {{ __('pages.about.values_heading') }}</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach(__('pages.about.values') as $v)
+                        <div
+                            class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all group flex flex-col items-center text-center space-y-6">
+                            <div
+                                class="w-16 h-16 bg-acef-green/5 rounded-2xl flex items-center justify-center text-acef-green group-hover:bg-acef-green group-hover:text-white transition-all duration-500">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="{{ $v['icon'] }}"></path>
+                                </svg>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="text-xl font-bold text-acef-dark tracking-tight">{{ $v['title'] }}</h4>
+                                <p class="text-gray-500 font-light italic leading-relaxed">{{ $v['desc'] }}</p>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>

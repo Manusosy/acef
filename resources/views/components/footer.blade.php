@@ -108,7 +108,7 @@
                     <input type="email" placeholder="{{ __('pages.layout.footer.newsletter_placeholder') }}"
                         class="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-acef-gold transition-colors text-white placeholder:text-white/20">
                     <button
-                        class="w-full bg-acef-gold py-3 rounded-full font-bold text-acef-dark hover:bg-white hover:text-acef-dark transition-all shadow-lg">{{ __('pages.layout.footer.subscribe_btn') }}</button>
+                        class="w-full bg-acef-gold py-3 rounded-full font-bold text-acef-dark hover:bg-white hover:text-acef-dark dark:text-acef-dark dark:hover:text-acef-dark transition-all shadow-lg active:scale-95 hover:-translate-y-0.5">{{ __('pages.layout.footer.subscribe_btn') }}</button>
                 </form>
             </div>
         </div>

@@ -16,6 +16,15 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @php
+        $generalSettings = \App\Models\Setting::getGroup('general');
+        $siteFavicon = $generalSettings['site_favicon'] ?? null;
+    @endphp
+
+    @if($siteFavicon)
+        <link rel="icon" type="image/x-icon" href="{{ Storage::url($siteFavicon) }}">
+    @endif
 </head>
 
 <body class="font-sans antialiased">

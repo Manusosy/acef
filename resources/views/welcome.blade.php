@@ -66,14 +66,66 @@
                  class="py-24 bg-white dark:bg-gray-950 transition-colors duration-300 relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col lg:flex-row items-center gap-16">
-                    <div class="lg:w-1/2 relative">
-                        <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
-                            <img src="/mission_vision_africa_1766827653058.png" alt="Who We Are"
-                                class="w-full h-[600px] object-cover">
+                    <div class="w-full lg:w-1/2 relative flex justify-center lg:justify-start">
+                        <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl h-[280px] sm:h-[400px] lg:h-auto lg:aspect-[4/3] w-full max-w-2xl bg-gray-100 dark:bg-gray-800">
+                            @if(isset($whoWeAreImages) && $whoWeAreImages->isNotEmpty())
+                                {{-- Carousel Mode --}}
+                                <div x-data="{ 
+                                    active: 0, 
+                                    count: {{ $whoWeAreImages->count() }},
+                                    timer: null,
+                                    next() { this.active = (this.active + 1) % this.count },
+                                    start() { this.timer = setInterval(() => this.next(), 8000) },
+                                    stop() { clearInterval(this.timer) }
+                                }" x-init="start()" @mouseenter="stop()" @mouseleave="start()" class="relative w-full h-full group">
+                                    
+                                    @foreach($whoWeAreImages as $index => $image)
+                                        <div x-show="active === {{ $index }}"
+                                             x-transition:enter="transition ease-in-out duration-[2000ms]"
+                                             x-transition:enter-start="opacity-0 -translate-y-full"
+                                             x-transition:enter-end="opacity-100 translate-y-0"
+                                             x-transition:leave="transition ease-in-out duration-[2000ms]"
+                                             x-transition:leave-start="opacity-100 translate-y-0"
+                                             x-transition:leave-end="opacity-0 translate-y-full"
+                                             class="absolute inset-0 w-full h-full">
+                                            @if($image->media)
+                                                <img src="{{ $image->media->url }}" alt="{{ $image->caption ?? 'ACEF Work' }}" 
+                                                     class="w-full h-full object-cover">
+                                            @endif
+                                            
+                                            {{-- Caption Overlay --}}
+                                            @if($image->country || $image->caption)
+                                                <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white">
+                                                    @if($image->country)
+                                                        <div class="inline-flex items-center gap-2 bg-acef-green px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2">
+                                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                                            {{ $image->country }}
+                                                        </div>
+                                                    @endif
+                                                    @if($image->caption)
+                                                        <p class="text-xs font-medium leading-relaxed opacity-90 line-clamp-2">{{ $image->caption }}</p>
+                                                    @endif
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endforeach
+
+                                    {{-- Indicators --}}
+                                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+                                        <template x-for="i in count" :key="i">
+                                            <button @click="active = i-1" 
+                                                    :class="active === i-1 ? 'bg-acef-green w-6' : 'bg-white/50 w-1.5 hover:bg-white'"
+                                                    class="h-1 rounded-full transition-all duration-300"></button>
+                                        </template>
+                                    </div>
+                                </div>
+                            @else
+                                {{-- Static Fallback --}}
+                                <img src="/mission_vision_africa_1766827653058.png" alt="Who We Are"
+                                    class="w-full h-full object-cover">
+                            @endif
                         </div>
-                        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-acef-green rounded-2xl -z-0 opacity-50">
-                        </div>
-                        <div class="absolute -top-6 -left-6 w-32 h-32 border-2 border-acef-green rounded-2xl -z-0">
+                        <div class="absolute -top-4 -left-4 w-24 h-24 border-2 border-acef-green rounded-xl -z-0 opacity-30">
                         </div>
                     </div>
                     <div class="lg:w-1/2 space-y-8">
@@ -91,23 +143,50 @@
                         <p class="text-gray-500 leading-relaxed font-light italic">
                             {!! __('pages.home.who_we_are_subtext') !!}
                         </p>
-                        <div class="pt-4 grid grid-cols-2 gap-8">
-                            <div class="flex flex-col">
-                                <span class="text-4xl font-black text-acef-dark dark:text-white">14+</span>
-                                <span
-                                    class="text-xs text-gray-400 font-bold uppercase tracking-widest">{{ __('pages.home.countries') }}</span>
+                        <div class="pt-10 flex flex-col sm:flex-row items-center gap-10" x-data="{
+                            countries: 0,
+                            members: 0,
+                            startCount() {
+                                this.animateValue('countries', 14, 2000);
+                                this.animateValue('members', 2000, 2000);
+                            },
+                            animateValue(prop, end, duration) {
+                                let start = 0;
+                                let startTime = null;
+                                const step = (timestamp) => {
+                                    if (!startTime) startTime = timestamp;
+                                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                                    this[prop] = Math.floor(progress * (end - start) + start);
+                                    if (progress < 1) window.requestAnimationFrame(step);
+                                };
+                                window.requestAnimationFrame(step);
+                            }
+                        }" x-intersect.once="startCount()">
+                            {{-- Action Button --}}
+                            <div class="flex-shrink-0">
+                                <a href="{{ route('about') }}"
+                                    class="inline-flex items-center gap-3 bg-acef-dark text-white px-10 py-5 rounded-xl font-bold hover:bg-yellow-400 hover:text-acef-dark transition-all shadow-xl group text-base">
+                                    {{ __('buttons.our_story') }}
+                                    <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                    </svg>
+                                </a>
                             </div>
-                            <div class="flex flex-col">
-                                <span class="text-4xl font-black text-acef-dark dark:text-white">2,000+</span>
-                                <span
-                                    class="text-xs text-gray-400 font-bold uppercase tracking-widest">{{ __('pages.home.members') }}</span>
+
+                            {{-- Divider (Desktop only) --}}
+                            <div class="hidden sm:block w-px h-12 bg-gray-200 dark:bg-gray-800"></div>
+
+                            {{-- Stats Display --}}
+                            <div class="flex items-center gap-12">
+                                <div class="flex flex-col">
+                                    <span class="text-4xl font-extrabold text-acef-dark dark:text-white" x-text="countries + '+'">0+</span>
+                                    <span class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">{{ __('pages.home.countries') }}</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-4xl font-extrabold text-acef-dark dark:text-white" x-text="members.toLocaleString() + '+'">0+</span>
+                                    <span class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">{{ __('pages.home.members') }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="pt-4">
-                            <a href="{{ route('about') }}"
-                                class="inline-block bg-acef-dark text-white px-10 py-5 rounded-xl font-bold hover:bg-opacity-90 transition-all shadow-xl">
-                                {{ __('buttons.our_story') }}
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -121,36 +200,55 @@
         <!-- Accreditations Showcase -->
         @if($accreditations->count() > 0)
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
-                 class="py-16 md:py-24 bg-white dark:bg-gray-950 border-y border-gray-100 dark:border-gray-800 transition-colors duration-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12" :class="{ 'animate-fade-in-up': shown }">
-                <div class="flex flex-col items-center text-center space-y-4 max-w-3xl mx-auto">
-                    <p class="text-acef-green dark:text-acef-light-green font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs">
+                 class="py-24 md:py-32 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-900 transition-colors duration-300 relative overflow-hidden">
+            
+            {{-- Professional Topographic Background (Clean Lines) --}}
+            <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.06] pointer-events-none select-none">
+                <svg width="100%" height="100%" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="none" stroke="#134712" stroke-width="1.5">
+                        <path d="M0 200c100 0 100-100 200-100s100 100 200 100 100-100 200-100 100 100 200 100" />
+                        <path d="M0 400c150 0 150-150 300-150s150 150 300 150 150-150 300-150" />
+                        <path d="M0 600c200 0 200-200 400-200s200 200 400 200" />
+                        <path d="M0 800c250 0 250-250 500-250s250 250 500 250" />
+                        <path d="M1000 200c-100 0-100 100-200 100s-100-100-200-100-100 100-200 100-100-100-200-100" />
+                        <path d="M1000 400c-150 0-150 150-300 150s-150-150-300-150-150 150-300 150" />
+                    </g>
+                </svg>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" :class="{ 'animate-fade-in-up': shown }">
+                <div class="flex flex-col items-center text-center space-y-4 max-w-3xl mx-auto mb-20">
+                    <p class="text-acef-green dark:text-acef-light-green font-bold tracking-[0.4em] uppercase text-[10px]">
                         {{ __('pages.accreditations.hero_title') }}
                     </p>
-                    <h2 class="text-4xl md:text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
-                        Building Credibility Through Excellence
+                    <h2 class="text-4xl md:text-5xl font-black text-acef-dark dark:text-white tracking-tighter leading-tight">
+                        Institutional Excellence & <br class="hidden md:block"> Global Recognition
                     </h2>
-                    <p class="text-gray-500 dark:text-gray-400 font-light italic text-sm md:text-base">
-                        Our work is recognized and accredited by leading international organizations, ensuring global standards of environmental stewardship.
+                    <div class="w-16 h-1 bg-acef-green/20 rounded-full mx-auto my-2"></div>
+                    <p class="text-gray-500 dark:text-gray-400 font-light italic text-sm md:text-base max-w-2xl leading-relaxed">
+                        ACEF's operations are validated by leading international organizations, maintaining the highest standards of environmental governance and transparency.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-10 items-center justify-items-center">
+                {{-- Production Style Grid (Centered) --}}
+                <div class="flex flex-wrap justify-center gap-6 md:gap-10">
                     @foreach($accreditations as $acc)
                         <div class="group relative flex flex-col items-center space-y-3">
-                            <div class="w-24 h-24 md:w-32 md:h-32 bg-gray-50 dark:bg-gray-900/50 rounded-2xl flex items-center justify-center p-4 border border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-500 hover:shadow-xl hover:border-acef-green dark:hover:border-acef-green transform hover:-translate-y-1 overflow-hidden">
+                            {{-- Reverted Production Style Card --}}
+                            <div class="w-24 h-24 md:w-36 md:h-36 bg-gray-50 dark:bg-white/5 rounded-2xl flex items-center justify-center p-6 border border-gray-100 dark:border-gray-800 transition-all duration-500 hover:border-acef-green dark:hover:border-acef-green transform hover:-translate-y-1 overflow-hidden relative">
                                 @if($acc->image)
                                     <img src="{{ str_starts_with($acc->image, 'http') ? $acc->image : Storage::url($acc->image) }}" alt="{{ $acc->acronym }}" 
-                                         class="max-h-full max-w-full object-contain transition-all duration-700 group-hover:scale-110">
+                                         class="max-h-full max-w-full object-contain transition-transform duration-700 group-hover:scale-110">
                                 @else
                                     <span class="text-xl md:text-2xl font-black text-acef-dark/20 dark:text-white/10 group-hover:text-acef-green transition-colors uppercase tracking-widest">
                                         {{ $acc->acronym }}
                                     </span>
                                 @endif
                                 
-                                <!-- Decorative Accent -->
+                                {{-- Decorative Accent (Production Detail) --}}
                                 <div class="absolute bottom-0 right-0 w-8 h-8 bg-acef-green/5 group-hover:bg-acef-green/10 rounded-tl-full transition-colors duration-500"></div>
                             </div>
+                            
                             <span class="text-[10px] md:text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest text-center group-hover:text-acef-dark dark:group-hover:text-white transition-colors duration-300">
                                 {{ $acc->acronym }}
                             </span>
@@ -158,12 +256,14 @@
                     @endforeach
                 </div>
 
-                <div class="flex justify-center pt-8">
+                <div class="flex justify-center pt-20">
                     <a href="{{ route('accreditations') }}" 
-                       class="inline-flex items-center space-x-2 text-acef-green dark:text-acef-light-green font-bold text-sm uppercase tracking-widest group border-b-2 border-transparent hover:border-acef-green dark:hover:border-acef-light-green transition-all pb-1">
-                        <span>Explore full accreditations</span>
-                        <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                       class="inline-flex items-center gap-3 px-10 py-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-acef-dark dark:text-white font-bold text-xs uppercase tracking-widest hover:border-acef-green hover:text-acef-green transition-all group">
+                        <span>View Accreditation Details</span>
+                        <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
                     </a>
                 </div>
@@ -224,8 +324,17 @@
         </section>
 
         <!-- Stats Section -->
-        <section class="py-16 md:py-24 bg-white relative overflow-hidden border-b border-gray-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <section class="relative overflow-hidden">
+            <!-- Sticky Background Image (Community Photo) -->
+            <div class="absolute inset-0 z-0">
+                <div class="w-full h-full bg-center bg-cover bg-no-repeat bg-fixed" 
+                     style="background-image: url('{{ asset('stats-bg-final.jpg') }}');">
+                </div>
+                <!-- Reduced Black Overlay for Better Image Visibility -->
+                <div class="absolute inset-0 bg-black/60"></div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16 md:py-24 w-full">
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center" x-data="{
                     stats: [
                         @foreach(__('pages.home.stats') as $stat)
@@ -252,10 +361,9 @@
                     }
                 }" x-intersect.once="startCount()">
                     <template x-for="stat in stats">
-                        <div class="space-y-2 group cursor-default p-4">
-                            <span class="text-4xl md:text-6xl font-black text-acef-green dark:text-acef-light-green block transform group-hover:scale-110 transition-transform duration-500" x-text="stat.current.toLocaleString() + stat.suffix">0</span>
-                            <span
-                                class="text-acef-dark dark:text-white uppercase tracking-widest text-[10px] md:text-xs font-bold group-hover:text-acef-green transition-colors" x-text="stat.label"></span>
+                        <div class="space-y-1 group cursor-default p-4 flex flex-col items-center">
+                            <span class="text-4xl md:text-6xl font-black text-white block tracking-tighter" x-text="stat.current.toLocaleString() + stat.suffix">0</span>
+                            <span class="text-white/90 uppercase tracking-[0.2em] text-[10px] md:text-xs font-black block pt-2" x-text="stat.label"></span>
                         </div>
                     </template>
                 </div>
