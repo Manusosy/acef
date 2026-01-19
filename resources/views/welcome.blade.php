@@ -67,7 +67,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col lg:flex-row items-center gap-16">
                     <div class="w-full lg:w-1/2 relative flex justify-center lg:justify-start">
-                        <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl h-[280px] sm:h-[400px] lg:h-auto lg:aspect-[4/3] min-h-[300px] w-full max-w-2xl bg-gray-100 dark:bg-gray-800" style="aspect-ratio: 4/3;">
+                        <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl h-[280px] sm:h-[400px] lg:h-[450px] w-full max-w-2xl bg-gray-100 dark:bg-gray-800" style="aspect-ratio: 4/3;">
                             @if(isset($whoWeAreImages) && $whoWeAreImages->isNotEmpty())
                                 {{-- Carousel Mode --}}
                                 <div x-data="{ 
@@ -89,13 +89,12 @@
                                              x-transition:leave-end="opacity-0"
                                              class="absolute inset-0 w-full h-full">
                                             @if($image->media)
-                                                <img src="{{ $image->media->url }}" alt="{{ $image->caption ?? 'ACEF Work' }}" 
+                                                <img src="{{ Str::startsWith($image->media->url, 'http') ? $image->media->url : url($image->media->url) }}" alt="{{ $image->caption ?? 'ACEF Work' }}" 
                                                      class="w-full h-full object-cover"
-                                                     onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000'">
+                                                     onerror="this.src='/mission_vision_africa_1766827653058.png'">
                                             @else
-                                                <img src="{{ asset('/mission_vision_africa_1766827653058.png') }}" alt="Who We Are"
-                                                     class="w-full h-full object-cover"
-                                                     onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000'">
+                                                <img src="/mission_vision_africa_1766827653058.png" alt="Who We Are"
+                                                     class="w-full h-full object-cover">
                                             @endif
                                             
                                             {{-- Caption Overlay --}}
@@ -126,9 +125,8 @@
                                 </div>
                             @else
                                 {{-- Static Fallback --}}
-                                <img src="{{ asset('/mission_vision_africa_1766827653058.png') }}" alt="Who We Are"
-                                    class="w-full h-full object-cover"
-                                    onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000'">
+                                <img src="/mission_vision_africa_1766827653058.png" alt="Who We Are"
+                                    class="w-full h-full object-cover">
                             @endif
                         </div>
                         <div class="absolute -top-4 -left-4 w-24 h-24 border-2 border-acef-green rounded-xl -z-0 opacity-30">
@@ -334,7 +332,7 @@
             <!-- Sticky Background Image (Community Photo) -->
             <div class="absolute inset-0 z-0">
                 <div class="w-full h-full bg-center bg-cover bg-no-repeat bg-fixed" 
-                     style="background-image: url('{{ asset('stats-bg-final.jpg') }}'), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2000');">
+                     style="background-image: url('/stats-bg-final.jpg');">
                 </div>
                 <!-- Reduced Black Overlay for Better Image Visibility -->
                 <div class="absolute inset-0 bg-black/60"></div>
