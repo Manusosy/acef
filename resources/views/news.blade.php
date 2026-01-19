@@ -36,7 +36,6 @@
         breadcrumb="{{ __('pages.news.browse.title') }}"
         title="{!! __('pages.news.browse.title') !!}"
         subtitle="{{ __('pages.news.browse.desc') }}"
-        image-url="/hero_marine_ecosystem_1766827540454.png"
     >
     </x-hero>
 

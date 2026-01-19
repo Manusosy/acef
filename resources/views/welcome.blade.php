@@ -90,6 +90,10 @@
                                              class="absolute inset-0 w-full h-full">
                                             @if($image->media)
                                                 <img src="{{ $image->media->url }}" alt="{{ $image->caption ?? 'ACEF Work' }}" 
+                                                     class="w-full h-full object-cover"
+                                                     onerror="this.src='/mission_vision_africa_1766827653058.png'">
+                                            @else
+                                                <img src="/mission_vision_africa_1766827653058.png" alt="Who We Are"
                                                      class="w-full h-full object-cover">
                                             @endif
                                             
@@ -328,7 +332,7 @@
             <!-- Sticky Background Image (Community Photo) -->
             <div class="absolute inset-0 z-0">
                 <div class="w-full h-full bg-center bg-cover bg-no-repeat bg-fixed" 
-                     style="background-image: url('{{ asset('stats-bg-final.jpg') }}');">
+                     style="background-image: url('{{ asset('stats-bg-final.jpg') }}'), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2000');">
                 </div>
                 <!-- Reduced Black Overlay for Better Image Visibility -->
                 <div class="absolute inset-0 bg-black/60"></div>

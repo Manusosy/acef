@@ -749,7 +749,7 @@ return [
             'btn' => 'Read Full Insight'
         ],
         'browse' => [
-            'title' => 'Browse Insights',
+            'title' => 'News & Insights',
             'desc' => 'Explore articles, stories, and research from the field.',
             'search_placeholder' => 'Search insights...',
             'filters' => [
