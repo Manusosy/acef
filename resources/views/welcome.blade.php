@@ -203,9 +203,9 @@
                  class="py-24 md:py-32 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-900 transition-colors duration-300 relative overflow-hidden">
             
             {{-- Professional Topographic Background (Clean Lines) --}}
-            <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.06] pointer-events-none select-none">
-                <svg width="100%" height="100%" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
-                    <g fill="none" stroke="#134712" stroke-width="1.5">
+            <div class="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
+                <svg width="100%" height="100%" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" class="opacity-10 dark:opacity-20">
+                    <g fill="none" stroke="#134712" stroke-width="1" stroke-opacity="0.3">
                         <path d="M0 200c100 0 100-100 200-100s100 100 200 100 100-100 200-100 100 100 200 100" />
                         <path d="M0 400c150 0 150-150 300-150s150 150 300 150 150-150 300-150" />
                         <path d="M0 600c200 0 200-200 400-200s200 200 400 200" />
