@@ -165,7 +165,7 @@ unset($__defined_vars); ?>
                                 <div class="bg-[#f0fdf4] rounded-2xl overflow-hidden shadow-2xl shadow-[#134712]/10 border border-white/40 ring-1 ring-black/5 transform transition-all duration-500 hover:-translate-y-1">
                                     <div class="flex flex-col md:flex-row min-h-[400px]">
                                         <!-- Visual Side -->
-                                        <div class="w-full md:w-5/12 relative h-[300px] sm:h-[400px] md:h-auto bg-gray-100 overflow-hidden">
+                                        <div class="w-full md:w-5/12 relative h-80 sm:h-96 md:h-auto bg-gray-100 overflow-hidden flex-shrink-0">
                                             <?php if(!empty($achievement->images)): ?>
                                                 <div class="absolute inset-0" x-data="{ 
                                                         currentSlide: 0, 
