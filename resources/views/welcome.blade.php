@@ -89,7 +89,7 @@
                                              x-transition:leave-end="opacity-0"
                                              class="absolute inset-0 w-full h-full">
                                             @if($image->media)
-                                                <img src="{{ Str::startsWith($image->media->url, 'http') ? $image->media->url : url($image->media->url) }}" alt="{{ $image->caption ?? 'ACEF Work' }}" 
+                                                <img src="{{ str_starts_with($image->media->url, 'http') ? $image->media->url : url($image->media->url) }}" alt="{{ $image->caption ?? 'ACEF Work' }}" 
                                                      class="w-full h-full object-cover"
                                                      onerror="this.src='/mission_vision_africa_1766827653058.png'">
                                             @else
