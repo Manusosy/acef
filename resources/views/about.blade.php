@@ -98,9 +98,6 @@
                         <p class="text-xl text-acef-dark font-normal leading-relaxed">
                             {!! __('pages.about.who_we_are_text') !!}
                         </p>
-                        <p class="text-gray-600 leading-relaxed text-base font-light">
-                            {{ __('pages.about.who_we_are_subtext') }}
-                        </p>
                     </div>
                 </div>
 

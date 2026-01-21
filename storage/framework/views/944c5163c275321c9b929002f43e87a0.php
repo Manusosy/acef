@@ -112,10 +112,6 @@
                             <?php echo __('pages.about.who_we_are_text'); ?>
 
                         </p>
-                        <p class="text-gray-600 leading-relaxed text-base font-light">
-                            <?php echo e(__('pages.about.who_we_are_subtext')); ?>
-
-                        </p>
                     </div>
                 </div>
 
