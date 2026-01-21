@@ -78,8 +78,10 @@
                                              x-transition:leave-end="opacity-0 translate-y-full"
                                              class="absolute inset-0 w-full h-full">
                                             <?php if($image->media): ?>
-                                                <img src="<?php echo e($image->media->url); ?>" alt="<?php echo e($image->caption ?? 'ACEF Work'); ?>" 
-                                                     class="w-full h-full object-cover">
+                                                <img src="<?php echo e(str_starts_with($image->media->url, 'http') ? $image->media->url : url($image->media->url)); ?>" 
+                                                     alt="<?php echo e($image->caption ?? 'ACEF Work'); ?>" 
+                                                     class="w-full h-full object-cover"
+                                                     onerror="this.src='/mission_vision_africa_1766827653058.png'">
                                             <?php endif; ?>
                                         </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
