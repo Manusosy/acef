@@ -73,7 +73,7 @@ class HomeController extends Controller
             ->ordered()
             ->get();
 
-        return view('about', compact('leadership', 'founder', 'whoWeAreImages'));
+        return view('about', compact('leadership', 'whoWeAreImages'));
     }
 
     public function programmes()
