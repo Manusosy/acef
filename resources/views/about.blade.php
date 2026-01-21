@@ -45,7 +45,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" :class="{ 'animate-fade-in-up': shown }">
                 <div class="flex flex-col lg:flex-row gap-20 items-center">
                     <div class="w-full lg:w-1/2 relative">
-                        <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl h-[280px] sm:h-[400px] lg:h-auto lg:aspect-[4/3] w-full max-w-xl mx-auto bg-gray-100">
+                        <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl h-72 sm:h-96 lg:h-[450px] w-full max-w-2xl bg-gray-100" style="aspect-ratio: 4/3;">
                             @if(isset($whoWeAreImages) && $whoWeAreImages->isNotEmpty())
                                 <div x-data="{ 
                                     active: 0, 
@@ -54,31 +54,50 @@
                                     next() { this.active = (this.active + 1) % this.count },
                                     start() { this.timer = setInterval(() => this.next(), 8000) },
                                     stop() { clearInterval(this.timer) }
-                                }" x-init="start()" @mouseenter="stop()" @mouseleave="start()" class="relative w-full h-full">
+                                }" x-init="start()" @mouseenter="stop()" @mouseleave="start()" class="relative w-full h-full group">
                                     
                                     @foreach($whoWeAreImages as $index => $image)
                                         <div x-show="active === {{ $index }}"
-                                             x-transition:enter="transition ease-in-out duration-[2000ms]"
-                                             x-transition:enter-start="opacity-0 -translate-y-full"
-                                             x-transition:enter-end="opacity-100 translate-y-0"
-                                             x-transition:leave="transition ease-in-out duration-[2000ms]"
-                                             x-transition:leave-start="opacity-100 translate-y-0"
-                                             x-transition:leave-end="opacity-0 translate-y-full"
+                                             x-transition:enter="transition ease-in-out duration-[1000ms]"
+                                             x-transition:enter-start="opacity-0"
+                                             x-transition:enter-end="opacity-100"
+                                             x-transition:leave="transition ease-in-out duration-[1000ms]"
+                                             x-transition:leave-start="opacity-100"
+                                             x-transition:leave-end="opacity-0"
                                              class="absolute inset-0 w-full h-full">
                                             @if($image->media)
                                                 <img src="{{ str_starts_with($image->media->url, 'http') ? $image->media->url : url($image->media->url) }}" 
                                                      alt="{{ $image->caption ?? 'ACEF Work' }}" 
                                                      class="w-full h-full object-cover"
                                                      onerror="this.src='/mission_vision_africa_1766827653058.png'">
+                                            @else
+                                                <img src="/mission_vision_africa_1766827653058.png" alt="Who We Are"
+                                                    class="w-full h-full object-cover">
+                                            @endif
+
+                                            {{-- Caption Overlay --}}
+                                            @if($image->country || $image->caption)
+                                                <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white">
+                                                    @if($image->country)
+                                                        <div class="inline-flex items-center gap-2 bg-acef-green px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2">
+                                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                                            {{ $image->country }}
+                                                        </div>
+                                                    @endif
+                                                    @if($image->caption)
+                                                        <p class="text-xs font-medium leading-relaxed opacity-90 line-clamp-2">{{ $image->caption }}</p>
+                                                    @endif
+                                                </div>
                                             @endif
                                         </div>
                                     @endforeach
 
-                                    {{-- Mini Indicators --}}
+                                    {{-- Indicators --}}
                                     <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
                                         <template x-for="i in count" :key="i">
-                                            <div :class="active === i-1 ? 'bg-acef-green w-4' : 'bg-white/50 w-1'"
-                                                    class="h-1 rounded-full transition-all duration-300"></div>
+                                            <button @click="active = i-1" 
+                                                    :class="active === i-1 ? 'bg-acef-green w-6' : 'bg-white/50 w-1.5 hover:bg-white'"
+                                                    class="h-1 rounded-full transition-all duration-300"></button>
                                         </template>
                                     </div>
                                 </div>
