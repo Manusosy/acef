@@ -44,7 +44,7 @@
         height=""
         min-height=""
         class="h-screen md:h-[70vh] min-h-[600px]"
-        style="display: flex; align-items: center; height: 85vh; min-height: 600px;"
+        style="display: grid !important; place-items: center !important; align-content: center !important; height: 85vh !important; min-height: 600px !important;"
         image-url="/hero_marine_ecosystem_1766827540454.png"
     >
         <x-slot name="actions">
