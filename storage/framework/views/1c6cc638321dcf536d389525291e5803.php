@@ -51,7 +51,8 @@ unset($__defined_vars); ?>
     $sliderDelay = $page ? ($page->hero_slider_delay ?? 5000) : 5000;
 ?>
 
-<section class="relative <?php echo e($height); ?> <?php echo e($minHeight); ?> flex items-center overflow-hidden" 
+<section <?php echo e($attributes->merge(['class' => "relative $height $minHeight flex items-center overflow-hidden"])); ?>
+
          <?php if($hasSlider): ?>
             x-data="{ 
                 active: 0, 
@@ -74,7 +75,7 @@ unset($__defined_vars); ?>
                 <img src="<?php echo e($slide->media ? $slide->media->url : $slide->image_url); ?>" 
                      alt="<?php echo e($slide->title ?? $page?->title); ?>" 
                      class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+                <div class="absolute inset-0 bg-black/60 sm:bg-transparent sm:bg-gradient-to-r sm:from-black/90 sm:via-black/50 sm:to-transparent"></div>
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     <?php else: ?>
@@ -88,7 +89,7 @@ unset($__defined_vars); ?>
                      alt="<?php echo e($title ?? 'ACEF'); ?>" 
                      class="w-full h-full object-cover">
             <?php endif; ?>
-            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+            <div class="absolute inset-0 bg-black/60 sm:bg-transparent sm:bg-gradient-to-r sm:from-black/90 sm:via-black/50 sm:to-transparent"></div>
         </div>
     <?php endif; ?>
 
