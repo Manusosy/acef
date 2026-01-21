@@ -51,7 +51,7 @@ unset($__defined_vars); ?>
     $sliderDelay = $page ? ($page->hero_slider_delay ?? 5000) : 5000;
 ?>
 
-<section <?php echo e($attributes->merge(['class' => "relative $height $minHeight flex items-center overflow-hidden"])); ?>
+<section <?php echo e($attributes->merge(['class' => "relative $height $minHeight flex items-center overflow-hidden", 'style' => 'display: flex; align-items: center;'])); ?>
 
          <?php if($hasSlider): ?>
             x-data="{ 

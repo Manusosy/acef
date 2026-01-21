@@ -14,7 +14,7 @@
     $sliderDelay = $page ? ($page->hero_slider_delay ?? 5000) : 5000;
 @endphp
 
-<section {{ $attributes->merge(['class' => "relative $height $minHeight flex items-center overflow-hidden"]) }}
+<section {{ $attributes->merge(['class' => "relative $height $minHeight flex items-center overflow-hidden", 'style' => 'display: flex; align-items: center;']) }}
          @if($hasSlider)
             x-data="{ 
                 active: 0, 
