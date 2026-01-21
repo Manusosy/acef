@@ -1,4 +1,13 @@
-<x-app-dashboard-layout>
+<?php if (isset($component)) { $__componentOriginal042bf45a5a9c7fed57eef9c73c080db3 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal042bf45a5a9c7fed57eef9c73c080db3 = $attributes; } ?>
+<?php $component = App\View\Components\AppDashboardLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-dashboard-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppDashboardLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <!-- Projects -->
@@ -10,7 +19,7 @@
                     </svg>
                 </div>
             </div>
-            <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">{{ $stats['projects'] }}</p>
+            <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2"><?php echo e($stats['projects']); ?></p>
             <p class="text-base font-medium text-gray-600 dark:text-gray-400">Projects</p>
         </div>
 
@@ -23,7 +32,7 @@
                     </svg>
                 </div>
             </div>
-            <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">{{ $stats['programmes'] }}</p>
+            <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2"><?php echo e($stats['programmes']); ?></p>
             <p class="text-base font-medium text-gray-600 dark:text-gray-400">Programmes</p>
         </div>
 
@@ -35,16 +44,16 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                     </svg>
                 </div>
-                @if($stats['pending_review'] > 0)
-                    <div class="flex items-center gap-1.5 px-2 py-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800 rounded-full group cursor-help transition-all hover:bg-amber-100" title="{{ $stats['pending_review'] }} items pending review">
+                <?php if($stats['pending_review'] > 0): ?>
+                    <div class="flex items-center gap-1.5 px-2 py-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800 rounded-full group cursor-help transition-all hover:bg-amber-100" title="<?php echo e($stats['pending_review']); ?> items pending review">
                         <span class="flex h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
                         <svg class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
-                @endif
+                <?php endif; ?>
             </div>
-            <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">{{ $stats['articles'] }}</p>
+            <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2"><?php echo e($stats['articles']); ?></p>
             <p class="text-base font-medium text-gray-600 dark:text-gray-400">Articles</p>
         </div>
 
@@ -57,7 +66,7 @@
                     </svg>
                 </div>
             </div>
-            <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">{{ $stats['users'] }}</p>
+            <p class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2"><?php echo e($stats['users']); ?></p>
             <p class="text-base font-medium text-gray-600 dark:text-gray-400">Users</p>
         </div>
 
@@ -67,7 +76,7 @@
     <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <a href="{{ route('admin.projects.create') }}" class="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-colors group">
+            <a href="<?php echo e(route('admin.projects.create')); ?>" class="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-colors group">
                 <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center group-hover:bg-emerald-500 transition-colors">
                     <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -75,7 +84,7 @@
                 </div>
                 <span class="text-sm font-medium text-gray-700 dark:text-gray-300">New Project</span>
             </a>
-            <a href="{{ route('admin.articles.create') }}" class="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-colors group">
+            <a href="<?php echo e(route('admin.articles.create')); ?>" class="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-colors group">
                 <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center group-hover:bg-purple-500 transition-colors">
                     <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -83,7 +92,7 @@
                 </div>
                 <span class="text-sm font-medium text-gray-700 dark:text-gray-300">New Article</span>
             </a>
-            <a href="{{ route('admin.team.create') }}" class="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-colors group">
+            <a href="<?php echo e(route('admin.team.create')); ?>" class="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-colors group">
                 <div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center group-hover:bg-amber-500 transition-colors">
                     <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
@@ -100,41 +109,43 @@
         <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                 <h3 class="font-semibold text-gray-900 dark:text-white">Recent Projects</h3>
-                <a href="{{ route('admin.projects.index') }}" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">View all</a>
+                <a href="<?php echo e(route('admin.projects.index')); ?>" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">View all</a>
             </div>
             <div class="divide-y divide-gray-200 dark:divide-gray-700">
-                @forelse($recentProjects as $project)
+                <?php $__empty_1 = true; $__currentLoopData = $recentProjects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <div class="px-6 py-4 flex items-center justify-between">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
-                                @if($project->image)
-                                    <img src="{{ str_starts_with($project->image, 'http') ? $project->image : Storage::url($project->image) }}" 
+                                <?php if($project->image): ?>
+                                    <img src="<?php echo e(str_starts_with($project->image, 'http') ? $project->image : Storage::url($project->image)); ?>" 
                                          alt="" 
                                          class="w-full h-full object-cover"
                                          onerror="this.style.display='none'; this.parentNode.querySelector('svg').style.display='block'">
-                                @else
+                                <?php else: ?>
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                     </svg>
-                                @endif
+                                <?php endif; ?>
                             </div>
                             <div>
-                                <a href="{{ route('admin.projects.edit', $project) }}" class="text-base font-medium text-gray-900 dark:text-white hover:text-emerald-600">{{ $project->title }}</a>
+                                <a href="<?php echo e(route('admin.projects.edit', $project)); ?>" class="text-base font-medium text-gray-900 dark:text-white hover:text-emerald-600"><?php echo e($project->title); ?></a>
                                 <p class="text-xs text-gray-500 dark:text-gray-400">
-                                    {{ !empty($project->country_names) ? implode(', ', array_slice($project->country_names, 0, 2)) . (count($project->country_names) > 2 ? ' +'.(count($project->country_names)-2) : '') : 'Global' }}
+                                    <?php echo e(!empty($project->country_names) ? implode(', ', array_slice($project->country_names, 0, 2)) . (count($project->country_names) > 2 ? ' +'.(count($project->country_names)-2) : '') : 'Global'); ?>
+
                                 </p>
                             </div>
                         </div>
-                        <span class="px-2 py-1 text-xs font-medium rounded-full {{ $project->status_badge }}">
-                            {{ ucfirst($project->status) }}
+                        <span class="px-2 py-1 text-xs font-medium rounded-full <?php echo e($project->status_badge); ?>">
+                            <?php echo e(ucfirst($project->status)); ?>
+
                         </span>
                     </div>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                         <p>No projects yet.</p>
-                        <a href="{{ route('admin.projects.create') }}" class="text-emerald-600 dark:text-emerald-400 hover:underline">Create your first project</a>
+                        <a href="<?php echo e(route('admin.projects.create')); ?>" class="text-emerald-600 dark:text-emerald-400 hover:underline">Create your first project</a>
                     </div>
-                @endforelse
+                <?php endif; ?>
             </div>
         </div>
 
@@ -142,40 +153,51 @@
         <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                 <h3 class="font-semibold text-gray-900 dark:text-white">Recent Articles</h3>
-                <a href="{{ route('admin.articles.index') }}" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">View all</a>
+                <a href="<?php echo e(route('admin.articles.index')); ?>" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">View all</a>
             </div>
             <div class="divide-y divide-gray-200 dark:divide-gray-700">
-                @forelse($recentArticles as $article)
+                <?php $__empty_1 = true; $__currentLoopData = $recentArticles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $article): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <div class="px-6 py-4 flex items-center justify-between">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
-                                @if($article->image)
-                                    <img src="{{ str_starts_with($article->image, 'http') ? $article->image : Storage::url($article->image) }}" 
+                                <?php if($article->image): ?>
+                                    <img src="<?php echo e(str_starts_with($article->image, 'http') ? $article->image : Storage::url($article->image)); ?>" 
                                          alt="" 
                                          class="w-full h-full object-cover"
                                          onerror="this.style.display='none'; this.parentNode.querySelector('svg').style.display='block'">
-                                @else
+                                <?php else: ?>
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                                     </svg>
-                                @endif
+                                <?php endif; ?>
                             </div>
                             <div>
-                                <a href="{{ route('admin.articles.edit', $article) }}" class="text-base font-medium text-gray-900 dark:text-white hover:text-emerald-600">{{ Str::limit($article->title, 40) }}</a>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ $article->category->name ?? 'Uncategorized' }}</p>
+                                <a href="<?php echo e(route('admin.articles.edit', $article)); ?>" class="text-base font-medium text-gray-900 dark:text-white hover:text-emerald-600"><?php echo e(Str::limit($article->title, 40)); ?></a>
+                                <p class="text-xs text-gray-500 dark:text-gray-400"><?php echo e($article->category->name ?? 'Uncategorized'); ?></p>
                             </div>
                         </div>
-                        <span class="px-2 py-1 text-xs font-medium rounded-full {{ $article->status_badge }}">
-                            {{ ucfirst($article->status) }}
+                        <span class="px-2 py-1 text-xs font-medium rounded-full <?php echo e($article->status_badge); ?>">
+                            <?php echo e(ucfirst($article->status)); ?>
+
                         </span>
                     </div>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                         <p>No articles yet.</p>
-                        <a href="{{ route('admin.articles.create') }}" class="text-emerald-600 dark:text-emerald-400 hover:underline">Write your first article</a>
+                        <a href="<?php echo e(route('admin.articles.create')); ?>" class="text-emerald-600 dark:text-emerald-400 hover:underline">Write your first article</a>
                     </div>
-                @endforelse
+                <?php endif; ?>
             </div>
         </div>
     </div>
-</x-app-dashboard-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal042bf45a5a9c7fed57eef9c73c080db3)): ?>
+<?php $attributes = $__attributesOriginal042bf45a5a9c7fed57eef9c73c080db3; ?>
+<?php unset($__attributesOriginal042bf45a5a9c7fed57eef9c73c080db3); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal042bf45a5a9c7fed57eef9c73c080db3)): ?>
+<?php $component = $__componentOriginal042bf45a5a9c7fed57eef9c73c080db3; ?>
+<?php unset($__componentOriginal042bf45a5a9c7fed57eef9c73c080db3); ?>
+<?php endif; ?>
+<?php /**PATH C:\Users\ADMIN\Desktop\aceflaravel\acef\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>
