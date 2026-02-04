@@ -59,8 +59,8 @@ return [
         ],
         'map_section' => [
             'label' => 'Where We Work',
-            'title' => 'Our Global Impact',
-            'subtitle' => 'Spanning across Africa to restore balance to our most vital ecosystems.'
+            'title' => 'Impact Across Africa',
+            'subtitle' => 'Spanning 14 African countries, we empower communities most affected by climate change, biodiversity loss, and pollution. Our work stretches across coastal zones, forests, freshwater systems, agricultural landscapes, and climate‑vulnerable rural areas, delivering programs in ecosystem restoration, climate adaptation, sustainable livelihoods, and environmental education. At the heart of our approach are women, youth, and underserved communities, ensuring inclusive participation and locally led solutions that align with national priorities and global frameworks such as the SDGs.'
         ],
         'news_articles' => [
             [
