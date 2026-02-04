@@ -412,7 +412,7 @@
                     <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">
                         {{ __('pages.home.map_section.title') }}
                     </h2>
-                    <p class="text-gray-600 dark:text-white/60 font-light italic">{{ __('pages.home.map_section.subtitle') }}</p>
+                    <p class="text-gray-600 dark:text-white/60 leading-relaxed">{{ __('pages.home.map_section.subtitle') }}</p>
                 </div>
 
                 <div class="relative w-full max-w-5xl h-[350px] md:h-[600px] mx-auto mt-10">
