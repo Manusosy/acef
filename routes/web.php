@@ -30,6 +30,7 @@ Route::get('/team', [\App\Http\Controllers\HomeController::class, 'team'])->name
 Route::get('/partners', [\App\Http\Controllers\HomeController::class, 'partners'])->name('partners');
 Route::get('/accreditations', [\App\Http\Controllers\HomeController::class, 'accreditations'])->name('accreditations');
 Route::get('/cookies', [\App\Http\Controllers\HomeController::class, 'cookies'])->name('cookies');
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 
 Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submitContact'])->name('contact.submit');
 Route::post('/get-involved', [\App\Http\Controllers\ContactController::class, 'submitInvolvement'])->name('get-involved.submit');
