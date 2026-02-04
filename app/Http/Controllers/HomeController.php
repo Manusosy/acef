@@ -75,6 +75,10 @@ class HomeController extends Controller
 
         $founder = \App\Models\TeamMember::where('is_founder', true)->first();
 
+        if (!$founder) {
+            $founder = \App\Models\TeamMember::where('role', 'LIKE', '%Founder%')->first();
+        }
+
         return view('about', compact('leadership', 'whoWeAreImages', 'founder'));
     }
 
