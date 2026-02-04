@@ -341,7 +341,7 @@
             </div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16 md:py-24 w-full">
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center" x-data="{
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 text-center" x-data="{
                     stats: [
                         @foreach(__('pages.home.stats') as $stat)
                         { value: {{ (int)str_replace(['+', '%', ','], '', $stat['value']) }}, label: '{{ $stat['label'] }}', current: 0, suffix: '{{ preg_replace('/[0-9,]/', '', $stat['value']) }}' },
@@ -406,7 +406,7 @@
         <section x-data="{ shown: false }" x-intersect.once.margin.0px.0px.-100px.0px="shown = true"
                  class="py-24 bg-gray-50 dark:bg-acef-dark transition-colors duration-300 relative overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center space-y-12" :class="{ 'animate-fade-in-up': shown }">
-                <div class="text-center space-y-4 max-w-2xl">
+                <div class="text-center space-y-4 max-w-4xl mx-auto">
                     <p class="text-acef-green dark:text-acef-light-green font-bold tracking-widest uppercase text-sm">
                         {{ __('pages.home.map_section.label') }}</p>
                     <h2 class="text-5xl font-black text-acef-dark dark:text-white tracking-tighter">

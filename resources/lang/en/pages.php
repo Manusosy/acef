@@ -55,7 +55,7 @@ return [
         'stats' => [
             ['value' => '14', 'label' => 'Countries'],
             ['value' => '2,000+', 'label' => 'Volunteers'],
-            ['value' => '50+', 'label' => 'Global Partners'],
+            ['value' => '20+', 'label' => 'Global Partners'],
         ],
         'map_section' => [
             'label' => 'Where We Work',

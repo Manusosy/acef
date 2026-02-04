@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class MediaItem extends Model
 {
@@ -44,6 +45,9 @@ class MediaItem extends Model
 
     public function getUrlAttribute()
     {
+        if (Str::startsWith($this->path, ['http', 'https'])) {
+            return $this->path;
+        }
         return Storage::disk($this->disk)->url($this->path);
     }
 
