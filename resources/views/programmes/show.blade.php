@@ -67,10 +67,7 @@
                     <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Beneficiaries</div>
                     <div class="text-2xl md:text-3xl font-black text-gray-900">{{ $programme->stats['beneficiaries'] ?? '0' }}</div>
                 </div>
-                <div class="py-8 px-4 text-center md:text-left">
-                    <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Trees Planted</div>
-                    <div class="text-2xl md:text-3xl font-black text-gray-900">{{ $programme->stats['trees'] ?? '0' }}</div>
-                </div>
+
                 <div class="py-8 px-4 text-center md:text-left">
                     <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Communities</div>
                     <div class="text-2xl md:text-3xl font-black text-gray-900">{{ $programme->stats['communities'] ?? '0' }}</div>

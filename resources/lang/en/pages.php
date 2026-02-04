@@ -56,7 +56,6 @@ return [
             ['value' => '14', 'label' => 'Countries'],
             ['value' => '2,000+', 'label' => 'Volunteers'],
             ['value' => '50+', 'label' => 'Global Partners'],
-            ['value' => '10k+', 'label' => 'Trees Planted'],
         ],
         'map_section' => [
             'label' => 'Where We Work',
@@ -178,7 +177,6 @@ return [
         'explore_btn' => 'Explore Initiatives',
         'stats' => [
             ['label' => 'Projects Launched', 'value' => '50+', 'icon' => 'blue'],
-            ['label' => 'Trees Planted', 'value' => '10k+', 'icon' => 'green'],
             ['label' => 'Lives Impacted', 'value' => '500k', 'icon' => 'purple'],
             ['label' => 'Partners', 'value' => '35', 'icon' => 'orange']
         ],
@@ -338,7 +336,6 @@ return [
         'view_methodology' => 'View Methodology',
         'stats' => [
             ['label' => 'Countries Reached', 'value' => '12'],
-            ['label' => 'Trees Planted', 'value' => '1.2M'],
             ['label' => 'Active Projects', 'value' => '45'],
         ],
         'map_title' => 'Our Footprint Across Africa',
