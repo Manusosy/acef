@@ -40,7 +40,7 @@
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Profile Image</label>
                     <div class="flex items-center gap-6">
                         @if($teamMember->image)
-                            <img src="{{ Storage::url($teamMember->image) }}" class="w-20 h-20 rounded-full object-cover bg-gray-100">
+                            <img src="{{ Str::startsWith($teamMember->image, ['/', 'http']) ? $teamMember->image : Storage::url($teamMember->image) }}" class="w-20 h-20 rounded-full object-cover bg-gray-100">
                         @endif
                          <div x-data class="flex-1">
                              <label class="block text-xs text-gray-400 mb-1">Select image from Media Library</label>

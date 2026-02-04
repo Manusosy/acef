@@ -28,7 +28,7 @@
                                 <div class="flex items-center">
                                     <div class="h-10 w-10 flex-shrink-0">
                                         @if($member->image)
-                                            <img class="h-10 w-10 rounded-full object-cover" src="{{ Storage::url($member->image) }}" alt="">
+                                            <img class="h-10 w-10 rounded-full object-cover" src="{{ Str::startsWith($member->image, ['/', 'http']) ? $member->image : Storage::url($member->image) }}" alt="">
                                         @else
                                             <div class="h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 font-bold">
                                                 {{ substr($member->name, 0, 1) }}

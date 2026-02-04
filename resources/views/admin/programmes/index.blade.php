@@ -26,7 +26,7 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-4">
                                 @if($program->image)
-                                    <img src="{{ Storage::url($program->image) }}" class="w-10 h-10 rounded-lg object-cover bg-gray-100 dark:bg-gray-700">
+                                    <img src="{{ Str::startsWith($program->image, ['/', 'http']) ? $program->image : Storage::url($program->image) }}" class="w-10 h-10 rounded-lg object-cover bg-gray-100 dark:bg-gray-700">
                                 @else
                                     <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg">
                                         {{ substr($program->title, 0, 1) }}

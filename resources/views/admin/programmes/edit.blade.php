@@ -133,7 +133,7 @@
                 <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 shadow-sm">
                     <h3 class="font-semibold text-gray-900 dark:text-white mb-4 uppercase text-xs tracking-wider">Featured Image</h3>
                     <div x-data="{ 
-                        imagePreview: '{{ $programme->image ? (str_starts_with($programme->image, 'http') ? $programme->image : Storage::url($programme->image)) : '' }}',
+                        imagePreview: '{{ $programme->image ? (Str::startsWith($programme->image, ['/', 'http']) ? $programme->image : Storage::url($programme->image)) : '' }}',
                         selectImage() {
                             window.openMediaPicker((item) => {
                                 this.imagePreview = item.url;
