@@ -334,7 +334,7 @@
             <!-- Sticky Background Image (Community Photo) -->
             <div class="absolute inset-0 z-0">
                 <div class="w-full h-full bg-center bg-cover bg-no-repeat bg-fixed" 
-                     style="background-image: url('/stats-bg-final.jpg');">
+                     style="background-image: url('/stats-bg-final.jpg'); background-attachment: fixed !important;">
                 </div>
                 <!-- Reduced Black Overlay for Better Image Visibility -->
                 <div class="absolute inset-0 bg-black/60"></div>
