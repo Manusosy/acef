@@ -32,7 +32,7 @@
     <x-hero 
         :page="$programmesPage"
         :slides="$heroSlides"
-        breadcrumb="{{ __('pages.programmes_title') ?? 'Our Impact' }}"
+        breadcrumb="{{ __('pages.home.programmes_title') ?? 'Our Impact' }}"
         title="{!! __('pages.programmes.hero_title') !!}"
         subtitle="{{ __('pages.programmes.hero_desc') }}"
         image-url="https://images.unsplash.com/photo-1542601906990-24bd0827f72f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
