@@ -40,12 +40,12 @@ class TeamMemberController extends Controller
         return redirect()->route('admin.team.index')->with('success', 'Team member added successfully.');
     }
 
-    public function edit(TeamMember $teamMember)
+    public function edit(TeamMember $team)
     {
-        return view('admin.team.edit', compact('teamMember'));
+        return view('admin.team.edit', ['teamMember' => $team]);
     }
 
-    public function update(Request $request, TeamMember $teamMember)
+    public function update(Request $request, TeamMember $team)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -61,14 +61,14 @@ class TeamMemberController extends Controller
              $validated['image'] = $this->handleMediaPath($request->image);
         }
 
-        $teamMember->update($validated);
+        $team->update($validated);
 
         return redirect()->route('admin.team.index')->with('success', 'Team member updated successfully.');
     }
 
-    public function destroy(TeamMember $teamMember)
+    public function destroy(TeamMember $team)
     {
-        $teamMember->delete();
+        $team->delete();
         return redirect()->route('admin.team.index')->with('success', 'Team member deleted successfully.');
     }
 
