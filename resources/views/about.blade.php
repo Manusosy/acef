@@ -323,7 +323,7 @@
                     @foreach($leadership as $member)
                         <div class="group">
                             <div
-                                class="relative rounded-2xl overflow-hidden mb-6 aspect-square grayscale group-hover:grayscale-0 transition-all duration-500 shadow-xl bg-gray-100">
+                                class="relative rounded-2xl overflow-hidden mb-6 aspect-square shadow-xl bg-gray-100">
                                 @if($member->image)
                                     <img src="{{ Storage::url($member->image) }}"
                                         alt="{{ $member->name }}"

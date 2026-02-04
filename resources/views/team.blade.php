@@ -53,7 +53,7 @@
                     @foreach($leadership as $leader)
                         <div class="group space-y-6">
                             <div
-                                class="aspect-[4/5] rounded-2xl overflow-hidden bg-gray-100 grayscale hover:grayscale-0 transition-all duration-700">
+                                class="aspect-square rounded-2xl overflow-hidden bg-gray-100">
                                 @if($leader->image)
                                     <img src="{{ Storage::url($leader->image) }}" alt="{{ $leader->name }}"
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
@@ -87,7 +87,7 @@
                             <div class="aspect-square rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
                                 @if($lead->image)
                                     <img src="{{ Storage::url($lead->image) }}" alt="{{ $lead->name }}"
-                                        class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
                                         <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -118,7 +118,7 @@
                             <div class="aspect-square rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
                                 @if($lead->image)
                                     <img src="{{ Storage::url($lead->image) }}" alt="{{ $lead->name }}"
-                                        class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
                                         <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>

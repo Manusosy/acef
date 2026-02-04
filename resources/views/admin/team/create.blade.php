@@ -34,6 +34,13 @@
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Display Order (Optional)</label>
                     <input type="number" name="sort_order" value="0" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
+                
+                <div class="flex items-center pt-8">
+                     <label class="inline-flex items-center cursor-pointer">
+                         <input type="checkbox" name="is_founder" value="1" class="form-checkbox h-5 w-5 text-acef-green rounded border-gray-300 focus:ring-acef-green">
+                         <span class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Is Founder? (Shows in About Us)</span>
+                     </label>
+                </div>
 
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Profile Image</label>

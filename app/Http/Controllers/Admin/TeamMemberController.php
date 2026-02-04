@@ -27,7 +27,10 @@ class TeamMemberController extends Controller
             'image' => 'nullable',
             'team_type' => 'required|in:leadership,project_lead,staff',
             'sort_order' => 'integer|min:0',
+            'is_founder' => 'boolean',
         ]);
+
+        $validated['is_founder'] = $request->boolean('is_founder');
 
         if ($request->hasFile('image_file')) {
              $validated['image'] = $request->file('image_file')->store('team', 'public');
@@ -53,7 +56,10 @@ class TeamMemberController extends Controller
             'image' => 'nullable',
             'team_type' => 'required|in:leadership,project_lead,staff',
             'sort_order' => 'integer|min:0',
+            'is_founder' => 'boolean',
         ]);
+
+        $validated['is_founder'] = $request->boolean('is_founder');
 
         if ($request->hasFile('image_file')) {
              $validated['image'] = $request->file('image_file')->store('team', 'public');

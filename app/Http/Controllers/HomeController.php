@@ -73,7 +73,9 @@ class HomeController extends Controller
             ->ordered()
             ->get();
 
-        return view('about', compact('leadership', 'whoWeAreImages'));
+        $founder = \App\Models\TeamMember::where('is_founder', true)->first();
+
+        return view('about', compact('leadership', 'whoWeAreImages', 'founder'));
     }
 
     public function programmes()
